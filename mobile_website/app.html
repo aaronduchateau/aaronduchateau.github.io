@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <title>
+        </title>
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+        <link rel="stylesheet" href="my.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.2.0/jquery.mobile-1.2.0.min.js">
+        </script>
+        <script src="my.js">
+        </script>
+        <!-- User-generated css -->
+        <style>
+        </style>
+        <!-- User-generated js -->
+        <script>
+            try {
+
+    $(function() {
+
+    });
+
+  } catch (error) {
+    console.error("Your javascript has an error: " + error);
+  }
+        </script>
+    </head>
+    <body>
+        <!-- Home -->
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h1>
+                    Tic-Tac-talk
+                </h1>
+            </div>
+            <div data-role="content">
+                <form action="">
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+
+                            <div data-role="fieldcontain">
+                               
+                                <fieldset data-role="controlgroup">
+                                    <label for="toggleswitch1">
+                                    </label>
+                                    <select name="toggleswitch1" id="toggleswitch1" data-theme="" data-role="slider">
+                                        <option value="off">
+                                            Off
+                                        </option>
+                                        <option value="on">
+                                            On
+                                        </option>
+                                    </select>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="ui-block-b">
+                            <img src="img/on_broadcast.png">
+                            
+                        </div>
+                    </div>
+                </form>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup">
+                        <label for="textarea3">
+                            I'd like to have a conversation about:
+                        </label>
+                        <textarea name="" id="textarea3" placeholder="">
+                        </textarea>
+                    </fieldset>
+                </div>
+                <a data-role="button" href="#page1">
+                    Update My Broadcast Above
+                </a>
+                <div data-role="collapsible-set">
+                    <div data-role="collapsible">
+                        <h3>
+                            Load My Past Topics
+                        </h3>
+                          <a data-role="button" href="#page1">
+                    Update My Broadcast Above
+                </a>
+                  <a data-role="button" href="#page1">
+                    Lets Talk about Love
+                </a>
+                  <a data-role="button" href="#page1">
+                    Programming conversation anyone?
+                </a>
+                  <a data-role="button" href="#page1">
+                    Just started Yoga
+                </a>
+                  <a data-role="button" href="#page1">
+                    Down for a quicky?
+                </a>
+
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>
+                            Browse Available Convo
+                        </h3>
+                    </div>
+                    <div data-role="collapsible">
+                        <h3>
+                            Tic-Tac-Help!
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>King Crimson Albums</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css"/>
+        <link rel="stylesheet" href="css/custom.css"/>
+        <link rel="stylesheet" href="css/dragtable.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Exo+2' rel='stylesheet' type='text/css'>
+        <link href='http://code.jquery.com/qunit/qunit-1.14.0.css' rel='stylesheet' type='text/css'>
+    </head>
+    <body>            
+        <div class="container-fluid">
+            <div class="row-fluid">
+               <div class="inner-div-height-margin">  
+                    <div class="span12">
+                        <!--start section-->
+                        <div class="well-custom">
+                            <img src="img/king_logo.png" class="pull-right logo-size">
+                            <form id="search-form">
+                                <div class="search">
+                                  <input type="text" name="search" id="searcher" class="round" />
+                                  <span class="corner">
+                                    <i class="icon icon-search" style="margin-top:3px;margin-left:3px;" /></i>
+                                  </span>
+                                </div>
+                                <span class="small-text">
+                                    <span id="count-holder"></span> of 39 albums matched your search
+                                </span>    
+                            </form>
+                            <hr class="hr-custom-3">
+                            <!--section-->
+                            <div class="slide">
+                                <div class="span12">
+                                    <table id="music_table" class="table">
+                                        <thead class="test" style="background-color:black;">
+                                            <tr>
+                                                <th id="band_header" class="band" data-header="band">
+                                                    <span class="dragtable-drag-handle">
+                                                      <i class="icon icon-move icon-white" /></i>
+                                                    </span>
+                                                    <span class="sorter-label">Band</span>                                        
+                                                </th>
+                                                <th id="album_header" class="album" data-header="album">
+                                                    <span class="dragtable-drag-handle">
+                                                      <i class="icon icon-move icon-white" /></i>
+                                                    </span>
+                                                    <span class="sorter-label">Album</span>
+                                                </th>
+                                                <th id="discs_header" class="discs" data-header="discs" style="min-width:120px">
+                                                    <span class="dragtable-drag-handle">
+                                                      <i class="icon icon-move icon-white" /></i>
+                                                    </span>
+                                                    <span class="sorter-label"># of Discs</span>
+                                                </th>
+                                                <th id="release_header" class="rel-date" data-header="release" style="min-width:100px">
+                                                    <span class="dragtable-drag-handle">
+                                                      <i class="icon icon-move icon-white" /></i>
+                                                    </span>
+                                                    <span class="sorter-label">Release</span>
+                                                </th>
+                                                <th id="recorded_header" class="rec-date" data-header="recorded" style="min-width:100px">
+                                                    <span class="dragtable-drag-handle">
+                                                      <i class="icon icon-move icon-white" /></i>
+                                                    </span>
+                                                    <span class="sorter-label">Recorded</span>
+                                                </th>
+                                                <th id="personnel_header" class="personnel" data-header="personnel" style="width:270px">
+                                                    <span class="dragtable-drag-handle">
+                                                      <i class="icon icon-move icon-white" /></i>
+                                                    </span>
+                                                    <span class="">Personnel</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                    <div id="loader-container">
+                                        <h2>
+                                            <img src="img/ajax-loader.gif" style="height:18px;width:18px;"/> Filtering Results
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div> 
+                            <!--end section-->
+                            <div class="well-custom-2">
+                                <hr class="hr-custom-4"/>
+                                <div class="inside-advanced-options pull-right">
+                                    <a data-toggle="modal" href="#myModal" class="a-advanced" >
+                                        <i class="icon icon-wrench icon-white"></i> Advanced Options
+                                    </a>
+                                    &nbsp;||&nbsp;
+                                    <a data-toggle="modal" href="#myModalTest" class="a-advanced">
+                                        <i class="icon icon-ok icon-white"></i> Run Tests
+                                    </a>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </div>    
+                        </div>
+                        <!--end section-->
+                    </div> 
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+        </div>         
+        <!-- pop up-->
+        <div class="modal hide" id="myModal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">X</button>
+                <h3>Edit Column Visibility for the Following:</h3>
+            </div>
+            <div class="modal-body">
+                <h3 class="pull-right vis-indic">visible</h3>
+                <a class="btn hide-cols for-testing-band" data-attr=".band"> Band Name</a>
+                <hr class="hr-custom-5">
+                <h3 class="pull-right vis-indic">visible</h3>
+                <a class="btn hide-cols for-testing-album"  data-attr=".album"> Album Name</a>
+                <hr class="hr-custom-5">
+                <h3 class="pull-right vis-indic">visible</h3>
+                <a class="btn hide-cols for-testing-discs" data-attr=".discs"> Number of Discs</a>
+                <hr class="hr-custom-5">
+                <h3 class="pull-right vis-indic">visible</h3>
+                <a class="btn hide-cols for-testing-rel-date" data-attr=".rel-date"> Release Date</a>
+                <hr class="hr-custom-5">
+                <h3 class="pull-right vis-indic">visible</h3>
+                <a class="btn hide-cols for-testing-rec-date" data-attr=".rec-date">Recording Date</a>
+                <hr class="hr-custom-5">
+                <h3 class="pull-right vis-indic ">visible</h3>
+                <a class="btn hide-cols for-testing-personnel" data-attr=".personnel">Personnel</a>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+        <!-- pop up-->
+        <!-- pop up-->
+        <div class="modal hide" id="myModalTest">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">X</button>
+                <h3>An Example Test: Column Visibility</h3>
+            </div>
+            <div class="modal-body">
+                <div id="qunit"></div>
+                <div id="qunit-fixture"></div>
+            </div>
+            <div class="modal-footer">
+              <a class="btn btn-danger" id="col-vis-test" >Run Column Visibility Test</a>
+              <a href="#" class="btn" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+        <!-- pop up-->
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+        <script src="jquery/jquery.sortelements.js"></script>
+        <script src="bootstrap/js/bootstrap.min.js"></script>  
+        <script src="jquery/jquery.dragtable.js"></script>
+        <script src="jquery/backstretch.js"></script>
+        <script src="jquery/helper.js"></script>
+        <script src="http://code.jquery.com/qunit/qunit-1.14.0.js"></script>
+        <script src="jquery/test.js"></script>
+    </body>
+</html>
