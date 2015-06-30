@@ -1,0 +1,77 @@
+#
+# This file contains configuration flags to customize your site
+#
+
+# Name of your site (displayed in the header)
+name: Aaron DuChateau
+
+# Short bio or description (displayed in the header)
+description: Web Developer from Eugene Oregon
+
+# URL of your avatar or profile pic (you could use your GitHub profile pic)
+avatar: data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxQTEhUUExQWFhQVFxcXFBUXGBoUFxUXFxUWFxcYFBwcHCggGholHBQXITEhJSkrLi4uFx8zODMsNygtLisBCgoKDg0OGhAQGiwcHBwsLCwsLCwsLCwsLCwsLCwsLCwsNywsLCwsLCwsLDc3LCw3LCwrLCwsKywrNysrNyssK//AABEIAKAAoAMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAAEBQMGAQIHAAj/xAA8EAABAwEFBAcGBgIBBQAAAAABAAIDEQQFITFREkFhcQYigZGxwfATMkKh0eEUFSNSYvFykrIHU4KDov/EABkBAAMBAQEAAAAAAAAAAAAAAAABAgMEBf/EACARAQEAAgMAAwEBAQAAAAAAAAABAhEDEiETMUFRcUL/2gAMAwEAAhEDEQA/AOQMsYWkkFMgmLGeslh8aw7109YWsBOCY2aH1xWIY0ZC3FLLLZ4wbZWouNijs0aktsns4nv/AGg04lc/3dRVui6972EPVABecaVwA1KRS39Mfi2f8QAg9l0jicXOOJOaJ/KniuFaZ0rguvHDHH7+2FuWX0j/ADOb/uP76omK/Zx8deYBR923PG8UfUHX1uW949HC0VbjTTvCO2H1o/jzb3f0kBNJQB/JvmNOIVkjAcAWmoOR15Lnkln2SK78q5cq7kxuG+TA7ZdUxn3hns/yb9FnycMs3iMc7PKuYiWhhRwaCBTEHEHUHReMW9crYvMa0LEwdEo3wogLXxqF8aYmNRSR+s1UoLJIkLLGmskKHljVSgC2NZfHRFthUwg7VXYFrIaFFwxZVRrIBoiGWcBTcg0bRjS52AAqT9Oao96Xi6ZxJJ2a9VpOSsfTOfZjYwfESTybTD5hVeyQbbgNVvw4yTtWPJfdLH0asmxiRUOodrTnwV5slgDRtUqTmNR9UFcFgZHG1xNaAdZ27ceX9JzHeMP729+KxyvauiTU0GkuKF+I6vI+S2iuZjThWlDUVIr2JpZ5WP8AdIPJSOFBjxopCoXn0ZjkaRi06geSoV4Xa6IkOGIwOjhmCOGBXWLTaoxWrgO3xSi+LGyaM0oSASCMd2S0w5LEZ4TL/QnQ60e0sw1jOyeO9p7inJYqt0KfsTPjOTxUcC0mnyJ7ldfZrPk8yThfALolFJDomJjWhjKzWWyR6KCSJM3R8FHLH1TzVQFD4aIeSNNHR8EPMxEIujZ8kS2NYYxERtRTeYxTsYswt+ynYzD18kgonTKWs+zua0d5xKW3SP1GnQjnzTDpkylpdv6rfAoO430lbhXhqu6ecbm/7dCjiErW1qIwK0PxHdVSSWWxmgIxzGzWorlWiZvsW23q4VGJGNMNyjstwNaWuoHOYagnOup1XLHZQVhaGOGySWg0O4jmnV+T7Ee02p+686ydZziBV2dN+Rp8l63x7TBpv+3FGjVWKzRPO1M4jfhWgqRmVMbA2Mh8LqtycN1Dgnkd3NOyae6Bkc8cA8fEovynrkjJxxGhx+SCVOKPYtYdkA8DhRxp5roBjx7/AF60VQv2zbMjt1QMeeiulhdtxsdq0E6Vpj80s/dMpPUBZRRmJHviUb41EMtkYvRUbWoRr41EYk5AWSMqhHxJw+z9yDtNG558k9DZJE31oio2KOJqJjakpvGz1oiGtwyWrB3oljUqFH6VXa505IBxGFd9AK93mteiFgAncTjsgU7T9ldbxsYc0H9uOuFMfJJbts/spSN7hXnia9uS2nJeukzjm9rhZRh63ouOH165IWxPKZ+0FKqPGpVeMzWNJO4VNPJLJ+kADabO+mVOR1Rl4Oa8bIBJ1CEluyoALTWmYTgN7tbtNB8EQWZ8UJcrwBsHAjDHfp4Jo8oJX7zu4ve0gcD5eKs933S5sbWkHAac9yK6NsBnbUbnFW8rXDj7T1hyZ6qlG7X/ALD3Fa/lMh+A9tArk9DvVfFIz+WqoLkk/iO1ebcR3uA5BWKSRuo70O543eBRMMS75FQuhgzJPyQ8t0RVrsV5klN314oaVpWmpPxPaqPHcoHxk9gRkV0M37XejOwlSNJ0pzK4fHRusQ3bH+35phZrGwfA3uBQX42NvvSxt5uH1UtkvaF7xHHO18hrRkY23GmdAE9A4jgbSlBjgRrwOqofSq6jBLE6lWEvDXY1pRvVd/LTWhVzqcv1zwADPGiVdKbrdJA5zYpNtlHBzpK4NzFA41wqmeN0VWE7kTapcMsN/JVq67WKZ4UHz0TWa2AbNcq+GqGwlgkAJADa/FmeQChDHVp7Xj3I5p2xSo/uiW2ixyB9QQQE5RsVA5xwcKnc8cDvTaN9WhBwsLW6mlVvZ5qimWn3Rv0qsXRRlZSa5NNMK5kdythbzVY6LMkG25jA4GgqTsiuZxoa7lYaSn9g7S76Lfjvjk5fcmssfAnt+6FfD/Fg5knyU77PIc5Gjk36lQSXeTnK/soFVl/iEbmO1A5N+6Hl4v8AAKd92s3lx5uKhN2x/sHbin1yPwI+0sHxN/2qg57ezdjyBPkmr7O0ZNHcoXhPrS8ceFjc73rRaHf+wtHc2iljuSE+81z+D3ud4lSwlEteNac8Fxd66tR6zXPA3KGP/UHxVk6NRMbPFRrW9amAAzSSOQapld1rDZGHRzTXtCJbaLPF3vWCQmkTmtc5zRVw2hRxoSQCMe1Lp7otW0Gm2DE0OxC1uB0qTw+adXu/Zx02SN/uuClvDB7T/Jv/ACAW2U+2ONvjg952UwyUHu1IBGG+nkg3241bU1p20V4vuyh7pBnVzs/8jSveqZeF0uB6lTjiAe3yU46rbOWTcM7svgigr9zv7Ey/H7RGKo7HkHKlCa7t1O9MLPajvHbvCdw/iMeW/VWw3ich2d6Y3DE6Rwa3Ek5cVVbKS4+PgugdBIdmZlaVqcuLTRLX4q5XTodisgiYGDdmdTvKkKkco3Lsk145UblE9SuULkwheoHqd6gegB5ULIiZUNIgONRGvrLgiYSB3ICKT1kiGSBedp2wxjf4f0jYX49mCVNlHrJbTXlHGKucG1rTU9m9LX8F065fE1YdrWIu/wDivip73m/T29Wh3cAVxu8f+pkj4mwxRiMMaGF5O054ApUCgDeWPNWaO/X2mzx1eC0NAAApiAPepmQt8rr7Y4Y9r4y4g141Pfj5oGezDejbOMFvJGso6FftNiB3A88UN+XsBHVy0zT6WFBPhJKrYsjSww0yAVq6OThksZJAAcK8N3mkdnjppiio3Up9EbKzzTrrio3PXOxfkkUeL6tGADsacBWtFpd/TWRuEga8H/xcBwOXet5zSua8VjobnKNxSy7r4jmH6bwcAdk4OFdQjTIrmUrOyx55UDytnuUEj1eyRyFCyFSyOQkr0thwRlq9ZqO03wG/yOn1Si023c3kSgKrLHin3W+XL+Q1mvuVxwdsjRv1QYkOeJ4nFDgrdrlrqRhbaJ2j/ac3Hfj4HGhq00DmHI8eB4pE163B1w8QlZL9pluN3HYrkviG0AbDuthVjsHdmo4hOKYrhccxGOfinVh6U2iPKYkaP63jkue8N/HTjzz9dUdBhzXmWbVUBvTiff7M9h8lKem838P9cu8qfjyafNivP4cbkvtlvjjf1jUipoMSqRP0imkFDISNG4DtoEKybLvPrVOcf9T80/Fktt8OldoB7ra4D681FHNTnnwSZkwHrXXuUwtHBVou2zyK279Mvn3p1d/SyePAO22jCjusO/NU1s+Of15rJteCWhfXVbB0zhfQSAxk7yat79yeGUEAg1ByINQeRXD/AMcj7q6RywGrD1TiWHEH78VUzqLhv6dYlehZZEmurpPFPQe5IfgJz/xO9Gyyp9k9XzavLy8uhDK2BWiyEBIt2FQ1WQ5LRaEgqQFC7a32kisFCnnopWn1mgw5b+1QBsch17lKyTL12JeyTu+i3bMpsOUwbIVuJ8vFL/bYHRYEynquUz9rj2c9Fl03z7Es/EFavn9ao6n2MzPx7NVG60FLHWhaGfHRHQ+xkbWRkcsqYU5LonRW/wA2iJzXH9SOldXNJwdzwoVyYy+tUTc16ugmErcxUEatObT2eCLxn2KllYXlsyZWVheQGQVlaheQEgcsgqNeogJWlZCiBXgUtBOHc/JbB33Q5K9tI0QkSLXbUO0tao0afbXtvdooq6+ua1qjQbly02liqwmGxKwCsLyA/9k=
+
+#
+# Flags below are optional
+#
+
+# Includes an icon in the footer for each username you enter
+footer-links:
+  dribbble:
+  email:
+  facebook:
+  flickr:
+  github: barryclark/jekyll-now
+  instagram:
+  linkedin:
+  pinterest:
+  rss: # just type anything here for a working RSS icon, make sure you set the "url" above!
+  twitter: jekyllrb
+  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  youtube: # channel/<your_long_string> or user/<user-name>
+  googleplus: # anything in your profile username that comes after plus.google.com/
+
+
+# Enter your Disqus shortname (not your username) to enable commenting on posts
+# You can find your shortname on the Settings page of your Disqus account
+disqus:
+
+# Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
+google_analytics:
+
+# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
+# Used for Sitemap.xml and your RSS feed
+url:
+
+# If you're hosting your site at a Project repository on GitHub pages
+# (http://yourusername.github.io/repository-name)
+# and NOT your User repository (http://yourusername.github.io)
+# then add in the baseurl here, like this: "/repository-name"
+baseurl: ""
+
+#
+# !! You don't need to change any of the configuration flags below !!
+#
+
+markdown: redcarpet
+highlighter: pygments
+permalink: /:title/
+
+# The release of Jekyll Now that you're using
+version: v1.1.0
+
+# Set the Sass partials directory, as we're using @imports
+sass:
+  style: :expanded # You might prefer to minify using :compressed
+
+# Use the following plug-ins
+gems:
+  - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
+
+# Exclude these files from your production _site
+exclude:
+    - Gemfile
+    - Gemfile.lock
+    - LICENSE
+    - README.md
+    - CNAME
