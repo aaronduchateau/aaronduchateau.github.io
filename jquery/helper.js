@@ -19,14 +19,16 @@ $(function () {
     });
 
     $(document.body).on('click', '#submitm' ,function()
-    {
-       $('#hide-mail').hide(); 
-       $('#show-mail').show();
-       var name_2 = $('#message').val();
-       var email_2 = $('#email').val();
-
-       $.post("doit.php", {thing: name_2, thing_2: email_2, submit: '765'}, function(data){
-        //alert(data);
+    {      
+       $.ajax({
+            url: "//formspree.io/chateauconcept@gmail.com", 
+            method: "POST",
+            data: {message: $('#message').val(), _replyto: $('#email').val()},
+            dataType: "json",
+            success: function(data){
+              $('#hide-mail').hide(); 
+              $('#show-mail').show();
+            }
         });
     });
     
