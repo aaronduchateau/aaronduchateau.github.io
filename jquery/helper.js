@@ -1,6 +1,6 @@
 $(function () {
   
-    $.backstretch("img/aaron_back_2.png");
+    $.backstretch("img/bg_subtle.jpg");
 
     $('.scroller').click(function() {
     	//alert($( $.attr(this, 'href') ).offset().top);
@@ -14,23 +14,25 @@ $(function () {
     	$( '.trig_change' ).removeClass('trig_color');
     	$( this ).addClass('trig_color');
     	var hold_me = $( this ).attr('data-target');
-    	$('.slide').hide('slow');
-    	$('.' + hold_me).show('slow');
+        $('.slide').css('display', 'none');
+        $('.' + hold_me).show('fast');
     });
 
-    $(document.body).on('click', '#submitm' ,function()
-    {      
-       $.ajax({
-            url: "//formspree.io/chateauconcept@gmail.com", 
-            method: "POST",
-            data: {message: $('#message').val(), _replyto: $('#email').val()},
-            dataType: "json",
-            success: function(data){
-              $('#hide-mail').hide(); 
-              $('#show-mail').show();
-            }
+    $('.back-control').click(function() {
+        var i = $( this ).attr('data-target');
+        window.reloadParticles(i);
+    });
+
+    window.reloadParticles = function(i){
+        var configArray = [
+            './jquery/particleConfig2.json',
+            './jquery/particleConfig4.json',
+            './jquery/particleConfig5.json'
+        ];
+        particlesJS.load('particles-js', configArray[i], function(loaded) {
+          console.log(loaded);
         });
-    });
-    
+    };
 
+    window.reloadParticles(0);
 });
