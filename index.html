@@ -8,1233 +8,533 @@
     <link rel="stylesheet" href="css/custom.css"/>
     <link rel="stylesheet" href="bootstrap/css/bootstrap-responsive.min.css"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="css/pro-bars.min.css"/>
     </head>
-    <body>            
-        <div class="container-fluid" style="padding-left:0px;padding-right:0px;">
-
+    <body >            
+        <div id="particles-js"></div>
+        <div class="container-fluid" style="padding-left:0px;padding-right:0px;" >
             <div class="navbar" id="nav">
                 <div class="navbar-inner">
-                <div class="container">
-                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="#"><img src="img/aaron_logo.png" style="height:20px;"></a>
-                    <div class="nav-collapse">
-                    <ul class="nav">
-                        <li><a href="#l" class="scroller">Languages</a></li>
-                        <li><a href="#f" class="scroller">Frameworks</a></li>
-                        <li><a href="#d" class="scroller">Databases</a></li>
-                        <li><a href="#w" class="scroller">Workflow & Management</a></li>
-                        <li><a href="#p" class="scroller">Portfolio</a></li>
-                        <li><a href="#h" class="scroller">Work History</a></li>
-                        <li><a href="#r" class="scroller">References</a></li>
-                    </ul>
-                    <ul class="nav pull-right">                        
-                        <!--<li class="divider-vertical"></li>-->
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contact Me <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                            <li>
-                                <form class="well" action="" method="post" style="margin: 5px 10px;" id="hide-mail">
-                                Aaron@pivot2dream.com / 541-653-0973<br><br>
-                                <label>Email</label>
-                                <input type="text" name="" id="email" class="span3" placeholder="">
-                                <label>Message</label>
-                                <textarea name="" id="message" class="span3" placeholder=""></textarea>
-                                <a href="javascript:void(0)" class="btn" id="submitm"><i class="icon icon-envelope"></i> send message</a>
-                                </form>
-                                <div id="show-mail" style="display:none;" class="alert alert-info"> 
-                                    Thanks! <br>I'll be in touch :)
-                                </div>
-                            </li>
-                            </ul>
-                            <!--<li><a href="#">Join !</a></li>-->
-                        </li>
-                       
-                    </ul>
-                    </div><!-- /.nav-collapse -->
-                </div>
+                    <div class="container">
+                         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="#">://Aaron DuChateau</a>
+                        <div class="nav-collapse">
+                            <ul class="nav pull-right">
+                                <li><a href="#a" class="scroller">About</a></li>
+                                <li><a href="#rpf" class="scroller">Recent Portfolio Work</a></li>
+                                <li><a href="#r" class="scroller">Recomendations</a></li>
+                                <li><a href="#eh" class="scroller">Employment History</a></li>
+                                <li><a href="#e" class="scroller">Education</a></li>
+                            </ul> 
+                        </div><!-- /.nav-collapse -->
+                    </div>
                 </div><!-- /navbar-inner -->
             </div><!-- /navbar -->
             <!-- row-fluid -->
-           
-               <!--start section-->
-                <div class="row-fluid outer-div-yellow" id="cloud_div" style="margin-top:-10px;">
-                   <div class="inner-div-height-margin">  
-                     <div class="span12 inner-div-yellow">
+           <!--start section-->
+            <div class="row-fluid outer-div-yellow" style="margin-top:50px;">
+               <div class="inner-div-height-margin">  
+                 <div class="span12 inner-div-yellow">
+                        <!--start section-->
+                        <div class="span12" id="a" style="margin-left:0px;">
+                            <h2 class="h1-class-more">Hi, my name is Aaron. I build web applications.</h2>
+                            <div>
+                                <div class="well-custom" >
+                                        <!--section-->
+                                        <div class="">
+                                            <div class="span4">
+                                                <!--<img src="img/aaron_barnlight.jpg">-->
+                                                <img src="img/aaron_fancy.jpg">
+                                            </div>
+                                            <div class="span8">
+                                                    <h3> > Software Engineer / Builder / Start-up Guy</h3>
+                                                    <br>
+                                                    <!--<p>
+                                                        While I enjoy prototyping, I have also worked extensively in more conservative development approaches (including 2 week sprint cycles, intensive peer review, QA teams, unit testing, and other realities of working in a dev team environment). I have experience in the full stack development life cycle, including UI/UX to client and server side development.   
+                                                    </p>-->    
+                                                    <blockquote class="blockquote" style="font-size: 16px">
+                                                        "Aaron was a Senior full stack developer working on a React/Java/Hibernate/Postgres web application that featured extensive Websocket integration and Responsive styling and layout, and was backed by a RESTful API.<br/><br/>
+
+                                                        Aaron specializes in React, Redux, CSS, Webpack, Javascript and frontend integrations. He is a gifted rapid prototyper and moves very fast in the frontend. He implemented several full stack features including a Redis-based, websocketed locking system to keep users from interfering with shared resources by pushing lock statuses out to connected users.<br/><br/>
+
+                                                        Aaron is fun to work with (he planned a ski trip for our team.) He is respectful and considerate of his coworkers. Despite his skills and accomplishments, he is also humble, he enjoys mentoring others in his strengths, he takes feedback well and he loves to learn new stuff.<br/><br/>
+
+                                                        I would gladly work with Aaron again." <br/><br/>
+                                                        <small>
+                                                            <b>Brunson Moody</b>
+
+                                                        ( Former <b>Google</b> Site-Reliability engineer<br/> 
+                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Current Product Development Manager at <b>Palo Alto Software</b> )
+                                                        </small>
+                                                    </blockquote>
+                                            </div>    
+                                        </div> 
+                                        <!--end section-->
+                                        <div style="clear:both;"></div>
+                                </div>    
+                            </div>    
+                        </div>
+                        <div class="span-12" style="margin-left:0px;margin-top: 30px;">
+                            <h2>
+                            For the last decade I have helped organizations both big and small, to build sustainable and scalable web applications. I'm currently enjoying working with React + Express / Node.js.</h2>
+                        </div>
+                        <!--end section-->
+                        <div style="clear:both;"></div>
+                        <hr class="hr-custom-4" />
+                        <!--start section-->
+                        <div class="span12" id="rpf" style="margin-left:0px;">
+                            <h2 class="h1-class-more" style="text-align: right;">
+                                > Recent Portfolio Work: 
+                            </h2>
                             <!--start section-->
-                            <div class="span12" style="margin-left:0px;">
+                            <div class="span6" style="margin-left:0px;" >
                                 <div>
-                                    <div class="well-custom" style="color:white;">
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0);" data-target="1" class="trig_change trig_color">
-                                                 Software Engineer </a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0);" data-target="2" class="trig_change">
-                                                 Project & Team Management </a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0);" data-target="3" class="trig_change">
-                                                 Customer Acquisition & Management </a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0);" data-target="4" class="trig_change">
-                                                 Scalable Solutions </a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0);" data-target="5" class="trig_change">
-                                                 UI / UX </a>
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                            <a href="javascript:void(0);" data-target="6" class="trig_change"> 
-                                                 Public Speaking </a>
-                                            <hr class="hr-custom-3">
-                                            <!--section-->
-                                            <div class="slide 1">
-                                                <div class="span4">
-                                                <img src="img/1_b.png">
-                                                </div>
-                                                <div class="span8">
+                                    <div class="well-custom" >
+                                        <div class="image-over"><h2>> Outpost</h2><br/></div>
+                                        <a href="img/outpost.png" target="_blank"><img src="img/outpost.png" /></a>
+                                    </div>    
+                                </div>    
+                            </div>
+                            <!--end section-->
+                            <div class="span6" id="w">
+                                <div>
+                                    <div class="well-custom" >
+                                        <br/>
+                                        <b> > Client Side:</b><br/>
+                                        <span class="margin-bump-up-2">
+                                            React, Redux, Webpack, Postcss + more... 
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                         <b> > Backend / Services:</b><br/>
+                                        <span>
+                                            Java, Resque, PostgreSQL, S3, Dropwizard, Elasticsearch + more...
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                        <span>
+                                           <b> > Description:</b> Email management software for growth stage organizations. 
 
-                                                    <h2>Software Engineer</h2>
-                                                        <h3>It isn't always the languages one knows, but an ability to thrive in new technology.</h3>
-                                                        <br>
-                                                        <p>
-                                                            I have been developing software applications both on and offline for nearly a decade.<br><br> From simple websites to production scale applications, i have come to love the challenge of creating a final product which is both elegant to use, and work with. 
-                                                        </p>    
-                                                </div>    
-                                            </div> 
-                                            <!--end section-->
-                                            <!--section-->
-                                            <div class="slide 2" style="display:none;">
-                                                <div class="span4">
-                                                <img src="img/b_2.png">
-                                                </div>
-                                                <div class="span8">
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                        <span>
+                                           <b> > Link:</b> 
+                                           <a href="https://www.outpost.co/">
+                                              outpost.co 
+                                           </a>
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                        <span>
+                                           <b> > Product Owner:</b> Palo Alto Software
+                                        </span>
+                                        <br/>
+                                        <br/>
+                                        <span>
+                                           <b> > My Role:</b> Full Stack Engineer
+                                        </span>
+                                    </div>    
+                                </div>    
+                            </div>
+                        <!--end section-->
+                        <hr class="hr-custom-4"/>
+                        <!--start section-->
+                        <div class="span6" id="w" style="margin-left:0px;">
+                            <div>
+                                <div class="well-custom" >
+                                    <br/>
+                                    <b> > Client Side:</b><br/>
+                                    <span class="margin-bump-up-2">
+                                        React, Flux, Webpack, Postcss + more... 
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                     <b> > Backend / Services:</b><br/>
+                                    <span>
+                                        Java, Resque, PostgreSQL, S3, Dropwizard, Elasticsearch + more...
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > Description:</b> Business Planning Software with 10's of thousands of subscribers. 
 
-                                                    <h2>Project & Team Management</h2>
-                                                        <h3>Introverted Developers & Extroverted Clients are not always managed alike.</h3>
-                                                        <br>
-                                                        <p>
-                                                            Team personalities are as diverse as the members that comprise them.<br><br> I have spent years developing relationship management skills, that adjust to work with the needs of client and developer personality types, across the board. 
-                                                            <br> 
-                                                        </p>    
-                                                </div>     
-                                            </div> 
-                                            <!--end section-->
-                                            <!--section-->
-                                            <div class="slide 3" style="display:none;">
-                                                <div class="span4">
-                                                <img src="img/3_b.png">
-                                                </div>
-                                                <div class="span8">
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > Link:</b> 
+                                       <a href="https://www.liveplan.com/">
+                                          liveplan.com 
+                                       </a>
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > Product Owner:</b> Palo Alto Software
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > My Role:</b> Full Stack Engineer
+                                    </span>
+                                </div>    
+                            </div>    
+                        </div>
+                        <!--start section-->
+                        <div class="span6">
+                            <div>
+                                <div class="well-custom" >
+                                    <div class="image-over"><h2>> LivePlan</h2><br/></div>
+                                    <a href="img/liveplan.png" target="_blank"><img src="img/liveplan.png" /></a>
+                                </div>    
+                            </div>    
+                        </div>
+                        <!--end section-->
+                        <hr class="hr-custom-4"/>
+                        <!--start section-->
+                        <div class="span6" style="margin-left:0px;">
+                            <div>
+                                <div class="well-custom">
+                                    <div class="image-over"><h2>> LotHopper</h2><br/></div>
+                                    <a href="https://www.youtube.com/watch?v=vvxlXBAItgE&t=3s" target="_blank" target="_blank"><img src="img/lothopper.png" /></a>
+                                </div>    
+                            </div>    
+                        </div>
+                        <div class="span6" id="w">
+                            <div>
+                                <div class="well-custom" >
+                                    <br/>
+                                    <b> > Client:</b><br/>
+                                    <span class="margin-bump-up-2">
+                                        Vanilla HTML, JQuery, Bootstrap + more... 
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                     <b> > Backend / Services:</b><br/>
+                                    <span>
+                                        PHP, Laravel, PostgreSQL integrated with custom MapBox PostGIS service...
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > Description:</b> A complete system for importing and browsing county taxlot data.
 
-                                                    <h2>Customer Acquisition & Management </h2>
-                                                        <h3>I have experiencing building a company from ground zero, with no client base.</h3>
-                                                        <br>
-                                                        <p>
-                                                            When starting from scratch, networking and marketing in ones community is key.<br><br> During my time as co-owner of Genius Media Solutions i helped build an original client base. Just as importantly, I maintained and leveraged those relationships by delivering accurately, and on time, every time.
-                                                        </p>    
-                                                </div>    
-                                            </div> 
-                                            <!--end section-->
-                                            <!--section-->
-                                            <div class="slide 4" style="display:none;">
-                                                <div class="span4">
-                                                <img src="img/4_b.png">
-                                                </div>
-                                                <div class="span8">
-
-                                                    <h2>Scalable Solutions </h2>
-                                                        <h3>Project Architecture has a direct relationship to the needs of the client</h3>
-                                                        <br>
-                                                        <p>
-                                                            What happens when one user becomes a thousand, and a thousand, a million?<br><br> Building projects that are intended to scale is a fundamental concern in project architecture. By leveraging the correct technology and the correct hosting solutions, I have experience ensuring the right build, for the right job.
-                                                        </p>    
-                                                </div>    
-                                            </div> 
-                                            <!--end section-->
-                                             <!--section-->
-                                            <div class="slide 5" style="display:none;">
-                                                <div class="span4">
-                                                <img src="img/b_5.png">
-                                                </div>
-                                                <div class="span8">
-
-                                                    <h2>UI / UX </h2>
-                                                        <h3>I am not just a graphic designer, I plan and design the way people use systems.</h3>
-                                                        <br>
-                                                        <p>
-                                                            While i started my graphic design career in college, it wasn't until i began real world production that i began to understand UI / UX. The only way to learn this process is trial, error, feedback, and a good design sense to begin with. <br><br> I have spent years developing this skill, and can follow through from story to production.
-                                                        </p>    
-                                                </div>    
-                                            </div> 
-                                            <!--end section-->
-                                             <!--section-->
-                                            <div class="slide 6" style="display:none;">
-                                                <div class="span4">
-                                                <img src="img/6_b.png">
-                                                </div>
-                                                <div class="span8">
-
-                                                    <h2>Public Speaking </h2>
-                                                        <h3>Cat got your tongue? Not if you have the experience.</h3>
-                                                        <br>
-                                                        <p>
-                                                            I enjoy public speaking and have done so in many capacities professionally.<br><br> From start up weekend pitches, to hosted focus groups, and auditoriums filled with hundreds of people, I have planned, organized, and delivered information to audiences large and small. 
-                                                        </p>    
-                                                </div>    
-                                            </div> 
-                                            <!--end section-->
-
-                                            <div style="clear:both;"></div>
-                                            
-                                        
-                                    </div>    
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > Link:</b> 
+                                       <a href="https://github.com/aaronduchateau/mapProject" target="_blank">Github</a>,
+                                       <a href="https://www.youtube.com/watch?v=vvxlXBAItgE&t=3s" target="_blank">Video Demo Advanced Search</a>
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > Product Owner:</b> Aaron DuChateau
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>
+                                       <b> > My Role:</b> Owner / Architect / Full Stack Engineer
+                                    </span>
                                 </div>    
-                            </div>
-                            <!--end section-->
-                        
-                            <h1 class="h1-class-more">Languages</h1>
-
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;" id="l">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>HTML 5</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>I know HTML like...</xmp>
-                                        </div>
-                                         
-                                        <div class="margin-bump-up">
-                                            <xmp><h1>the back of my <i>hand</i></h1></xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>CSS</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                         <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>I don't use them on my bed, but on my...</xmp>
-                                        </div>    
-                                        <div class="margin-bump-up">
-                                            <xmp>.webpages {z-index: -1; color: pink;}</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Javascript</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Javascript != Java</xmp>
-                                        </div>
-                                
-                                        <div class="margin-bump-up">
-                                            <xmp>alert('lets be honest.');</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>PHP</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>        
-                                        <!--
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                       
-                                        <div>
-                                            <xmp>Left side, right side, or...</xmp>
-                                        </div>
-                                  
-                                        <div class="margin-bump-up">
-                                            <xmp><?php echo "server side"; ?></xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>JAVA (Android)</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-70 color-peter-river" data-pro-bar-percent="70" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 70%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>I'm OutOfMemory, but i shouldn't...</xmp>
-                                        </div>
-                                          
-                                        <div class="margin-bump-up">
-                                            <xmp>System.gc();</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Ruby</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-68 color-peter-river" data-pro-bar-percent="68" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>        
-                                        <!--
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 68%;"></div>
-                                        </div>
-                                        -->
-                                        
-                                        <div>
-                                            <xmp>Be cool man, don't act like a...</xmp>
-                                        </div>
-                                            
-                                        <div class="margin-bump-up">
-                                            <xmp>def sqr(x) return x*x end</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Node.js</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-75 color-peter-river" data-pro-bar-percent="75" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 60%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>It's a pleasure to meet you...</xmp>
-                                        </div>
-                             
-                                        <div class="margin-bump-up">
-                                            <xmp>socket.emit('chat', { user: 'hi' });</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Clojure</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-60 color-peter-river" data-pro-bar-percent="60" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 60%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Havn't worked with it? It feels a bit...</xmp>
-                                        </div>
-                                          
-                                        <div class="margin-bump-up">
-                                            <xmp>user=> (odd? 1)</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Actionscript</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-90 color-peter-river" data-pro-bar-percent="90" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 95%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Feel like drawing?</xmp>
-                                        </div>
-                                         
-                                        <div class="margin-bump-up">
-                                            <xmp>stage.addChild(my_shape);</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-
-                            <h1 class="h1-class-more">Frameworks</h1>
-
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;" id="f">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>jQuery</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Javascript Library</xmp>
-                                        </div>
-                                         
-                                        <div class="margin-bump-up">
-                                            <xmp>7+ years experience. A default include.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Bootstrap by Twitter</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>JS & CSS Library</xmp>
-                                        </div>    
-                                        <div class="margin-bump-up">
-                                            <xmp>Responsive & Lean. A default Include.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Angular.js</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-70 color-peter-river" data-pro-bar-percent="70" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 67%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Javascript Framework</xmp>
-                                        </div>
-                                
-                                        <div class="margin-bump-up">
-                                            <xmp>Powerful, clean, I like it.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Codeigniter</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>PHP - MVC Framekwork</xmp>
-                                        </div>
-                                  
-                                        <div class="margin-bump-up">
-                                            <xmp>Enjoyed using in multiple projects.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Laravel</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-50 color-peter-river" data-pro-bar-percent="50" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 30%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>PHP - Framework</xmp>
-                                        </div>
-                                          
-                                        <div class="margin-bump-up">
-                                            <xmp>Simple like Codeigniter, but more robust.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Rails</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-68 color-peter-river" data-pro-bar-percent="68" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 68%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Ruby - Framework</xmp>
-                                        </div>
-                                            
-                                        <div class="margin-bump-up">
-                                            <xmp>Used in Deployed Production Environment.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            
-                            <!--end section-->
-                            <h1 class="h1-class-more">Databases</h1>
-                            <!--start section-->
-                            <div class="span6" style="margin-left:0px;" id="d">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>SQL</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-98 color-peter-river" data-pro-bar-percent="98" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 98%;"></div>
-                                        </div>
-                                        -->
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>I have over 5 years of experiencing leveraging various versions of SQL, including MySQL, PostgreSQL, and SQLite. I am very comfortable with the general components of relational database architecture. I have written thousands of lines of sql over the years, using joins, virtual columns, conditions and correlated sub queries.</p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span6">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>MongoDB</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-78 color-peter-river" data-pro-bar-percent="78" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>        
-                                        <!--
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 78%;"></div>
-                                        </div>
-                                        -->
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>My first experience with MongoDB was working on the backend of connectmyfolks.com. Our team chose to implement the Mongoid atop Mongo (a query framework). While I appreciate the json based structure, I generally still prefer SQL if given the choice between the two database schema.</p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-
-                             <!--start section-->
-                            <div class="span6" style="margin-left:0px;" id="d">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>CouchBase</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-50 color-peter-river" data-pro-bar-percent="50" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>    
-                                        <!--    
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 98%;"></div>
-                                        </div>
-                                        -->
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>CouchBase is a powerful noSql database with a slick UI interface for management. While i appreciate the flexabilty of most JSON datastores, and the built in ORM, but the clunky'ness of uploading query structures directly into the platform is cumbersome.</p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span6">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>FireBase</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-78 color-peter-river" data-pro-bar-percent="78" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>        
-                                        <!--
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 78%;"></div>
-                                        </div>
-                                        -->
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>DB connection is purely driven through object ownership, meaning you don't really connect in a typical sense, as you would in SQL. I enjoyed working in this platform, but found the pricing structure to be a major drawback if deployed in a full scale application.</p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-
-                            <h1 class="h1-class-more">Tools</h1>
-
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;" id="t">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Git / GitHub</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>
-                                        <!--        
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Version Control / Branching</xmp>
-                                        </div>
-                                         
-                                        <div class="margin-bump-up">
-                                            <xmp>Comfortable on command line.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Eclipse</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>
-                                        <!--      
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>IDE - Android Development</xmp>
-                                        </div>    
-                                        <div class="margin-bump-up">
-                                            <xmp>Development, Builds, Resource Managment.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Photoshop & Illustrator</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>  
-                                        <!--  
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Graphic Design Programs</xmp>
-                                        </div>
-                                
-                                        <div class="margin-bump-up">
-                                            <xmp>Seasoned Graphic Designer.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;" id="t">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Bash</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-85 color-peter-river" data-pro-bar-percent="85" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>
-                                        <!--        
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Command Line Interface</xmp>
-                                        </div>
-                                         
-                                        <div class="margin-bump-up">
-                                            <xmp>Start-up scripts, Shell, and More...</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Google Maps</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-100 color-peter-river" data-pro-bar-percent="100" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>
-                                        <!--      
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>API for Interactive Maps</xmp>
-                                        </div>    
-                                        <div class="margin-bump-up">
-                                            <xmp>Android SDK, Web Imlementations.</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Vagrant</h2>
-                                        <div class="">
-                                            comfort level:
-                                        </div>
-                                        <div class="pro-bar-container color-nephriti">
-                                          <div class="pro-bar bar-85 color-peter-river" data-pro-bar-percent="85" data-pro-bar-delay="60">
-                                            <div class="pro-bar-candy"></div>
-                                          </div>
-                                        </div>  
-                                        <!--  
-                                        <div class="progress progress-striped">
-                                          <div class="bar" style="width: 100%;"></div>
-                                        </div>
-                                        -->
-                                        <div>
-                                            <xmp>Deploys Custom Dev Environments.</xmp>
-                                        </div>
-                                
-                                        <div class="margin-bump-up">
-                                            <xmp>Used in Many Projects</xmp>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                          
-
-                            <h1 class="h1-class-more">Workflow & Management</h1>
-                            <!--start section-->
-                            <div class="span6" style="margin-left:0px;" id="w">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Process</h2>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>
-                                                I have years of experience ensuring that work performed  is not only specked correctly, but delivered correctly and on time. By leveraging inhouse chat applications, facetime applications, <a href="http://github.com" target="_blank">GitHub</a> for version control / ticketing, and local development / online production environments, I have helped to ensure countless successful deployments to clients over the years.
-
-                                            </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span6">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>Philosophy</h2>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>
-                                                I have a unique ability to traverse the barriers of diverse personality types. I understand the personality and communication shifts required when dealing with a 'Type A' high level client, v.s. an introverted developer, and the pain points both experience. I believe that management is more then just producing deliverables, but to ensure a culture that makes everyone feel as comfortable, and productive as possible. 
-
-                                            </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <div style="clear:both;"></div>
-
-                            <h1 class="h1-class-more">My Recent Portfolio</h1>
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;" id="p">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <!--<table class="pull-right">
-                                            <tr>
-                                                <td>
-                                                    <a href="http://connectmyfolks.com" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-globe"></i> page</a>
-                                                </td>
-                                                <td>
-                                                    &nbsp;
-                                                </td>
-                                                <td>    
-                                                    <a href="http://www.youtube.com/watch?v=Q54uawLSK-M" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-eye-open"></i> video</a>
-                                                </td>
-                                            </tr>
-                                        </table>-->    
-                                        <h2>ConnectMyFolks</h2>
-                                        <xmp class="margin-bump-up-2">HTML, CSS, jQuery, MongoDB, Ruby on Rails</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>  
-                                                 This scalable rails project, connects senior ciizens with their loved ones in a single application that is safe and easy to use. 
-                                                 Leveraging Rails, Amazon ec2, jQuery, and MongoDB, and an api for an iOS application, I collaborated with other developers to deliver version iterations and ultimately a successful deployment. The site currently supports many users and was mentioned in the New York Times. 
-                                            </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <table class="pull-right">
-                                            <tr>
-                                                <td>
-                                                    <a href="http://www.c2cpropertyservices.com/" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-globe"></i> page</a>
-                                                </td>
-                                                <td>
-                                                    &nbsp;
-                                                </td>
-                                                <td>    
-                                                    <a href="http://www.youtube.com/watch?v=8aTGinpr5Ps" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-eye-open"></i> video</a>
-                                                </td>
-                                            </tr>
-                                        </table>    
-                                        <h2>C2C</h2>
-                                        <xmp class="margin-bump-up-2">HTML, CSS, jQuery, PHP, MySQL</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>
-                                                I was presented with the opportunity to work with C2C property service, and enhance their custom order process. The client was already using ShareFile for order fulfillment, and were happy with the security the platform offered. Our job was to integrate the ShareFile API for both product delivery and authentication to give a local access point for their customers, online. 
-
-                                            </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <table class="pull-right">
-                                            <tr>
-                                                <td>
-                                                    <a href="https://celearningsystems.com/" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-globe"></i> page</a>
-                                                </td>
-                                            </tr>
-                                        </table>    
-                                        <h2>CE Learning Systems</h2>
-                                        <xmp class="margin-bump-up-2">HTML, CSS, jQuery, PHP, CodeIgniter, SQL</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>
-                                                In this contract we were tasked with creating an online learning platform that allowed certified teachers, to manage independent education seminars. The system included hierarchical administration, multilevel module and content management, online calendaring with conflict awareness, and a myriad of UI / UX concerns. I both drafted and successfully fulfilled our contract, on schedule.
-                                            </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                             <!--start section-->
-                            <div class="span4" style="margin-left:0px;">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <table class="pull-right">
-                                            <tr>
-                                                <td>
-                                                    <a href="http://procontact.me" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-globe"></i> page</a>
-                                                </td>
-                                                <td>
-                                                    &nbsp;
-                                                </td>
-                                                <td>    
-                                                    <a href="http://www.youtube.com/watch?v=164JHhel9Oo" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-eye-open"></i> video</a>
-                                                </td>
-                                            </tr>
-                                        </table>    
-                                        <h2>ProContact.Me</h2>
-                                        <xmp class="margin-bump-up-2">HTML, CSS, jQuery, PHP</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>In this StartUp project, my business partner and I created a mobile aware virtual business card platform, fused with a lightweight customer resource manager (similar to SalesForce). While we never made a major marketing push, we ended up with hundreds of users, and took 4th place in the Willamette Angel Investor Conference. </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <table class="pull-right">
-                                            <tr>
-                                                <td>
-                                                    <a href="http://www.geniusmediasolutions.com/" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-globe"></i> page</a>
-                                                </td>
-                                            </tr>
-                                        </table>    
-                                        <h2>GMS</h2>
-                                        <xmp class="margin-bump-up-2">Alternate Portfolio</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>As the co-owner of Genius Media Solutions from 2011-2012, many of the portfolio pieces on the site involve direct or collaborative efforts by myself. I am listing this site as an external resource if you prefer to dig deeper. My responsibilities included development, plus everything associated with running a downtown development firm.</p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <!--<table class="pull-right">
-                                            <tr>
-                                                <td>
-                                                    <a href="http://www.youtube.com/watch?v=mOejzbM-ZOQ" class="btn btn-info btn-mini" target="_blank"><i class="icon icon-eye-open"></i> video</a>
-                                                </td>
-                                            </tr>
-                                        </table>-->    
-                                        <h2>Android App</h2>
-                                        <xmp class="margin-bump-up-2">JAVA, Android / Facebook / Twitter SDK's</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>This Android Application will be pending release in the android marketplace shortly. While i did not have control over deviating from the UI / UX used in the iOS version, I built the entire application from scratch. From facebook SDK integration, to Out of Memory Exceptions, I feel comfortable in the space of Android development. Link will be posted upon release.</p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span6" style="margin-left:0px;" id="w">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <h2>LotHopper</h2>
-                                        <xmp class="margin-bump-up-2">PHP Laravel, PostgresSQL=>PostGis, Leaflet</xmp>
-                                        <br>
-                                        <div class="margin-bump-up">
-                                            <p>
-                                                The true record of 'who owns what' property, is still managed at the county level. Typically this data (taxlot data) is managed offline, by GIS specialists. My online software 'LotHopper', utilizes translation layers to standardize a single interface to display taxlot data from any county, regardless of the data's schema. I then created an intuitive interface to explore and query this data. Currently you can search by many parameters, joins of those parameters, and drawn polygon. By utilizing a map server (broken out as a service from the main application) I can create rich spatial queries against county data that exceeds that of what county websites provide. As the user interacts and with the application they ultimately can gain fulfillment of their search criteria through reports, that allow print and editing capabilities. 
-
-                                            </p>
-                                        </div>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            <!--start section-->
-                            <div class="span6">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <a href="img/lothopper.png" target="_blank"><img src="img/lothopper.png" /></a>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-                            
-                            <div class="span12" style="margin-left:0px;">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <div class="container-video">
-                                            <iframe src="https://www.youtube.com/embed/AoSA1bqxoKs" frameborder="0" allowfullscreen class="video"></iframe>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div style="clear:both;"></div>
-                            
-                            <h1 class="h1-class-more">Work History</h1>
-                            <!--start section-->
-                            <div class="span12" style="margin-left:0px;" id="h">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                            I have two Bachelor Degrees and a Minor from the University of Oregon. I sport nearly a decade of experience in production based dev environments.<a href="https://docs.google.com/document/d/1kj50qjs0fZMFdcylTQX0W6eROq3TuR2ZI1Ug5xglKi0/edit?usp=sharing" target="_blank" class="btn btn-info btn-mini pull-right">View My Resume on Google Docs</a>
-                                    </div>    
-                                </div>    
-                            </div>
-                            <!--end section-->
-
-                            
-                            <h1 class="h1-class-more">References</h1>
-                            <div style="margin-top:-30px;">Contact Information For References Available Upon Request.</div>
-
-                            <!--start section-->
-                            <div class="span4" style="margin-left:0px;" id="r">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <img src="img/dan.png" class="pull-right img-polaroid">
-                                        <h2>Dan Keith, P.h.D.</h2>
-                                        <div class="">
-                                            CTO - InSilico
+                            </div>    
+                        </div>
+                        <!--end section-->
+                    </div>
+                    <!--start section-->
+                    <div style="clear:both;"></div>
+                    <hr class="hr-custom-4"/>
+                    <div class="span12" id="r" style="margin-left:0px;">
+                        <h2 class="h1-class-more" style="text-align: right;">
+                            > Recomendations: 
+                        </h2>
+                        <div class="span2" style="margin-left:0px;">
+                            <div style="margin-top:0px;">  
+                                <img src="img/brunson.jpg" class="img-rounded">
+                            </div>    
+                        </div>
+                        <div class="span10">
+                            <div>
+                                <div class="well-custom" >
+                                    <p class="custom-quotes">
+                                        <h2>Brunson Moody</h2>
+                                        <div class="recomend-sub-heading">
+                                            - Former Google Software/Site-Reliability engineer, Product Development Manager at Palo Alto Software
                                         </div>   
                                         <br> 
-                                        <div>
-                                            I have worked collaboratively with Dan as his employee and friend for over a year. He is respected in our community and abroad for his breadth of knowledge as a developer, and his love of computer science and mathematics. 
-                                        </div>
-                                         
-                                    </div>    
+                                        <blockquote class="blockquote">
+                                            "Aaron was a Senior full stack developer working on a React/Java/Hibernate/Postgres web application that featured extensive Websocket integration and Responsive styling and layout, and was backed by a RESTful API.<br/><br/>
+
+                                            Aaron specializes in React, Redux, CSS, Webpack, Javascript and frontend integrations. He is a gifted rapid prototyper and moves very fast in the frontend. He implemented several full stack features including a Redis-based, websocketed locking system to keep users from interfering with shared resources by pushing lock statuses out to connected users.<br/><br/>
+
+                                            Aaron is fun to work with (he planned a ski trip for our team.) He is respectful and considerate of his coworkers. Despite his skills and accomplishments, he is also humble, he enjoys mentoring others in his strengths, he takes feedback well and he loves to learn new stuff.<br/><br/>
+
+                                            I would gladly work with Aaron again." <br/><br/>
+                                        </blockquote>
+                                    </p>         
                                 </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <img src="img/geoff.png" class="pull-right img img-polaroid">
-                                        <h2>Geoff Miller</h2>
-                                        <div class="">
-                                            Owner - Genius Media Solutions
-                                        </div>    
+                            </div>    
+                        </div>
+                        <!--start section-->
+                        <div class="span2" style="margin-left:0px;">
+                            <div style="margin-top:0px;">  
+                                <img src="img/jon.jpg" class="img-rounded">
+                            </div>    
+                        </div>
+                        <div class="span10">
+                            <div>
+                                <div class="well-custom" >
+                                    <p class="custom-quotes">
+                                        <h2>Johnathan Curry</h2>
+                                        <div class="recomend-sub-heading">
+                                            - CEO at Ointt Inc., collaborated on projects during my time at Insilico LLC. 
+                                        </div>   
                                         <br> 
-                                        <div>
-                                            I have known Geoff Miller for over two years, and we co-owned and operated <a href="http://www.geniusmediasolutions.com" target="_blank">www.geniusmediasolutions.com</a> for one. We have grown a company together, generated clientele, and completed and deployed a myriad of projects online.
-                                        </div>
-                                    </div>    
+                                        <blockquote class="blockquote">
+                                            "Aaron is naturally intelligent and is fearless when it comes to tackling a problem scope, new technology, or asking any and all questions he needs to be successful. His willingness to identify and challenge assumptions when necessary invites refreshing opportunities for innovation. He works hard, prototypes like a beast, and thinks like a business owner. He plays well with others and his humility combined with his savvy makes for very productive group work sessions.<br/><br/>
+
+                                            Challenge his mind, listen to his feedback, tap into his creative business savvy and you will have one engaged coding machine that gives results."<br/><br/>
+                                        </blockquote>
+                                    </p>         
                                 </div>    
-                            </div>
-                            <div class="span4">
-                                <div>
-                                    <div class="well-custom" style="color:white;">
-                                        <img src="img/ben.png" class="pull-right img img-polaroid">
+                            </div>    
+                        </div>
+                        <!--start section-->
+                        <div class="span2" style="margin-left:0px;">
+                            <div style="margin-top:0px;">  
+                                <img src="img/ben.jpg" class="img-rounded">
+                            </div>    
+                        </div>
+                        <div class="span10">
+                            <div>
+                                <div class="well-custom" >
+                                    <p class="custom-quotes">
                                         <h2>Ben Hickman</h2>
-                                        <div class="">
-                                            Lead Graphic Designer at RKS Design
-                                        </div>    
+                                        <div class="recomend-sub-heading">
+                                            - Senior UI / UX manager at Pluto TV
+                                        </div>   
                                         <br> 
-                                        <div>
-                                            Ben has been one of my closest friends for over a decade, and currently manages a team out of Los Angeles. In his role at RKS design, Ben has asked me to deliver, quote, and spec special projects that have trickled through his company over the years. 
-                                        </div>
-                                    </div>    
+                                        <blockquote class="blockquote">
+                                            "When our client's developer fell though at the last second we contacted Aaron. He is a fantastic find, certainly an expert, but also professional and personal."<br/><br/>
+                                        </blockquote>
+                                    </p>         
                                 </div>    
-                            </div>
-                            <!--end section-->
-                            <h1>&nbsp;</h1>
-                                
-                       
-                      </div>
-
-                   </div> 
-
-                </div>
-                 <div class="my-doge-container">
-                <img src="http://dogecoin.com/imgs/doge.png" class="my-doge">
-                <div class="my-bubble">
-                    <blockquote class="triangle-isosceles left">
-                        <p>This page is responsive! Resize the browser to check it out.<br/> Much Wow!</p>
-                    </blockquote>
-                </div>
+                            </div>    
+                        </div>
+                        <!--start section-->
+                        <div class="span2" style="margin-left:0px;">
+                            <div style="margin-top:0px;">  
+                                <img src="img/doug.jpg" class="img-rounded">
+                            </div>    
+                        </div>
+                        <div class="span10">
+                            <div>
+                                <div class="well-custom" >
+                                    <p class="custom-quotes">
+                                        <h2>Doug Yook</h2>
+                                        <div class="recomend-sub-heading">
+                                            - CEO Insilico, LLC
+                                        </div>   
+                                        <br> 
+                                        <blockquote class="blockquote">
+                                            "It was my great pleasure to have Aaron work for us as web developer. He rose to the challenge of every task and new technology that we threw at him. He is dllegent, concientious, curious and multitalented. 
+                                            <br/><br/>
+                                            He has a keen sence for business, marketing, design and has great client relation skills. Aaron would be a great asset for any development team."<br/><br/>
+                                        </blockquote>
+                                    </p>         
+                                </div>    
+                            </div>    
+                        </div>
+                        <!--end section-->
+                    </div>
+                    <!--end section-->
+                    <div style="clear:both;"></div>
+                    <hr class="hr-custom-4" />
+                    <!--start section-->
+                    <div class="span12" id="eh" style="margin-left:0px;">
+                        <h2 class="h1-class-more" style="text-align: right;">
+                            > Employment History: 
+                        </h2>
+                        <!--start section-->
+                        <div class="span4" style="margin-left:0px;" id="r">
+                            <div>
+                                <div class="well-custom" >
+                                    <img src="img/pas.png" class="pull-right img-polaroid">
+                                    <h2>Palo Alto Software</h2>
+                                    <div class="">
+                                        Software Engineer<br/>
+                                        2014 - Feb 2018 <span class="recomend-sub-heading">[ 3 yrs ]</span>
+                                    </div>   
+                                    <br> 
+                                    <div>
+                                        New feature development and bugfix work on both of Palo Alto Software's flagship products: LivePlan (award winning business planning software) and Outpost (collaborative email management software).
+                                    </div>
+                                     
+                                </div>    
+                            </div>    
+                        </div>
+                        <div class="span4">
+                            <div>
+                                <div class="well-custom" >
+                                    <img src="img/Insilico.png" class="pull-right img img-polaroid">
+                                    <h2>Insilico</h2>
+                                    <div class="">
+                                        Software Engineer / Biz Dev<br/>
+                                        Feb 2013 - Sep 2014 <span class="recomend-sub-heading">[ 1 yr 8 mos ]</span>
+                                    </div>    
+                                    <br> 
+                                    <div>
+                                        Worked closely with small development team to delever on conract projects and internal development projects. Collaborated to impliment deliverables in multiple tech stacks and languages, as well as onboarding new clients. 
+                                    </div>
+                                </div>    
+                            </div>    
+                        </div>
+                        <div class="span4">
+                            <div>
+                                <div class="well-custom" >
+                                    <img src="img/genius.jpg" class="pull-right img img-polaroid">
+                                    <h2>Genius Media Solutions</h2>
+                                    <div class="">
+                                        Co-owner / Developer / Designer<br/> 
+                                        Mar 2010 - Jan 2012 <span class="recomend-sub-heading">[ 1 yr 11 mos ]</span>
+                                    </div>    
+                                    <br> 
+                                    <div>
+                                        Started small company marketing quality web based services to the Eugene business population, and grew our client base through networking in the downtown are and the chamber of commerce.
+                                    </div>
+                                </div>    
+                            </div>    
+                        </div>
+                        <!--end section-->
+                    </div>
+                    <!--end section-->
+                    <div style="clear:both;"></div>
+                    <hr class="hr-custom-4" />
+                    <!--start section-->
+                    <div class="span12" id="e" style="margin-left:0px;">
+                        <h2 class="h1-class-more" style="text-align: right;">
+                            > Education: 
+                        </h2>
+                        <!--start section-->
+                        <div class="span4" style="margin-left:0px;" id="r">
+                            <div>
+                                <div class="well-custom" >
+                                    <img src="img/uo.png" class="pull-right img-polaroid">
+                                    <h2>University of Oregon</h2>
+                                    <div class="">
+                                        Bachelor of Science (B.S.)<br/>
+                                        Digital Arts <span class="recomend-sub-heading">2003 - 2008</span>
+                                    </div>   
+                                    <br> 
+                                    <div>
+                                        Focus on interactive design using actionscript and microprocessors for interactive installation work. UI / UX related design work. Web development, client work began during this time.  
+                                    </div>
+                                     
+                                </div>    
+                            </div>    
+                        </div>
+                        <div class="span4" style="margin-left:0px;" id="r">
+                            <div>
+                                <div class="well-custom" >
+                                    <img src="img/uo.png" class="pull-right img-polaroid">
+                                    <h2>University of Oregon</h2>
+                                    <div class="">
+                                        Bachelor of Science (B.S.)<br/>
+                                        Advertising / Journalsim <span class="recomend-sub-heading">2003 - 2008</span>
+                                    </div>   
+                                    <br> 
+                                    <div>
+                                        Focus on sales based design and copy writting extending to all forms and mediums including print, web, radio, etc. Course work emphasized real world implementations of said strategies including work for Honda.
+                                    </div>
+                                     
+                                </div>    
+                            </div>    
+                        </div>
+                        <div class="span4" style="margin-left:0px;" id="r">
+                            <div>
+                                <div class="well-custom" >
+                                    <img src="img/uo.png" class="pull-right img-polaroid">
+                                    <h2>University of Oregon</h2>
+                                    <div class="">
+                                        Minor<br/>
+                                        Business Admin. and Management <span class="recomend-sub-heading">2003 - 2008</span>
+                                    </div>   
+                                    <br> 
+                                    <div>
+                                        Focus on interactive design using actionscript and microprocessors for interactive installation work. UI / UX related design work. Web development, client work began during this time.  
+                                    </div>
+                                     
+                                </div>    
+                            </div>    
+                        </div>
+                        <!--end section-->
+                    </div>
+                    <!--start section-->
+                    <div style="clear:both;"></div>
+                    <hr class="hr-custom-4"/>
+                    <hr class="hr-custom-4"/>
+                    <div class="span12" style="margin-left:0px;">
+                        <div class="span2" style="margin-left:0px;">
+                            <div style="margin-top:0px;">  
+                                <img src="img/quote.jpeg" class="img-rounded">
+                            </div>    
+                        </div>
+                        <div class="span10">
+                            <div>
+                                <p class="custom-quotes">
+                                    <h1>"The shape and solutions of the future rely totally on the collective effort of people working together. We are all an integral part of the web of life."</h1>
+                                    <h2 class="recomend-sub-heading">-Jacque Fresco</h2>
+                                </p>      
+                            </div>    
+                        </div>
+                    </div>    
+                    <!--end section-->
+                    <div style="clear:both"/>
+                    <hr class="hr-custom-4"/>
+                    <div class="pull-right">
+                        Easter Egg: <span class="back-control" data-target="0">[bg lines]</span>
+                        <span class="back-control" data-target="1">[bg bubbles]</span> 
+                        <span class="back-control" data-target="2">[bg stars]</span><br/>
+                        Hint: click background for a good time.  
+                    </div>
+                    <hr class="hr-custom-4"/>
+                  </div>
+               </div> 
             </div>
-               <!--end section-->
-               <div style="background-color:black;">
-                <br><br>
-                <table style="margin-right:20px;" class="pull-right">
-                    <tr>
-                        <td>
-                           &nbsp;541-653-0973
-                        </td>
-                        <td>
-                            &nbsp;&nbsp;
-                        </td>
-                        <td>
-                            &nbsp;CHATEAUCONCEPT@GMAIL.COM
-                        </td>
-                    </tr>  
-                </table>
-                <br><br>
-                </div>
-             
-            </div> 
-            <!-- main container -->
-
-            <div style="clear:both;"></div>
-            
-            
-        </div> <!-- container-fluid -->
-        <!--<script src="bootstrap/js/jquery-1.7.2.min.js"></script>-->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="jquery/backstretch.js"></script>
-        <script src="jquery/helper.js"></script>
-        <script src="jquery/pro-bars.js"></script>
-        <script src="jquery/visible.min.js"></script>
-        <script src="jquery/smoothscroll.js"></script>
-        
-       
+           <!--end section-->
+        </div> 
+        <!-- main container -->
+        <div style="clear:both;"></div>
+    </div> <!-- container-fluid -->
+    <div class="footer">
+        <table style="margin-right:20px;" class="pull-right">
+            <tr>
+                <td>
+                   &nbsp;541-653-0973
+                </td>
+                <td>
+                    &nbsp;&nbsp;
+                </td>
+                <td>
+                    &nbsp;CHATEAUCONCEPT@GMAIL.COM
+                </td>
+            </tr>  
+        </table>
+    </div>
+    <!--<script src="bootstrap/js/jquery-1.7.2.min.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="jquery/backstretch.js"></script>
+    <script src="jquery/helper.js"></script>
+    <script src="jquery/pro-bars.js"></script>
+    <script src="jquery/visible.min.js"></script>
+    <script src="jquery/smoothscroll.js"></script>
+    <script src="http://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"/></script>
     </body>
-
 </html>
