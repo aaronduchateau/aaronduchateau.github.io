@@ -142,6 +142,15 @@ body {
   border-bottom: 0px;
 }
 
+.hr-custom-5 {
+  clear:both;
+  margin:20px;
+  height:0px;
+  border: 0;
+  border-top: 0px;
+  border-bottom: 0px;
+}
+
 .semi-backer {
   background-color:rgba(0,0,0,0.85);
 }
@@ -154,9 +163,23 @@ body {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  -webkit-box-shadow: 0 1px 10px rgba(0,0,0,0.1);
-  -moz-box-shadow:  0 1px 10px rgba(0,0,0,0.1);
-  box-shadow: 0 1px 10px rgba(255,255,255,1);
+  
+  -webkit-box-shadow: -1px 2px 41px 40px rgba(255,255,255,1);
+  -moz-box-shadow: -1px 2px 41px 40px rgba(255,255,255,1);
+  box-shadow: -1px 2px 41px 40px rgba(255,255,255,1);
+}
+
+.nuke-box-shadow {
+  -webkit-box-shadow: -1px 2px 41px 40px rgba(255,255,255,0) !important;
+  -moz-box-shadow: -1px 2px 41px 40px rgba(255,255,255,0) !important;
+  box-shadow: -1px 2px 41px 40px rgba(255,255,255,0) !important;
+}
+
+.well-custom-2 {
+  -webkit-box-shadow: -1px 2px 19px -6px rgba(255,255,255,1);
+  -moz-box-shadow: -1px 2px 19px -6px rgba(255,255,255,1);
+  box-shadow: -1px 2px 19px -6px rgba(255,255,255,1);
+  min-height: 240px;
 }
 
 .image-over {
@@ -167,12 +190,26 @@ body {
   box-shadow: 0 1px 60px rgba(255,255,255,1);
 }
 
+.small-cust-img {
+  margin-top: 11px;
+  margin-right: 5px;
+}
+
+.image-margin {
+  margin-top: -12px;
+
+}
+
 .inner-div-yellow {
   color:black;
 }
 
 img {
   border-radius: 4px;
+}
+
+.img-margin {
+  margin-top: 23px;
 }
 
 .recomend-sub-heading {
@@ -205,13 +242,20 @@ img {
 		width:1150px;
 		//height:570px;
 		margin:0 auto;
-	}
+  }
+  
 }
 
 @media (max-width: 1000px) {
 	.my-doge-container {
 		display:none;
-	}
+  }
+  #legalGPS {
+    display: none;
+  }
+  .faces_hide {
+    display: none;
+  }
 }
 
 
@@ -227,7 +271,7 @@ img {
 	margin-left: 0px; 
 	margin-bottom: 10px; 
 	margin-right: 15px;
-	margin-top: 40px;
+  margin-top: 40px;
 }
 
 .img-class {
@@ -372,11 +416,144 @@ img {
 
 .custom-quotes {
   quotes:'\201D' '\201C';
+  font-size: 18px; 
+  line-height: 20px;
+}
+
+.testi .blockquote {
+  font-size: 18px !important; 
+  line-height: 20px !important;
+  min-height: 180px;
 }
 
 img.img-rounded {
   border-radius: 50%;
 }
+
+.guts {
+  position: relative;
+  color: #3a3a3a;
+}
+.guts:before {
+  content: '\201C';
+  color: #81bedb;
+  font-size: 350px;
+  font-weight: 700;
+  opacity: .3;
+  position: absolute;
+  top: 150px;
+  left: 40px;    
+  text-shadow: none;
+  z-index: 0;
+  font-family: 'Times New Roman', Times, serif;
+}
+.testimonial-name {
+  color: #5e5e5e;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 1px white;
+  margin-left: 10px;
+}
+
+.testimonial-holder {
+  background-color: #81bedb;
+  padding: 5px;
+  margin-top: -14px;
+  border-radius: 3px;
+}
+.blockquote-sp {
+  border-left: 0px;
+}
+
+b {
+  color: black !important;
+}
+
+.last-decade {
+  background-color: #81bedb;
+  padding: 10px;
+  margin-top: -14px;
+  border-radius: 3px;
+  line-height: 42px;
+  color: white;
+}
+
+.work-desc-copy {
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.work-desc {
+  font-size: 20px;
+  line-height: 20px;
+  //padding-left:20px;
+}
+
+.well-cust-shadow-right {
+  -webkit-box-shadow: 38px 2px 31px 22px rgba(255,255,255,1) !important;
+  -moz-box-shadow: 38px 2px 31px 22px rgba(255,255,255,1) !important;
+  box-shadow: 38px 2px 31px 22px rgba(255,255,255,1) !important;
+}
+
+.bullet-b4 {
+  position: relative;
+  color: #3a3a3a;
+  display: block;
+  margin-left: 10px;
+}
+.bullet-b4:before {
+  content: '>';
+  color: #81bedb;
+  font-size: 29px;
+  font-weight: 800;
+  opacity: .9;
+  position: absolute;
+  top: 2px;
+  left: -24px;    
+  text-shadow: none;
+  z-index: 0;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.bullet-b4-title {
+  color: #81bedb;
+  font-size: 24px;
+
+}
+
+.test-holder-cust{
+  margin-left: -20px;
+  margin-top: -10px !important;
+  margin-top: 0px;
+}
+.test-cust{
+  padding-left: 5px;
+  line-height: 45px;
+  font-size: 35px;
+}
+.test-cust a {
+  color: black !important;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px; height: 0; overflow: hidden;
+}
+  
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+  
+
 
 
 
