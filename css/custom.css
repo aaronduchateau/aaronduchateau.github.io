@@ -422,7 +422,8 @@ img {
 
 .testi .blockquote {
   font-size: 18px !important; 
-  line-height: 20px !important;
+  color: #7b7b7b;
+  line-height: 36px !important;
   min-height: 180px;
 }
 
@@ -432,7 +433,8 @@ img.img-rounded {
 
 .guts {
   position: relative;
-  color: #3a3a3a;
+  color: #7b7b7b;
+  line-height: 26px;
 }
 .guts:before {
   content: '\201C';
@@ -481,8 +483,9 @@ b {
 }
 
 .work-desc-copy {
-  font-size: 20px;
-  line-height: 20px;
+  font-size: 16px;
+  line-height: 36px;
+  color: #7b7b7b;
 }
 
 .work-desc {
@@ -499,9 +502,10 @@ b {
 
 .bullet-b4 {
   position: relative;
-  color: #3a3a3a;
+  color: #7b7b7b;
   display: block;
   margin-left: 10px;
+  line-height: 36px;
 }
 .bullet-b4:before {
   content: '>';
