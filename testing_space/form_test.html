@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submit a Request</title>
+    <script src="https://cdn.jsdelivr.net/npm/motion@latest/dist/motion.js"></script>
+    <script>
+      const { animate, scroll, stagger, press } = Motion;
+    </script>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        margin: 0;
+        background-color: #f4f4f4;
+        color: #333;
+      }
+      input, textarea {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      }
+
+      header {
+        padding: 20px 40px;
+        border-bottom: 1px solid #ddd;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #28da9b;
+      }
+
+      .nav-links a {
+        margin-left: 20px;
+        text-decoration: none;
+        color: #cccccc;
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      .search-bar {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 4px 8px;
+        width: 180px;
+        opacity: .5;
+      }
+
+      .search-bar span {
+        color: #666;
+        margin-right: 8px;
+        font-size: 16px;
+        opacity: .5;
+      }
+
+      .search-bar input[type="text"] {
+        border: none;
+        padding: 4px;
+        width: 100%;
+        background: transparent;
+        font-size: 16px;
+        border: 0px;
+        margin-bottom: 0px;
+      }
+
+      .search-bar input:focus {
+        outline: none;
+      }
+
+      .main {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 40px;
+        gap: 40px;
+        justify-content: center;
+      }
+
+      .form-container {
+        flex: 1 1 500px;
+        max-width: 600px;
+      }
+
+      .help-text {
+        flex: 1 1 300px;
+        max-width: 500px;
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #666;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 10px;
+        text-align: center;
+      }
+
+      .card-container-steps label,
+      form label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        margin-top: 20px;
+      }
+
+      input[type="email"],
+      input[type="text"],
+      select,
+      form textarea,
+      .card-container-steps textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+
+      form textarea {
+        height: 150px;
+        resize: vertical;
+      }
+      textarea:disabled {
+        background-color: #f8f8f8;
+      }
+      textarea:disabled::placeholder {
+        color: #b0b0b0;
+      }
+      .card-container-steps textarea {
+        height: 80px;
+        resize: vertical;
+      }
+      .attachment {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: #0073e6;
+        font-size: 0.95rem;
+        background: rgba(255, 255, 255, 0.3); /* semi-transparent background */
+        backdrop-filter: blur(10px); /* applies blur to what's behind */
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      button {
+        background-color: #0073e6;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        height: 50px;
+      }
+
+      footer {
+        margin-top: 40px;
+        padding: 20px 40px;
+        background-color: #f8f8f8;
+        border-top: 1px solid #ddd;
+        text-align: center;
+        font-size: 0.85rem;
+        color: #999;
+      }
+      /* Card Container */
+      .card-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 40px;
+      }
+
+      /* Card Styles */
+      .card {
+        width: 100%;
+        height: 150px;
+        min-height: 150px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
+
+      .box {
+        width: 50px;
+        height: 50px;
+        background-color: white;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #4ff0b7;
+        margin: 20px;
+      }
+
+      .box:focus-visible {
+        outline: 2px solid #4ff0b7;
+        outline-offset: 2px;
+      }
+
+      .card.active-card .box {
+        /* Add any styles you want for the active card state */
+
+        background-color: #4ff0b7;
+        /* or any other visual indicator */
+      }
+      .fixed-height {
+        height: 170px;
+      }
+      .fixed-height-0 {
+        height: 0px;
+      }
+
+      @media (max-width: 768px) {
+        .main {
+          flex-direction: column;
+          padding: 0px;
+        }
+        .help-text {
+          display: none;
+        }
+        .nav-links {
+          display: none;
+        }
+
+      }
+      .collapsed {
+        z-index: -3;
+      }
+      .form-container-elements-row {
+        opacity: 0;
+      }
+      .form-container-elements,
+      .card-container-steps {
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+      .swoop {
+        opacity: 0.01;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20800%20600'%3E%3Cpath%20d='M0%20600%20Q250%20400%20700%20200%20Q770%20170%20800%20160%20L800%20600%20Z'%20fill='%2300b36b'/%3E%3Cpath%20d='M0%20600%20Q300%20420%20750%20250%20Q790%20230%20800%20220%20L800%20600%20Z'%20fill='%230077b6'%20opacity='0.85'/%3E%3C/svg%3E")
+          no-repeat bottom left;
+        background-size: cover;
+        z-index: -10;
+      }
+      .yes-no-title,
+      .account-id-title,
+      .department-title {
+        font-size: 20px;
+        font-weight: bold;
+        padding-left: 40px;
+        padding-top: 10px;
+        opacity: 1;
+      }
+
+      .card-container-yes-no-options,
+      .card-container-account-id-options,
+      .card-container-department-options {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding: 40px;
+      }
+
+      .card-container-account-id-options input,
+      .card-container-department-options select {
+        margin-bottom: 0px;
+      }
+      .form-container-elements-row-1,
+      .form-container-elements-row-2,
+      .form-container-elements-row-3,
+      .form-container-elements-row-4 {
+        opacity: 0;
+      }
+      .fade-out {
+        opacity: 0 !important;
+        transition: opacity 0.5s ease-out;
+      }
+      .card-container-steps {
+        position: relative;
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+
+      .card-container-steps::before,
+      .form-container-elements-row-4:not(:last-child)::after {
+        display: none;
+      }
+
+      .card-container-steps.visible::before {
+        content: '';
+        position: absolute;
+        left: 48px;
+        top: 20px;
+        bottom: 0;
+        width: 4px;
+        background-color: #ccc;
+        z-index: -1;
+        display: block;
+      }
+
+      .form-container-elements-row-4 {
+        position: relative;
+      }
+
+      .card-container-steps.visible .form-container-elements-row-4:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        left: 48px;
+        top: 50%;
+        width: 2px;
+        height: 20px;
+        background-color: #ccc;
+        z-index: -1;
+        display: block;
+      }
+
+      .number-holder {
+        display: block;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        background-color: #ccc;
+        text-align: center;
+        line-height: 30px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        margin-left: 10px;
+      }
+      .explanation-card {
+        background-color: #f4f4f4;
+        padding: 16px;
+        border-radius: 0px;
+        background: rgba(255, 255, 255, 0.3); /* semi-transparent background */
+        backdrop-filter: blur(10px); /* applies blur to what's behind */
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .explanation-card h4 {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .explanation-card p {
+        font-size: 14px;
+        margin-bottom: 0;
+        font-weight: 200;
+      }
+      .explanation-card-check {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        opacity: 0;
+        display: none; /* Initially hidden */
+        transition: opacity 1s ease-in-out;
+        width: 100%;
+        min-width: 100%;
+      }
+      .explanation-card-final {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      .fade-in {
+        display: flex;
+        opacity: 1;
+      }
+
+      .explanation-card-check div {
+        color: #28da9b;
+        font-size: 28px;
+        padding: 8px;
+        opacity: .3;
+      }
+      .explanation-card-check p {
+        text-align: left;
+        display: block;
+      }
+      .steps-add {
+        background-color: #ccc;
+        transition: background-color 0.3s ease;
+      }
+      .steps-add:hover {
+        background-color: #4ff0b7 !important;
+      }
+      .support-articles-container {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: white;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+      }
+      .support-article {
+        padding: 12px 16px;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        transition: background-color 0.2s ease;
+      }
+      .support-article:hover {
+        background-color: #f5f5f5;
+      }
+      .support-article:last-child {
+        border-bottom: none;
+      }
+      .subject-container {
+        position: relative;
+      }
+      .internal-output-final-container {
+        display: block;
+        padding: 10px;
+        background-color: #f4f4f4;
+        border-radius: 4px;
+        margin: 10px;
+        border: 1px solid #ccc;
+      }
+      .internal-output-final-container-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+      .internal-output-final-container-body {
+        margin-bottom: 5px;
+        font-size: 16px;
+        font-weight: normal;
+      }
+      .internal-output-final-container-body div {
+        padding: 4px;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+      .engineering-only {
+        background-color: #e2e1e1;
+      }
+      .explanation-card-final-container {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">SupportExample</div>
+      <div class="nav-links">
+        <a href="#">Community</a>
+        <a href="#">Submit a request</a>
+        <a href="#">Sign in</a>
+      </div>
+      <div class="search-bar">
+        <span>&#128270;</span>
+        <input type="text" placeholder="Search" />
+      </div>
+    </header>
+
+    <div class="main">
+      <div class="form-container">
+        <div class="card-container">
+          <div class="card" id="card1" data-id="0">
+            <div class="box"></div>
+            <span>I have a Question</span>
+          </div>
+          <div class="card" id="card2" data-id="1">
+            <div class="box"></div>
+            <span>I have a Comment</span>
+          </div>
+          <div class="card" id="card3" data-id="2">
+            <div class="box"></div>
+            <span>I have a Problem</span>
+          </div>
+        </div>
+        <div class="card-container-yes-no">
+          <div class="yes-no-title form-container-elements-row-1">
+            Are you an Existing Customer?
+          </div>
+          <div
+            class="card-container-yes-no-options form-container-elements-row-1"
+          >
+            <div class="card" id="card1" data-id="1">
+              <div class="box"></div>
+              <span>Yes</span>
+            </div>
+            <div class="card" id="card2" data-id="0">
+              <div class="box"></div>
+              <span>No</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-container-account-id">
+          <div class="account-id-title form-container-elements-row-2">
+            What is your account ID?
+          </div>
+          <div
+            class="card-container-account-id-options form-container-elements-row-2"
+          >
+            <input type="text" id="account-id" required />
+            <button type="submit" id="account-id-continue">Continue</button>
+          </div>
+        </div>
+        <div class="card-container-department">
+          <div class="department-title form-container-elements-row-3" id="department-title">
+            What does the problem involve?
+          </div>
+          <div
+            class="card-container-department-options form-container-elements-row-3"
+          >
+            <select id="department" required>
+              <option value="no problem - sales" class="no-problem-option">Sales</option>
+              <option value="no problem - product" class="no-problem-option">Product</option>
+              <option value="no problem - billing" class="no-problem-option">Billing</option>
+              <option value="problem - product - admin area" class="problem-option">My Admin area</option>
+              <option value="problem - product - customer site - frontend" class="problem-option">My Customer Facing Website</option>
+              <option value="problem - product - customer site - admin" class="problem-option">My Customer's admin area</option>
+              <option value="problem - product - billing" class="problem-option">Billing - technical issue</option>
+              <option value="problem - sales - billing" class="problem-option">Billing - charge issue</option>
+              <option value="problem - other" class="other-option">All / Other</option>
+            </select>
+            <button type="submit" id="department-continue">Continue</button>
+          </div>
+        </div>
+        <div class="card-container-steps">
+          <div class="form-standard">
+            <div class="form-container-elements-row-4" id="demo-input-to-keep">
+              <label for="step-1"><div class="number-holder">1</div></label>
+              <textarea
+                type="email"
+                id="step-1"
+                placeholder="I log into my account at 123.com..."
+              ></textarea>
+            </div>
+            <div class="form-container-elements-row-4 demo-input-to-remove">
+              <label for="step-1"><div class="number-holder">2</div></label>
+              <textarea
+                type="email"
+                id="step-2"
+                placeholder="I navigate to the example page..."
+                disabled
+              ></textarea>
+            </div>
+            <div class="form-container-elements-row-4 demo-input-to-remove">
+              <label for="step-1"><div class="number-holder">3</div></label>
+              <textarea
+                type="email"
+                id="step-3"
+                placeholder="There is an error that says..."
+                disabled
+              ></textarea>
+            </div>
+
+            <div
+              class="form-container-elements-row-4"
+              style="display: flex; justify-content: space-between; gap: 10px"
+            >
+              <span>
+                <button
+                  type="submit"
+                  class="steps-add action-button"
+                  disabled
+                >
+                  + Add Step
+                </button>
+                &nbsp;
+                <button
+                  type="submit"
+                  style="background-color: #ccc"
+                  class="steps-continue action-button"
+                >
+                  Skip
+                </button>
+              </span>
+              <button type="submit" class="steps-continue action-button" id="steps-continue">Continue</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-container-elements">
+          <form class="form-standard form-standard-final" id="form-standard-final">
+            <div class="form-container-elements-row">
+              <label for="email">Your email address*</label>
+              <input type="email" id="email" required />
+            </div>
+
+            <div class="form-container-elements-row">
+              <label for="subject">Subject*</label>
+              <div class="subject-container">
+                <input type="text" id="subject" required />
+                <div class="support-articles-container">
+                  <div class="support-article" data-id="1">How to reset your password</div>
+                  <div class="support-article" data-id="2">Troubleshooting login issues</div>
+                  <div class="support-article" data-id="3">Setting up two-factor authentication</div>
+                  <div class="support-article" data-id="4">Managing account preferences</div>
+                  <div class="support-article" data-id="5">Understanding billing cycles</div>
+                  <div class="support-article" data-id="6">Exporting your data</div>
+                  <div class="support-article" data-id="7">API integration guide</div>
+                  <div class="support-article" data-id="8">Mobile app setup</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-container-elements-row problem-only-row">
+              <label for="priority">Priority*</label>
+              <select id="priority" required>
+                <option value="high">High - Impacts business operations</option>
+                <option value="medium">Medium - Affects productivity</option>
+                <option selected value="low">Low - Inconvenience</option>
+              </select>
+            </div>
+
+            <div class="form-container-elements-row">
+              <label for="description" id="description-title">Brief Summary of the Problem*</label>
+              <textarea id="description" required></textarea>
+            </div>
+
+            <div class="form-container-elements-row problem-only-row">
+              <label for="subject">Video of issue (loom, youtube, etc.)</label>
+              <input type="text" id="video-url" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ"/>
+            </div>
+
+            <div class="form-container-elements-row">
+              <div class="attachment">Choose a file or drag and drop here</div>
+            </div>
+
+            <div class="form-container-elements-row">
+              <div style="display: flex; justify-content: space-between; gap: 10px">
+                <button type="submit" class="action-button" style="background-color: #ccc" onclick="event.preventDefault(); window.location.reload();">Start Over</button>
+                <button type="submit" class="action-button" id="final-submit-button">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="help-text">
+        <div id="explanation-text-1">
+          <h3>Concepts of the demonstration<h3>
+            <div class="explanation-card-initial">
+              <div class="explanation-card">
+                <h4>Avoid Phone tree scenario</h4>
+                <p>
+                  The entire flow (regardless of options selected) stays between 3-5 minutes. The user is not required to log in to create a submission.
+                </p>
+              </div>
+              <div class="explanation-card">
+                <h4>Simple Output</h4>
+                <p>
+                  The final submission is simple. The processed information remains invisible to the user, but is visible to supoport.
+                </p>
+              </div>
+              <div class="explanation-card">
+                <h4>Use motion to tell a story</h4>
+                <p>
+                  By guiding a customer through the submission process, we teach them how to provide support with the best information at the first point of contact. We isolate each part of the flow, as to not overwhelm them.
+                </p>
+              </div>
+              <div class="explanation-card">
+                <h4>Dynamic Interaction</h4>
+                <p>
+                  The information we collect changes based on input. The possibility exists to collect specific 'input driven' recreation steps. This prevents unnecessary recursive interactions with the customer, and invalid ticket submissions.
+                </p>
+              </div>
+            </div>
+            <div class="explanation-card-interum">
+              <div class="explanation-card explanation-card-check" id="question-check-0">
+                <div>&#x2714;</div>
+                <p>
+                  We have identified they have a question, which will affect the next steps.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="question-check-1">
+                <div>&#x2714;</div>
+                <p>
+                  We have identified they have a comment, which will affect the next steps.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="question-check-2">
+                <div>&#x2714;</div>
+                <p>
+                  We have identified they have a problem, which will affect the next steps.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="customer-check-0">
+                <div>&#x2714;</div>
+                <p>
+                  They are not a customer so we will not ask for an account identifier.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="customer-check-1">
+                <div>&#x2714;</div>
+                <p>
+                  They are a customer so we will ask them for an account identifier.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="customer-problem-0">
+                <div>&#x2714;</div>
+                <p>
+                  They are not having a problem so we ask about departments normally.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="customer-problem-1">
+                <div>&#x2714;</div>
+                <p>
+                  They are having a problem so we update the department options to be more specific. We can still determine the department from the list.
+                </p>
+              </div>
+
+              <div class="explanation-card explanation-card-check">
+                <div>&#x2714;</div>
+                <p>
+                  We try to find a direction to point the submission.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="customer-problem-steps">
+                <div>&#x2714;</div>
+                <p>
+                  Since they are having a problem we ask about the steps to recreate the issue. This could potentially be the basis for a ticket without asking for additional information. If the customer wants to skip this step they can do so.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check">
+                <div>&#x2714;</div>
+                <p>
+                  Since this is a problem we will ask for the steps to recreate the issue. This could potentially be the basis for a ticket without asking for additional information.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="submission-check-0">
+                <div>&#x2714;</div>
+                <p>
+                  We point them towards the original submission form.
+                </p>
+              </div>
+              <div class="explanation-card explanation-card-check" id="submission-check-1">
+                <div>&#x2714;</div>
+                <p>
+                  We modify the submission form to include priority and video options.
+                </p>
+              </div>
+            </div>
+            <div class="explanation-card-final-container" id="explanation-card-final-container">
+              <div class="explanation-card explanation-card-final">
+                <p>
+                  from:
+                </p>
+                <h4 id="from-final">Blah Avoid Phone tree scenario</h4>
+              </div>
+              <div class="explanation-card explanation-card-final">
+                <p>
+                  Subject:
+                </p>
+                <h4 id="subject-final">Blah Avoid Phone tree scenario</h4>
+              </div>
+              <div class="explanation-card explanation-card-final">
+                <p>
+                  Body:
+                </p>
+                <h4 id="standard-output-final" style="font-size: 14px; font-weight: bold;">Blah Avoid Phone tree scenario</h4>
+              </div>
+              <div class="explanation-card explanation-card-final" style="display: block;">
+                <div style="display: block;">
+                  <div class="internal-output-final-container">
+                    <div class="internal-output-final-container-title">Internal Notes Only:</div>
+                  <div class="internal-output-final-container-body" id="internal-output-final"">
+                    An example of some long text that we will use to test the layout.
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>&copy; Stuff Goes here — Here is more stuff.</footer>
+    <div class="swoop"></div>
+    <script>
+      let configurationObject = {
+        questionType: null,
+        existingCustomer: null,
+        accountId: null,
+        departmentId: null,
+        steps: [],
+        subject: null,
+        body: null,
+        priority: null,
+        video: null,
+      };
+      const submissionCheck = document.querySelector("#submission-check-0");
+      const submissionCheckModified = document.querySelector("#submission-check-1");
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      document.addEventListener("focusin", (event) => {
+        if (event.target.tagName === "TEXTAREA" && event.target.closest('.card-container-steps')) {
+          // Clear all textarea placeholders
+          document.querySelectorAll("textarea").forEach((textarea) => {
+            textarea.placeholder = "";
+          });
+
+          // If the focused element is in demo-input-to-keep, animate and remove demo inputs
+          if (event.target.closest('#demo-input-to-keep')) {
+            document.querySelectorAll('.demo-input-to-remove').forEach(element => {
+              animate(element, {
+                y: -50,
+                opacity: 0
+              }, {
+                duration: 0.2,
+                onComplete: async() => {
+                  element.remove();
+                  await sleep(1000);
+                  // Wait 1 second before starting button animation
+                  //setTimeout(() => {
+                    // Animate the steps-add button
+                    const stepsAddButton = document.querySelector('.steps-add');
+                    stepsAddButton.disabled = false;
+                    animate(stepsAddButton, {
+                      scale: 1.2,
+                      backgroundColor: '#4ff0b7',
+                      rotate: [0, -5, 5, -5, 5, 0]
+                    }, {
+                      duration: 0.3,
+                      onComplete: async () => {
+                        await sleep(1000);
+                        animate(stepsAddButton, {
+                          scale: 1,
+                          backgroundColor: '#ccc'
+                        }, { duration: 0.3 });
+                      }
+                    });
+                  //}, 700);
+                }
+              });
+            });
+          }
+        }
+      });
+      document.querySelector(".steps-add").addEventListener("click", () => {
+        // Get the last step number
+        const lastStep = document.querySelectorAll(
+          ".form-container-elements-row-4"
+        ).length -1;
+        const newStepNumber = lastStep + 1;
+
+        // Create new step element
+        const newStep = document.createElement("div");
+        newStep.className = "form-container-elements-row-4";
+        newStep.innerHTML = `
+              <label for="step-${newStepNumber}"><div class="number-holder">${newStepNumber}</div></label>
+              <textarea type="email" id="step-${newStepNumber}" placeholder="Describe what happens next..."></textarea>
+          `;
+
+        // Insert before the buttons row
+        const buttonsRow = document.querySelector(
+          ".form-container-elements-row-4:last-child"
+        );
+        buttonsRow.parentNode.insertBefore(newStep, buttonsRow);
+
+        // Animate the new step
+        animate(newStep, { opacity: 1, y: [50, 0] }, { duration: 0.3 });
+      });
+      // Apply motion animation to each card on hover
+      document.querySelectorAll(".card").forEach((card) => {
+        animate(card, { y: 0, opacity: 1 }, { delay: stagger(0.1) });
+        card.addEventListener("mouseenter", () => {
+          if (!configurationObject.questionType) {
+            animate(card, { scale: 1.1 }, { duration: 0.2 });
+          }
+        });
+
+        card.addEventListener("mouseleave", () => {
+          if (!configurationObject.questionType) {
+            animate(card, { scale: 1 }, { duration: 0.2 });
+          }
+        });
+      });
+
+      function initializeCardAnimations() {
+        press(".steps-continue", async (element) => {
+          const cardContainer = document.querySelector(
+            ".card-container-steps"
+          );
+
+          // Collect all step values
+          const stepElements = document.querySelectorAll('.form-container-elements-row-4 textarea');
+          configurationObject.steps = [];
+
+          stepElements.forEach((textarea, index) => {
+            if (textarea.value.trim()) {
+              configurationObject.steps.push({
+                stepNumber: index + 1,
+                description: textarea.value.trim()
+              });
+            }
+          });
+
+          cardContainer.classList.add("fixed-height-0");
+          animate(cardContainer, { y: -740, rotate: 2, zIndex: -10 }, { duration: 0.3, rotate: { duration: 0.2, ease: "anticipate" } });
+          await sleep(300);
+          cardContainer.style.display = "none";
+          submissionCheck.classList.add("fade-in");
+          submissionCheckModified.classList.add("fade-in");
+          animate(
+            ".form-container-elements-row",
+            { opacity: 1, y: [50, 0] },
+            { delay: stagger(0.1) }
+          );
+        });
+
+        press("#department-continue", async (element) => {
+          const cardContainer = document.querySelector(
+            ".card-container-department"
+          );
+          const title = document.querySelector(".department-title");
+          const stepsContainer = document.querySelector(
+            ".card-container-steps"
+          );
+          const departmentSelect = document.getElementById('department');
+
+          // Save both the value and text of the selected department
+          const selectedOption = departmentSelect.options[departmentSelect.selectedIndex];
+          configurationObject.departmentId = `${selectedOption.value}`;
+
+          animate(
+            cardContainer,
+            { y: -240, rotate: 2, zIndex: -10 },
+            {
+              duration: 0.2,
+              rotate: { duration: 0.2, ease: "anticipate" },
+            }
+          );
+          cardContainer.classList.add("fixed-height-0");
+          title.classList.add("fade-out");
+          if (configurationObject.questionType == 2) {
+            const customerProblemSteps = document.querySelector("#customer-problem-steps");
+            customerProblemSteps.classList.add("fade-in");
+            stepsContainer.classList.add("visible");
+            animate(
+              ".form-container-elements-row-4",
+              { opacity: 1, y: [50, 0] },
+              { delay: stagger(0.1) }
+            );
+          } else {
+            stepsContainer.style.display = "none";
+            submissionCheck.classList.add("fade-in");
+            animate(
+              ".form-container-elements-row",
+              { opacity: 1, y: [50, 0] },
+              { delay: stagger(0.1) }
+            );
+          }
+        });
+        press("#account-id-continue", async (element) => {
+          const cardContainer = document.querySelector(
+            ".card-container-account-id"
+          );
+          const title = document.querySelector(".account-id-title");
+          const accountIdInput = document.getElementById('account-id');
+
+          // Save the account ID to the configuration object
+          configurationObject.accountId = accountIdInput.value;
+
+          animate(
+            cardContainer,
+            { y: -230, rotate: -2, zIndex: -10 },
+            {
+              duration: 0.2,
+              rotate: { duration: 0.2, ease: "anticipate" },
+            }
+          );
+          cardContainer.classList.add("fixed-height-0");
+          title.classList.add("fade-out");
+          animate(
+            ".form-container-elements-row-3",
+            { opacity: 1, y: [50, 0] },
+            { delay: stagger(0.1) }
+          );
+        });
+        press(".card-container-yes-no-options .card", async (element) => {
+          const card = element.closest(".card");
+          const cardId = card.dataset.id;
+          const box = element.querySelector(".box");
+          const cardContainer = document.querySelector(
+            ".card-container-yes-no"
+          );
+          const cardContainerAccountId = document.querySelector(
+            ".card-container-account-id"
+          );
+          const title = document.querySelector(".yes-no-title");
+
+          // Remove active class from previous card
+          document
+            .querySelector("card-container-yes-no-options .card.active-card")
+            ?.classList.remove("active-card");
+
+          // Add active class to clicked card
+          card.classList.add("active-card");
+
+          configurationObject.existingCustomer = cardId;
+          const customerCheck = document.querySelector(`#customer-check-${cardId}`);
+          const isHavingProblem = configurationObject.questionType == 2;
+          let problemOptionRemoveClass = isHavingProblem ? '.no-problem-option' : '.problem-option';
+          if(!isHavingProblem) {
+            document.querySelector('#department-title').innerHTML = 'What department are you contacting?';
+            document.querySelector('#description-title').innerHTML = 'Description*';
+            document.querySelectorAll('.problem-only-row').forEach(element => {
+              element.remove();
+            });
+          }
+          // Remove the department options that are not needed
+          document.querySelectorAll(problemOptionRemoveClass).forEach(element => {
+              element.remove();
+            });
+
+          const departmentPreCheck = document.querySelector(`#customer-problem-${(isHavingProblem ? 1 : 0)}`);
+          customerCheck.classList.add("fade-in");
+          departmentPreCheck.classList.add("fade-in");
+
+          // Animate the card box
+          animate(box, { scale: 0.8 }, { type: "spring", stiffness: 1000 });
+
+          await sleep(500);
+
+          if (cardId == 0) {
+            cardContainerAccountId.style.display = "none";
+          }
+
+          animate(
+            cardContainer,
+            { y: -260, rotate: -2, zIndex: -10 },
+            {
+              duration: 0.2,
+              rotate: { duration: 0.2, ease: "anticipate" },
+            }
+          );
+          cardContainer.classList.add("fixed-height-0");
+          title.classList.add("fade-out");
+          animate(
+            ".form-container-elements-row-" + (cardId == 1 ? "2" : "3"),
+            { opacity: 1, y: [50, 0] },
+            { delay: stagger(0.1) }
+          );
+        });
+        press(".card-container .card", async (element) => {
+          const card = element.closest(".card");
+          const cardId = card.dataset.id;
+          const box = element.querySelector(".box");
+          const cardContainer = document.querySelector(".card-container");
+          const explanationCardInitial = document.querySelector(".explanation-card-initial");
+
+          // Remove active class from previous card
+          document
+            .querySelector(".card.active-card")
+            ?.classList.remove("active-card");
+
+          // Add active class to clicked card
+          card.classList.add("active-card");
+
+          // Update active card ID and log it
+          configurationObject.questionType = cardId;
+          const cardQuestionCheck = document.querySelector(`#question-check-${cardId}`);
+
+          // Animate the card box
+          animate(box, { scale: 0.8 }, { type: "spring", stiffness: 1000 });
+          setTimeout(() => {
+            document
+              .querySelectorAll(".card-container .card")
+              .forEach((cardElement) => {
+                let rotateValue = 0;
+                let zIndexValue = 10;
+                if (cardElement.dataset.id !== cardId) {
+                  rotateValue = 2;
+                  zIndexValue = -cardElement.dataset.id;
+                }
+                animate(
+                  cardElement,
+                  {
+                    y: -150 * cardElement.dataset.id,
+                    rotate: rotateValue,
+                    zIndex: zIndexValue,
+                  },
+                  {
+                    duration: 0.2,
+                    rotate: { duration: 0.2, ease: "anticipate" },
+                  }
+                );
+                cardContainer.classList.add("fixed-height");
+              });
+          }, 300);
+
+          await sleep(1000);
+          explanationCardInitial.style.display = "none";
+          cardQuestionCheck.classList.add("fade-in");
+          animate(
+            ".form-container-elements-row-1",
+            { opacity: 1, y: [50, 0] },
+            { delay: stagger(0.1) }
+          );
+
+          return () =>
+            animate(box, { scale: 1 }, { type: "spring", stiffness: 500 });
+        });
+      }
+
+      // Call this function when your component mounts
+      initializeCardAnimations();
+
+      document.querySelectorAll('.action-button').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                animate(card, { scale: 1.15 }, { duration: 0.2 });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                animate(card, { scale: 1 }, { duration: 0.2 });
+            });
+        });
+
+        // Support articles functionality
+        const subjectInput = document.getElementById('subject');
+        const articlesContainer = document.querySelector('.support-articles-container');
+        const articles = document.querySelectorAll('.support-article');
+
+        subjectInput.addEventListener('focus', () => {
+            articlesContainer.style.display = 'block';
+        });
+
+        subjectInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                articlesContainer.style.display = 'none';
+            }, 200);
+        });
+
+        subjectInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            let hasMatches = false;
+
+            articles.forEach(article => {
+                const text = article.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    article.style.display = 'block';
+                    hasMatches = true;
+                } else {
+                    article.style.display = 'none';
+                }
+            });
+
+            articlesContainer.style.display = hasMatches ? 'block' : 'none';
+        });
+
+        articles.forEach(article => {
+            article.addEventListener('click', () => {
+                alert('Support article clicked');
+            });
+        });
+
+        // Form submission handler
+        document.getElementById('form-standard-final').addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent the default form submission
+
+            const form = document.getElementById('form-standard-final');
+
+            // Let the browser handle validation
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // Toggle visibility of explanation containers
+            document.querySelector('.explanation-card-interum').style.display = 'none';
+            document.getElementById('explanation-card-final-container').style.display = 'block';
+
+            // Update configuration object with form values
+            configurationObject.subject = document.getElementById('subject')?.value;
+            configurationObject.body = document.getElementById('description')?.value;
+            configurationObject.priority = document.getElementById('priority')?.value;
+            configurationObject.video = document.getElementById('video-url')?.value; // This seems to be the video input field
+
+            // If validation passes, proceed with submission
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const description = document.getElementById('description').value;
+
+            document.getElementById('from-final').textContent = email;
+            document.getElementById('subject-final').textContent = subject;
+            document.getElementById('standard-output-final').textContent = description;
+
+            // Create internal notes from configuration object
+            const internalNotesContainer = document.getElementById('internal-output-final');
+            internalNotesContainer.innerHTML = ''; // Clear existing content
+
+            // Add question type if present
+            if (configurationObject.questionType !== null) {
+                const questionTypes = ['Question', 'Comment', 'Problem'];
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>Type:</strong> ${questionTypes[configurationObject.questionType]}`;
+
+                // Add customer status to the same div if present
+                if (configurationObject.existingCustomer !== null) {
+                    div.innerHTML += ` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Customer:</strong> ${configurationObject.existingCustomer === '1' ? 'Yes' : 'No'}`;
+                }
+
+                // Add priority to the same div if present
+                if (configurationObject.priority) {
+                    div.innerHTML += ` &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Priority:</strong> ${configurationObject.priority}`;
+                }
+
+                internalNotesContainer.appendChild(div);
+            }
+
+            // Add department if present
+            if (configurationObject.departmentId) {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>Department Routing:</strong><br/> ${configurationObject.departmentId}`;
+                internalNotesContainer.appendChild(div);
+            }
+
+            // Add account ID if present
+            if (configurationObject.accountId) {
+                const div = document.createElement('div');
+                if (configurationObject.questionType == 2) {
+                  div.classList.add('engineering-only');
+                }
+                div.innerHTML = `<strong>Account ID:</strong> ${configurationObject.accountId}`;
+                internalNotesContainer.appendChild(div);
+            }
+
+            // Add description for question mode
+            if (configurationObject.questionType == 2 && configurationObject.body) {
+                const div = document.createElement('div');
+                div.classList.add('engineering-only');
+                div.innerHTML = `<strong>Brief Summary of the Problem:</strong><br/> ${configurationObject.body}`;
+                internalNotesContainer.appendChild(div);
+            } else {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>Description:</strong><br/> ${configurationObject.body}`;
+                internalNotesContainer.appendChild(div);
+            }
+
+            // Add steps if present
+            if (configurationObject.steps && configurationObject.steps.length > 0) {
+                const headerDiv = document.createElement('div');
+                headerDiv.innerHTML = '<strong>Steps to Reproduce:</strong>';
+                headerDiv.classList.add('engineering-only');
+                internalNotesContainer.appendChild(headerDiv);
+
+                configurationObject.steps.forEach(step => {
+                    const div = document.createElement('div');
+                    div.classList.add('engineering-only');
+                    div.innerHTML = `<strong>${step.stepNumber}.</strong> ${step.description}`;
+                    internalNotesContainer.appendChild(div);
+                });
+            }
+
+
+
+            // Add video if present
+            if (configurationObject.video) {
+                const div = document.createElement('div');
+                div.innerHTML = `<strong>Video Reference:</strong> ${configurationObject.video}`;
+                div.classList.add('engineering-only');
+                internalNotesContainer.appendChild(div);
+            }
+            if (configurationObject.questionType == 2) {
+              const div = document.createElement('div');
+              div.innerHTML = `<strong>Recreated in prod:</strong> [ y, n ]`;
+              div.classList.add('engineering-only');
+              internalNotesContainer.appendChild(div);
+            }
+        });
+
+        // Add scroll to top on page refresh
+        window.addEventListener('beforeunload', () => {
+            window.scrollTo(0, 0);
+        });
+    </script>
+  </body>
+</html>
