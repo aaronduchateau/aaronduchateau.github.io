@@ -11,6 +11,15 @@ const SIGNATURE_DRAW_MS = 1600;
 const BOOT_BG = "#0c0c0c";
 const INK = "#e8e4dc";
 
+/** Matches sync boot script + CSS veil in `layout.tsx` / `globals.css`. */
+export const SIGNATURE_BOOTING_CLASS = "signature-booting";
+/**
+ * Set when theme tokens are applied and the plate may lift — reveals
+ * `.theme-boot-shell` under the still-opaque splash so the fade shows the
+ * correct theme (not a cyberpunk flash).
+ */
+export const THEME_BOOT_READY_CLASS = "theme-boot-ready";
+
 type Props = {
   /** Theme tokens applied and engine hydrate finished. */
   themeReady: boolean;
@@ -21,6 +30,10 @@ type Props = {
  * Full-viewport boot plate: muted black + canvas cursive signature.
  * Stays until the theme underneath is ready and the signature has finished
  * (at least {@link SIGNATURE_BOOT_MIN_MS}).
+ *
+ * Full reload: `html.signature-booting` (sync script) hides `.theme-boot-shell`
+ * until {@link THEME_BOOT_READY_CLASS}, so SSR default theme never paints.
+ * SPA theme switches never set those classes — transitions stay instant.
  *
  * Never mounts on `/component-preview/` (catalog iframes).
  */
@@ -39,11 +52,14 @@ export function SignatureBootSplash({ themeReady, onDismissed }: Props) {
       isComponentPreviewPath() ||
       document.documentElement.dataset.componentPreview === "1";
     if (preview) {
-      document.documentElement.classList.remove("signature-booting");
+      document.documentElement.classList.remove(
+        SIGNATURE_BOOTING_CLASS,
+        THEME_BOOT_READY_CLASS,
+      );
       setMode("skip");
       return;
     }
-    document.documentElement.classList.add("signature-booting");
+    document.documentElement.classList.add(SIGNATURE_BOOTING_CLASS);
     setMode("boot");
   }, []);
 
@@ -174,7 +190,8 @@ export function SignatureBootSplash({ themeReady, onDismissed }: Props) {
       cancelled = true;
       window.cancelAnimationFrame(raf);
       window.removeEventListener("resize", onResize);
-      document.documentElement.classList.remove("signature-booting");
+      // Do not strip signature-booting here — that class also veils .theme-boot-shell
+      // until THEME_BOOT_READY_CLASS. Clearing it mid-draw would flash the shell.
     };
   }, [mode, gone]);
 
@@ -182,9 +199,14 @@ export function SignatureBootSplash({ themeReady, onDismissed }: Props) {
     if (mode !== "boot" || gone || dismissedRef.current) return;
     if (!(themeReady && signatureDone && minElapsed)) return;
     dismissedRef.current = true;
+    // Reveal hydrated theme under the plate, then fade the plate away.
+    document.documentElement.classList.add(THEME_BOOT_READY_CLASS);
     setFading(true);
     const t = window.setTimeout(() => {
-      document.documentElement.classList.remove("signature-booting");
+      document.documentElement.classList.remove(
+        SIGNATURE_BOOTING_CLASS,
+        THEME_BOOT_READY_CLASS,
+      );
       setGone(true);
       onDismissed?.();
     }, 420);

@@ -69,19 +69,22 @@ export default function RootLayout({
     >
       <body className="font-sans antialiased">
         {/*
-          Sync before paint: real pages get the signature plate class; catalog
-          iframes (/component-preview/) must never sit under a black boot plate.
+          Before first paint (full reload only):
+          - nearly-black stage via signature-booting
+          - .theme-boot-shell stays visibility:hidden until theme-boot-ready
+          Catalog iframes skip this so previews paint immediately.
         */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "(function(){var p=location.pathname||'';if(p.indexOf('/component-preview')!==0){document.documentElement.classList.add('signature-booting');}})();",
+              "(function(){var p=location.pathname||'';if(p.indexOf('/component-preview')===0)return;document.documentElement.classList.add('signature-booting');})();",
           }}
         />
         <style
           dangerouslySetInnerHTML={{
             __html:
-              "html.signature-booting,html.signature-booting body{background-color:#0c0c0c!important}",
+              "html.signature-booting,html.signature-booting body{background-color:#0c0c0c!important}" +
+              "html.signature-booting:not(.theme-boot-ready) .theme-boot-shell{visibility:hidden!important;pointer-events:none!important}",
           }}
         />
         <ThemeProvider>

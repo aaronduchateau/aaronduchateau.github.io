@@ -17,6 +17,8 @@ type Props = {
   ready: boolean;
   status: TestimonialSpeechStatus;
   phase?: TestimonialSpeechPhase;
+  /** Idle + manual open: short nudge so the play control is noticed. */
+  attractPlay?: boolean;
   onToggle: () => void;
 };
 
@@ -28,6 +30,7 @@ export function TestimonialSpeechFooter({
   ready,
   status,
   phase = "reading",
+  attractPlay = false,
   onToggle,
 }: Props) {
   const givenName = testimonialFirstName(name);
@@ -36,6 +39,11 @@ export function TestimonialSpeechFooter({
   const loading = !ready;
   const showPlay = loading || supported;
   const canToggle = ready && supported;
+  const playMotionClass = loading
+    ? " theme-testimonial-play--loading"
+    : attractPlay
+      ? " theme-testimonial-play--attract"
+      : "";
 
   const identity = (
     <>
@@ -49,10 +57,7 @@ export function TestimonialSpeechFooter({
         />
       </div>
       {showPlay ? (
-        <span
-          className={`${playCircleClass}${loading ? " theme-testimonial-play--loading" : ""}`}
-          aria-hidden
-        >
+        <span className={`${playCircleClass}${playMotionClass}`} aria-hidden>
           {playing ? (
             <VideoPauseIcon className="h-4 w-4" />
           ) : (

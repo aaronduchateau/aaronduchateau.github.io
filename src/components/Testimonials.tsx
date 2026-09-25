@@ -79,6 +79,7 @@ function TestimonialLetterDialog({
   onTouchStart,
   onTouchEnd,
   speech,
+  hideIdleQuote,
 }: {
   letter: Testimonial;
   titleId: string;
@@ -88,8 +89,11 @@ function TestimonialLetterDialog({
   onTouchStart: (event: React.TouchEvent) => void;
   onTouchEnd: (event: React.TouchEvent) => void;
   speech: ReturnType<typeof useTestimonialSpeech>;
+  /** Learn-more autoplay: keep letter text hidden until playback takes over. */
+  hideIdleQuote: boolean;
 }) {
   const karaoke = speech.status !== "idle";
+  const showQuote = !karaoke && !hideIdleQuote;
   const sentence = speech.sentences[speech.sentenceIndex] ?? speech.sentences[0] ?? null;
 
   return (
@@ -129,9 +133,9 @@ function TestimonialLetterDialog({
       <div className="relative mt-4 min-h-0 flex-1 sm:mt-5">
         <div
           className={`absolute inset-0 space-y-4 overflow-y-auto overscroll-contain pr-1 transition-opacity duration-300 ${
-            karaoke ? "pointer-events-none opacity-0" : "opacity-100"
+            showQuote ? "opacity-100" : "pointer-events-none opacity-0"
           }`}
-          aria-hidden={karaoke}
+          aria-hidden={!showQuote}
         >
           {testimonialParagraphs(letter.quote).map((paragraph, i) => (
             <p key={i} className="text-sm leading-relaxed text-surface-300">
@@ -191,6 +195,7 @@ function TestimonialModalPanel({
   const speech = useTestimonialSpeech(letter, { onPlaybackComplete });
   const playback = speech.status !== "idle";
   const autoPlayStartedRef = useRef(false);
+  const { contentWindowOpenDurationMs } = useTheme();
   const { ready: speechReady, supported: speechSupported, status: speechStatus, toggle: speechToggle, stop: speechStop } =
     speech;
 
@@ -203,15 +208,43 @@ function TestimonialModalPanel({
     autoPlayStartedRef.current = false;
   }, [letter.id]);
 
+  /**
+   * Deep-link / Learn more autoplay must wait until the modal-launch transform
+   * finishes. Measuring the intro swoop during scale-in misaligns the portrait
+   * with the coin slot (works after Back because the shell is already settled).
+   */
   useEffect(() => {
     if (!autoPlay || autoPlayStartedRef.current) return;
     if (!speechReady || !speechSupported) return;
     if (speechStatus !== "idle") return;
-    autoPlayStartedRef.current = true;
-    onAutoPlayConsumed();
-    speechToggle();
+
+    let cancelled = false;
+    let raf1 = 0;
+    let raf2 = 0;
+    const launchMs = Math.max(0, contentWindowOpenDurationMs);
+
+    const start = () => {
+      if (cancelled || autoPlayStartedRef.current) return;
+      autoPlayStartedRef.current = true;
+      onAutoPlayConsumed();
+      speechToggle();
+    };
+
+    const timer = window.setTimeout(() => {
+      raf1 = window.requestAnimationFrame(() => {
+        raf2 = window.requestAnimationFrame(start);
+      });
+    }, launchMs);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timer);
+      window.cancelAnimationFrame(raf1);
+      window.cancelAnimationFrame(raf2);
+    };
   }, [
     autoPlay,
+    contentWindowOpenDurationMs,
     onAutoPlayConsumed,
     speechReady,
     speechStatus,
@@ -261,6 +294,7 @@ function TestimonialModalPanel({
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
           speech={speech}
+          hideIdleQuote={Boolean(autoPlay && speechSupported && speechStatus === "idle")}
         />
 
         <button
@@ -280,6 +314,7 @@ function TestimonialModalPanel({
         ready={speech.ready}
         status={speech.status}
         phase={speech.phase}
+        attractPlay={!autoPlay && speechStatus === "idle"}
         onToggle={speech.toggle}
       />
     </div>

@@ -57,7 +57,7 @@ function ComponentPreviewEmbed() {
 
   useEffect(() => {
     document.documentElement.classList.add("component-preview-embed");
-    document.documentElement.classList.remove("signature-booting");
+    document.documentElement.classList.remove("signature-booting", "theme-boot-ready");
     return () => {
       document.documentElement.classList.remove("component-preview-embed");
     };

@@ -8,7 +8,7 @@ import { useLayoutEffect, type ReactNode } from "react";
  */
 export function ComponentPreviewShell({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
-    document.documentElement.classList.remove("signature-booting");
+    document.documentElement.classList.remove("signature-booting", "theme-boot-ready");
     document.documentElement.dataset.componentPreview = "1";
     return () => {
       delete document.documentElement.dataset.componentPreview;
@@ -20,7 +20,7 @@ export function ComponentPreviewShell({ children }: { children: ReactNode }) {
       <script
         dangerouslySetInnerHTML={{
           __html:
-            "document.documentElement.classList.remove('signature-booting');document.documentElement.dataset.componentPreview='1';",
+            "document.documentElement.classList.remove('signature-booting','theme-boot-ready');document.documentElement.dataset.componentPreview='1';",
         }}
       />
       {children}

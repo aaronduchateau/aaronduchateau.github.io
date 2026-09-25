@@ -93,12 +93,22 @@ body {
 }
 
 /*
-  Signature boot plate — covers theme hydrate glitches on full reload.
-  `html.signature-booting` is toggled by SignatureBootSplash.
+  Signature boot — full-reload only (sync script in root layout).
+
+  1. `signature-booting` — nearly-black stage + hide `.theme-boot-shell` so the
+     SSR default theme never paints before hydrate.
+  2. `theme-boot-ready` — shell may show under the still-opaque React splash
+     (correct theme already applied); splash then fades out.
+  3. Both classes removed after fade — SPA theme changes stay instant.
 */
 html.signature-booting,
 html.signature-booting body {
   background-color: #0c0c0c !important;
+}
+
+html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .signature-boot-splash {
@@ -5058,14 +5068,43 @@ button.theme-quest-view-unlock {
   }
 }
 
+/* Manual open: a couple of pops so the play control is hard to miss. */
+@keyframes theme-testimonial-play-attract {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(var(--accent-300) / 0);
+  }
+  35% {
+    transform: scale(1.14);
+    box-shadow: 0 0 0 10px rgb(var(--accent-300) / 0.22);
+  }
+  55% {
+    transform: scale(0.96);
+    box-shadow: 0 0 0 2px rgb(var(--accent-300) / 0.08);
+  }
+  75% {
+    transform: scale(1.1);
+    box-shadow: 0 0 0 7px rgb(var(--accent-300) / 0.16);
+  }
+}
+
 .theme-testimonial-play--loading {
   animation: theme-testimonial-play-pulse 1.05s ease-in-out infinite;
+}
+
+.theme-testimonial-play--attract {
+  animation: theme-testimonial-play-attract 0.85s ease-in-out 0.35s 2 both;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .theme-testimonial-play--loading {
     animation: none;
     opacity: 0.72;
+  }
+
+  .theme-testimonial-play--attract {
+    animation: none;
   }
 }
 

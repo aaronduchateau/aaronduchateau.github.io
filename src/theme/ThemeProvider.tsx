@@ -621,7 +621,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   return (
     <ThemeContext.Provider value={value}>
       <SignatureBootSplash themeReady={ready} />
-      {children}
+      {/*
+        Veiled by `html.signature-booting:not(.theme-boot-ready)` on full reload.
+        Unrelated to SPA theme switches — those never set the boot classes.
+      */}
+      <div className="theme-boot-shell">{children}</div>
     </ThemeContext.Provider>
   );
 }

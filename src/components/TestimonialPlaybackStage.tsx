@@ -57,30 +57,56 @@ export function TestimonialPlaybackStage({
       setSwoopReadyFor(null);
       return;
     }
-    const spacer = spacerRef.current;
-    const portrait = portraitRef.current;
-    const slot = slotRef.current;
-    const stage = stageRef.current;
-    if (!spacer || !portrait || !slot || !stage) return;
-    const hold = spacer.getBoundingClientRect();
-    const dest = slot.getBoundingClientRect();
-    const origin = stage.getBoundingClientRect();
-    const lift = window.matchMedia("(min-width: 640px)").matches ? 48 : 0;
-    const holdTop = hold.top - lift;
-    portrait.style.setProperty("--intro-hold-top", `${holdTop - origin.top}px`);
-    portrait.style.setProperty("--intro-hold-left", `${hold.left - origin.left}px`);
-    portrait.style.setProperty("--intro-hold-size", `${hold.width}px`);
-    portrait.style.setProperty("--intro-swoop-x", `${dest.left - hold.left}px`);
-    portrait.style.setProperty("--intro-swoop-y", `${dest.top - holdTop}px`);
-    portrait.style.setProperty("--intro-swoop-scale", `${dest.width / hold.width}`);
-    const emerge = coinEmergeRef.current;
-    if (emerge) {
-      const fromX = hold.left + hold.width / 2 - (dest.left + dest.width / 2);
-      const fromY = holdTop + hold.width / 2 - (dest.top + dest.height / 2);
-      emerge.style.setProperty("--intro-coin-from-x", `${fromX}px`);
-      emerge.style.setProperty("--intro-coin-from-y", `${fromY}px`);
-    }
-    setSwoopReadyFor(letterId);
+
+    let cancelled = false;
+    let attempts = 0;
+    let raf = 0;
+
+    const applyMeasure = () => {
+      if (cancelled) return;
+      const spacer = spacerRef.current;
+      const portrait = portraitRef.current;
+      const slot = slotRef.current;
+      const stage = stageRef.current;
+      if (!spacer || !portrait || !slot || !stage) {
+        if (attempts++ < 45) raf = window.requestAnimationFrame(applyMeasure);
+        return;
+      }
+      const hold = spacer.getBoundingClientRect();
+      const dest = slot.getBoundingClientRect();
+      const origin = stage.getBoundingClientRect();
+      // Modal still launching / not laid out yet — wait for real geometry.
+      if (hold.width < 8 || dest.width < 8 || origin.width < 8) {
+        if (attempts++ < 45) raf = window.requestAnimationFrame(applyMeasure);
+        return;
+      }
+      const lift = window.matchMedia("(min-width: 640px)").matches ? 48 : 0;
+      const holdTop = hold.top - lift;
+      portrait.style.setProperty("--intro-hold-top", `${holdTop - origin.top}px`);
+      portrait.style.setProperty("--intro-hold-left", `${hold.left - origin.left}px`);
+      portrait.style.setProperty("--intro-hold-size", `${hold.width}px`);
+      portrait.style.setProperty("--intro-swoop-x", `${dest.left - hold.left}px`);
+      portrait.style.setProperty("--intro-swoop-y", `${dest.top - holdTop}px`);
+      portrait.style.setProperty("--intro-swoop-scale", `${dest.width / hold.width}`);
+      const emerge = coinEmergeRef.current;
+      if (emerge) {
+        const fromX = hold.left + hold.width / 2 - (dest.left + dest.width / 2);
+        const fromY = holdTop + hold.width / 2 - (dest.top + dest.height / 2);
+        emerge.style.setProperty("--intro-coin-from-x", `${fromX}px`);
+        emerge.style.setProperty("--intro-coin-from-y", `${fromY}px`);
+      }
+      setSwoopReadyFor(letterId);
+    };
+
+    // Two frames after bounce so flex/modal layout can settle before we lock CSS vars.
+    raf = window.requestAnimationFrame(() => {
+      raf = window.requestAnimationFrame(applyMeasure);
+    });
+
+    return () => {
+      cancelled = true;
+      window.cancelAnimationFrame(raf);
+    };
   }, [bounce, letterId, givenName, title]);
 
   useTestimonialIntroMedia({
