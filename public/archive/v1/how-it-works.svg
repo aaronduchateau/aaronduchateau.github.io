@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="How the classic archive web component is isolated">
+  <rect width="960" height="540" fill="#0b1220"/>
+  <rect x="32" y="32" width="896" height="476" rx="16" fill="#111827" stroke="#334155" stroke-width="2"/>
+  <text x="56" y="78" fill="#67e8f9" font-family="ui-monospace, Menlo, monospace" font-size="14" letter-spacing="2">V2 HOST PAGE</text>
+  <text x="56" y="108" fill="#e2e8f0" font-family="Georgia, serif" font-size="28">React portfolio shell</text>
+  <text x="56" y="138" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="16">Themes, nav, Options ’ Site archive · V1</text>
+
+  <rect x="56" y="176" width="848" height="292" rx="14" fill="#020617" stroke="#22d3ee" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="80" y="214" fill="#67e8f9" font-family="ui-monospace, Menlo, monospace" font-size="13" letter-spacing="2">CLOSED SHADOW ROOT</text>
+  <text x="80" y="248" fill="#f8fafc" font-family="Georgia, serif" font-size="24">&lt;legacy-portfolio-archive&gt;</text>
+  <text x="80" y="280" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="15">Fetches /archive/v1/document.html · scopes Bootstrap + custom.css</text>
+
+  <rect x="80" y="304" width="360" height="120" rx="10" fill="#0f172a" stroke="#475569"/>
+  <text x="100" y="340" fill="#fbbf24" font-family="ui-monospace, Menlo, monospace" font-size="12">SEPARATE ROOT ON DISK</text>
+  <text x="100" y="368" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="15">public/archive/v1/</text>
+  <text x="100" y="394" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="14">index.html · document.html · WC</text>
+
+  <rect x="468" y="304" width="400" height="120" rx="10" fill="#0f172a" stroke="#475569"/>
+  <text x="488" y="340" fill="#a78bfa" font-family="ui-monospace, Menlo, monospace" font-size="12">PORT RULES</text>
+  <text x="488" y="368" fill="#e2e8f0" font-family="Helvetica, Arial, sans-serif" font-size="15">Keep markup, CSS, YouTube embeds</text>
+  <text x="488" y="394" fill="#94a3b8" font-family="Helvetica, Arial, sans-serif" font-size="14">Photos ’ placeholders only</text>
+</svg>

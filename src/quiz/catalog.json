@@ -1,0 +1,299 @@
+{
+  "quizzes": [
+    {
+      "id": "quiz-caveman",
+      "title": "Portfolio Power",
+      "description": "A short check that you actually looked around. Miss fewer than three and the caveman card is yours.",
+      "maxWrong": 2,
+      "questions": [
+        {
+          "id": "q-ride",
+          "title": "What was Aaron’s favorite thing to ride?",
+          "choices": [
+            { "id": "a", "label": "A horse" },
+            { "id": "b", "label": "A penguin" },
+            { "id": "c", "label": "A motorcycle" },
+            { "id": "d", "label": "A unicorn" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q1",
+          "title": "What is the Aaron game?",
+          "description": "Think about the easter-egg board intro.",
+          "choices": [
+            { "id": "a", "label": "A separate app you download after the visit" },
+            { "id": "b", "label": "Interact with Aaron’s site to unlock cards and features" },
+            { "id": "c", "label": "A high-score list of other people’s portfolios" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-tomato",
+          "title": "Did Aaron ever grow a tomato bigger than his hand?",
+          "choices": [
+            { "id": "a", "label": "True" },
+            { "id": "b", "label": "False" }
+          ],
+          "answerId": "a"
+        },
+        {
+          "id": "q-table",
+          "title": "The table Aaron made from scratch features which of the following?",
+          "choices": [
+            { "id": "a", "label": "An antique paperclip" },
+            { "id": "b", "label": "A jewel" },
+            { "id": "c", "label": "Downtown" },
+            { "id": "d", "label": "A coin" }
+          ],
+          "answerId": "d"
+        },
+        {
+          "id": "q5",
+          "title": "Under Options in the top menu, what does 'My Events' show?",
+          "choices": [
+            { "id": "a", "label": "Aaron’s client invoices" },
+            { "id": "b", "label": "Your activity log and points" },
+            { "id": "c", "label": "A live sports ticker" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-salad",
+          "title": "Who invented robot salad?",
+          "choices": [
+            { "id": "a", "label": "A NASA cafeteria intern" },
+            { "id": "b", "label": "Aaron" },
+            { "id": "c", "label": "The Legal GPS® attorneys" },
+            { "id": "d", "label": "A food cart in downtown Eugene" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-cat",
+          "title": "Why is the picture of the cat funny?",
+          "choices": [
+            { "id": "a", "label": "The cat is wearing Aaron’s motorcycle helmet" },
+            { "id": "b", "label": "He’s eating improperly from a tray designed to help him not bend his neck" },
+            { "id": "c", "label": "He photobombed a career-timeline screenshot" },
+            { "id": "d", "label": "He’s judging the photo-critique heatmap" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q4",
+          "title": "How do Score tier cards unlock?",
+          "choices": [
+            { "id": "a", "label": "When your interaction score hits the listed threshold" },
+            { "id": "b", "label": "Only if you click every nav link twice" },
+            { "id": "c", "label": "They unlock automatically on first page load" }
+          ],
+          "answerId": "a"
+        },
+        {
+          "id": "q-degrees",
+          "title": "How many degrees does Aaron have?",
+          "description": "Two finished programs, plus one he left halfway through.",
+          "choices": [
+            { "id": "a", "label": "One" },
+            { "id": "b", "label": "Two and a half" },
+            { "id": "c", "label": "Four" },
+            { "id": "d", "label": "None — he traded them for trading cards" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-bike",
+          "title": "What was Aaron’s primary concern after he crashed his mountain bike?",
+          "choices": [
+            { "id": "a", "label": "He might have a broken bone" },
+            { "id": "b", "label": "He might have broken the bike" },
+            { "id": "c", "label": "He ripped his girlfriend’s CamelBak" },
+            { "id": "d", "label": "He was late to a ShareFile demo" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q2",
+          "title": "Where do you change the look of the whole site?",
+          "choices": [
+            { "id": "a", "label": "Options (or the intro character picker)" },
+            { "id": "b", "label": "The career timeline pause control" },
+            { "id": "c", "label": "The ShareFile order portal" }
+          ],
+          "answerId": "a"
+        },
+        {
+          "id": "q-company",
+          "title": "What is the name of the first company Aaron co-owned?",
+          "choices": [
+            { "id": "a", "label": "LotHoppers" },
+            { "id": "b", "label": "Pulp Clothing" },
+            { "id": "c", "label": "Genius Media Solutions" },
+            { "id": "d", "label": "Deal Brewer" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q-shirt",
+          "title": "What T-shirt was Aaron’s best seller when he was a graphic designer for Pulp Clothing?",
+          "choices": [
+            { "id": "a", "label": "The unicycle giraffe" },
+            { "id": "b", "label": "The Beach Bod Storm Trooper" },
+            { "id": "c", "label": "The Skurttle — a hybrid of a skated turtle" },
+            { "id": "d", "label": "A disco platypus" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q3",
+          "title": "What does the interactive Photo critique do?",
+          "choices": [
+            { "id": "a", "label": "Uploads the image to a remote server for grading" },
+            { "id": "b", "label": "Prepares a markdown prompt to improve a photo that you can submit to AI (before AI is involved)" },
+            { "id": "c", "label": "Prints a résumé PDF" },
+            { "id": "d", "label": "Automatically posts the photo to LinkedIn" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-software",
+          "title": "What kind of software has Aaron not made?",
+          "choices": [
+            { "id": "a", "label": "A ShareFile order portal for document delivery" },
+            { "id": "b", "label": "LotHoppers parcel search" },
+            { "id": "c", "label": "Software that tracks the location of people who did not get the covid shot" },
+            { "id": "d", "label": "Deal Brewer location-based deals" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q6",
+          "title": "Trading cards on the board appear when…",
+          "choices": [
+            { "id": "a", "label": "You finish the matching quest or score tier" },
+            { "id": "b", "label": "You hover the card on the list" },
+            { "id": "c", "label": "You mute all site sounds" }
+          ],
+          "answerId": "a"
+        },
+        {
+          "id": "q-astronaut",
+          "title": "What is above the Filipino woman walking her dog?",
+          "choices": [
+            { "id": "a", "label": "A weather balloon" },
+            { "id": "b", "label": "An astronaut" },
+            { "id": "c", "label": "A hang glider" },
+            { "id": "d", "label": "A satellite dish" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-dragon",
+          "title": "What was the name of Aaron’s third-gen Camaro?",
+          "choices": [
+            { "id": "a", "label": "The phoenix" },
+            { "id": "b", "label": "The kraken" },
+            { "id": "c", "label": "The dragon" },
+            { "id": "d", "label": "The golem" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q-reindeer",
+          "title": "There is a dog cast as another animal. What is that animal?",
+          "choices": [
+            { "id": "a", "label": "A moose" },
+            { "id": "b", "label": "A llama" },
+            { "id": "c", "label": "An elk" },
+            { "id": "d", "label": "A reindeer" }
+          ],
+          "answerId": "d"
+        },
+        {
+          "id": "q-build",
+          "title": "Which of the following physical building projects has Aaron not taken on?",
+          "choices": [
+            { "id": "a", "label": "A deck" },
+            { "id": "b", "label": "Flooring" },
+            { "id": "c", "label": "Built-in cabinetry" },
+            { "id": "d", "label": "A backyard swimming pool" }
+          ],
+          "answerId": "d"
+        },
+        {
+          "id": "q-nonprofit",
+          "title": "What kind of work has Aaron done with nonprofits?",
+          "description": "Check all that apply.",
+          "type": "multi",
+          "choices": [
+            { "id": "a", "label": "Hack for a Cause event judge" },
+            { "id": "b", "label": "Content management system for Connected Lane County" },
+            { "id": "c", "label": "A donor portal for Doctors Without Borders" },
+            { "id": "d", "label": "Volunteer-shift software for Habitat for Humanity" }
+          ],
+          "answerIds": ["a", "b"]
+        },
+        {
+          "id": "q-rodman",
+          "title": "What is on the back of the Filipino boy’s shirt when touring the islands?",
+          "choices": [
+            { "id": "a", "label": "Michael Jordan" },
+            { "id": "b", "label": "Denis Rodman" },
+            { "id": "c", "label": "Shaquille O’Neal" },
+            { "id": "d", "label": "Larry Bird" }
+          ],
+          "answerId": "b"
+        },
+        {
+          "id": "q-explore",
+          "title": "Where has Aaron been able to explore?",
+          "description": "Check all that apply.",
+          "type": "multi",
+          "choices": [
+            { "id": "a", "label": "Portugal" },
+            { "id": "b", "label": "Philippines" },
+            { "id": "c", "label": "Belize" },
+            { "id": "d", "label": "Puerto Rico" },
+            { "id": "e", "label": "Antarctica" }
+          ],
+          "answerIds": ["a", "b", "c", "d"]
+        },
+        {
+          "id": "q-cliff",
+          "title": "Has Aaron ever committed to the Hidden Lakes cliff jump?",
+          "choices": [
+            { "id": "a", "label": "True" },
+            { "id": "b", "label": "False" }
+          ],
+          "answerId": "a"
+        },
+        {
+          "id": "q-paint",
+          "title": "What is Aaron’s favorite painting medium?",
+          "choices": [
+            { "id": "a", "label": "Oil" },
+            { "id": "b", "label": "Watercolor" },
+            { "id": "c", "label": "Acrylic" },
+            { "id": "d", "label": "Gouache" }
+          ],
+          "answerId": "c"
+        },
+        {
+          "id": "q-employed-software",
+          "title": "When employed by others, what kind of software has Aaron made?",
+          "description": "Check all that apply.",
+          "type": "multi",
+          "choices": [
+            { "id": "a", "label": "Legal Planning Software" },
+            { "id": "b", "label": "Business Planning Software" },
+            { "id": "c", "label": "Real Estate software" },
+            { "id": "d", "label": "Airline booking software" },
+            { "id": "e", "label": "Hospital staffing software" }
+          ],
+          "answerIds": ["a", "b", "c"]
+        }
+      ]
+    }
+  ]
+}

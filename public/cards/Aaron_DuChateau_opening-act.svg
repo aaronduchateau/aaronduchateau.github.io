@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 180" role="img" aria-label="Opening Act card">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="130" height="180" rx="10" fill="url(#bg)" stroke="#fbbf24" stroke-width="2"/>
+  <rect x="10" y="12" width="110" height="90" rx="6" fill="#020617" stroke="#334155"/>
+  <text x="65" y="68" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="11">Placeholder</text>
+  <text x="65" y="125" text-anchor="middle" fill="#fde68a" font-family="system-ui,sans-serif" font-size="12" font-weight="700">Opening Act</text>
+  <text x="65" y="148" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="9">Trading card</text>
+</svg>

@@ -1,0 +1,18 @@
+---
+description: Prefer unrestricted agent behavior for this workspace (IDE); minimize approval/sandbox friction for builds and terminals
+alwaysApply: true
+---
+
+# Agent execution preferences (this workspace)
+
+The maintainer **mainly uses Cursor IDE** and **prefers an unrestricted-style agent experience for this repo**: fewer approval loops, fewer blocked terminal runs, and builds that behave like a normal local shell.
+
+## For the agent
+
+- When running **`npm run build`**, **`npx tsc`**, **`npm install`**, or anything that **recreates `out/`** or touches many files, **request `required_permissions: ["all"]` up front** if the environment has shown sandbox `EPERM` / spawn issues on `out`—don’t wait for a failed retry.
+- For **long-running preview servers**, start in the background once; avoid duplicate listeners on the same port.
+- Do **not** treat “user must click Allow” as the happy path; choose tool permissions so commands are likely to succeed on the first run when policy allows.
+
+## For the maintainer (IDE)
+
+This rule **reminds the model** of your preference; it does **not** change Cursor’s global approval UI. To match that preference in the app: **Settings → search** `agent`, `auto run`, `approve`, or `sandbox` and enable less restrictive / auto-run options you are comfortable with for **trusted** copies of this project.

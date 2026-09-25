@@ -1,0 +1,18 @@
+---
+description: Video work modals — height from video/fixed chrome; left copy scrolls independently
+alwaysApply: true
+---
+
+# Video modal layout (Featured work / YouTube sections)
+
+When implementing or changing **video modals** that pair a **left text column** with a **right YouTube embed** (e.g. [`src/components/YouTubeCardSection.tsx`](src/components/YouTubeCardSection.tsx)):
+
+## Height rule
+
+- The **modal shell and video column** (plus fixed header: close, date badge, “Video context” + title + short intro) should **define the overall height** of the modal body — use a **bounded viewport height** (e.g. `h-[min(86dvh,820px)] max-h-[90dvh]`) so layout does not grow with long copy.
+- The **long description** must live in a **separate region** with **`min-h-0`**, **`flex-1`** (when applicable), and **`overflow-y-auto`** / **`overscroll-contain`**, so it **scrolls independently** without stretching the modal or the video.
+- Do **not** let unconstrained left-column content set the row height ahead of the video; use **`min-h-0`** on flex/grid children so the scroll region can shrink. Use **`overflow-y-auto`** only on the long-copy scrollport—not **`overflow-hidden`** on a wrapper that also contains a **display-font title** (Outfit / `font-display`), or descenders can clip; prefer **`overflow-x-hidden`** on the text column shell, **`shrink-0`** on card titles in flex columns, and **padding below the intro** before the scroll divider.
+
+## Embed
+
+- Prefer **`youtube-nocookie.com`** plus query params that reduce on-player chrome where supported (`modestbranding`, `iv_load_policy`, etc.). Fully chromeless YouTube iframes are not reliably supported without a custom player; keep standard controls for accessibility.

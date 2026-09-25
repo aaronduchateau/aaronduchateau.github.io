@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NPM Audit Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+ :root {
+ --bg: #f4f6f9;
+ --surface: #ffffff;
+ --text: #1a1a2e;
+ --text-secondary: #555;
+ --border: #e0e0e0;
+ --critical: #d32f2f;
+ --critical-bg: #fdecea;
+ --high: #e65100;
+ --high-bg: #fff3e0;
+ --moderate: #f9a825;
+ --moderate-bg: #fffde7;
+ --low: #1565c0;
+ --low-bg: #e3f2fd;
+ --info: #78909c;
+ --info-bg: #eceff1;
+ --accent: #1976d2;
+ --accent-light: #e3f2fd;
+ --success: #2e7d32;
+ --shadow: 0 2px 8px rgba(0,0,0,0.08);
+ --radius: 10px;
+ }
+
+ * { box-sizing: border-box; margin: 0; padding: 0; }
+
+ body {
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+ background: var(--bg);
+ color: var(--text);
+ line-height: 1.6;
+ padding: 0;
+ }
+
+ header {
+ background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+ color: white;
+ padding: 28px 40px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ flex-wrap: wrap;
+ gap: 12px;
+ }
+ header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+ header .subtitle { font-size: 14px; opacity: 0.75; margin-top: 2px; }
+ header .run-id { font-size: 12px; opacity: 0.5; font-family: monospace; }
+
+ .container { max-width: 1400px; margin: 0 auto; padding: 24px 28px; }
+
+ .risk-statement {
+ background: var(--critical-bg);
+ border-left: 5px solid var(--critical);
+ padding: 18px 24px;
+ border-radius: var(--radius);
+ margin-bottom: 24px;
+ font-size: 15px;
+ line-height: 1.7;
+ }
+ .risk-statement strong { color: var(--critical); }
+
+ .kpi-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+ gap: 18px;
+ margin-bottom: 28px;
+ }
+ .kpi-card {
+ background: var(--surface);
+ border-radius: var(--radius);
+ padding: 22px 24px;
+ box-shadow: var(--shadow);
+ text-align: center;
+ border-top: 4px solid var(--accent);
+ transition: transform 0.15s;
+ }
+ .kpi-card:hover { transform: translateY(-2px); }
+ .kpi-card.critical { border-top-color: var(--critical); }
+ .kpi-card.high { border-top-color: var(--high); }
+ .kpi-card.moderate { border-top-color: var(--moderate); }
+ .kpi-card.low { border-top-color: var(--low); }
+ .kpi-card .value { font-size: 38px; font-weight: 800; line-height: 1.1; }
+ .kpi-card .label { font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+
+ .severity-bar-container { margin-bottom: 28px; }
+ .severity-bar-container h3 { margin-bottom: 10px; font-size: 15px; }
+ .severity-bar {
+ display: flex;
+ height: 32px;
+ border-radius: 6px;
+ overflow: hidden;
+ box-shadow: var(--shadow);
+ }
+ .severity-bar .seg {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ color: white;
+ font-size: 12px;
+ font-weight: 700;
+ min-width: 32px;
+ transition: flex 0.3s;
+ }
+ .severity-bar .seg.critical { background: var(--critical); }
+ .severity-bar .seg.high { background: var(--high); }
+ .severity-bar .seg.moderate { background: var(--moderate); }
+ .severity-bar .seg.low { background: var(--low); }
+ .severity-bar .seg.info { background: var(--info); }
+
+ .severity-legend {
+ display: flex;
+ gap: 20px;
+ margin-top: 10px;
+ flex-wrap: wrap;
+ }
+ .severity-legend .item { display: flex; align-items: center; gap: 6px; font-size: 13px; }
+ .severity-legend .dot { width: 12px; height: 12px; border-radius: 50%; }
+
+ .section {
+ background: var(--surface);
+ border-radius: var(--radius);
+ box-shadow: var(--shadow);
+ padding: 24px 28px;
+ margin-bottom: 28px;
+ }
+ .section h2 {
+ font-size: 19px;
+ font-weight: 700;
+ margin-bottom: 18px;
+ padding-bottom: 10px;
+ border-bottom: 2px solid var(--bg);
+ }
+
+ .charts-grid {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 24px;
+ margin-bottom: 28px;
+ }
+ @media (max-width: 900px) { .charts-grid { grid-template-columns: 1fr; } }
+ .chart-box {
+ background: var(--surface);
+ border-radius: var(--radius);
+ box-shadow: var(--shadow);
+ padding: 24px;
+ }
+ .chart-box h3 { font-size: 16px; margin-bottom: 14px; }
+ .chart-box canvas { max-height: 300px; }
+
+ table { width: 100%; border-collapse: collapse; font-size: 14px; }
+ th {
+ text-align: left;
+ padding: 10px 12px;
+ background: var(--bg);
+ font-weight: 600;
+ font-size: 12px;
+ text-transform: uppercase;
+ letter-spacing: 0.5px;
+ color: var(--text-secondary);
+ border-bottom: 2px solid var(--border);
+ white-space: nowrap;
+ cursor: pointer;
+ user-select: none;
+ position: sticky;
+ top: 0;
+ z-index: 1;
+ }
+ th:hover { color: var(--accent); }
+ td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+ tr:hover td { background: var(--accent-light); }
+
+ .badge {
+ display: inline-block;
+ padding: 3px 10px;
+ border-radius: 12px;
+ font-size: 11px;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.3px;
+ }
+ .badge.critical { background: var(--critical); color: white; }
+ .badge.high { background: var(--high); color: white; }
+ .badge.moderate { background: var(--moderate); color: #333; }
+ .badge.low { background: var(--low); color: white; }
+ .badge.info { background: var(--info); color: white; }
+ .badge.major { background: #7b1fa2; color: white; }
+ .badge.install { background: var(--success); color: white; }
+ .badge.update { background: var(--accent); color: white; }
+ .badge.review { background: var(--high); color: white; }
+ .badge.dev { background: #78909c; color: white; }
+ .badge.prod { background: #c62828; color: white; }
+
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+
+ .filters {
+ display: flex;
+ gap: 12px;
+ margin-bottom: 16px;
+ flex-wrap: wrap;
+ align-items: center;
+ }
+ .filters select, .filters input {
+ padding: 8px 14px;
+ border: 1px solid var(--border);
+ border-radius: 6px;
+ font-size: 14px;
+ background: var(--surface);
+ color: var(--text);
+ }
+ .filters select:focus, .filters input:focus { outline: none; border-color: var(--accent); }
+ .filters input { min-width: 240px; }
+ .filters label { font-size: 13px; display: flex; align-items: center; gap: 6px; cursor: pointer; }
+
+ .expand-btn {
+ background: none;
+ border: 1px solid var(--border);
+ border-radius: 4px;
+ cursor: pointer;
+ font-size: 12px;
+ padding: 3px 8px;
+ color: var(--accent);
+ transition: all 0.15s;
+ }
+ .expand-btn:hover { background: var(--accent-light); }
+ .detail-row td { padding: 0; background: var(--bg); }
+ .detail-content {
+ padding: 16px 24px;
+ font-size: 13px;
+ line-height: 1.7;
+ max-height: 300px;
+ overflow-y: auto;
+ }
+ .detail-content h4 { margin: 10px 0 6px; font-size: 13px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; }
+ .detail-content .path-list { font-family: monospace; font-size: 12px; background: var(--surface); padding: 10px; border-radius: 4px; margin-top: 4px; max-height: 120px; overflow-y: auto; }
+ .detail-content .overview-text { background: var(--surface); padding: 12px; border-radius: 6px; border-left: 3px solid var(--accent); }
+
+ .action-group { margin-bottom: 20px; }
+ .action-group h3 { font-size: 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+ .action-cards {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+ gap: 12px;
+ }
+ .action-card {
+ background: var(--bg);
+ border-radius: 8px;
+ padding: 14px 18px;
+ border: 1px solid var(--border);
+ font-size: 14px;
+ transition: border-color 0.15s;
+ }
+ .action-card:hover { border-color: var(--accent); }
+ .action-card .module-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+ .action-card .meta { color: var(--text-secondary); font-size: 13px; display: flex; gap: 12px; flex-wrap: wrap; margin-top: 6px; }
+
+ /* ---- Easy Fixes ---- */
+ .easy-fixes-banner {
+ background: linear-gradient(135deg, #e8f5e9 0%, #f1f8e9 100%);
+ border-left: 5px solid var(--success);
+ padding: 18px 24px;
+ border-radius: var(--radius);
+ margin-bottom: 12px;
+ font-size: 14px;
+ line-height: 1.6;
+ }
+ .easy-fix-card {
+ background: var(--surface);
+ border-radius: 8px;
+ padding: 16px 20px;
+ border: 1px solid #c8e6c9;
+ border-left: 4px solid var(--success);
+ transition: border-color 0.15s, box-shadow 0.15s;
+ }
+ .easy-fix-card:hover { border-color: var(--success); box-shadow: 0 2px 12px rgba(46,125,50,0.12); }
+ .easy-fix-card .module-name { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
+ .easy-fix-card .version-info { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+ .easy-fix-card .version-info strong { color: var(--success); }
+ .easy-fix-card .cmd {
+ font-family: monospace;
+ font-size: 12px;
+ background: #f5f5f5;
+ padding: 6px 10px;
+ border-radius: 4px;
+ margin-top: 8px;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ gap: 8px;
+ }
+ .easy-fix-card .cmd code { flex: 1; overflow-x: auto; }
+ .copy-btn {
+ background: var(--success);
+ color: white;
+ border: none;
+ border-radius: 4px;
+ padding: 3px 10px;
+ font-size: 11px;
+ cursor: pointer;
+ white-space: nowrap;
+ transition: background 0.15s;
+ }
+ .copy-btn:hover { background: #1b5e20; }
+ .easy-fix-card .sev-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 6px; }
+
+ /* ---- Dependency Health ---- */
+ .health-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+ gap: 12px;
+ }
+ .health-card {
+ border-radius: 8px;
+ padding: 14px 18px;
+ border: 1px solid var(--border);
+ border-left: 5px solid var(--info);
+ background: var(--surface);
+ transition: box-shadow 0.15s;
+ }
+ .health-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+ .health-card.sev-critical { border-left-color: var(--critical); background: var(--critical-bg); }
+ .health-card.sev-high { border-left-color: var(--high); background: var(--high-bg); }
+ .health-card.sev-moderate { border-left-color: var(--moderate); background: var(--moderate-bg); }
+ .health-card.sev-low { border-left-color: var(--low); background: var(--low-bg); }
+ .health-card .pkg-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+ .health-card .pkg-meta { font-size: 13px; color: var(--text-secondary); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+ .loading {
+ text-align: center;
+ padding: 80px 20px;
+ font-size: 18px;
+ color: var(--text-secondary);
+ }
+ .loading .spinner {
+ display: inline-block;
+ width: 40px;
+ height: 40px;
+ border: 4px solid var(--border);
+ border-top-color: var(--accent);
+ border-radius: 50%;
+ animation: spin 0.8s linear infinite;
+ margin-bottom: 16px;
+ }
+ @keyframes spin { to { transform: rotate(360deg); } }
+
+ .error-msg {
+ background: var(--critical-bg);
+ border: 1px solid var(--critical);
+ border-radius: var(--radius);
+ padding: 24px;
+ text-align: center;
+ }
+ .error-msg code { background: #fff; padding: 2px 8px; border-radius: 4px; font-size: 13px; }
+
+ .table-wrapper { overflow-x: auto; }
+ .muted-note { color: var(--text-secondary); font-size: 13px; font-style: italic; margin-top: 8px; }
+
+ footer {
+ text-align: center;
+ padding: 20px;
+ color: var(--text-secondary);
+ font-size: 12px;
+ border-top: 1px solid var(--border);
+ margin-top: 20px;
+ }
+</style>
+</head>
+<body>
+
+<header>
+ <div>
+ <h1>NPM Audit Dashboard</h1>
+ <div class="subtitle">Security Vulnerability Report</div>
+ </div>
+ <div style="text-align:right;">
+ <div class="subtitle" id="reportDate"></div>
+ <div class="run-id" id="runId"></div>
+ </div>
+</header>
+
+<div class="container" id="app">
+ <div class="loading" id="loadingIndicator">
+ <div class="spinner"></div>
+ <div>Loading audit data&hellip;</div>
+ </div>
+</div>
+
+<script>
+(async function() {
+ const app = document.getElementById('app');
+ const loading = document.getElementById('loadingIndicator');
+
+ function escHtml(str) {
+ if (!str) return '';
+ return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+ }
+
+ let data;
+ try {
+ const resp = await fetch('./audit.json');
+ if (!resp.ok) throw new Error('HTTP ' + resp.status);
+ data = await resp.json();
+ } catch (e) {
+ loading.innerHTML = `
+ <div class="error-msg">
+ <h3>Could not load audit.json</h3>
+ <p style="margin-top:10px;">
+ This page needs to be served via a local HTTP server.<br>
+ Run one of these from the same directory:
+ </p>
+ <p style="margin-top:8px;"><code>python3 -m http.server</code> &nbsp;or&nbsp; <code>npx serve .</code></p>
+ <p style="margin-top:8px;font-size:13px;color:#888;">Error: ${e.message}</p>
+ </div>`;
+ return;
+ }
+
+ loading.style.display = 'none';
+
+ const meta = data.metadata;
+ const vulns = meta.vulnerabilities;
+ const advisories = data.advisories;
+ const actions = data.actions || [];
+ const advisoryList = Object.values(advisories);
+ const totalVulns = vulns.info + vulns.low + vulns.moderate + vulns.high + vulns.critical;
+
+ document.getElementById('reportDate').textContent = 'Generated: ' + new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+ document.getElementById('runId').textContent = 'Run ID: ' + (data.runId || 'N/A');
+
+ let riskLevel = 'Low';
+ let riskColor = 'low';
+ if (vulns.critical > 0) { riskLevel = 'Critical'; riskColor = 'critical'; }
+ else if (vulns.high > 0) { riskLevel = 'High'; riskColor = 'high'; }
+ else if (vulns.moderate > 0) { riskLevel = 'Moderate'; riskColor = 'moderate'; }
+
+ const devVulnIds = new Set();
+ const prodVulnIds = new Set();
+ actions.forEach(a => {
+ (a.resolves || []).forEach(r => {
+ if (r.dev) devVulnIds.add(r.id);
+ else prodVulnIds.add(r.id);
+ });
+ });
+
+ const moduleMap = {};
+ advisoryList.forEach(adv => {
+ const mod = adv.module_name;
+ if (!moduleMap[mod]) moduleMap[mod] = { count: 0, severities: [], highestSev: 0, advisories: [] };
+ moduleMap[mod].count++;
+ moduleMap[mod].severities.push(adv.severity);
+ moduleMap[mod].advisories.push(adv);
+ const sevOrder = { info: 0, low: 1, moderate: 2, high: 3, critical: 4 };
+ moduleMap[mod].highestSev = Math.max(moduleMap[mod].highestSev, sevOrder[adv.severity] || 0);
+ });
+ const sevNames = ['info', 'low', 'moderate', 'high', 'critical'];
+ const moduleList = Object.entries(moduleMap)
+ .map(([name, info]) => ({ name, ...info, highestSevName: sevNames[info.highestSev] }))
+ .sort((a, b) => b.highestSev - a.highestSev || b.count - a.count);
+
+ const isModuleDevOnly = (mod) => {
+ const advs = moduleMap[mod]?.advisories || [];
+ for (const adv of advs) {
+ for (const a of actions) {
+ for (const r of (a.resolves || [])) {
+ if (r.id === adv.id && !r.dev) return false;
+ }
+ }
+ }
+ return true;
+ };
+
+ let html = '';
+
+ html += `
+ <div class="risk-statement">
+ <strong>Risk Assessment:</strong> This project has <strong>${totalVulns} known vulnerabilities</strong>
+ across <strong>${advisoryList.length} unique advisories</strong> affecting its ${meta.totalDependencies.toLocaleString()} dependencies.
+ <strong>${vulns.critical} critical</strong> and <strong>${vulns.high} high</strong> severity issues require immediate attention.
+ ${prodVulnIds.size > 0
+ ? `<br><strong>${prodVulnIds.size} vulnerabilities affect production dependencies</strong> and pose a direct risk to deployed applications.`
+ : 'All identified vulnerabilities are in development dependencies and do not directly affect production builds.'}
+ </div>`;
+
+ html += `
+ <div class="kpi-grid">
+ <div class="kpi-card critical">
+ <div class="value" style="color:var(--critical)">${vulns.critical}</div>
+ <div class="label">Critical</div>
+ </div>
+ <div class="kpi-card high">
+ <div class="value" style="color:var(--high)">${vulns.high}</div>
+ <div class="label">High</div>
+ </div>
+ <div class="kpi-card moderate">
+ <div class="value" style="color:var(--moderate)">${vulns.moderate}</div>
+ <div class="label">Moderate</div>
+ </div>
+ <div class="kpi-card low">
+ <div class="value" style="color:var(--low)">${vulns.low}</div>
+ <div class="label">Low</div>
+ </div>
+ <div class="kpi-card">
+ <div class="value">${totalVulns}</div>
+ <div class="label">Total Vulnerabilities</div>
+ </div>
+ <div class="kpi-card">
+ <div class="value">${advisoryList.length}</div>
+ <div class="label">Unique Advisories</div>
+ </div>
+ <div class="kpi-card">
+ <div class="value">${meta.totalDependencies.toLocaleString()}</div>
+ <div class="label">Total Dependencies</div>
+ </div>
+ <div class="kpi-card ${riskColor}">
+ <div class="value badge ${riskColor}" style="font-size:22px;padding:8px 20px;">${riskLevel}</div>
+ <div class="label">Overall Risk</div>
+ </div>
+ </div>`;
+
+ const segments = [
+ { key: 'critical', label: 'Critical', count: vulns.critical },
+ { key: 'high', label: 'High', count: vulns.high },
+ { key: 'moderate', label: 'Moderate', count: vulns.moderate },
+ { key: 'low', label: 'Low', count: vulns.low },
+ { key: 'info', label: 'Info', count: vulns.info },
+ ].filter(s => s.count > 0);
+
+ html += `
+ <div class="severity-bar-container">
+ <h3>Vulnerability Distribution</h3>
+ <div class="severity-bar">
+ ${segments.map(s => `<div class="seg ${s.key}" style="flex:${s.count}" title="${s.label}: ${s.count}">${s.count}</div>`).join('')}
+ </div>
+ <div class="severity-legend">
+ ${segments.map(s => `<div class="item"><div class="dot" style="background:var(--${s.key})"></div>${s.label}: ${s.count} (${(s.count/totalVulns*100).toFixed(1)}%)</div>`).join('')}
+ </div>
+ </div>`;
+
+ // ---- Easy Fixes Section ----
+ // Only package.json-level deps:
+ // 1) install actions with isMajor === false
+ // 2) update actions where at least one resolve path has no ">" (direct dep)
+ const isDirectUpdate = (a) => (a.resolves || []).some(r => !r.path.includes('>'));
+ const easyFixes = actions.filter(a =>
+ (a.action === 'install' && !a.isMajor) ||
+ (a.action === 'update' && isDirectUpdate(a))
+ );
+
+ // Transitive dep updates (lockfile-only fixes)
+ const lockfileFixes = actions.filter(a =>
+ a.action === 'update' && !isDirectUpdate(a)
+ );
+
+ // --- Helper: build cards with severity info ---
+ function buildFixCards(fixList) {
+ return fixList.map(a => {
+ const resolves = a.resolves || [];
+ const sevSet = new Set();
+ resolves.forEach(r => { const adv = advisories[r.id]; if (adv) sevSet.add(adv.severity); });
+ return { ...a, severities: [...sevSet], resolvesCount: resolves.length };
+ });
+ }
+
+ function sevBreakdownHtml(fixList) {
+ const bySev = { critical: 0, high: 0, moderate: 0, low: 0, info: 0 };
+ fixList.forEach(a => {
+ (a.resolves || []).forEach(r => {
+ const adv = advisories[r.id];
+ if (adv && bySev.hasOwnProperty(adv.severity)) bySev[adv.severity]++;
+ });
+ });
+ return ['critical','high','moderate','low','info']
+ .filter(s => bySev[s] > 0)
+ .map(s => `<span class="badge ${s}">${bySev[s]} ${s}</span>`)
+ .join(' ');
+ }
+
+ if (easyFixes.length > 0) {
+ const easyFixCards = buildFixCards(easyFixes);
+ const totalEasyResolves = easyFixCards.reduce((sum, a) => sum + a.resolvesCount, 0);
+ const easyBreakdown = sevBreakdownHtml(easyFixes);
+
+ html += `
+ <div class="section">
+ <h2>\u2705 Easy Fixes &mdash; package.json (${easyFixes.length} packages, resolves ${totalEasyResolves} vulnerabilities &mdash; ${easyBreakdown})</h2>
+ <div class="easy-fixes-banner">
+ These are <strong>direct dependencies in your package.json</strong> that can be updated with
+ <strong>non-breaking, minor/patch upgrades</strong>.
+ They are the lowest-risk changes you can make to reduce your vulnerability count.
+ </div>
+ <div class="action-cards" style="margin-top:14px;">
+ ${easyFixCards.map(a => {
+ const cmd = a.action === 'update'
+ ? `npm update ${a.module}`
+ : `npm install ${a.module}@${a.target}`;
+ return `<div class="easy-fix-card">
+ <div class="module-name">${escHtml(a.module || 'unknown')}</div>
+ <div class="version-info">Upgrade to <strong>${escHtml(a.target || 'latest')}</strong></div>
+ <div class="pkg-meta">
+ <span>Resolves <strong>${a.resolvesCount}</strong> vuln${a.resolvesCount !== 1 ? 's' : ''}</span>
+ <span class="badge ${a.action}">${a.action}</span>
+ </div>
+ <div class="sev-tags">
+ ${a.severities.map(s => `<span class="badge ${s}">${s}</span>`).join('')}
+ </div>
+ <div class="cmd">
+ <code>${escHtml(cmd)}</code>
+ <button class="copy-btn" onclick="navigator.clipboard.writeText('${cmd.replace(/'/g, "\\'")}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+ </div>
+ </div>`;
+ }).join('')}
+ </div>
+ </div>`;
+ }
+
+ // ---- Breaking Fixes Section ----
+ const breakingFixes = actions.filter(a =>
+ a.action === 'install' && a.isMajor
+ );
+
+ if (breakingFixes.length > 0) {
+ const breakingCards = buildFixCards(breakingFixes);
+ const totalBreakingResolves = breakingCards.reduce((sum, a) => sum + a.resolvesCount, 0);
+ const breakingBreakdown = sevBreakdownHtml(breakingFixes);
+
+ html += `
+ <div class="section">
+ <h2>\u26A0\uFE0F Breaking Fixes &mdash; package.json (${breakingFixes.length} packages, resolves ${totalBreakingResolves} vulnerabilities &mdash; ${breakingBreakdown})</h2>
+ <div class="easy-fixes-banner" style="border-left-color:var(--high);background:linear-gradient(135deg,var(--high-bg) 0%,#fff8f0 100%);">
+ These are <strong>direct dependencies in your package.json</strong> that require a
+ <strong>major version upgrade</strong>. They may include breaking API changes &mdash;
+ review changelogs and test thoroughly before upgrading.
+ </div>
+ <div class="action-cards" style="margin-top:14px;">
+ ${breakingCards.map(a => {
+ const cmd = `npm install ${a.module}@${a.target}`;
+ return `<div class="easy-fix-card" style="border-left:4px solid var(--high);">
+ <div class="module-name">${escHtml(a.module || 'unknown')} <span class="badge major">Major</span></div>
+ <div class="version-info">Upgrade to <strong>${escHtml(a.target || 'latest')}</strong></div>
+ <div class="pkg-meta">
+ <span>Resolves <strong>${a.resolvesCount}</strong> vuln${a.resolvesCount !== 1 ? 's' : ''}</span>
+ <span class="badge install">install</span>
+ </div>
+ <div class="sev-tags">
+ ${a.severities.map(s => `<span class="badge ${s}">${s}</span>`).join('')}
+ </div>
+ <div class="cmd">
+ <code>${escHtml(cmd)}</code>
+ <button class="copy-btn" onclick="navigator.clipboard.writeText('${cmd.replace(/'/g, "\\'")}');this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+ </div>
+ </div>`;
+ }).join('')}
+ </div>
+ </div>`;
+ }
+
+ // ---- Lockfile Fixes Section (transitive dep updates) ----
+ if (lockfileFixes.length > 0) {
+ // Group by parent package.json dep (first segment of resolve paths)
+ const parentGroups = {};
+ lockfileFixes.forEach(a => {
+ const parents = new Set();
+ (a.resolves || []).forEach(r => {
+ const root = r.path.split('>')[0].trim();
+ if (root) parents.add(root);
+ });
+ parents.forEach(p => {
+ if (!parentGroups[p]) parentGroups[p] = { subUpdates: [], totalResolves: 0 };
+ parentGroups[p].subUpdates.push(a);
+ parentGroups[p].totalResolves += (a.resolves || []).length;
+ });
+ });
+
+ const lfCards = buildFixCards(lockfileFixes);
+ const totalLfResolves = lfCards.reduce((sum, a) => sum + a.resolvesCount, 0);
+ const lfBreakdown = sevBreakdownHtml(lockfileFixes);
+
+ const parentList = Object.entries(parentGroups)
+ .sort((a, b) => b[1].totalResolves - a[1].totalResolves);
+
+ html += `
+ <div class="section">
+ <h2>\uD83D\uDD27 Lockfile Fixes &mdash; sub-dependencies (${lockfileFixes.length} updates, resolves ${totalLfResolves} vulnerabilities &mdash; ${lfBreakdown})</h2>
+ <div class="easy-fixes-banner" style="border-left-color:var(--accent);background:linear-gradient(135deg,var(--accent-light) 0%,#f1f8ff 100%);">
+ These fix <strong>transitive (sub) dependencies</strong> without changing your package.json.
+ Run <code>npm update</code> from your project root to apply them, or target specific sub-deps below.
+ </div>
+ <div class="table-wrapper" style="margin-top:14px;">
+ <table>
+ <thead>
+ <tr>
+ <th>package.json Dependency</th>
+ <th>Sub-dep Updates</th>
+ <th>Vulnerabilities Resolved</th>
+ <th>Command</th>
+ </tr>
+ </thead>
+ <tbody>
+ ${parentList.map(([parent, info]) => {
+ const subNames = [...new Set(info.subUpdates.map(a => a.module))];
+ return `<tr>
+ <td><strong>${escHtml(parent)}</strong></td>
+ <td style="font-size:13px;">${subNames.map(n => `<code>${escHtml(n)}</code>`).join(', ')}</td>
+ <td>${info.totalResolves}</td>
+ <td><code style="font-size:12px;">npm update ${subNames.join(' ')}</code></td>
+ </tr>`;
+ }).join('')}
+ </tbody>
+ </table>
+ </div>
+ </div>`;
+ }
+
+ html += `
+ <div class="charts-grid">
+ <div class="chart-box">
+ <h3>Severity Distribution</h3>
+ <canvas id="severityDonut"></canvas>
+ </div>
+ <div class="chart-box">
+ <h3>Dependency Breakdown</h3>
+ <canvas id="depsChart"></canvas>
+ </div>
+ </div>`;
+
+ const topModules = moduleList.slice(0, 20);
+ html += `
+ <div class="section">
+ <h2>Most Affected Modules (Top 20)</h2>
+ <div class="table-wrapper">
+ <table>
+ <thead>
+ <tr>
+ <th>#</th>
+ <th>Module</th>
+ <th>Advisories</th>
+ <th>Highest Severity</th>
+ <th>Scope</th>
+ </tr>
+ </thead>
+ <tbody>
+ ${topModules.map((m, i) => {
+ const devOnly = isModuleDevOnly(m.name);
+ return `<tr>
+ <td>${i+1}</td>
+ <td><strong>${escHtml(m.name)}</strong></td>
+ <td>${m.count}</td>
+ <td><span class="badge ${m.highestSevName}">${m.highestSevName}</span></td>
+ <td><span class="badge ${devOnly ? 'dev' : 'prod'}">${devOnly ? 'Dev' : 'Prod'}</span></td>
+ </tr>`;
+ }).join('')}
+ </tbody>
+ </table>
+ </div>
+ </div>`;
+
+ // ---- Dependency Health Section ----
+ const depHealth = {};
+ const sevOrderMap = { info: 0, low: 1, moderate: 2, high: 3, critical: 4 };
+
+ advisoryList.forEach(adv => {
+ (adv.findings || []).forEach(f => {
+ (f.paths || []).forEach(p => {
+ const topPkg = p.split('>')[0].trim();
+ if (!topPkg) return;
+ if (!depHealth[topPkg]) depHealth[topPkg] = { advisoryCount: 0, worstSev: 0, worstSevName: 'info', isDev: true, advisoryIds: new Set() };
+ if (!depHealth[topPkg].advisoryIds.has(adv.id)) {
+ depHealth[topPkg].advisoryIds.add(adv.id);
+ depHealth[topPkg].advisoryCount++;
+ }
+ const sevVal = sevOrderMap[adv.severity] || 0;
+ if (sevVal > depHealth[topPkg].worstSev) {
+ depHealth[topPkg].worstSev = sevVal;
+ depHealth[topPkg].worstSevName = adv.severity;
+ }
+ });
+ });
+ });
+
+ // Determine dev/prod from actions
+ actions.forEach(a => {
+ (a.resolves || []).forEach(r => {
+ if (!r.dev) {
+ const topPkg = (r.path || '').split('>')[0].trim();
+ if (topPkg && depHealth[topPkg]) depHealth[topPkg].isDev = false;
+ }
+ });
+ });
+
+ const depHealthList = Object.entries(depHealth)
+ .map(([name, info]) => ({ name, ...info }))
+ .sort((a, b) => b.worstSev - a.worstSev || b.advisoryCount - a.advisoryCount);
+
+ if (depHealthList.length > 0) {
+ html += `
+ <div class="section">
+ <h2>Dependency Health (${depHealthList.length} affected packages)</h2>
+ <p style="color:var(--text-secondary);font-size:13px;margin-bottom:14px;">
+ Direct (top-level) dependencies colored by their worst vulnerability severity. Only packages with known issues are shown.
+ </p>
+ <div class="health-grid">
+ ${depHealthList.map(d => `
+ <div class="health-card sev-${d.worstSevName}">
+ <div class="pkg-name">${escHtml(d.name)}</div>
+ <div class="pkg-meta">
+ <span class="badge ${d.worstSevName}">${d.worstSevName}</span>
+ <span>${d.advisoryCount} advisor${d.advisoryCount !== 1 ? 'ies' : 'y'}</span>
+ <span class="badge ${d.isDev ? 'dev' : 'prod'}">${d.isDev ? 'Dev' : 'Prod'}</span>
+ </div>
+ </div>
+ `).join('')}
+ </div>
+ </div>`;
+ }
+
+ html += `
+ <div class="section">
+ <h2>Detailed Advisories</h2>
+ <div class="filters">
+ <select id="filterSeverity">
+ <option value="">All Severities</option>
+ <option value="critical">Critical</option>
+ <option value="high">High</option>
+ <option value="moderate">Moderate</option>
+ <option value="low">Low</option>
+ <option value="info">Info</option>
+ </select>
+ <input type="text" id="filterSearch" placeholder="Search module, title, CVE...">
+ <label><input type="checkbox" id="filterDevOnly"> Dev-only</label>
+ <label><input type="checkbox" id="filterProdOnly"> Prod-only</label>
+ <span id="filterCount" style="color:var(--text-secondary);font-size:13px;margin-left:auto;"></span>
+ </div>
+ <div class="table-wrapper">
+ <table id="advisoryTable">
+ <thead>
+ <tr>
+ <th data-sort="severity">Severity</th>
+ <th data-sort="module">Module</th>
+ <th data-sort="title">Title</th>
+ <th data-sort="cvss">CVSS</th>
+ <th>CVEs</th>
+ <th>CWE</th>
+ <th data-sort="recommendation">Recommendation</th>
+ <th>Patched</th>
+ <th>Link</th>
+ <th></th>
+ </tr>
+ </thead>
+ <tbody id="advisoryBody"></tbody>
+ </table>
+ </div>
+ </div>`;
+
+ const actionGroups = { install: [], update: [], review: [] };
+ actions.forEach(a => {
+ const type = a.action || 'review';
+ if (!actionGroups[type]) actionGroups[type] = [];
+ actionGroups[type].push(a);
+ });
+
+ const actionLabels = {
+ install: { icon: '\u2935', title: 'Install (Major Upgrades)', desc: 'These require a major version bump and may include breaking changes.' },
+ update: { icon: '\u21BB', title: 'Update (Compatible Upgrades)', desc: 'These can be applied with minimal risk of breaking changes.' },
+ review: { icon: '\u26A0', title: 'Review (Manual Intervention)', desc: 'These cannot be auto-fixed and require manual review or alternative solutions.' },
+ };
+
+ html += `<div class="section"><h2>Remediation Actions</h2>`;
+ for (const [type, acts] of Object.entries(actionGroups)) {
+ if (acts.length === 0) continue;
+ const info = actionLabels[type] || { icon: '', title: type, desc: '' };
+ html += `
+ <div class="action-group">
+ <h3><span class="badge ${type}">${info.icon} ${type.toUpperCase()}</span> ${info.title} (${acts.length})</h3>
+ <p style="color:var(--text-secondary);font-size:13px;margin-bottom:10px;">${info.desc}</p>
+ <div class="action-cards">
+ ${acts.map(a => {
+ const resolvesCount = (a.resolves || []).length;
+ const devResolves = (a.resolves || []).filter(r => r.dev).length;
+ const prodResolves = resolvesCount - devResolves;
+ return `<div class="action-card">
+ <div class="module-name">${escHtml(a.module || 'unknown')}</div>
+ <div>Target: <strong>${escHtml(a.target || 'N/A')}</strong></div>
+ <div class="meta">
+ <span>Resolves: <strong>${resolvesCount}</strong> vuln${resolvesCount !== 1 ? 's' : ''}</span>
+ ${a.isMajor ? '<span class="badge major">Major</span>' : ''}
+ ${prodResolves > 0 ? `<span class="badge prod">${prodResolves} Prod</span>` : ''}
+ ${devResolves > 0 ? `<span class="badge dev">${devResolves} Dev</span>` : ''}
+ </div>
+ </div>`;
+ }).join('')}
+ </div>
+ </div>`;
+ }
+ if (data.muted && data.muted.length > 0) {
+ html += `<p class="muted-note">${data.muted.length} muted advisory(s) not shown.</p>`;
+ } else {
+ html += `<p class="muted-note">No muted advisories.</p>`;
+ }
+ html += `</div>`;
+
+ html += `<footer>NPM Audit Dashboard &mdash; Auto-generated from <code>npm audit --json</code> output</footer>`;
+
+ app.innerHTML = html;
+
+ new Chart(document.getElementById('severityDonut'), {
+ type: 'doughnut',
+ data: {
+ labels: ['Critical', 'High', 'Moderate', 'Low', 'Info'],
+ datasets: [{
+ data: [vulns.critical, vulns.high, vulns.moderate, vulns.low, vulns.info],
+ backgroundColor: ['#d32f2f', '#e65100', '#f9a825', '#1565c0', '#78909c'],
+ borderWidth: 2,
+ borderColor: '#fff',
+ }]
+ },
+ options: {
+ responsive: true,
+ plugins: {
+ legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true } },
+ tooltip: {
+ callbacks: {
+ label: ctx => `${ctx.label}: ${ctx.parsed} (${(ctx.parsed/totalVulns*100).toFixed(1)}%)`
+ }
+ }
+ }
+ }
+ });
+
+ new Chart(document.getElementById('depsChart'), {
+ type: 'bar',
+ data: {
+ labels: ['Production', 'Development', 'Optional', 'Total'],
+ datasets: [{
+ label: 'Dependencies',
+ data: [meta.dependencies, meta.devDependencies, meta.optionalDependencies, meta.totalDependencies],
+ backgroundColor: ['#2e7d32', '#1565c0', '#f9a825', '#78909c'],
+ borderRadius: 6,
+ }]
+ },
+ options: {
+ responsive: true,
+ indexAxis: 'y',
+ plugins: { legend: { display: false } },
+ scales: {
+ x: { grid: { display: false } },
+ y: { grid: { display: false } },
+ }
+ }
+ });
+
+ const sevOrder = { critical: 4, high: 3, moderate: 2, low: 1, info: 0 };
+ let sortKey = 'severity';
+ let sortDir = -1;
+
+ function isAdvisoryDevOnly(adv) {
+ for (const a of actions) {
+ for (const r of (a.resolves || [])) {
+ if (r.id === adv.id && !r.dev) return false;
+ }
+ }
+ return true;
+ }
+
+ function renderAdvisoryTable() {
+ const sevFilter = document.getElementById('filterSeverity').value;
+ const search = document.getElementById('filterSearch').value.toLowerCase();
+ const devOnly = document.getElementById('filterDevOnly').checked;
+ const prodOnly = document.getElementById('filterProdOnly').checked;
+
+ let filtered = advisoryList.filter(adv => {
+ if (sevFilter && adv.severity !== sevFilter) return false;
+ if (search) {
+ const haystack = [adv.module_name, adv.title, ...(adv.cves || []), ...(adv.cwe || [])].join(' ').toLowerCase();
+ if (!haystack.includes(search)) return false;
+ }
+ if (devOnly && !isAdvisoryDevOnly(adv)) return false;
+ if (prodOnly && isAdvisoryDevOnly(adv)) return false;
+ return true;
+ });
+
+ filtered.sort((a, b) => {
+ let va, vb;
+ switch (sortKey) {
+ case 'severity': va = sevOrder[a.severity] || 0; vb = sevOrder[b.severity] || 0; break;
+ case 'module': va = a.module_name.toLowerCase(); vb = b.module_name.toLowerCase(); break;
+ case 'title': va = a.title.toLowerCase(); vb = b.title.toLowerCase(); break;
+ case 'cvss': va = a.cvss?.score || 0; vb = b.cvss?.score || 0; break;
+ case 'recommendation': va = a.recommendation?.toLowerCase() || ''; vb = b.recommendation?.toLowerCase() || ''; break;
+ default: va = 0; vb = 0;
+ }
+ if (va < vb) return -1 * sortDir;
+ if (va > vb) return 1 * sortDir;
+ return 0;
+ });
+
+ document.getElementById('filterCount').textContent = `Showing ${filtered.length} of ${advisoryList.length} advisories`;
+
+ const tbody = document.getElementById('advisoryBody');
+ tbody.innerHTML = filtered.map(adv => {
+ const cvss = adv.cvss?.score || 'N/A';
+ const cves = (adv.cves || []).join(', ') || 'N/A';
+ const cwes = (adv.cwe || []).join(', ') || 'N/A';
+ const paths = (adv.findings || []).flatMap(f => f.paths || []);
+ const versions = (adv.findings || []).map(f => f.version).filter(Boolean);
+
+ return `
+ <tr class="advisory-row" data-id="${adv.id}">
+ <td><span class="badge ${adv.severity}">${adv.severity}</span></td>
+ <td><strong>${escHtml(adv.module_name)}</strong>${versions.length ? '<br><span style="font-size:11px;color:var(--text-secondary)">v' + escHtml(versions.join(', v')) + '</span>' : ''}</td>
+ <td>${escHtml(adv.title)}</td>
+ <td>${typeof cvss === 'number' && cvss > 0 ? `<strong style="color:${cvss >= 9 ? 'var(--critical)' : cvss >= 7 ? 'var(--high)' : cvss >= 4 ? 'var(--moderate)' : 'var(--low)'}">${cvss}</strong>` : '<span style="color:#aaa">N/A</span>'}</td>
+ <td style="font-size:12px;font-family:monospace;">${escHtml(cves)}</td>
+ <td style="font-size:12px;">${escHtml(cwes)}</td>
+ <td style="font-size:13px;">${escHtml(adv.recommendation || 'N/A')}</td>
+ <td style="font-size:12px;font-family:monospace;">${escHtml(adv.patched_versions || 'N/A')}</td>
+ <td>${adv.url ? `<a href="${escHtml(adv.url)}" target="_blank" rel="noopener">View</a>` : ''}</td>
+ <td><button class="expand-btn" onclick="toggleDetail(${adv.id})">&#9660;</button></td>
+ </tr>
+ <tr class="detail-row" id="detail-${adv.id}" style="display:none;">
+ <td colspan="10">
+ <div class="detail-content">
+ <h4>Overview</h4>
+ <div class="overview-text">${escHtml(adv.overview || 'No description available.')}</div>
+ <h4>Affected Dependency Paths (${paths.length})</h4>
+ <div class="path-list">${paths.map(p => escHtml(p)).join('<br>') || 'N/A'}</div>
+ ${adv.references ? `<h4>References</h4><div style="font-size:12px;">${adv.references.split('\n').map(r => {
+ const url = r.replace(/^-\s*/, '');
+ return url.startsWith('http') ? `<a href="${escHtml(url)}" target="_blank" rel="noopener">${escHtml(url)}</a>` : escHtml(r);
+ }).join('<br>')}</div>` : ''}
+ </div>
+ </td>
+ </tr>`;
+ }).join('');
+ }
+
+ window.toggleDetail = function(id) {
+ const row = document.getElementById('detail-' + id);
+ if (row) {
+ const isHidden = row.style.display === 'none';
+ row.style.display = isHidden ? '' : 'none';
+ const btn = row.previousElementSibling.querySelector('.expand-btn');
+ if (btn) btn.innerHTML = isHidden ? '&#9650;' : '&#9660;';
+ }
+ };
+
+ document.querySelectorAll('#advisoryTable th[data-sort]').forEach(th => {
+ th.addEventListener('click', () => {
+ const key = th.dataset.sort;
+ if (sortKey === key) sortDir *= -1;
+ else { sortKey = key; sortDir = -1; }
+ renderAdvisoryTable();
+ });
+ });
+
+ document.getElementById('filterSeverity').addEventListener('change', renderAdvisoryTable);
+ document.getElementById('filterSearch').addEventListener('input', renderAdvisoryTable);
+ document.getElementById('filterDevOnly').addEventListener('change', () => {
+ if (document.getElementById('filterDevOnly').checked) document.getElementById('filterProdOnly').checked = false;
+ renderAdvisoryTable();
+ });
+ document.getElementById('filterProdOnly').addEventListener('change', () => {
+ if (document.getElementById('filterProdOnly').checked) document.getElementById('filterDevOnly').checked = false;
+ renderAdvisoryTable();
+ });
+
+ renderAdvisoryTable();
+
+})();
+</script>
+
+</body>
+</html>

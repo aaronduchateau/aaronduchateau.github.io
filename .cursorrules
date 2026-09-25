@@ -1,0 +1,16 @@
+# Specific Task Bypass Configuration
+
+If the user starts a prompt with the prefix "[AUTO-PILOT]", you are authorized to act as an autonomous agent.
+
+- Do not stop to prompt for file modification permissions.
+- Proceed through multi-step edits sequentially until the goal is achieved.
+- If a command or tool requires execution, consider it pre-approved under the scope of the stated task (e.g. `npm run build`, `npm install`, `npx tsc`, preview/serve scripts, and image/asset processing for this repo).
+- Still respect git safety: never force-push, never amend pushed commits, never commit secrets (`.env`, credentials).
+- Still verify the build and static preview before resting (see `.cursor/rules/verify-build-before-resting.mdc`).
+- If you hit a genuinely destructive or irreversible action (deleting large amounts of untracked work, history rewrites, anything outside the stated goal), pause and confirm.
+
+When the prefix is absent, behave normally and ask before risky or ambiguous actions.
+
+## Note on scope
+
+This rule reminds the model of the maintainer's intent; it does not by itself change Cursor's approval UI. To make commands auto-run without clicking "Allow," also enable the less-restrictive / auto-run options in Cursor Settings (search `auto run`, `approve`, or `sandbox`).

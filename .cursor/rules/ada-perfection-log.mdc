@@ -1,0 +1,40 @@
+---
+description: When refining ADA Guy / ada-first accessibility, log each change as Issue + Action in the ADA perfection markdown card
+alwaysApply: true
+---
+
+# ADA perfection revision log
+
+Whenever you perform a step that **refines ADA perfection** on this portfolio (theme `ada-first` / ADA Guy, high-contrast surfaces, assistive tech semantics, motion labeling, keyboard/focus, etc.), you must **append a new step** to the running log in:
+
+[`src/data/content.ts`](src/data/content.ts) → `adaPerfectionMarkdown` (card **ADA perfection** under How this site works).
+
+Do this in the **same change set** as the code fix when practical—not as a forgotten follow-up.
+
+## Step shape (required)
+
+Newest steps go **at the top** of the `# Revision steps` section (below the intro).
+
+Each step **title** states the premise (the issue discovered). The body always has both subsections:
+
+```markdown
+## YYYY-MM-DD — <short premise / issue in the title>
+
+### ADA refinement issue
+What we found (user report, audit, or thoughtful scan). Why it matters for ADA Guy / WCAG.
+
+### ADA refinement action
+What we changed in the project (files, rules-engine flags, CSS, semantics). Link paths in backticks when helpful.
+```
+
+- **ADA refinement issue** = the problem / premise that motivated the work  
+- **ADA refinement action** = the fulfillment we shipped (or “documented only” / “queued” if research-only)
+
+Do **not** collapse issue and action into one paragraph. Do **not** invent fake fixes—if research-only, say so under **action**.
+
+## Scope reminders
+
+- Prefer rules-engine / theme gates for ADA-only behavior (`decorativeCardMedia`, swoop flags, tokens)—avoid hard-coding theme checks in many components when a layout rule already exists.
+- Do **not** “fix” ADA by breaking other themes.
+- Hero **video** behavior changes that affect both interactive and non-interactive modes should be called out explicitly in the step.
+- After content edits that affect the site, follow `verify-build-before-resting` (build + static preview).

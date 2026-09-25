@@ -1,0 +1,11 @@
+---
+description: Unlock features go through milestone prizes + the unlock catalog, not component ifs.
+globs: src/activity/**/*.ts,src/activity/**/*.tsx,src/components/EasterEggBoardPanel.tsx,src/components/MediaModal.tsx,src/types/media-modal.ts
+alwaysApply: false
+---
+
+# Unlock features
+
+When adding or changing an unlock, follow `.cursor/skills/add-unlock-feature/SKILL.md`.
+
+Source of truth: json-rules-engine milestone rules → `MILESTONE_SCHEDULE` prizes → `resolveGrantedPrizes` / `UNLOCK_FEATURE_CATALOG`. Do not gate media or Options with `if (milestoneId === "…")` in components.

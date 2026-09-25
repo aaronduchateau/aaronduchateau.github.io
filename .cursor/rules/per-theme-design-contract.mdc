@@ -1,0 +1,53 @@
+---
+description: Theme visual changes must go through the per-theme design contract — never one-off CSS color patches
+alwaysApply: true
+---
+
+# Per-theme design contract (no one-off patches)
+
+Theme look-and-feel is a **contract**, not a pile of hotspot overrides. One-off CSS color/contrast patches are **unacceptable**.
+
+## Source of truth
+
+Change theme visuals by updating the theme’s design contract in the right place:
+
+1. **Swatches** — [`src/theme/swatches.ts`](src/theme/swatches.ts) (stock Tailwind RGB; `amber-200` always means real amber)
+2. **Slots / palette** — [`src/theme/slots.ts`](src/theme/slots.ts), [`src/theme/palettes.ts`](src/theme/palettes.ts), [`src/theme/types.ts`](src/theme/types.ts). Slot **names** are roles (`accent.400`, `demoBadge.title`). Slot **values** are `{ swatch }`, `{ ref }`, or `{ rgb }` — never a Tailwind class string.
+3. **Rules engine** — [`src/theme/rules.ts`](src/theme/rules.ts) (theme id → which pack, visibility, sound defaults). Not a per-property stylesheet.
+4. **Apply path** — [`src/theme/applyTheme.ts`](src/theme/applyTheme.ts) / [`src/theme/engine.ts`](src/theme/engine.ts) writes `--accent-*`, `--surface-*`, `--slot-*`.
+5. **Structured theme CSS** — named control roles (`.theme-primary-cta`). `[data-theme]` color skins are temporary; see [`src/theme/workaround-inventory.md`](src/theme/workaround-inventory.md).
+
+If a token or role is missing from the contract, **extend the contract** (types + palette + apply + CSS roles). Do not paper over it in a component or with a one-line `color:` fix.
+
+## Forbidden
+
+- Ad-hoc contrast hacks: “make this text lighter on theme X” via a random selector
+- Broad overrides like `[class*="bg-cyan"]` or “all `.theme-btn-shape` get this `color`” to fix one CTA
+- Fixing unreadability in Options / menus / nav by flipping a single CSS value that other surfaces share
+- Hard-coding `if (themeId === "…")` style branches in many components when tokens/roles should carry it
+- Shipping a patch that makes **primary / ghost / menu / nav** look identical or breaks another surface’s contrast
+
+## Required control roles
+
+Themes must distinguish surfaces. Prefer explicit classes/roles (extend as needed):
+
+| Role | Examples |
+|------|----------|
+| Primary CTA | Enter portfolio, LinkedIn, Visit Site (`.theme-primary-cta`) |
+| Secondary / ghost | Outline, muted, “Go back” |
+| Menu panel + items | Options dropdown, Sound menu |
+| Nav chrome | Nav links, sound toggle |
+| Shape skin | Shared radius/border language without wiping fill/text contracts |
+
+Blanket `[data-theme] .theme-btn-shape { background; color; }` is only OK if **variants** still keep readable, distinct fills/text (primary ≠ menu item ≠ ghost). If a blanket skin collapses everything, **split the contract** — do not add another exception.
+
+## When the user reports “invisible menu” / “all buttons identical”
+
+1. Identify which **role** broke (menu text, primary CTA, ghost, etc.)
+2. Fix the **theme’s role + tokens**, not the one screenshot control
+3. Verify Options, Sound menu, Enter/LinkedIn, and at least one ghost control on that theme
+4. Do **not** leave a temporary color override “just for now”
+
+## Quick test
+
+After any theme visual change: switch to that theme and confirm **menu copy**, **primary CTA**, and **secondary control** are all readable and visually distinct. If changing one token breaks another surface, the contract is wrong — fix the contract.

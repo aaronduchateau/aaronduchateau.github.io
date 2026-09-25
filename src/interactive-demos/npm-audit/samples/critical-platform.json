@@ -1,0 +1,942 @@
+{
+  "auditReportVersion": 2,
+  "runId": "demo-sample-2026-alt-critical",
+  "metadata": {
+    "vulnerabilities": {
+      "critical": 6,
+      "high": 13,
+      "moderate": 19,
+      "low": 31,
+      "info": 9
+    },
+    "dependencies": 1734,
+    "devDependencies": 2648,
+    "optionalDependencies": 104,
+    "peerDependencies": 412,
+    "totalDependencies": 4898
+  },
+  "advisories": {
+    "2200101": {
+      "id": 2200101,
+      "module_name": "axios",
+      "severity": "critical",
+      "title": "Server-Side Request Forgery via crafted absolute URL",
+      "overview": "Improper URL validation allows attacker-controlled absolute URLs to bypass expected baseURL restrictions and trigger server-side requests.",
+      "recommendation": "Upgrade axios and enforce outbound request allowlists.",
+      "patched_versions": ">=1.7.8",
+      "url": "https://github.com/advisories/GHSA-demo-axios-ssrf",
+      "cves": [
+        "CVE-2026-41001"
+      ],
+      "cwe": [
+        "CWE-918",
+        "CWE-20"
+      ],
+      "cvss": {
+        "score": 9.8,
+        "vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+      },
+      "findings": [
+        {
+          "version": "0.27.2",
+          "paths": [
+            "api-gateway>axios",
+            "payment-worker>axios",
+            "admin-dashboard>vite-plugin-api>axios"
+          ]
+        }
+      ]
+    },
+    "2200102": {
+      "id": 2200102,
+      "module_name": "qs",
+      "severity": "critical",
+      "title": "Prototype Pollution in qs nested parser",
+      "overview": "Deeply nested query strings may mutate object prototypes when unsafe parsing options are enabled.",
+      "recommendation": "Upgrade qs and disable prototype assignment in query parsing middleware.",
+      "patched_versions": ">=6.12.3",
+      "url": "https://github.com/advisories/GHSA-demo-qs-pollution",
+      "cves": [
+        "CVE-2026-41002"
+      ],
+      "cwe": [
+        "CWE-1321"
+      ],
+      "cvss": {
+        "score": 9.4
+      },
+      "findings": [
+        {
+          "version": "6.9.7",
+          "paths": [
+            "express-api>body-parser>qs",
+            "legacy-router>qs"
+          ]
+        }
+      ]
+    },
+    "2200103": {
+      "id": 2200103,
+      "module_name": "sharp",
+      "severity": "critical",
+      "title": "Remote Code Execution in image metadata processor",
+      "overview": "A malformed image payload can trigger unsafe native library behavior during metadata extraction.",
+      "recommendation": "Upgrade sharp and reject untrusted image formats before processing.",
+      "patched_versions": ">=0.33.5",
+      "cves": [
+        "CVE-2026-41003"
+      ],
+      "cwe": [
+        "CWE-787",
+        "CWE-119"
+      ],
+      "cvss": {
+        "score": 9.9
+      },
+      "findings": [
+        {
+          "version": "0.30.7",
+          "paths": [
+            "image-service>sharp",
+            "cms-uploader>thumbnailer>sharp"
+          ]
+        }
+      ]
+    },
+    "2200104": {
+      "id": 2200104,
+      "module_name": "node-forge",
+      "severity": "critical",
+      "title": "Private key disclosure through malformed ASN.1 parsing",
+      "overview": "Improper ASN.1 boundary validation may leak sensitive key material when parsing attacker-supplied certificates.",
+      "recommendation": "Upgrade node-forge and avoid parsing untrusted certificates in privileged services.",
+      "patched_versions": ">=1.3.2",
+      "cves": [
+        "CVE-2026-41004"
+      ],
+      "cwe": [
+        "CWE-125",
+        "CWE-200"
+      ],
+      "cvss": {
+        "score": 9.2
+      },
+      "findings": [
+        {
+          "version": "0.10.0",
+          "paths": [
+            "saml-auth>node-forge",
+            "pdf-signer>node-forge"
+          ]
+        }
+      ]
+    },
+    "2200105": {
+      "id": 2200105,
+      "module_name": "vm2",
+      "severity": "critical",
+      "title": "Sandbox escape in vm2",
+      "overview": "Crafted JavaScript can escape the sandbox boundary and execute code in the host context.",
+      "recommendation": "Remove vm2 or replace with a process-isolated execution model.",
+      "patched_versions": "none",
+      "cves": [
+        "CVE-2026-41005"
+      ],
+      "cwe": [
+        "CWE-94",
+        "CWE-693"
+      ],
+      "cvss": {
+        "score": 10
+      },
+      "findings": [
+        {
+          "version": "3.9.19",
+          "paths": [
+            "automation-runner>vm2",
+            "rules-engine>expression-sandbox>vm2"
+          ]
+        }
+      ]
+    },
+    "2200106": {
+      "id": 2200106,
+      "module_name": "mongoose",
+      "severity": "high",
+      "title": "Query selector injection in filter construction",
+      "overview": "Unsanitized user input may be interpreted as MongoDB operators when passed directly into query filters.",
+      "recommendation": "Upgrade mongoose and sanitize user-provided query objects.",
+      "patched_versions": ">=8.5.4",
+      "cves": [
+        "CVE-2026-41006"
+      ],
+      "cwe": [
+        "CWE-943"
+      ],
+      "cvss": {
+        "score": 8.7
+      },
+      "findings": [
+        {
+          "version": "6.8.1",
+          "paths": [
+            "api-server>mongoose",
+            "reporting-service>mongoose"
+          ]
+        }
+      ]
+    },
+    "2200107": {
+      "id": 2200107,
+      "module_name": "cookie",
+      "severity": "high",
+      "title": "Cookie attribute injection",
+      "overview": "Improper serialization of cookie names and values may allow injection of additional cookie attributes.",
+      "recommendation": "Upgrade cookie and validate all cookie names before serialization.",
+      "patched_versions": ">=0.7.0",
+      "cves": [
+        "CVE-2026-41007"
+      ],
+      "cwe": [
+        "CWE-113"
+      ],
+      "cvss": {
+        "score": 8.2
+      },
+      "findings": [
+        {
+          "version": "0.4.2",
+          "paths": [
+            "express-session>cookie",
+            "auth-service>cookie"
+          ]
+        }
+      ]
+    },
+    "2200108": {
+      "id": 2200108,
+      "module_name": "ws",
+      "severity": "high",
+      "title": "Denial of Service through fragmented WebSocket frames",
+      "overview": "A remote peer can send many fragmented frames to trigger excessive memory growth.",
+      "recommendation": "Upgrade ws and configure maxPayload limits.",
+      "patched_versions": ">=8.17.1",
+      "cves": [
+        "CVE-2026-41008"
+      ],
+      "cwe": [
+        "CWE-400"
+      ],
+      "cvss": {
+        "score": 7.8
+      },
+      "findings": [
+        {
+          "version": "7.5.9",
+          "paths": [
+            "socket-server>ws",
+            "storybook>webpack-dev-server>ws"
+          ]
+        }
+      ]
+    },
+    "2200109": {
+      "id": 2200109,
+      "module_name": "yaml",
+      "severity": "high",
+      "title": "Billion laughs style resource exhaustion",
+      "overview": "Recursive aliases in YAML documents can cause CPU and memory exhaustion during parsing.",
+      "recommendation": "Upgrade yaml and disable aliases for untrusted input.",
+      "patched_versions": ">=2.4.5",
+      "cves": [
+        "CVE-2026-41009"
+      ],
+      "cwe": [
+        "CWE-400"
+      ],
+      "cvss": {
+        "score": 7.5
+      },
+      "findings": [
+        {
+          "version": "1.10.2",
+          "paths": [
+            "config-loader>yaml",
+            "openapi-generator>yaml"
+          ]
+        }
+      ]
+    },
+    "2200110": {
+      "id": 2200110,
+      "module_name": "semver",
+      "severity": "high",
+      "title": "Regular Expression Denial of Service in range parser",
+      "overview": "Crafted version ranges can trigger excessive backtracking.",
+      "recommendation": "Upgrade semver.",
+      "patched_versions": ">=7.6.3",
+      "cves": [
+        "CVE-2026-41010"
+      ],
+      "cwe": [
+        "CWE-1333"
+      ],
+      "cvss": {
+        "score": 7.5
+      },
+      "findings": [
+        {
+          "version": "5.7.1",
+          "paths": [
+            "npm-run-all>semver",
+            "react-scripts>semver",
+            "legacy-builder>semver"
+          ]
+        }
+      ]
+    },
+    "2200111": {
+      "id": 2200111,
+      "module_name": "braces",
+      "severity": "high",
+      "title": "Uncontrolled resource consumption in brace expansion",
+      "overview": "Malicious brace patterns may expand into extremely large arrays.",
+      "recommendation": "Upgrade braces and reject user-controlled glob input.",
+      "patched_versions": ">=3.0.3",
+      "cves": [
+        "CVE-2026-41011"
+      ],
+      "cwe": [
+        "CWE-400"
+      ],
+      "cvss": {
+        "score": 7.5
+      },
+      "findings": [
+        {
+          "version": "2.3.2",
+          "paths": [
+            "chokidar>anymatch>micromatch>braces",
+            "jest>micromatch>braces"
+          ]
+        }
+      ]
+    },
+    "2200112": {
+      "id": 2200112,
+      "module_name": "form-data",
+      "severity": "high",
+      "title": "Boundary collision request smuggling",
+      "overview": "Weak multipart boundary handling may allow crafted payloads to confuse downstream parsers.",
+      "recommendation": "Upgrade form-data and avoid forwarding raw multipart bodies.",
+      "patched_versions": ">=4.0.1",
+      "cves": [
+        "CVE-2026-41012"
+      ],
+      "cwe": [
+        "CWE-444"
+      ],
+      "cvss": {
+        "score": 8
+      },
+      "findings": [
+        {
+          "version": "2.5.1",
+          "paths": [
+            "request>form-data",
+            "mailgun-js>form-data"
+          ]
+        }
+      ]
+    },
+    "2200113": {
+      "id": 2200113,
+      "module_name": "moment",
+      "severity": "moderate",
+      "title": "Inefficient locale parsing",
+      "overview": "Large attacker-controlled locale strings may cause excessive parsing time.",
+      "recommendation": "Upgrade moment or migrate to date-fns/luxon.",
+      "patched_versions": ">=2.30.1",
+      "cves": [],
+      "cwe": [
+        "CWE-400"
+      ],
+      "cvss": {
+        "score": 5.3
+      },
+      "findings": [
+        {
+          "version": "2.24.0",
+          "paths": [
+            "legacy-ui>moment",
+            "admin-dashboard>moment"
+          ]
+        }
+      ]
+    },
+    "2200114": {
+      "id": 2200114,
+      "module_name": "debug",
+      "severity": "moderate",
+      "title": "Sensitive data exposure through verbose logging",
+      "overview": "Debug namespaces enabled in production may expose authorization headers and request metadata.",
+      "recommendation": "Upgrade debug and disable debug output in production.",
+      "patched_versions": ">=4.3.7",
+      "cvss": {
+        "score": 5.9
+      },
+      "findings": [
+        {
+          "version": "3.2.7",
+          "paths": [
+            "express>debug",
+            "socket.io>debug"
+          ]
+        }
+      ]
+    },
+    "2200115": {
+      "id": 2200115,
+      "module_name": "serialize-javascript",
+      "severity": "moderate",
+      "title": "Cross-site scripting through unsafe serialization",
+      "overview": "Improper escaping of special characters may allow script execution when serialized data is embedded in HTML.",
+      "recommendation": "Upgrade serialize-javascript and avoid embedding raw serialized data in templates.",
+      "patched_versions": ">=6.0.2",
+      "cves": [
+        "CVE-2026-41015"
+      ],
+      "cwe": [
+        "CWE-79"
+      ],
+      "cvss": {
+        "score": 6.1
+      },
+      "findings": [
+        {
+          "version": "2.1.2",
+          "paths": [
+            "terser-webpack-plugin>serialize-javascript",
+            "ssr-renderer>serialize-javascript"
+          ]
+        }
+      ]
+    },
+    "2200116": {
+      "id": 2200116,
+      "module_name": "glob-parent",
+      "severity": "moderate",
+      "title": "Regular Expression Denial of Service",
+      "overview": "Glob parsing may hang on crafted path patterns.",
+      "recommendation": "Upgrade glob-parent.",
+      "patched_versions": ">=6.0.2",
+      "cves": [
+        "CVE-2026-41016"
+      ],
+      "cwe": [
+        "CWE-1333"
+      ],
+      "cvss": {
+        "score": 5.6
+      },
+      "findings": [
+        {
+          "version": "5.1.1",
+          "paths": [
+            "chokidar>glob-parent",
+            "watchpack>glob-parent"
+          ]
+        }
+      ]
+    },
+    "2200117": {
+      "id": 2200117,
+      "module_name": "cross-spawn",
+      "severity": "moderate",
+      "title": "Command argument confusion on Windows",
+      "overview": "Improper quoting of command arguments may execute unexpected shell fragments on Windows.",
+      "recommendation": "Upgrade cross-spawn.",
+      "patched_versions": ">=7.0.6",
+      "cves": [
+        "CVE-2026-41017"
+      ],
+      "cwe": [
+        "CWE-78"
+      ],
+      "cvss": {
+        "score": 6.4
+      },
+      "findings": [
+        {
+          "version": "6.0.5",
+          "paths": [
+            "npm-run-all>cross-spawn",
+            "eslint>cross-spawn"
+          ]
+        }
+      ]
+    },
+    "2200118": {
+      "id": 2200118,
+      "module_name": "ip",
+      "severity": "moderate",
+      "title": "Incorrect private IP address classification",
+      "overview": "Certain IPv6-mapped and uncommon IPv4 ranges may be misclassified as public or private.",
+      "recommendation": "Upgrade ip or replace with ipaddr.js.",
+      "patched_versions": ">=2.0.1",
+      "cves": [
+        "CVE-2026-41018"
+      ],
+      "cwe": [
+        "CWE-200"
+      ],
+      "cvss": {
+        "score": 5.3
+      },
+      "findings": [
+        {
+          "version": "1.1.8",
+          "paths": [
+            "proxy-checker>ip",
+            "rate-limiter-flexible>ip"
+          ]
+        }
+      ]
+    },
+    "2200119": {
+      "id": 2200119,
+      "module_name": "postcss",
+      "severity": "moderate",
+      "title": "Parser hang on malformed CSS comments",
+      "overview": "Malformed comments in CSS input can trigger high CPU usage during parsing.",
+      "recommendation": "Upgrade postcss.",
+      "patched_versions": ">=8.4.39",
+      "cvss": {
+        "score": 5.5
+      },
+      "findings": [
+        {
+          "version": "7.0.39",
+          "paths": [
+            "css-loader>postcss",
+            "tailwindcss>postcss"
+          ]
+        }
+      ]
+    },
+    "2200120": {
+      "id": 2200120,
+      "module_name": "nth-check",
+      "severity": "low",
+      "title": "Inefficient nth-child parsing",
+      "overview": "Complex nth-child selectors may cause slow parsing in HTML/CSS tooling.",
+      "recommendation": "Upgrade nth-check.",
+      "patched_versions": ">=2.1.1",
+      "cvss": {
+        "score": 3.7
+      },
+      "findings": [
+        {
+          "version": "1.0.2",
+          "paths": [
+            "html-webpack-plugin>pretty-error>renderkid>css-select>nth-check"
+          ]
+        }
+      ]
+    },
+    "2200121": {
+      "id": 2200121,
+      "module_name": "ansi-regex",
+      "severity": "low",
+      "title": "Regular Expression Denial of Service in ANSI escape parser",
+      "overview": "Long malformed ANSI escape sequences may slow terminal output sanitization.",
+      "recommendation": "Upgrade ansi-regex.",
+      "patched_versions": ">=6.0.1",
+      "cvss": {
+        "score": 3.1
+      },
+      "findings": [
+        {
+          "version": "4.1.1",
+          "paths": [
+            "jest>strip-ansi>ansi-regex",
+            "webpack-cli>wrap-ansi>strip-ansi>ansi-regex"
+          ]
+        }
+      ]
+    },
+    "2200122": {
+      "id": 2200122,
+      "module_name": "kleur",
+      "severity": "low",
+      "title": "Terminal escape sequence injection",
+      "overview": "Untrusted strings written to colored terminal output may inject misleading terminal control sequences.",
+      "recommendation": "Sanitize terminal output and upgrade kleur.",
+      "patched_versions": ">=4.1.6",
+      "cvss": {
+        "score": 3.5
+      },
+      "findings": [
+        {
+          "version": "3.0.3",
+          "paths": [
+            "prompts>kleur",
+            "create-react-app>prompts>kleur"
+          ]
+        }
+      ]
+    },
+    "2200123": {
+      "id": 2200123,
+      "module_name": "source-map",
+      "severity": "low",
+      "title": "Unbounded source map parsing",
+      "overview": "Large source map files may cause excessive memory use in build tooling.",
+      "recommendation": "Upgrade source-map and limit source map size in CI.",
+      "patched_versions": ">=0.7.4",
+      "cvss": {
+        "score": 3.9
+      },
+      "findings": [
+        {
+          "version": "0.6.1",
+          "paths": [
+            "uglify-js>source-map",
+            "istanbul-lib-source-maps>source-map"
+          ]
+        }
+      ]
+    },
+    "2200124": {
+      "id": 2200124,
+      "module_name": "mkdirp",
+      "severity": "info",
+      "title": "Legacy recursive directory creation package",
+      "overview": "This version is outdated and can be replaced with native fs.mkdir recursive behavior.",
+      "recommendation": "Upgrade mkdirp or use fs.mkdir({ recursive: true }).",
+      "patched_versions": ">=1.0.4",
+      "findings": [
+        {
+          "version": "0.5.1",
+          "paths": [
+            "legacy-build>mkdirp"
+          ]
+        }
+      ]
+    },
+    "2200125": {
+      "id": 2200125,
+      "module_name": "left-pad",
+      "severity": "info",
+      "title": "Unmaintained dependency in production tree",
+      "overview": "The dependency is tiny but unmaintained and should not be present in production bundles.",
+      "recommendation": "Replace with String.prototype.padStart.",
+      "patched_versions": "none",
+      "findings": [
+        {
+          "version": "1.3.0",
+          "paths": [
+            "invoice-exporter>left-pad"
+          ]
+        }
+      ]
+    }
+  },
+  "actions": [
+    {
+      "action": "update",
+      "module": "axios",
+      "target": "1.7.8",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200101,
+          "path": "api-gateway>axios",
+          "dev": false
+        },
+        {
+          "id": 2200101,
+          "path": "payment-worker>axios",
+          "dev": false
+        },
+        {
+          "id": 2200101,
+          "path": "admin-dashboard>vite-plugin-api>axios",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "qs",
+      "target": "6.12.3",
+      "resolves": [
+        {
+          "id": 2200102,
+          "path": "express-api>body-parser>qs",
+          "dev": false
+        },
+        {
+          "id": 2200102,
+          "path": "legacy-router>qs",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "sharp",
+      "target": "0.33.5",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200103,
+          "path": "image-service>sharp",
+          "dev": false
+        },
+        {
+          "id": 2200103,
+          "path": "cms-uploader>thumbnailer>sharp",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "node-forge",
+      "target": "1.3.2",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200104,
+          "path": "saml-auth>node-forge",
+          "dev": false
+        },
+        {
+          "id": 2200104,
+          "path": "pdf-signer>node-forge",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "replace",
+      "module": "vm2",
+      "target": "isolated-vm-or-worker-process",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200105,
+          "path": "automation-runner>vm2",
+          "dev": false
+        },
+        {
+          "id": 2200105,
+          "path": "rules-engine>expression-sandbox>vm2",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "mongoose",
+      "target": "8.5.4",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200106,
+          "path": "api-server>mongoose",
+          "dev": false
+        },
+        {
+          "id": 2200106,
+          "path": "reporting-service>mongoose",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "cookie",
+      "target": "0.7.0",
+      "resolves": [
+        {
+          "id": 2200107,
+          "path": "express-session>cookie",
+          "dev": false
+        },
+        {
+          "id": 2200107,
+          "path": "auth-service>cookie",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "ws",
+      "target": "8.17.1",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200108,
+          "path": "socket-server>ws",
+          "dev": false
+        },
+        {
+          "id": 2200108,
+          "path": "storybook>webpack-dev-server>ws",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "yaml",
+      "target": "2.4.5",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200109,
+          "path": "config-loader>yaml",
+          "dev": false
+        },
+        {
+          "id": 2200109,
+          "path": "openapi-generator>yaml",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "semver",
+      "target": "7.6.3",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200110,
+          "path": "npm-run-all>semver",
+          "dev": true
+        },
+        {
+          "id": 2200110,
+          "path": "react-scripts>semver",
+          "dev": true
+        },
+        {
+          "id": 2200110,
+          "path": "legacy-builder>semver",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "braces",
+      "target": "3.0.3",
+      "resolves": [
+        {
+          "id": 2200111,
+          "path": "chokidar>anymatch>micromatch>braces",
+          "dev": true
+        },
+        {
+          "id": 2200111,
+          "path": "jest>micromatch>braces",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "form-data",
+      "target": "4.0.1",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200112,
+          "path": "request>form-data",
+          "dev": false
+        },
+        {
+          "id": 2200112,
+          "path": "mailgun-js>form-data",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "review",
+      "module": "moment",
+      "target": "2.30.1",
+      "resolves": [
+        {
+          "id": 2200113,
+          "path": "legacy-ui>moment",
+          "dev": false
+        },
+        {
+          "id": 2200113,
+          "path": "admin-dashboard>moment",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "serialize-javascript",
+      "target": "6.0.2",
+      "isMajor": true,
+      "resolves": [
+        {
+          "id": 2200115,
+          "path": "terser-webpack-plugin>serialize-javascript",
+          "dev": true
+        },
+        {
+          "id": 2200115,
+          "path": "ssr-renderer>serialize-javascript",
+          "dev": false
+        }
+      ]
+    },
+    {
+      "action": "update",
+      "module": "cross-spawn",
+      "target": "7.0.6",
+      "resolves": [
+        {
+          "id": 2200117,
+          "path": "npm-run-all>cross-spawn",
+          "dev": true
+        },
+        {
+          "id": 2200117,
+          "path": "eslint>cross-spawn",
+          "dev": true
+        }
+      ]
+    },
+    {
+      "action": "replace",
+      "module": "left-pad",
+      "target": "native-padStart",
+      "resolves": [
+        {
+          "id": 2200125,
+          "path": "invoice-exporter>left-pad",
+          "dev": false
+        }
+      ]
+    }
+  ],
+  "muted": [
+    {
+      "id": 2200124,
+      "module": "mkdirp",
+      "reason": "Build-only dependency pinned by archived legacy-build package.",
+      "expires": "2026-09-30"
+    }
+  ]
+}

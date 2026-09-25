@@ -1,0 +1,51 @@
+---
+description: After portfolio edits, automatically build static export and serve out/ — never wait for the user to ask
+alwaysApply: true
+---
+
+# Auto build + static preview after changes
+
+**Do not wait** for the user to say “build and serve,” “run preview,” or “refresh localhost.” After you change anything that affects the site, **run build + preview yourself** before you finish your reply.
+
+## When to run (automatic)
+
+Run after edits to:
+
+- `src/**` (components, pages, data, styles)
+- `public/**` (images, assets)
+- `next.config.*`, `tailwind.config.*`, `package.json`, `tsconfig.json`
+
+Skip only if: no files changed, or changes are comments/docs with zero build impact, or the user explicitly said not to run commands.
+
+## What to run (project root: `aaron_portfolio_2026/`)
+
+**Preferred** — one script, build + serve + health check:
+
+```bash
+./.cursor/skills/preview-static-portfolio/scripts/preview.sh
+```
+
+Use `required_permissions: ["all"]` for the script and for `npx serve` (sandbox breaks `serve` with `uv_interface_addresses` errors).
+
+**Manual fallback:**
+
+```bash
+nvm use  # or source nvm per .nvmrc
+npm run build
+kill $(lsof -i :3000 -t 2>/dev/null) 2>/dev/null || true
+npx serve out -l 3000   # background; permissions: all
+curl -sf -o /dev/null http://localhost:3000   # expect success
+```
+
+## Completion criteria
+
+- `npm run build` succeeded **after** your latest edits
+- Static server on **http://localhost:3000** serving fresh `out/` (restart after every build — stale `serve` is common)
+- Tell the user the URL in your final message when preview ran
+
+`npm run build` alone is **not** enough — this project is `output: "export"`; the user views **`out/`** via `serve`, not `next start`.
+
+## Do not use
+
+- `npm run start` / `next start` — fails on static export
+- Assuming an old background `serve` is still current after a new build

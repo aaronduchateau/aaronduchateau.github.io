@@ -1,0 +1,40 @@
+---
+description: Commit substantial portfolio work before ending a session — never rely on staged-only or editor buffers
+alwaysApply: true
+---
+
+# Git safety before resting
+
+After substantial edits to this portfolio, **commit to git** before you finish your reply. Staged-only changes and unsaved editor buffers are not a backup.
+
+## When to commit
+
+Commit when you have changed any of:
+
+- `src/**`, `public/**`, config files (`next.config.*`, `tailwind.config.*`, `package.json`)
+- New interactive demos, modal components, or content schema updates
+
+Skip only if: no file changes, or the user explicitly said not to commit.
+
+## What to run (project root: `aaron_portfolio_2026/`)
+
+After build + preview succeed (see `verify-build-before-resting.mdc`):
+
+```bash
+git status
+git add <relevant paths>
+git commit -m "descriptive message"
+git status
+```
+
+## Rules
+
+- Do **not** leave recovery-sized work only in the git index without a commit
+- Do **not** commit secrets (`.env`, credentials)
+- Do **not** amend or force-push unless the user explicitly asks
+- Prefer one clear commit message describing **why** (e.g. recovery snapshot, new interactive demo)
+
+## Complements
+
+- `verify-build-before-resting.mdc` — build + static preview before resting
+- User may also request commits explicitly; always honor that
