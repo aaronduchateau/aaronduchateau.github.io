@@ -102,6 +102,40 @@ export const frescoQuote = {
   photoAlt: "Portrait of Jacque Fresco",
 };
 
+/** Route namespace for the closing Fresco quote → video modal. */
+export const FRESCO_MODAL_NAMESPACE = "fresco";
+export const FRESCO_MODAL_KEY = "jacque-fresco";
+
+export const frescoQuoteModal: MediaModalConfig = {
+  title: "Jacque Fresco",
+  date: "The Venus Project",
+  contextLabel: "Values",
+  intro:
+    "Futurist and founder of The Venus Project — a lifelong case for redesigning society with science, systems thinking, and shared abundance.",
+  detail: `Jacque Fresco argued that many of our hardest problems — war, poverty, and environmental collapse — are not human nature so much as outdated social and economic design. His work pressed for a culture that measures success by human and ecological wellbeing, not by competitive scarcity.
+
+Core values he returned to again and again:
+
+• Apply the scientific method to social design — test ideas, update them with evidence, and refuse dogma.
+• Treat Earth’s resources as a shared inheritance to be managed intelligently, not as private spoils.
+• Use technology to eliminate unnecessary labor and material shortage so people can pursue creativity, education, and care.
+• Design cities, infrastructure, and education as integrated systems that reduce waste and conflict.
+• Replace nationalism and monetary game-playing with cooperation rooted in our shared stake in the web of life.
+
+The short talk linked here is a window into that worldview: future-facing, systems-first, and stubbornly hopeful about what collective effort can build.`,
+  media: [
+    {
+      type: "video",
+      id: "fresco-values-talk",
+      youtubeId: "JWvFkgqeUlY",
+      externalLink: {
+        href: "https://www.youtube.com/watch?v=JWvFkgqeUlY",
+        label: "Watch on YouTube",
+      },
+    },
+  ],
+};
+
 export const education = [
   {
     school: "University of Oregon",
@@ -1905,18 +1939,18 @@ export const interactiveDemoCards = [
   },
   {
     id: "my-events",
-    title: "My Events",
+    title: "Your Event Log",
     date: "2026",
     excerpt:
       "Your local activity scoreboard—modals, themes, photos, clicks, and finished videos with points and a full event log.",
     modal: {
-      title: "My Events",
+      title: "Your Event Log",
       date: "2026",
       contextLabel: "Activity report",
       intro:
         "Every scored action on this site lands in a browser-local activity log. Points award once per unique action; the chronological log keeps every occurrence.",
       detail:
-        "Open from Options → My Events or this card. The report shows a point legend, KPIs, awarded actions, the full log, and the raw localStorage object. Reset clears only this activity store.",
+        "Open from Options → Your Event Log or this card. The report shows a point legend, KPIs, awarded actions, the full log, and the raw localStorage object. Reset clears only this activity store.",
       interactive: {
         type: "component",
         id: "interactive-my-events-panel",

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, type ReactNode, type RefObject } from "react";
 import { createPortal } from "react-dom";
+import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { playBoundNavClick } from "@/theme/sounds";
 
 export type ModalFrameChrome = "confirm" | "board" | "list" | "note";
@@ -19,13 +20,13 @@ const OVERLAY: Record<ModalFrameChrome, string> = {
 
 const PANEL: Record<ModalFrameChrome, string> = {
   confirm:
-    "theme-modal-panel modal-launch theme-glass relative w-full max-w-md border p-5 shadow-2xl shadow-black/50 sm:p-6",
+    "theme-modal-panel theme-glass relative w-full max-w-md border p-5 shadow-2xl shadow-black/50 sm:p-6",
   board:
-    "theme-modal-panel modal-launch theme-glass relative flex h-[min(90dvh,900px)] max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden border shadow-2xl shadow-black/50",
+    "theme-modal-panel theme-glass relative flex h-[min(90dvh,900px)] max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden border shadow-2xl shadow-black/50",
   list:
-    "theme-modal-panel modal-launch theme-glass flex h-[min(88dvh,820px)] max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden border shadow-2xl shadow-black/50",
+    "theme-modal-panel theme-glass flex h-[min(88dvh,820px)] max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden border shadow-2xl shadow-black/50",
   note:
-    "theme-modal-panel modal-launch theme-glass relative max-h-[min(86dvh,40rem)] w-full max-w-lg overflow-y-auto overscroll-contain border p-5 shadow-2xl shadow-black/50 sm:p-6",
+    "theme-modal-panel theme-glass relative max-h-[min(86dvh,40rem)] w-full max-w-lg overflow-y-auto overscroll-contain border p-5 shadow-2xl shadow-black/50 sm:p-6",
 };
 
 export type ModalFrameProps = {
@@ -56,6 +57,9 @@ export function ModalFrame({
   className,
 }: ModalFrameProps) {
   const [mounted, setMounted] = useState(false);
+  const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
+    openKey: open,
+  });
 
   useEffect(() => {
     setMounted(true);
@@ -83,7 +87,8 @@ export function ModalFrame({
         aria-labelledby={labelledBy}
         aria-describedby={describedBy}
         tabIndex={-1}
-        className={`${PANEL[chrome]} ${className ?? ""}`.trim()}
+        className={`${launchClass} ${PANEL[chrome]} ${className ?? ""}`.trim()}
+        onAnimationEnd={onAnimationEnd}
       >
         {children}
       </div>

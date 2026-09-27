@@ -19,7 +19,7 @@ export type ApplyThemeOptions = {
    * Default true.
    */
   scrollToTop?: boolean;
-  /** Record `theme.change` for Character Ninja / My Events. Default true. */
+  /** Record `theme.change` for Character Ninja / Your Event Log. Default true. */
   trackActivity?: boolean;
 };
 

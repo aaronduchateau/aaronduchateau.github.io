@@ -64,7 +64,7 @@ export const DEFAULT_THEME_MUSIC_ENABLED = true;
 
 export type SetThemeIdOptions = {
   /**
-   * When true, record a `theme.change` activity event (Character Ninja / My Events).
+   * When true, record a `theme.change` activity event (Character Ninja / Your Event Log).
    * Opt in from Options / theme playground only — intro character picks stay silent.
    */
   trackActivity?: boolean;

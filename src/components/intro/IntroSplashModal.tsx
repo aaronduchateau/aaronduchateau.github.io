@@ -10,6 +10,7 @@ import {
 import { ThemeRadioGroup, type ThemeRadioChoice } from "@/components/ThemeRadioOption";
 import { Button } from "@/components/ui";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { INTRO_PATH, PORTFOLIO_PATH } from "@/lib/routes";
 import { markIntroCompleted, shouldSkipIntroShellLaunch } from "@/lib/introGate";
 import { persistSoftwarePortfolioOnly } from "@/lib/softwarePortfolioPref";
@@ -241,6 +242,11 @@ export function IntroSplashModal({ imageSrc }: Props) {
     setPrizeAnimations(readPrizeAnimationsEnabled());
   }, []);
 
+  const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
+    instant: skipLaunch,
+    openKey: "intro-splash",
+  });
+
   /**
    * Splash boot — always cyberpunk (ignore stored theme), theme music off.
    * Click/modal/prize defaults follow the selected experience path.
@@ -400,9 +406,8 @@ export function IntroSplashModal({ imageSrc }: Props) {
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className={`theme-glass modal-launch relative flex h-dvh w-full max-w-none flex-col overflow-hidden border-0 border-white/10 shadow-2xl shadow-black/60 outline-none sm:h-[min(88dvh,720px)] sm:max-h-[min(88dvh,720px)] sm:max-w-4xl sm:border sm:border-white/10 md:max-w-5xl${
-          skipLaunch ? " modal-launch--instant" : ""
-        }`}
+        className={`theme-glass ${launchClass} relative flex h-dvh w-full max-w-none flex-col overflow-hidden border-0 border-white/10 shadow-2xl shadow-black/60 outline-none sm:h-[min(88dvh,720px)] sm:max-h-[min(88dvh,720px)] sm:max-w-4xl sm:border sm:border-white/10 md:max-w-5xl`}
+        onAnimationEnd={onAnimationEnd}
       >
         <div className="flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-2">
           <SplashHeroArt art={art} />

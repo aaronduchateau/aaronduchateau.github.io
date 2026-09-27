@@ -21,6 +21,7 @@ import { applyFeatureGates } from "@/activity/unlockRoutes";
 import { recordActivity } from "@/activity/tracker";
 import { DevModalToolsMenu, dumpStudioExport } from "@/dev/content-studio";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { isDevMode } from "@/lib/portfolioMode";
 import {
   DEFAULT_MODAL_STRUCTURE_POLICY,
@@ -977,6 +978,9 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   );
 
   useModalAccessibility(Boolean(config) && mounted, dialogRef, onClose);
+  const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
+    openKey: config ? "open" : null,
+  });
   const { grantedPrizes } = useActivity();
   const media = useMemo(
     () => applyFeatureGates(config?.media ?? [], grantedPrizes.featureIds),
@@ -1232,7 +1236,8 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
     return createPortal(
       <div
         ref={dialogRef}
-        className="modal-launch fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6"
+        className={`${launchClass} fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6`}
+        onAnimationEnd={onAnimationEnd}
         role="dialog"
         aria-modal="true"
         aria-labelledby="media-modal-title"
@@ -1268,7 +1273,8 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   return createPortal(
     <div
       ref={dialogRef}
-      className="modal-launch fixed inset-0 z-[120] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-surface-950"
+      className={`${launchClass} fixed inset-0 z-[120] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-surface-950`}
+      onAnimationEnd={onAnimationEnd}
       role="dialog"
       aria-modal="true"
       aria-labelledby="media-modal-title"

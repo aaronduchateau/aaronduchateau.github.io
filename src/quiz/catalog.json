@@ -50,7 +50,7 @@
         },
         {
           "id": "q5",
-          "title": "Under Options in the top menu, what does 'My Events' show?",
+          "title": "Under Options in the top menu, what does 'Your Event Log' show?",
           "choices": [
             { "id": "a", "label": "Aaron’s client invoices" },
             { "id": "b", "label": "Your activity log and points" },

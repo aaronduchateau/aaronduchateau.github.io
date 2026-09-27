@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { ModalChromeIconButton } from "@/components/ModalChromeIconButton";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { getInteractiveDemoComponent } from "@/interactive-demos/registry";
 import { INTERACTIVE_DEMO_REQUEST_CLOSE } from "@/lib/interactiveDemoClose";
 import { playBoundNavClick } from "@/theme/sounds";
@@ -84,6 +85,9 @@ export function InteractiveModal({ config, onClose }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const [showMobileContext, setShowMobileContext] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
+    openKey: config ? "open" : null,
+  });
   useModalAccessibility(Boolean(config) && mounted, dialogRef, onClose);
 
   useEffect(() => {
@@ -111,7 +115,8 @@ export function InteractiveModal({ config, onClose }: Props) {
   return createPortal(
     <div
       ref={dialogRef}
-      className="modal-launch fixed inset-0 z-[120] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-surface-950"
+      className={`${launchClass} fixed inset-0 z-[120] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-surface-950`}
+      onAnimationEnd={onAnimationEnd}
       role="dialog"
       aria-modal="true"
       aria-labelledby="interactive-modal-title"

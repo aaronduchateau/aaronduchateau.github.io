@@ -8,6 +8,10 @@ export type FullScreenQuoteProps = {
   /** Homepage section id. Omit in catalog previews. */
   id?: string;
   className?: string;
+  /** When set, the whole plate opens this action (e.g. Fresco video modal). */
+  onActivate?: () => void;
+  /** Accessible name for the activate control. Required when `onActivate` is set. */
+  activateLabel?: string;
 };
 
 /**
@@ -21,8 +25,31 @@ export function FullScreenQuote({
   photoAlt = "",
   id,
   className,
+  onActivate,
+  activateLabel,
 }: FullScreenQuoteProps) {
   const attrId = id ? `${id}-attribution` : undefined;
+  const interactive = typeof onActivate === "function";
+
+  const body = (
+    <div className="relative z-[1] mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:items-center sm:gap-8 sm:px-10">
+      <div className="theme-closing-quote__photo relative h-28 w-28 shrink-0 overflow-hidden sm:h-32 sm:w-32">
+        <Image
+          src={photo}
+          alt={photoAlt}
+          fill
+          className="object-cover object-top"
+          sizes="128px"
+        />
+      </div>
+      <blockquote className="min-w-0 flex-1">
+        <p className="theme-closing-quote__text">&ldquo;{quote}&rdquo;</p>
+        <footer id={attrId} className="theme-closing-quote__attr mt-3">
+          —{attribution}
+        </footer>
+      </blockquote>
+    </div>
+  );
 
   return (
     <section
@@ -41,23 +68,18 @@ export function FullScreenQuote({
           d="M0,0 C28,6 52,38 72,68 C86,86 94,96 100,100 L100,100 L0,100 Z"
         />
       </svg>
-      <div className="relative z-[1] mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:items-center sm:gap-8 sm:px-10">
-        <div className="theme-closing-quote__photo relative h-28 w-28 shrink-0 overflow-hidden sm:h-32 sm:w-32">
-          <Image
-            src={photo}
-            alt={photoAlt}
-            fill
-            className="object-cover object-top"
-            sizes="128px"
-          />
-        </div>
-        <blockquote className="min-w-0 flex-1">
-          <p className="theme-closing-quote__text">&ldquo;{quote}&rdquo;</p>
-          <footer id={attrId} className="theme-closing-quote__attr mt-3">
-            —{attribution}
-          </footer>
-        </blockquote>
-      </div>
+      {interactive ? (
+        <button
+          type="button"
+          onClick={onActivate}
+          aria-label={activateLabel ?? `Open more about ${attribution}`}
+          className="theme-focus-ring block w-full cursor-pointer rounded-none border-0 bg-transparent p-0 text-left transition hover:opacity-95"
+        >
+          {body}
+        </button>
+      ) : (
+        body
+      )}
     </section>
   );
 }

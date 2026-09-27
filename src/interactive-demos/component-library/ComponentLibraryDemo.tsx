@@ -164,7 +164,7 @@ function JsonOverlay({
 }) {
   return (
     <div className="pointer-events-none absolute inset-0 z-20 flex p-3 sm:p-4">
-      <div className="pointer-events-auto relative flex min-h-0 w-full flex-col overflow-hidden rounded-xl border border-white/15 bg-surface-950/55 shadow-lg shadow-black/30 backdrop-blur-[2px]">
+      <div className="component-library-json-editor pointer-events-auto relative flex min-h-0 w-full flex-col bg-surface-950/55 shadow-lg shadow-black/30 backdrop-blur-[2px]">
         <div className="flex shrink-0 items-center justify-between gap-3 px-3 pt-3">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-surface-400">JSON</p>
           <ModalCloseButton size="sm" ariaLabel="Close JSON editor" onClick={onClose} />

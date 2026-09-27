@@ -21,6 +21,7 @@ import { Button } from "@/components/ui";
 import { ThemeMusicToggle, SpeakerMutedIcon, SpeakerOnIcon } from "@/components/ThemeMusicToggle";
 import { ThemeMusicDividerWave } from "@/components/intro/ThemeMusicDividerWave";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { INTRO_SPLASH_PATH, PORTFOLIO_PATH } from "@/lib/routes";
 import { markIntroCompleted, shouldSkipIntroShellLaunch } from "@/lib/introGate";
 import { readSoftwarePortfolioOnly } from "@/lib/softwarePortfolioPref";
@@ -97,6 +98,11 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
     setSoftwarePortfolioOnly(readSoftwarePortfolioOnly());
     setSkipLaunch(shouldSkipIntroShellLaunch());
   }, []);
+
+  const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
+    instant: skipLaunch,
+    openKey: "intro-game",
+  });
 
   // Keep roster label in sync with themeId (storage hydrate) without clobbering
   // Aaron-alt names chosen while cycling on this screen.
@@ -217,7 +223,7 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
         : "Pick your Aaron, set your preferences, view objectives."
       : panel === "all-characters"
         ? "Full roster — locked characters unlock from the easter egg board."
-        : "Side quests unlock from real portfolio actions — tracked in My Events.";
+        : "Side quests unlock from real portfolio actions — tracked in Your Event Log.";
 
   if (!mounted) {
     return (
@@ -243,9 +249,8 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
         aria-modal={backgroundOnly ? undefined : "true"}
         aria-labelledby={backgroundOnly ? undefined : titleId}
         tabIndex={backgroundOnly ? undefined : -1}
-        className={`intro-game-modal theme-glass modal-launch relative flex h-dvh w-full max-w-none flex-col overflow-hidden border-0 border-white/10 shadow-2xl shadow-black/50 sm:h-[min(94dvh,960px)] sm:max-h-[min(94dvh,960px)] sm:max-w-3xl sm:border sm:border-white/10 md:max-w-4xl lg:h-[min(94dvh,1020px)] lg:max-h-[min(94dvh,1020px)]${
-          skipLaunch ? " modal-launch--instant" : ""
-        }`}
+        className={`intro-game-modal theme-glass ${launchClass} relative flex h-dvh w-full max-w-none flex-col overflow-hidden border-0 border-white/10 shadow-2xl shadow-black/50 sm:h-[min(94dvh,960px)] sm:max-h-[min(94dvh,960px)] sm:max-w-3xl sm:border sm:border-white/10 md:max-w-4xl lg:h-[min(94dvh,1020px)] lg:max-h-[min(94dvh,1020px)]`}
+        onAnimationEnd={onAnimationEnd}
       >
         {showEasterIntro ? (
           <EasterEggBoardIntro

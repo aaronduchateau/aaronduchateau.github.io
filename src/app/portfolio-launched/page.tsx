@@ -10,8 +10,8 @@ import { Testimonials } from "@/components/Testimonials";
 import { ThemeGatedSections } from "@/components/ThemeGatedSections";
 import { WorkHistory } from "@/components/WorkHistory";
 import { YouTubeCardSection } from "@/components/YouTubeCardSection";
-import { FullScreenQuote } from "@/components/ui";
-import { frescoQuote, interactiveDemosSection, videoShowcaseSection } from "@/data/content";
+import { FrescoQuoteSection } from "@/components/FrescoQuoteSection";
+import { interactiveDemosSection, videoShowcaseSection } from "@/data/content";
 import { APP_CONTENT_ID } from "@/hooks/useModalAccessibility";
 
 /** Main portfolio surface — entered after intro/splash (or by direct URL). */
@@ -30,13 +30,7 @@ export default function PortfolioLaunchedPage() {
         <Employment />
         <HackathonContributions />
         <ThemeGatedSections />
-        <FullScreenQuote
-          id="full-screen-quote"
-          quote={frescoQuote.text}
-          attribution={frescoQuote.attribution}
-          photo={frescoQuote.photoSrc}
-          photoAlt={frescoQuote.photoAlt}
-        />
+        <FrescoQuoteSection />
       </main>
       <SiteFooter />
     </div>

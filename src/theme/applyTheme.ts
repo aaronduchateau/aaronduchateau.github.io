@@ -1,4 +1,5 @@
 import { resolveComponentSlots } from "./slots";
+import { applyModalLaunchMotion } from "./modalLaunch";
 import type { ThemeTokens } from "./types";
 
 const TOKEN_STYLE_MAP: { key: keyof ThemeTokens; cssVar: string }[] = [
@@ -40,6 +41,7 @@ export function applyThemeTokens(tokens: ThemeTokens): void {
 
   const root = document.documentElement;
   root.dataset.theme = tokens.id;
+  applyModalLaunchMotion(tokens.id);
 
   for (const { key, cssVar } of TOKEN_STYLE_MAP) {
     const value = tokens[key];

@@ -20,7 +20,9 @@ Classification:
 
 ## Per theme (color skins in globals.css)
 
-Each of these has `[data-theme] .theme-primary-cta` and/or blanket `.theme-btn-shape` / `.theme-card` / `.theme-nav` / `.modal-launch` skins. Absorb into `primaryCta.*` / card / nav slots only after visual QA.
+Each of these has `[data-theme] .theme-primary-cta` and/or blanket `.theme-btn-shape` / `.theme-card` / `.theme-nav` skins. Absorb into `primaryCta.*` / card / nav slots only after visual QA.
+
+**Modal launch** — absorbed into [`src/theme/modalLaunch.ts`](modalLaunch.ts) (`--modal-launch-name` / `--modal-launch-timing` via `applyThemeTokens`) plus `useModalLaunchClass` (settles after one-shot so theme switches cannot restart entrance). Keyframes remain in globals.css; do not re-add `[data-theme] .modal-launch { animation-name }`.
 
 - `relic-guy` — Relic: gold accents, squared chrome — **role skin** + **font**
 - `psychedelic-hippie` — organic radii, magenta/lime — **role skin** + **font**

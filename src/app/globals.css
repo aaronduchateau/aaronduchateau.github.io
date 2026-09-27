@@ -41,6 +41,9 @@
 
   /* Content-window open SFX length → modal launch animation (0ms = instant). */
   --modal-open-duration: 0ms;
+  /* Theme launch keyframe + easing — painted by applyModalLaunchMotion. */
+  --modal-launch-name: modal-launch-in;
+  --modal-launch-timing: cubic-bezier(0.22, 1, 0.36, 1);
 
   --accent-50: 236 254 255;
   --accent-100: 207 250 254;
@@ -1150,6 +1153,16 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   border: 1px solid rgb(255 255 255 / 0.1);
   overflow: hidden;
   background-color: rgb(var(--surface-950));
+}
+
+/*
+  Component-library JSON overlay only — keep a tight rectangle so themed radii
+  (pills, melts, mega cards) cannot eat the editable text area.
+*/
+.component-library-json-editor {
+  border-radius: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.15);
+  overflow: hidden;
 }
 
 html.component-preview-embed,
@@ -2759,16 +2772,6 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="conspiracy-theorist"] .modal-launch {
-  animation-name: conspiracy-modal-flicker;
-  animation-timing-function: steps(5, end);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="conspiracy-theorist"] .modal-launch {
-    animation: none;
-  }
-}
 
 /*
   Galaxy Guy: Orbitron HUD type, capsule glow chips, holo glass panels,
@@ -2901,16 +2904,6 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="galaxy-guy"] .modal-launch {
-  animation-name: galaxy-holo-project;
-  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="galaxy-guy"] .modal-launch {
-    animation: none;
-  }
-}
 
 /*
   Atlantean: Cormorant court type, bioluminescent teal glass, bronze hover,
@@ -3040,16 +3033,6 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="atlantean"] .modal-launch {
-  animation-name: atlantean-course-project;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="atlantean"] .modal-launch {
-    animation: none;
-  }
-}
 
 /*
   Captain Guy: Oswald title cards, candlelit amber ghost buttons, soft ritual
@@ -3204,16 +3187,6 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="captain-guy"] .modal-launch {
-  animation-name: captain-guy-holy-project;
-  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="captain-guy"] .modal-launch {
-    animation: none;
-  }
-}
 
 /*
   Nerd: VT323 phosphor type, beige keycap buttons, CRT bezels + cyan HUD glass,
@@ -3378,16 +3351,6 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="nerd"] .modal-launch {
-  animation-name: nerd-boot-sequence;
-  animation-timing-function: steps(8, end);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="nerd"] .modal-launch {
-    animation: none;
-  }
-}
 
 /*
   Pop Art Guy: Archivo Black screen-print type, Permanent Marker signature accents,
@@ -3623,16 +3586,6 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="pop-art-guy"] .modal-launch {
-  animation-name: warhol-screen-print;
-  animation-timing-function: steps(5, end);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-theme="pop-art-guy"] .modal-launch {
-    animation: none;
-  }
-}
 
 /*
   Surrealist: IM Fell English ink, burgundy velvet + brass, melting soft-clock
@@ -3830,16 +3783,8 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="surrealist"] .modal-launch {
-  animation-name: surrealist-soft-clock;
-  animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
-}
 
 @media (prefers-reduced-motion: reduce) {
-  [data-theme="surrealist"] .modal-launch {
-    animation: none;
-  }
-
   [data-theme="surrealist"] .theme-btn-shape,
   [data-theme="surrealist"] .theme-card,
   [data-theme="surrealist"] .theme-play-btn {
@@ -4003,16 +3948,8 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="dog-days-guy"] .modal-launch {
-  animation-name: dog-days-guy-bounce-in;
-  animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-}
 
 @media (prefers-reduced-motion: reduce) {
-  [data-theme="dog-days-guy"] .modal-launch {
-    animation: none;
-  }
-
   [data-theme="dog-days-guy"] .theme-btn-shape {
     transition: none;
   }
@@ -4206,16 +4143,8 @@ button.theme-quest-view-unlock {
   }
 }
 
-[data-theme="retro-guy"] .modal-launch {
-  animation-name: retro-guy-pipe-warp;
-  animation-timing-function: cubic-bezier(0.34, 1.4, 0.64, 1);
-}
 
 @media (prefers-reduced-motion: reduce) {
-  [data-theme="retro-guy"] .modal-launch {
-    animation: none;
-  }
-
   [data-theme="retro-guy"] .theme-btn-shape {
     transition: none;
   }
@@ -5068,33 +4997,8 @@ button.theme-quest-view-unlock {
   }
 }
 
-/* Manual open: a couple of pops so the play control is hard to miss. */
-@keyframes theme-testimonial-play-attract {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgb(var(--accent-300) / 0);
-  }
-  35% {
-    transform: scale(1.14);
-    box-shadow: 0 0 0 10px rgb(var(--accent-300) / 0.22);
-  }
-  55% {
-    transform: scale(0.96);
-    box-shadow: 0 0 0 2px rgb(var(--accent-300) / 0.08);
-  }
-  75% {
-    transform: scale(1.1);
-    box-shadow: 0 0 0 7px rgb(var(--accent-300) / 0.16);
-  }
-}
-
 .theme-testimonial-play--loading {
   animation: theme-testimonial-play-pulse 1.05s ease-in-out infinite;
-}
-
-.theme-testimonial-play--attract {
-  animation: theme-testimonial-play-attract 0.85s ease-in-out 0.35s 2 both;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -5102,18 +5006,19 @@ button.theme-quest-view-unlock {
     animation: none;
     opacity: 0.72;
   }
-
-  .theme-testimonial-play--attract {
-    animation: none;
-  }
 }
 
 .modal-launch {
-  animation: modal-launch-in var(--modal-open-duration, 0ms) cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-name: var(--modal-launch-name, modal-launch-in);
+  animation-duration: var(--modal-open-duration, 0ms);
+  animation-timing-function: var(--modal-launch-timing, cubic-bezier(0.22, 1, 0.36, 1));
+  animation-fill-mode: both;
 }
 
+/* Settled after one-shot entrance — theme paints must not restart launch. */
 html[data-modal-open-instant="true"] .modal-launch,
-.modal-launch.modal-launch--instant {
+.modal-launch.modal-launch--instant,
+.modal-launch.modal-launch--settled {
   animation: none;
 }
 
@@ -5183,6 +5088,8 @@ html[data-modal-open-instant="true"] .modal-launch,
   width: var(--intro-hold-size, 16.5rem);
   height: var(--intro-hold-size, 16.5rem);
   transform-origin: top left;
+  /* Hidden until measure locks CSS vars — avoids left-edge fallback flash. */
+  opacity: 0;
 }
 
 .testimonial-intro-portrait-run {
@@ -5192,6 +5099,7 @@ html[data-modal-open-instant="true"] .modal-launch,
 .testimonial-intro-portrait-rest {
   top: 0;
   transform: translate(-50%, 0);
+  opacity: 1;
 }
 
 .testimonial-intro-coin-scene {
@@ -5202,19 +5110,24 @@ html[data-modal-open-instant="true"] .modal-launch,
 .testimonial-intro-coin-emerge {
   height: 100%;
   width: 100%;
+  /* Nest stays empty until emerge-run starts behind the hold photo. */
+  opacity: 0;
 }
 
 @keyframes testimonial-intro-coin-emerge {
   0%,
   56% {
     transform: translate(var(--intro-coin-from-x, 0), var(--intro-coin-from-y, 0));
+    opacity: 1;
     animation-timing-function: cubic-bezier(0.45, 0.02, 0.12, 1);
   }
   80% {
     transform: translate(0, 0);
+    opacity: 1;
   }
   100% {
     transform: translate(0, 0);
+    opacity: 1;
   }
 }
 
@@ -5230,10 +5143,6 @@ html[data-modal-open-instant="true"] .modal-launch,
 }
 
 @media (max-width: 639px) {
-  .testimonial-intro-coin-emerge {
-    opacity: 0;
-  }
-
   .testimonial-intro-coin-emerge-run {
     animation: testimonial-intro-coin-fade 4s ease-out both;
   }

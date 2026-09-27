@@ -21,7 +21,7 @@ const workLinks = [
   { href: "#interactive-things", label: "Interactive things" },
   { href: "#work", label: "Career timeline" },
   { href: "#projects", label: "Major projects" },
-  { href: "#hackathons", label: "Events" },
+  { href: "#hackathons", label: "Hackathon Contributions" },
   { href: "#older-videos", label: "Archives" },
 ];
 

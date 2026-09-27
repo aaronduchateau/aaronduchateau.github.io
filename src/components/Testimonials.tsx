@@ -15,6 +15,7 @@ import {
 import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
 import { useTestimonialSpeech } from "@/hooks/useTestimonialSpeech";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { haltTestimonialPlayback } from "@/lib/testimonialPlaybackPreload";
 import { useRouteModal } from "@/lib/useRouteModal";
 import { testimonialFirstName } from "@/lib/testimonialIntro";
@@ -80,6 +81,7 @@ function TestimonialLetterDialog({
   onTouchEnd,
   speech,
   hideIdleQuote,
+  onStartPlayback,
 }: {
   letter: Testimonial;
   titleId: string;
@@ -91,9 +93,11 @@ function TestimonialLetterDialog({
   speech: ReturnType<typeof useTestimonialSpeech>;
   /** Learn-more autoplay: keep letter text hidden until playback takes over. */
   hideIdleQuote: boolean;
+  onStartPlayback: () => void;
 }) {
   const karaoke = speech.status !== "idle";
   const showQuote = !karaoke && !hideIdleQuote;
+  const canOfferListen = showQuote && speech.supported;
   const sentence = speech.sentences[speech.sentenceIndex] ?? speech.sentences[0] ?? null;
 
   return (
@@ -142,6 +146,19 @@ function TestimonialLetterDialog({
               {paragraph}
             </p>
           ))}
+          {canOfferListen ? (
+            <p className="pt-5 text-sm leading-relaxed text-surface-300">
+              <span aria-hidden>- </span>
+              <button
+                type="button"
+                onClick={onStartPlayback}
+                disabled={!speech.ready}
+                className="text-accent-300 underline decoration-accent-300/50 underline-offset-2 transition hover:text-accent-200 hover:decoration-accent-200 disabled:cursor-wait disabled:opacity-60"
+              >
+                Sit back and relax while we play the rest of the testimonials for you
+              </button>
+            </p>
+          ) : null}
         </div>
         {speech.supported ? (
           <div
@@ -295,6 +312,7 @@ function TestimonialModalPanel({
           onTouchEnd={onTouchEnd}
           speech={speech}
           hideIdleQuote={Boolean(autoPlay && speechSupported && speechStatus === "idle")}
+          onStartPlayback={speechToggle}
         />
 
         <button
@@ -314,7 +332,6 @@ function TestimonialModalPanel({
         ready={speech.ready}
         status={speech.status}
         phase={speech.phase}
-        attractPlay={!autoPlay && speechStatus === "idle"}
         onToggle={speech.toggle}
       />
     </div>
@@ -339,6 +356,10 @@ export function Testimonials() {
     haltTestimonialPlayback();
     close();
   }, [close]);
+
+  const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
+    openKey: activeKey ? "open" : null,
+  });
 
   useModalAccessibility(active !== null && mounted, dialogRef, closeTestimonials);
 
@@ -401,7 +422,8 @@ export function Testimonials() {
           ? createPortal(
             <div
               ref={dialogRef}
-              className="modal-launch fixed inset-0 z-[120] flex items-center justify-center bg-surface-950/80 px-3 py-3 backdrop-blur-sm sm:px-4 sm:py-5"
+              className={`${launchClass} fixed inset-0 z-[120] flex items-center justify-center bg-surface-950/80 px-3 py-3 backdrop-blur-sm sm:px-4 sm:py-5`}
+              onAnimationEnd={onAnimationEnd}
               role="dialog"
               aria-modal="true"
               aria-labelledby={titleId}

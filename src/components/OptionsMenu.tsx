@@ -404,7 +404,7 @@ export function OptionsMenu() {
 
           <div className="my-1 border-t border-white/10" role="separator" />
           <MenuRow
-            label="My Events"
+            label="Your Event Log"
             expanded={submenu === "my-events"}
             onClick={() => toggleSubmenu("my-events")}
           />
@@ -412,7 +412,7 @@ export function OptionsMenu() {
             <div
               className="mb-1 ml-1 space-y-0.5 border-l border-white/10 pl-2"
               role="group"
-              aria-label="My Events"
+              aria-label="Your Event Log"
             >
               <SubmenuAction label="Event log" onClick={openEventLog} />
               <SubmenuAction label="Easter egg board" onClick={openEasterEggBoard} />
@@ -451,7 +451,7 @@ export function OptionsMenu() {
         open={resetPointsConfirmOpen}
         onCancel={() => setResetPointsConfirmOpen(false)}
         onConfirm={confirmResetPoints}
-        eyebrow="My Events"
+        eyebrow="Your Event Log"
         title="Reset point count?"
         description="This clears your local activity score, awarded actions, and event log for this browser. Milestone progress resets too. This cannot be undone."
         confirmLabel="Reset point count"
