@@ -9,25 +9,6 @@ const firstLetter = testimonials[0];
 
 export const ADVANCED_STORIES: readonly LibraryStory[] = [
   {
-    id: "theme-card",
-    kind: "advanced",
-    name: "Theme card",
-    summary:
-      "Same Card as the homepage. Card is a parent lookup; the plate only consumes title, excerpt, CTA, date, and a cover object.",
-    controls: [
-      {
-        key: "cardId",
-        label: "Card (parent lookup)",
-        type: "select",
-        defaultValue: THEME_CARD_SAMPLES[0]?.id ?? "vvxlxbaitge",
-        options: THEME_CARD_SAMPLES.map((row) => ({
-          value: row.id,
-          label: row.title,
-        })),
-      },
-    ],
-  },
-  {
     id: "education-card",
     kind: "advanced",
     name: "Education card",
@@ -176,6 +157,25 @@ export const ADVANCED_STORIES: readonly LibraryStory[] = [
           { value: "false", label: "Not complete" },
           { value: "true", label: "Complete" },
         ],
+      },
+    ],
+  },
+  {
+    id: "theme-card",
+    kind: "advanced",
+    name: "Theme card",
+    summary:
+      "Same Card as the homepage. Card is a parent lookup; the plate only consumes title, excerpt, CTA, date, and a cover object.",
+    controls: [
+      {
+        key: "cardId",
+        label: "Card (parent lookup)",
+        type: "select",
+        defaultValue: THEME_CARD_SAMPLES[0]?.id ?? "vvxlxbaitge",
+        options: THEME_CARD_SAMPLES.map((row) => ({
+          value: row.id,
+          label: row.title,
+        })),
       },
     ],
   },

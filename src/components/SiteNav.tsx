@@ -11,19 +11,24 @@ import { SoundMenu } from "@/components/SoundMenu";
 import { useTheme } from "@/theme/ThemeProvider";
 import { PORTFOLIO_PATH } from "@/lib/routes";
 
+/** Primary section links — order matches homepage scroll. */
 const primaryLinks = [
-  { href: "#education", label: "Education" },
   { href: "#testimonials", label: "Testimonials" },
+  { href: "#education", label: "Education" },
 ];
 
 const workLinks = [
-  { href: "#new-software-demos", label: "New software demos" },
   { href: "#interactive-things", label: "Interactive things" },
+  { href: "#new-software-demos", label: "A few software demos" },
   { href: "#work", label: "Career timeline" },
   { href: "#projects", label: "Major projects" },
   { href: "#hackathons", label: "Hackathon Contributions" },
   { href: "#older-videos", label: "Archives" },
 ];
+
+/** Shared with Education / Testimonials anchors — theme roles only, same box. */
+const navItemClass =
+  "theme-btn-shape inline-flex items-center gap-1 px-3 py-1.5 transition hover:bg-white/5 hover:text-white";
 
 function WorkMenu({ onNavigate }: { onNavigate: () => void }) {
   const menuId = useId();
@@ -64,7 +69,7 @@ function WorkMenu({ onNavigate }: { onNavigate: () => void }) {
         aria-expanded={open}
         aria-controls={menuId}
         onClick={toggle}
-        className="theme-btn-shape flex items-center gap-1 px-3 py-1.5 transition hover:bg-white/5 hover:text-white"
+        className={navItemClass}
       >
         Work
         <span className="text-surface-500" aria-hidden>
@@ -117,7 +122,12 @@ export function SiteNav() {
       onClickCapture={(event) => {
         if (!sectionMenuOpen) return;
         const target = event.target;
-        if (target instanceof Element && target.closest("[data-section-nav-toggle]")) {
+        if (!(target instanceof Element)) return;
+        // Flyout is portaled; React still bubbles through this tree — ignore panel clicks.
+        if (
+          target.closest("[data-section-nav-toggle]") ||
+          target.closest("[data-section-nav-panel]")
+        ) {
           return;
         }
         setSectionMenuOpen(false);
@@ -142,11 +152,7 @@ export function SiteNav() {
           <WorkMenu onNavigate={playNavClick} />
           {primaryLinks.map((l) => (
             <li key={l.href}>
-              <a
-                href={l.href}
-                onClick={playNavClick}
-                className="theme-btn-shape px-3 py-1.5 transition hover:bg-white/5 hover:text-white"
-              >
+              <a href={l.href} onClick={playNavClick} className={navItemClass}>
                 {l.label}
               </a>
             </li>
@@ -154,8 +160,8 @@ export function SiteNav() {
         </ul>
         <div className="flex shrink-0 items-center gap-2">
           <OptionsMenu />
-          <SoundMenu />
           <ScoreChestButton />
+          <SoundMenu />
         </div>
       </div>
     </nav>

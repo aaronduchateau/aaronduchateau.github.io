@@ -39,7 +39,7 @@ export function MarkdownArticleModal({ config, onClose }: Props) {
         aria-modal="true"
         aria-labelledby="markdown-article-modal-title"
         tabIndex={-1}
-        className="relative flex h-dvh w-full max-w-none flex-col overflow-hidden border border-white/10 bg-surface-950 shadow-2xl sm:h-[min(86dvh,820px)] sm:max-w-3xl sm:rounded-2xl"
+        className="relative flex h-dvh w-full max-w-none flex-col overflow-hidden border border-white/10 bg-surface-950 shadow-2xl sm:h-[min(90dvh,920px)] sm:max-w-4xl sm:rounded-2xl"
       >
         <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-5 sm:px-6">
           <ModalCloseButton onClick={handleClose} />

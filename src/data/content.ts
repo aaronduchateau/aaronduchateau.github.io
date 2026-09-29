@@ -486,8 +486,8 @@ export const hackathonContributions: ContributionProject[] = [
         {
           type: "photo",
           id: "nearcon-2",
-          src: "/photos/externals/Aaron_DuChateau_nearcon_2.png",
-          alt: "Pena Palace tower and stone walls in Sintra",
+          src: "/travel/Aaron_DuChateau_castle.jpg",
+          alt: "Castle",
           externalLink: nearconExternal,
         },
         {
@@ -731,6 +731,25 @@ Final selection: After sorting by total value in list view, the user identifies 
 Report generation: Once the property is found, the demo shows how to generate a full tax/lot report, toggle map base layers (satellite, topography, street view), and save or print the information for presentation.`,
   },
 {
+    id: "cpbseuddjeq",
+    title: "Product demo reel",
+    date: "2018 — 2019",
+    excerpt:
+      "Legal GPS®—a step-by-step legal roadmap for entrepreneurs: interactive checkups, guided learning paths, attorney-approved templates, and a proprietary Legal Status Report.",
+    youtubeId: "cPbSeuDdJeQ",
+    modalText:
+      "Product walkthrough for Legal GPS® (legalgps.com), built with startup attorneys to guide owners through formation and growth—think TurboTax clarity, applied to small-business legal work. Aaron served as full-stack engineer and project owner (2018–2019).",
+    modalDetail: `Legal GPS® is an all-in-one DIY platform that walks business owners through the legal side of starting and growing a company—without needing a law degree first. Built with top startup attorneys, it is marketed as “Your Small Business Legal Roadmap” on legalgps.com.
+
+The product centers on interactive guidance: a legal checkup uses questions so founders surface issues they “don’t know they don’t know,” even when they assume a simple structure like a single-member LLC covers everything. Users sign up for on-demand access, learn at their own pace along step-by-step paths, complete those paths, and receive the proprietary Legal GPS® Legal Status Report. The library includes attorney-approved contract templates, guides, and in-depth tips—positioned at less than 1% of the cost of many traditional legal options. The site highlights typical outcomes such as about 117 hours saved and $5,500 in average user savings, with 300+ attorneys recommending the platform.
+
+Coverage spans starting a company, hiring staff, day-to-day operations, trademarks, copyrights, trade secrets and patents, website agreements, and more—with pointers when rules vary by state, county, or city.
+
+Aaron was Software Engineer / Project Manager (2018–2019), working in React, Node.js, Express, PostgreSQL, and Material UI on AWS-hosted infrastructure. He translated product vision into milestones, balanced UX with delivery, and shipped full-stack features from concept through production.
+
+For entrepreneurs who would otherwise piece together blogs and free templates, Legal GPS® is meant to feel like a cheatsheet for legal steps that can otherwise derail a business early. This demo reel shows the guided flows and product polish behind that experience.`,
+  },
+{
     id: "7k2bict15gc",
     title: "MLS property search",
     date: "2026",
@@ -767,26 +786,6 @@ What “accessibility first” means here: From a visual perspective, the foregr
 For foodies: Experiment with different items and the customizations you make. Modifications for allergies or preferences can turn a dining experience from two-star to five-star—lobster bisque with a side of cream, or a seafood dish without ingredients that make you sick. The app is a personal interface for tracking what you like and what you don’t when you go out to eat with friends.
 
 Demo note: The walkthrough includes interactive playback of a sample item (e.g. grilled meatloaf with description and price) to show how a photo-derived menu becomes speakable, controllable content.`,
-  },
-{
-    id: "cpbseuddjeq",
-    title: "Product demo reel",
-    date: "2018 — 2019",
-    excerpt:
-      "Legal GPS®—a step-by-step legal roadmap for entrepreneurs: interactive checkups, guided learning paths, attorney-approved templates, and a proprietary Legal Status Report.",
-    youtubeId: "cPbSeuDdJeQ",
-    enterSplash: ARCHIVE_VIDEO_ENTER_SPLASH,
-    modalText:
-      "Product walkthrough for Legal GPS® (legalgps.com), built with startup attorneys to guide owners through formation and growth—think TurboTax clarity, applied to small-business legal work. Aaron served as full-stack engineer and project owner (2018–2019).",
-    modalDetail: `Legal GPS® is an all-in-one DIY platform that walks business owners through the legal side of starting and growing a company—without needing a law degree first. Built with top startup attorneys, it is marketed as “Your Small Business Legal Roadmap” on legalgps.com.
-
-The product centers on interactive guidance: a legal checkup uses questions so founders surface issues they “don’t know they don’t know,” even when they assume a simple structure like a single-member LLC covers everything. Users sign up for on-demand access, learn at their own pace along step-by-step paths, complete those paths, and receive the proprietary Legal GPS® Legal Status Report. The library includes attorney-approved contract templates, guides, and in-depth tips—positioned at less than 1% of the cost of many traditional legal options. The site highlights typical outcomes such as about 117 hours saved and $5,500 in average user savings, with 300+ attorneys recommending the platform.
-
-Coverage spans starting a company, hiring staff, day-to-day operations, trademarks, copyrights, trade secrets and patents, website agreements, and more—with pointers when rules vary by state, county, or city.
-
-Aaron was Software Engineer / Project Manager (2018–2019), working in React, Node.js, Express, PostgreSQL, and Material UI on AWS-hosted infrastructure. He translated product vision into milestones, balanced UX with delivery, and shipped full-stack features from concept through production.
-
-For entrepreneurs who would otherwise piece together blogs and free templates, Legal GPS® is meant to feel like a cheatsheet for legal steps that can otherwise derail a business early. This demo reel shows the guided flows and product polish behind that experience.`,
   },
 {
     id: "8atginpr5ps",
@@ -872,13 +871,13 @@ When the deal is ready, the app shows a scannable barcode the patron can present
   }
 ];
 
-export const videoShowcaseCards = featuredWorkCards.slice(0, 3);
-export const olderVideoShowcaseCards = featuredWorkCards.slice(3);
+export const videoShowcaseCards = featuredWorkCards.slice(0, 4);
+export const olderVideoShowcaseCards = featuredWorkCards.slice(4);
 
 export const videoShowcaseSection = {
   id: "new-software-demos",
   eyebrow: "Video showcase",
-  title: "New Software Demos",
+  title: "A few Software Demos",
   description: "Big, small, i've done it all. Here are some highlights of my journey.",
   cards: videoShowcaseCards,
 } as const;
@@ -1667,66 +1666,264 @@ These were noticed in thoughtful review; they are **not** claimed as fixed until
 *Next:* Close open notes with issue/action steps as each item is remediated.
 `;
 
-const themeArchitectureMarkdown = `# Themes as a design contract
+const themeArchitectureMarkdown = `# How themes work (a guided tour)
 
-Every look on this site—Cyber Guy, ADA Guy, Dream Guy, and the rest—is not a pile of one-off CSS overrides. It is a **theme contract**: named colors, radii, glass, and control roles that resolve once and paint the whole page.
+This site can look like Cyber Guy, ADA Guy, Dream Guy, and many others. Those looks are **not** “find every button and recolor it by hand.” They share one teaching idea:
 
-Selection is driven by [json-rules-engine](https://www.npmjs.com/package/json-rules-engine) on the client. Static export still ships Cyberpunk defaults in CSS so the first paint matches the original cyan glass before JavaScript runs.
+**A theme is a contract.** The contract names colors, corner shapes, glass, fonts, and button *roles*. One paint step applies the contract to the whole page. Components then ask for roles (“primary button,” “ghost button,” “menu panel”) instead of asking for “that cyan from last Tuesday.”
 
-## Pipeline (one paint path)
+The selector that decides *which* contract to use is a small rules engine that runs in your browser: [json-rules-engine](https://www.npmjs.com/package/json-rules-engine). The diagrams below are drawn live with [Mermaid](https://mermaid.js.org/) and recolored from the same theme tokens you just picked in Options—so the flowchart itself wears the active look.
 
-1. \`ThemeProvider\` (from \`layout.tsx\`) holds the active theme id and facts such as Software Portfolio Only.
-2. Facts run through \`src/theme/engine.ts\` → \`src/theme/rules.ts\`. Rules emit events: which palette to apply, which sections to show or hide, and which sound / music defaults to use.
-3. The winning token pack comes from \`src/theme/palettes.ts\`.
-4. \`applyThemeTokens()\` writes CSS variables onto \`<html>\` and sets \`data-theme="…"\`.
-5. Components do not hard-code “cyan” or “amber.” They use **role classes** (\`.theme-primary-cta\`, \`.theme-card\`, \`.theme-ghost-cta\`, …) that read \`--slot-*\`, \`--accent-*\`, and \`--surface-*\`.
+---
 
-Change a look by editing the contract—not by hunting one button in the DOM.
+## Big picture: what happens when you pick a theme?
 
-## Slots and swatches
+Imagine you open **Options → Themes** and choose Relic Guy. Your click does not rewrite every CSS file. It sets a fact (“the theme id is \`relic-guy\`”), asks the rules engine what that means, then paints CSS variables onto the page root.
 
-- **Swatch** — a real Tailwind color id (\`amber-200\`, \`cyan-400\`). Defined in \`src/theme/swatches.ts\`. The name is the hue; \`amber-200\` always means real amber.
-- **Slot** — a semantic role (\`accent.400\`, \`primary-cta-fill\`, \`muted-copy\`). Values are \`{ swatch }\`, \`{ ref }\`, or \`{ rgb }\`—never a Tailwind class string.
-- Apply paints \`--accent-*\`, \`--surface-*\`, and \`--slot-*\`. Components prefer role classes that consume those variables.
-- Alpha stays on the role (\`rgb(var(--slot-card-meta) / 0.9)\`) or a dedicated alpha token when it varies by theme.
+\`\`\`mermaid caption="End-to-end theme paint path"
+flowchart LR
+  A["Pick"] --> B["Provider"] --> C["Rules"] --> D["Events"] --> E["Palette"] --> F["Apply"] --> G["Roles"]
+\`\`\`
 
-If a role is missing, the contract is extended (types → palette → apply → CSS roles). Papering over unreadability with a one-line \`color:\` fix is how themes break each other.
+In plain language:
 
-## What a theme owns
+1. **You choose a name** (for example \`galaxy-guy\`).
+2. **The provider stores that name** and any other facts (like “Software Portfolio Only”).
+3. **The rules engine** looks up policies for that name: which color pack, which sections to hide, which default sounds.
+4. **The palette** is a bag of numbers and swatches (cyan glass vs paper/ink vs gold).
+5. **Apply** stamps those numbers onto \`<html>\` as CSS custom properties and sets \`data-theme\`.
+6. **UI roles** (primary CTA, ghost, menus) read those properties—so one stamp restyles the whole site.
 
-Token packs are more than a color wheel:
+Static export still ships Cyberpunk defaults in CSS first, so the first paint matches the classic cyan glass before JavaScript finishes.
 
-- **Radii** — pill, card, media, control, play (\`rounded-xl\` / \`2xl\` / \`3xl\` in Tailwind map to these variables)
-- **Hero** — photo plate, scrim opacities, accent wash
-- **Glass** — fill alpha, blur, decorative aura
-- **Cards & borders** — surface alpha, hairlines, hover rings
-- **Type** — display / sans faces rebound via \`[data-theme]\` next/font slots (never through \`:root\` aliases that resolve before fonts load)
-- **Layout gates** — e.g. hide Fun things, skip decorative card media on ADA Guy, soft-gate the theme game in Software mode
-- **Sound** — theme music bed, click pack, content-window sting defaults from the same rules pass
+---
 
-## Control roles (why buttons stay distinct)
+## Step 1 — ThemeProvider is the stage manager
 
-Themes must keep surfaces readable **and** visually different. The contract calls out roles such as:
+\`ThemeProvider\` wraps the app from \`layout.tsx\`. Think of it as the stage manager: it knows which costume is on, keeps sound preferences, and calls “places” when the costume changes.
+
+\`\`\`tsx path=src/theme/ThemeProvider.tsx
+// resolveTheme is our fold over json-rules-engine — not an import from that package
+import { resolveTheme } from "./engine";
+import { applyThemeTokens } from "./applyTheme";
+
+const [themeId, setThemeId] = useState("cyberpunk");
+
+async function applyId(id: ThemeId) {
+  // One call → tokens + visibility + soundDefaults (all events from engine.run)
+  const { tokens, visibility, soundDefaults } = await resolveTheme({
+    themeId: id,
+    softwarePortfolioOnly: readSoftwarePortfolioOnly(),
+  });
+  applyThemeTokens(tokens); // paints <html>
+  // …also syncs section visibility + sound defaults
+}
+\`\`\`
+
+You rarely touch this file to invent a new look. You change the **contract** (rules + palette). The provider’s job is to run the same pipeline every time. \`resolveTheme\` lives in \`src/theme/engine.ts\`: it calls \`engine.run(facts)\`, then folds every fired event (\`apply-theme\`, \`set-section-visibility\`, \`set-sound-defaults\`) into one \`ResolvedTheme\` snapshot for this paint.
+
+---
+
+## Step 2 — The rules engine (how decisions are declared)
+
+A rules engine is a list of “when these facts are true, fire this event” cards. Ours lives in \`src/theme/rules.ts\` and is loaded once in \`src/theme/engine.ts\`.
+
+\`\`\`mermaid caption="Inside one resolveTheme() call (src/theme/engine.ts)"
+flowchart LR
+  F["Facts"] --> E["engine.run"] --> R["Matches"]
+  R --> Ev1["theme"]
+  R --> Ev2["vis"]
+  R --> Ev3["sound"]
+  Ev1 --> Out["ResolvedTheme"]
+  Ev2 --> Out
+  Ev3 --> Out
+\`\`\`
+
+### What a single theme rule looks like
+
+Each theme id gets a rule that basically says: “If \`themeId\` equals this id, emit \`apply-theme\` with that id.”
+
+\`\`\`ts path=src/theme/rules.ts
+// One card in the deck (shape of themeRules entries)
+{
+  name: "theme:galaxy-guy",
+  priority: 10,
+  conditions: {
+    all: [{ fact: "themeId", operator: "equal", value: "galaxy-guy" }],
+  },
+  event: {
+    type: "apply-theme",
+    params: { themeId: "galaxy-guy" },
+  },
+}
+\`\`\`
+
+### Why not a giant \`if / else\`?
+
+- **Readable policy** — layout gates (“hide Fun things on ADA”) sit next to the theme id as data, not buried in React components.
+- **Same pattern elsewhere** — milestones, quizzes, and modal structure use the same library.
+- **Safe fallback** — a low-priority default rule sends unknown ids back to Cyberpunk so the site never paints “nothing.”
+
+\`\`\`ts path=src/theme/engine.ts
+export async function resolveTheme(facts: ThemeFacts): Promise<ResolvedTheme> {
+  const engine = getThemeEngine();
+  const { events } = await engine.run(facts);
+  // Merge apply-theme + visibility + sound events → one ResolvedTheme
+  return { tokens, visibility, soundDefaults };
+}
+\`\`\`
+
+Rules are **not** a stylesheet. They choose packs and gates. They do not say “make this one button 2% lighter.”
+
+---
+
+## Step 3 — Swatches: the honest color dictionary
+
+\`src/theme/swatches.ts\` is **not** a theme. It is a shared dictionary: Tailwind hue names → RGB channel strings the rest of the contract can trust.
+
+- \`amber-200\` always means stock amber (or a rare \`SWATCH_OVERRIDES\` entry), never “whatever cyan was remapped to.”
+- Helpers \`scaleFromSwatchFamily("cyan")\` and \`flatSwatchScale("black")\` build full 50–950 ladders from that dictionary.
+- \`getSwatch("amber-200")\` returns channels like \`253 230 138\` so CSS can do \`rgb(var(--…) / 0.8)\`.
+
+\`\`\`mermaid caption="Swatches feed every palette — they are not a theme themselves"
+flowchart LR
+  TW["Tailwind colors"] --> SW["swatches.ts"]
+  SW --> Fam["cyan / slate / amber…"]
+  Fam --> Scale["50…950 RGB"]
+  Scale --> Pal["palettes.ts"]
+\`\`\`
+
+Think of swatches as paint cans on a shelf. Themes do not invent “cyan-ish”; they **pick cans by name**.
+
+---
+
+## Step 4 — Palettes: a costume that *uses* the shelf
+
+\`src/theme/palettes.ts\` holds one token pack per \`themeId\`. Each pack **imports** from swatches for its accent and surface ladders, then adds radii, hero photo, glass, aura, and optional component slot overrides.
+
+\`\`\`mermaid caption="One pack points at swatch families, then apply paints CSS vars"
+flowchart LR
+  Id["themeId"] --> Pack["palette pack"]
+  Pack --> Acc["accent ← cyan family"]
+  Pack --> Sur["surface ← slate family"]
+  Acc --> SW["swatches.ts"]
+  Sur --> SW
+  Pack --> Apply["applyThemeTokens"]
+  Apply --> Vars["--accent-* / --surface-*"]
+\`\`\`
+
+Cyberpunk’s pack literally does \`accent: scaleFromSwatchFamily("cyan")\` and \`surface: scaleFromSwatchFamily("slate")\`. Relic Guy swaps families (warmer stone/amber). ADA Guy often uses \`flatSwatchScale("black")\` so every accent step is the same honest black swatch—still from the dictionary, not a one-off hex in a component.
+
+\`\`\`ts path=src/theme/palettes.ts
+// Tiny excerpt — the pack *calls* the swatch file
+const CYBERPUNK = {
+  id: "cyberpunk",
+  background: "#020617",
+  radiusPill: "9999px",
+  radiusCard: "1.5rem",
+  // Honest ladders from swatches.ts (not freehand hex per button)
+  surface: scaleFromSwatchFamily("slate"),
+  accent: scaleFromSwatchFamily("cyan"),
+};
+\`\`\`
+
+**Slots** sit on top of that: semantic roles (\`primary-cta-fill\`, \`muted-copy\`) whose values are objects, never Tailwind class strings:
+
+\`\`\`ts path=src/theme/slots.ts
+type SlotValue =
+  | { swatch: "amber-200" } // look up swatches.ts
+  | { ref: "accent.400" }   // reuse a ladder step from the pack
+  | { rgb: "207 250 254" }; // rare custom mix
+\`\`\`
+
+\`\`\`mermaid caption="How a slot value becomes a CSS variable"
+flowchart LR
+  Slot["slot value"] --> Sw["{ swatch }"]
+  Slot --> Ref["{ ref }"]
+  Slot --> Raw["{ rgb }"]
+  Sw --> Get["getSwatch"]
+  Ref --> Ladder["pack accent/surface"]
+  Get --> Ch["RGB channels"]
+  Ladder --> Ch
+  Raw --> Ch
+  Ch --> Css["--slot-… / --accent-…"]
+\`\`\`
+
+If a role is missing, **extend the contract** (types → palette/slots → apply → CSS role). A one-line \`color:\` hotfix in a random component is how themes accidentally break each other.
+
+ADA Guy’s pack flips to paper/ink and turns decorative opacity down. Same pipeline—different cans from the same shelf.
+
+---
+
+## Step 5 — Apply paints the page root
+
+\`applyThemeTokens\` is the brush. It sets \`data-theme\` on \`<html>\` (fonts and a few texture rules still key off that) and writes the CSS variables every role class reads.
+
+\`\`\`ts path=src/theme/applyTheme.ts
+export function applyThemeTokens(tokens: ThemeTokens): void {
+  const root = document.documentElement;
+  root.dataset.theme = tokens.id;
+  // --background, --radius-*, --accent-*, --surface-*, --slot-*, …
+  root.style.setProperty("--accent-400", tokens.accent["400"]);
+}
+\`\`\`
+
+After this runs, you should not need a special “make Relic Guy’s LinkedIn button gold” patch in twelve places. The **primary CTA role** should already consume the pack’s primary fill/ink slots.
+
+---
+
+## Step 6 — Control roles (why buttons stay distinct)
+
+Themes must keep surfaces **readable** and **visually different**. The contract names roles such as:
 
 - **Primary CTA** — Enter portfolio, LinkedIn, Visit Site (\`.theme-primary-cta\`)
-- **Ghost / secondary** — outline, muted, “Go back”
-- **Menu panel + items** — Options, Sound menu
-- **Nav chrome** — links, sound toggle
-- **Shape skin** — shared radius / border language without wiping fill and ink
+- **Ghost / secondary** — outline, muted, “Go back” (\`.theme-ghost-cta\`)
+- **Menu panel + items** — Options, Sound
+- **Nav chrome** — header links, toggles
+- **Shape skin** — shared radius/border language without wiping fill and ink
 
-A blanket \`[data-theme] .theme-btn-shape { … }\` skin is only acceptable if those variants stay distinct. If primary, menu, and ghost all look the same, the contract is wrong—split it, do not add another exception.
+\`\`\`css path=src/app/globals.css
+/* Roles read tokens — components opt into a role, not a one-off color */
+.theme-primary-cta {
+  background-color: rgb(var(--slot-primary-cta-fill));
+  color: rgb(var(--slot-primary-cta-ink));
+}
+\`\`\`
 
-## Rules engine vs stylesheets
+A blanket \`[data-theme] .theme-btn-shape { … }\` override is only acceptable if primary, ghost, and menu still look different. If they collapse into one muddy control, the contract is wrong—split it; do not add another exception.
 
-\`src/theme/rules.ts\` maps theme id → pack, visibility, and sound defaults. It is **not** a per-property stylesheet.
+\`\`\`mermaid caption="Roles share shape language but keep distinct fills"
+flowchart LR
+  Shape["shape"] --> Primary["primary"]
+  Shape --> Ghost["ghost"]
+  Shape --> Menu["menu"]
+  Shape --> Nav["nav"]
+\`\`\`
 
-Per-theme flourishes that still live in \`globals.css\` (halftone, melt radii, CRT bevels, paper/ink hammers) are inventoried in \`src/theme/workaround-inventory.md\`. Those rows stay until a slot or role absorbs them without collapsing contrast.
+---
 
-## How to pick a theme
+## Layout gates and sounds share the same pass
 
-**Options → Themes** (and the intro / easter-egg roster). Some looks unlock from score milestones; the paint path is the same once the id is allowed.
+The same \`resolveTheme\` call can hide Fun things, skip decorative card media on ADA Guy, or set default click / content-window / theme-music packs. That keeps “how it looks” and “what shows up” and “what it sounds like” in one decision moment—still not a per-button stylesheet.
+
+Temporary texture flourishes (halftone, melt radii, CRT bevels) that still live as \`[data-theme]\` CSS are inventoried in \`src/theme/workaround-inventory.md\` until a slot or role absorbs them.
+
+---
+
+## How you pick a theme as a visitor
+
+**Options → Themes**, the intro roster, or the theme playground demo. Some looks unlock from score milestones; once allowed, they use this same paint path.
 
 ADA Guy is the high-contrast control look—paper and ink, not a second-class fork. Its living revision log sits in the **ADA example awareness** card next to this one.
+
+---
+
+## Teaching checklist (if you add a look)
+
+1. Add or tune the pack in \`src/theme/palettes.ts\` (prefer \`scaleFromSwatchFamily\` / \`{ swatch }\` from \`swatches.ts\` over random RGB).
+2. Confirm rules already map that \`themeId\` (or add a layout/sound rule if needed).
+3. Prefer role classes in components; avoid hard-coded \`text-cyan-*\` as the theme API.
+4. Rebuild and verify Cyberpunk still matches the original hero glass before resting.
 `;
 
 export const howThisSiteWorksCards = [
@@ -1750,13 +1947,13 @@ export const howThisSiteWorksCards = [
     title: "How themes work",
     date: "Architecture",
     excerpt:
-      "The design contract behind every look: rules engine, palettes, slots, CSS variables, and why primary / ghost / menu stay distinct across themes.",
+      "A teaching walkthrough of the design contract: live flowcharts for the rules engine, labeled code samples for each file, and why primary / ghost / menu stay distinct.",
     modal: {
       title: "How themes work",
       date: "Architecture",
       contextLabel: "Theme system",
       intro:
-        "How this site paints a look: json-rules-engine selects a token pack, slots resolve to CSS variables, and components consume named control roles—not one-off color patches.",
+        "A guided tour of this site’s theme contract: json-rules-engine picks a pack, tokens become CSS variables, and components use named roles. Live Mermaid flowcharts and labeled code samples teach each step.",
       markdown: themeArchitectureMarkdown,
     },
   },
@@ -1812,27 +2009,6 @@ export const gallery = [
 
 export const interactiveDemoCards = [
   {
-    id: "npm-audit-dashboard",
-    title: "NPM Audit Dashboard",
-    date: "2026",
-    excerpt:
-      "Turn raw npm audit --json output into an actionable security report—KPIs, fix paths, and filterable advisories.",
-    modal: {
-      title: "NPM Audit Dashboard",
-      date: "2026",
-      contextLabel: "Interactive tool",
-      intro:
-        "npm audit --json dumps thousands of lines into audit.json—severities, CVEs, dependency paths, and remediation actions buried in nested JSON that is not visually parseable in a text editor.",
-      detail:
-        "This dashboard parses real npm audit output client-side: upload audit.json, paste JSON (with typo repair for common id field mistakes), or launch a demo sample. It surfaces risk assessment, easy vs breaking vs lockfile fixes, Chart.js severity charts, dependency health, and a sortable advisory table—all without a backend.",
-      interactive: {
-        type: "component",
-        id: "interactive-npm-audit-panel",
-        componentId: "npmAudit",
-      },
-    },
-  },
-  {
     id: "photo-critique",
     title: "Photo critique v1",
     date: "2026",
@@ -1854,6 +2030,27 @@ export const interactiveDemoCards = [
         type: "component",
         id: "interactive-photo-critique-panel",
         componentId: "photoCritique",
+      },
+    },
+  },
+  {
+    id: "npm-audit-dashboard",
+    title: "NPM Audit Dashboard",
+    date: "2026",
+    excerpt:
+      "Turn raw npm audit --json output into an actionable security report—KPIs, fix paths, and filterable advisories.",
+    modal: {
+      title: "NPM Audit Dashboard",
+      date: "2026",
+      contextLabel: "Interactive tool",
+      intro:
+        "npm audit --json dumps thousands of lines into audit.json—severities, CVEs, dependency paths, and remediation actions buried in nested JSON that is not visually parseable in a text editor.",
+      detail:
+        "This dashboard parses real npm audit output client-side: upload audit.json, paste JSON (with typo repair for common id field mistakes), or launch a demo sample. It surfaces risk assessment, easy vs breaking vs lockfile fixes, Chart.js severity charts, dependency health, and a sortable advisory table—all without a backend.",
+      interactive: {
+        type: "component",
+        id: "interactive-npm-audit-panel",
+        componentId: "npmAudit",
       },
     },
   },
@@ -2154,6 +2351,16 @@ const travelFiles = [
   "Aaron_DuChateau_pearla.jpg",
   "Aaron_DuChateau_unfortunate_photos.jpg",
 ] as const;
+
+const travelMedia = funThingPhotos("travel", travelFiles, "travel").map((item) =>
+  item.id === "travel-castle"
+    ? {
+        ...item,
+        src: "/photos/externals/Aaron_DuChateau_nearcon_2.png",
+        alt: "Pena Palace tower and stone walls in Sintra",
+      }
+    : item,
+);
 
 const adventureFiles = [
   "Aaron_DuChateau_airplane.jpg",
@@ -2661,7 +2868,7 @@ export const funThingsSection = {
         detail:
           "Travel photos from years of planes, boats, and bikes without much of an itinerary. Beaches, street art, wildlife, family vacations, Belize, the Philippines, Seattle, and random moments that only make sense if you were there.\n\nPuerto Rico alone could be its own album—here is the wider scatter plot. Swipe through.",
         contextLabel: "Fun things",
-        media: funThingPhotos("travel", travelFiles, "travel"),
+        media: travelMedia,
       },
     },
     {

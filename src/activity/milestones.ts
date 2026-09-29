@@ -79,7 +79,7 @@ export const SCORE_TIER_MILESTONES: readonly MilestoneDefinition[] = [
     points: 0,
     title: "Sock Drawer Surveyor",
     description: SCORE_TIER_BLURB,
-    scoreThreshold: 520,
+    scoreThreshold: 792,
     prizes: [
       themePrize("nerd"),
       milestoneCard("score-sock-drawer", "Sock Drawer Surveyor"),
@@ -90,7 +90,7 @@ export const SCORE_TIER_MILESTONES: readonly MilestoneDefinition[] = [
     points: 0,
     title: "Puddle Negotiator",
     description: SCORE_TIER_BLURB,
-    scoreThreshold: 610,
+    scoreThreshold: 1133,
     prizes: cardOnlyPrizes("Puddle Negotiator", "score-puddle-negotiator"),
   },
   {
@@ -98,7 +98,7 @@ export const SCORE_TIER_MILESTONES: readonly MilestoneDefinition[] = [
     points: 0,
     title: "Sidewalk Summiteer",
     description: SCORE_TIER_BLURB,
-    scoreThreshold: 700,
+    scoreThreshold: 1475,
     prizes: [
       themePrize("dog-days-guy"),
       milestoneCard("score-sidewalk-summit", "Sidewalk Summiteer"),
@@ -109,7 +109,7 @@ export const SCORE_TIER_MILESTONES: readonly MilestoneDefinition[] = [
     points: 0,
     title: "Attic Archaeologist",
     description: SCORE_TIER_BLURB,
-    scoreThreshold: 800,
+    scoreThreshold: 1817,
     prizes: cardOnlyPrizes("Attic Archaeologist", "score-attic-archaeologist"),
   },
   {
@@ -117,7 +117,7 @@ export const SCORE_TIER_MILESTONES: readonly MilestoneDefinition[] = [
     points: 0,
     title: "Mountain Climber",
     description: SCORE_TIER_BLURB,
-    scoreThreshold: 900,
+    scoreThreshold: 2158,
     prizes: cardOnlyPrizes("Mountain Climber", "score-mountain-climber"),
   },
   {
@@ -125,7 +125,7 @@ export const SCORE_TIER_MILESTONES: readonly MilestoneDefinition[] = [
     points: 0,
     title: "Cloud Line Warden",
     description: SCORE_TIER_BLURB,
-    scoreThreshold: 1000,
+    scoreThreshold: 2500,
     prizes: [
       themePrize("atlantean"),
       milestoneCard("score-cloudline-warden", "Cloud Line Warden"),

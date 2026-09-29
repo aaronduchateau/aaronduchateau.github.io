@@ -22,11 +22,11 @@ export default function PortfolioLaunchedPage() {
       <main id="main-content">
         <Hero />
         <HeroLearnMoreModalHost />
-        <YouTubeCardSection {...videoShowcaseSection} />
         <InteractiveDemoCardSection {...interactiveDemosSection} />
+        <YouTubeCardSection {...videoShowcaseSection} />
+        <Testimonials />
         <WorkHistory />
         <Education />
-        <Testimonials />
         <Employment />
         <HackathonContributions />
         <ThemeGatedSections />
