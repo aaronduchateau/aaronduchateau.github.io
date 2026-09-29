@@ -641,15 +641,15 @@ export const blogPosts = [
 export const animationStoryCards = [
   {
     id: "tp9tyruxglc",
-    title: "Shade4 — False Horizons",
+    title: "False Horizons — Shade4",
     date: "Narrative short",
     excerpt:
       "A compare-and-contrast of Wizard of Oz allegory and the Bob Lazar story—tin man, yellow brick road, and the wizard mapped onto industry, the gold standard, and the deep state—converging on the surveillance state.",
     youtubeId: "TP9TyruxGLc",
     modalText:
-      "Shade4 — False Horizons pairs classical modern readings of The Wizard of Oz with the contemporary Bob Lazar narrative, and lands both in the conventions of the surveillance state.",
+      "False Horizons — Shade4 pairs classical modern readings of The Wizard of Oz with the contemporary Bob Lazar narrative, and lands both in the conventions of the surveillance state.",
     modalDetail: `Concept:
-Shade4 — False Horizons compares and contrasts the narrative of The Wizard of Oz—using classical modern interpretations of the story—with a current reading of the Bob Lazar account. The aim is a marriage of the two concepts: both end in the fallout and conventions of the surveillance state and the hidden powers behind it, powers that have drifted from the principles of the gold standard.
+False Horizons — Shade4 compares and contrasts the narrative of The Wizard of Oz—using classical modern interpretations of the story—with a current reading of the Bob Lazar account. The aim is a marriage of the two concepts: both end in the fallout and conventions of the surveillance state and the hidden powers behind it, powers that have drifted from the principles of the gold standard.
 
 In those Oz readings, the Tin Man stands for the industrial worker made less relevant after the industrial revolution; the yellow brick road stands for the gold standard; and finding the Wizard of Oz is analogous to confronting a deep-state figure—authority that presents as all-knowing while operating from behind a curtain.
 
@@ -669,25 +669,16 @@ I tried to use additional sound elements (outside of the original music score) t
 The visual tone of the first part of the film is meant to merge science fiction, cyberpunk, and dream state. After the alarm goes off we “come back to reality,” yet an ambiguous Tokyo-blue tone remains, so the level of reality stays unsettled.`,
   },
   {
-    id: "quzylybl7om",
-    title: "Virtual staging widget concept",
-    date: "Concept advertisement",
+    id: "lvflro734o0",
+    title: "Money - Shade4",
+    date: "Narrative short",
     excerpt:
-      "A Wizard of Oz–tinged concept spot for AI virtual staging—showing how buyers can reimagine a cottage themselves, used internally to shift Elm Street’s marketing toward AI video.",
-    youtubeId: "quzylybL7OM",
+      "The forbidden love between a pengalin and a bat creates an undesirable outcome. A story about social standing, class systems, and the absurdity of our societal perception vs reality.",
+    youtubeId: "lvflRo734O0",
     modalText:
-      "A concept advertisement for a virtual staging and remodeling widget from my time at Elm Street Technology—never shipped, but influential inside the org.",
-    modalDetail: `The concept behind this video was to advertise a widget that virtually remodels the interior or exterior of a home—classic virtual staging and virtual remodeling, which was already an independent industry before the advent of AI. People selling expensive homes, where a one or two percent difference in sale price can mean a massive swing for the parties involved, had long been willing to pay private organizations significant amounts to stage a home in a way that appealed to purchasers. The product—which I worked on extensively during my time at Elm Street Technology—needed to tell the real estate industry that there was now a solution that could take that time-consuming process and do it with AI.
-
-In the narrative, a real estate agent shows a prospective buyer a home that has not yet been virtually restaged. Without that vision of what the house could become with a little love and attention, the agent struggles to get the buyer to imagine the potential.
-
-The video uses a fanciful narrative with a slight wink to Toto from The Wizard of Oz to communicate the complete reimagining of a small yet charming cottage—something that can become beautiful when previously it was not.
-
-The point is that with the widget, prospective buyers can take the lead themselves in imagining what any property could look like, through a process that appears to be magic.
-
-This video was never shipped into production, but it was used as a reference to show our advertising team how far AI video production had come and how it could help the organization win more clients. After the demonstration, the marketing department began adapting AI video generation into its core marketing policy.
-
-The core success of the demo was that team members saw how powerful AI video generation had become and began converting leads on the back of that new capability.`,
+      "The forbidden love between a pengalin and a bat creates an undesirable outcome. A story about social standing, class systems, and the absurdity of our societal perception vs reality.",
+    modalDetail:
+      "The forbidden love between a pengalin and a bat creates an undesirable outcome. A story about social standing, class systems, and the absurdity of our societal perception vs reality.",
   },
   {
     id: "xupbd-6yt4u",
