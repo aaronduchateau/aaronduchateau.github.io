@@ -708,56 +708,6 @@ export const ARCHIVE_VIDEO_ENTER_SPLASH = {
 
 export const featuredWorkCards = [
 {
-    id: "dqpqfhk-8k",
-    title: "AI Redesign",
-    date: "2026",
-    excerpt:
-      "A modern web component built with Vue 3 and compiled as an Immediately Invoked Function Expression to avoid namespace collisions.",
-    /** Card thumbnail — first clip in the modal strip. */
-    youtubeId: "rYmH4W59rh0",
-    modalText:
-      "A Vue 3 custom element—an AI redesign widget for property detail pages—built and shipped as an IIFE bundle so it stays isolated from crowded global scope and legacy scripts.",
-    modalDetail: `This is an example of a web component I made in Vue 3 and exported as an IIFE (Immediately Invoked Function Expression).
-
-The purpose of compiling this widget as an IIFE was to safely deploy it inside an existing application environment where the global namespace was already crowded with legacy scripts, third-party dependencies, and platform-specific JavaScript. In this case, the component itself is an AI redesign widget designed to live on a property details page—an environment where many unrelated scripts are already competing for scope and execution.
-
-Rather than introducing the risk of namespace collisions, overwritten variables, or dependency conflicts, I chose to package the Vue 3 component as a standalone web component and export it using the .iife build format. This wraps the entire bundle inside an anonymous self-executing function, isolating its internal logic from the surrounding application while still allowing the component to mount and function independently.
-
-This approach allowed me to inject modern Vue architecture into a much larger and older system without forcing a full framework migration or disrupting the existing application stack. The widget could operate as a self-contained unit—handling its own state, styling, and AI-driven interactions—while remaining invisible to the rest of the page's JavaScript ecosystem.
-
-The result was a modular AI redesign experience that could be dropped into a high-traffic production environment with minimal risk, clean separation of concerns, and strong protection against global scope pollution.`,
-    modal: {
-      title: "AI Redesign",
-      date: "2026",
-      contextLabel: "Video context",
-      intro:
-        "A Vue 3 custom element—an AI redesign widget for property detail pages—built and shipped as an IIFE bundle so it stays isolated from crowded global scope and legacy scripts.",
-      detail: `This is an example of a web component I made in Vue 3 and exported as an IIFE (Immediately Invoked Function Expression).
-
-The purpose of compiling this widget as an IIFE was to safely deploy it inside an existing application environment where the global namespace was already crowded with legacy scripts, third-party dependencies, and platform-specific JavaScript. In this case, the component itself is an AI redesign widget designed to live on a property details page—an environment where many unrelated scripts are already competing for scope and execution.
-
-Rather than introducing the risk of namespace collisions, overwritten variables, or dependency conflicts, I chose to package the Vue 3 component as a standalone web component and export it using the .iife build format. This wraps the entire bundle inside an anonymous self-executing function, isolating its internal logic from the surrounding application while still allowing the component to mount and function independently.
-
-This approach allowed me to inject modern Vue architecture into a much larger and older system without forcing a full framework migration or disrupting the existing application stack. The widget could operate as a self-contained unit—handling its own state, styling, and AI-driven interactions—while remaining invisible to the rest of the page's JavaScript ecosystem.
-
-The result was a modular AI redesign experience that could be dropped into a high-traffic production environment with minimal risk, clean separation of concerns, and strong protection against global scope pollution.`,
-      media: [
-        {
-          type: "video" as const,
-          id: "ai-redesign-walkthrough",
-          youtubeId: "rYmH4W59rh0",
-          intro: "Product walkthrough of the AI redesign widget on a property details page.",
-        },
-        {
-          type: "video" as const,
-          id: "ai-redesign-iife",
-          youtubeId: "dQPQFHK_8-k",
-          intro: "Technical walkthrough — Vue 3 web component packaged as an IIFE for legacy host pages.",
-        },
-      ],
-    },
-  },
-{
     id: "vvxlxbaitge",
     title: "Advanced search & mapping",
     date: "2016",
@@ -922,8 +872,8 @@ When the deal is ready, the app shows a scannable barcode the patron can present
   }
 ];
 
-export const videoShowcaseCards = featuredWorkCards.slice(0, 4);
-export const olderVideoShowcaseCards = featuredWorkCards.slice(4);
+export const videoShowcaseCards = featuredWorkCards.slice(0, 3);
+export const olderVideoShowcaseCards = featuredWorkCards.slice(3);
 
 export const videoShowcaseSection = {
   id: "new-software-demos",

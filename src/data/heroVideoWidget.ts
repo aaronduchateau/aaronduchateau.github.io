@@ -205,8 +205,8 @@ export const heroVideoWidget = {
       title: "Elmstreet - Virtual Staging",
       description:
         "A virtual staging solution that enhances property photography with digitally furnished interiors. It showcases modern imaging techniques for real estate marketing.",
-      // Featured work: AI Redesign
-      learnMore: heroLearn("work-dqpqfhk-8k"),
+      // Featured work: MLS property search (Elmstreet cue; AI Redesign demo removed)
+      learnMore: heroLearn("work-7k2bict15gc"),
     },
     {
       triggerTime: 90.28,

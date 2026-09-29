@@ -19,7 +19,7 @@ export const ADVANCED_STORIES: readonly LibraryStory[] = [
         key: "cardId",
         label: "Card (parent lookup)",
         type: "select",
-        defaultValue: THEME_CARD_SAMPLES[0]?.id ?? "dqpqfhk-8k",
+        defaultValue: THEME_CARD_SAMPLES[0]?.id ?? "vvxlxbaitge",
         options: THEME_CARD_SAMPLES.map((row) => ({
           value: row.id,
           label: row.title,
