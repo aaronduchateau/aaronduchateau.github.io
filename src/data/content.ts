@@ -258,7 +258,7 @@ I would gladly work with Aaron again.`,
 
 Aaron combines strong technical ability with a practical, solutions-oriented mindset. He consistently approaches challenges with professionalism and a calm, methodical attitude, whether debugging complex production issues, implementing new features, or helping the team navigate unfamiliar technologies.
 
-What stands out most about Aaron is his willingness to go above and beyond for both his teammates. He is thoughtful, collaborative, and always willing to share his knowledge. His ability to break down difficult problems and turn them into clear solutions makes him an invaluable member of any engineering team.
+What stands out most about Aaron is his willingness to go above and beyond for both his teammates and his friends. He is thoughtful, collaborative, and always willing to share his knowledge. His ability to break down difficult problems and turn them into clear solutions makes him an invaluable member of any engineering team.
 
 Beyond his technical skills, Aaron is simply a great person to work with. He brings a positive attitude, communicates clearly, and consistently earns the trust and respect of those around him.`,
     name: "Bryan Peterson",
@@ -1110,7 +1110,7 @@ Agents follow the same shape via \`.cursor/rules/ada-perfection-log.mdc\`.
 The left-of-Aaron menu control was a shaped button with a white ADA plate, so the three-line glyph stayed small and the header felt busier than paper/ink required.
 
 ### ADA refinement action
-Phone-only control is now a bare SVG (\`.theme-nav-menu-toggle\`): three thick stroke lines, no fill/border/glow. Opening morphs mid-line away, tips the outer lines into a right chevron, then rotates the group −90° into an up chevron (with reduced-motion snap). ADA keeps black stroke + black focus ring; other themes inherit heading ink (\`MobileSectionNav.tsx\`, \`globals.css\`).
+Phone-only control is a bare SVG (\`.theme-nav-menu-toggle\`): three thick stroke lines, no fill/border/glow. Opening morphs into a down-V chevron, then hands off to a clean peace-sign glyph whose fingers read as that down chevron (reduced-motion snaps to the hand). ADA keeps black stroke + black focus ring (\`MobileSectionNav.tsx\`, \`globals.css\`).
 
 ## 2026-09-29 — Options and score chest kept opaque plates that crowded the ADA header
 
@@ -2858,7 +2858,8 @@ const tshirtFiles = [
 ] as const;
 
 export const funThingsSection = {
-  title: "Fun things.",
+  eyebrow: "The person beyond the resume",
+  title: "What we used to call 'the human things'.",
   description:
     "Interesting snapshots and milestones archived throughout my life—small cross-sections of experiences worth revisiting.",
   cards: [
@@ -2873,7 +2874,7 @@ export const funThingsSection = {
           "I was the lead designer for a local t-shirt company in Eugene, Oregon—graphics that ended up on chests all over town for a couple of years.",
         detail:
           "From about 2007 through 2009 I owned the creative direction for a small Eugene shop printing tees for locals, campus crowds, and anyone who wanted something weird on cotton instead of another Ducks logo.\n\nThese are a handful of the designs that actually shipped. Walk around Eugene back then and you would spot them—on friends, strangers at coffee shops, people at shows. That was the payoff: not a portfolio PDF, but seeing your line work and type choices walking down Willamette Street.\n\nSwipe through the gallery for bears, storms, and whatever Skurttle was supposed to be.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: funThingPhotos("tshirt", tshirtFiles, "tshirt"),
       },
     },
@@ -2888,7 +2889,7 @@ export const funThingsSection = {
           "Canvas and acrylic experiments over the years—pets, pop-culture nods, portraits, and whatever subject caught my eye between projects.",
         detail:
           "Not a gallery career, just painting because it is fun. Dogs, ships, penguins, people I know, and the occasional Darth Vader because why not.\n\nAcrylics are my favorite medium.\n\nThese are pieces that actually left the easel—unfinished sketches and abandoned canvases stay in the closet. Swipe through for the greatest hits.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: paintingMedia,
       },
     },
@@ -2903,7 +2904,7 @@ export const funThingsSection = {
           "Street scenes, family moments, concerts, and candid shots—mostly captured on whatever camera I had in my pocket at the time.",
         detail:
           "Photography has been a side thread forever: buildings in Eugene, family portraits, food on the table, DMB shows, cliff edges, bike piles, and strangers on the bus.\n\nThese are pulls from the hard drive—unfiltered snapshots rather than a curated portfolio shoot. Swipe through for the long tail of what caught my eye.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: funThingPhotos("photography", photographyFiles, "photography"),
       },
     },
@@ -2918,7 +2919,7 @@ export const funThingsSection = {
           "Food I've cooked, plated, and shared—home-kitchen experiments and spreads worth photographing before anyone grabbed a fork.",
         detail:
           "Cooking is another creative outlet when I am not behind a keyboard. Lasagna layers, fish dishes, basil from the garden, yard harvests, and feasts spread across the whole table.\n\nIf it looked good enough to snap before eating, it probably landed in this folder. Swipe through for the edible archive.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: cookingMedia,
       },
     },
@@ -2933,7 +2934,7 @@ export const funThingsSection = {
           "Trips and detours—Puerto Rico, Belize, Florida beaches, Sun Valley, Washington, and everywhere in between.",
         detail:
           "Travel photos from years of planes, boats, and bikes without much of an itinerary. Beaches, street art, wildlife, family vacations, Belize, the Philippines, Seattle, and random moments that only make sense if you were there.\n\nPuerto Rico alone could be its own album—here is the wider scatter plot. Swipe through.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: travelMedia,
       },
     },
@@ -2948,7 +2949,7 @@ export const funThingsSection = {
           "Rafts, bikes, snow, wipeouts, and the occasional crash—outdoor experiments where the story is usually more interesting than the landing.",
         detail:
           "Fishing trips, foraging walks, river runs, startup-weekend energy in the wild, and jumps that probably looked cooler in my head than in the photo.\n\nIf it involved motion, mild risk, or explaining later why that was a good idea, it probably ended up here. Swipe through.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: funThingPhotos("adventure", adventureFiles, "adventure"),
       },
     },
@@ -2964,7 +2965,7 @@ export const funThingsSection = {
           "Before-and-after fixes around the house, yard, bikes, and cars—documented because future-me never remembers what already got solved.",
         detail:
           "Roof tarps, deck boards, lamp rewires, stereo resurrections, table refinishes, and the green bike that finally stopped squeaking. Some of these are triumphs; some are polite warnings to hire a pro next time.\n\nSwipe through for the home-lab repair and project log.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: repairMedia,
       },
     },
@@ -2979,7 +2980,7 @@ export const funThingsSection = {
           "A dump drawer for things I have observed or made that I think are interesting for one reason or another—no theme required.",
         detail:
           "This is just a new area to pin videos, photos, and stray moments that did not belong in the other albums but still felt worth keeping. Some of it I made; some of it I just ran into.\n\nSwipe through whatever landed here.",
-        contextLabel: "Fun things",
+        contextLabel: "Human things",
         media: randomMedia,
         externalLink: youtubeLink("kPYcVI7hMOs"),
       },

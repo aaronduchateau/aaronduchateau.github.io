@@ -39,6 +39,8 @@ export function GalleryStrip() {
     >
       <div className="mb-8">
           <SectionHeading
+            id="human-things"
+            eyebrow={funThingsSection.eyebrow}
             title={funThingsSection.title}
             description={funThingsSection.description}
             size="md"

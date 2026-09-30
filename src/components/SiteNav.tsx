@@ -8,6 +8,7 @@ import { MobileSectionNav } from "@/components/MobileSectionNav";
 import { OptionsMenu } from "@/components/OptionsMenu";
 import { ScoreChestButton } from "@/components/ScoreChestButton";
 import { SoundMenu } from "@/components/SoundMenu";
+import { MinusIcon, PlusIcon } from "@/components/ui/simple/icons";
 import { useTheme } from "@/theme/ThemeProvider";
 import { PORTFOLIO_PATH } from "@/lib/routes";
 
@@ -15,7 +16,8 @@ import { PORTFOLIO_PATH } from "@/lib/routes";
 const primaryLinks = [
   { href: "#testimonials", label: "Testimonials" },
   { href: "#education", label: "Education" },
-];
+  { href: "#human-things", label: "Human things", requiresFunThings: true },
+] as const;
 
 const workLinks = [
   { href: "#interactive-things", label: "Interactive things" },
@@ -72,8 +74,8 @@ function WorkMenu({ onNavigate }: { onNavigate: () => void }) {
         className={navItemClass}
       >
         Work
-        <span className="text-surface-500" aria-hidden>
-          {open ? "▾" : "▸"}
+        <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center text-surface-400" aria-hidden>
+          {open ? <MinusIcon className="h-3.5 w-3.5" /> : <PlusIcon className="h-3.5 w-3.5" />}
         </span>
       </button>
       {open ? (
@@ -108,7 +110,10 @@ export function SiteNav() {
   // time a modal closes. Starts at 0 so it stays still on first page load.
   const [titleReplay, setTitleReplay] = useState(0);
   const [sectionMenuOpen, setSectionMenuOpen] = useState(false);
-  const { playNavClick } = useTheme();
+  const { playNavClick, visibility } = useTheme();
+  const sectionLinks = primaryLinks.filter(
+    (l) => !("requiresFunThings" in l && l.requiresFunThings) || visibility.funThings,
+  );
 
   useEffect(() => {
     const onModalClosed = () => setTitleReplay((n) => n + 1);
@@ -150,7 +155,7 @@ export function SiteNav() {
         </div>
         <ul className="hidden flex-wrap items-center justify-end gap-1 text-xs font-medium text-surface-400 md:flex">
           <WorkMenu onNavigate={playNavClick} />
-          {primaryLinks.map((l) => (
+          {sectionLinks.map((l) => (
             <li key={l.href}>
               <a href={l.href} onClick={playNavClick} className={navItemClass}>
                 {l.label}
@@ -159,9 +164,9 @@ export function SiteNav() {
           ))}
         </ul>
         <div className="flex shrink-0 items-center gap-2">
-          <OptionsMenu />
-          <ScoreChestButton />
           <SoundMenu />
+          <ScoreChestButton />
+          <OptionsMenu />
         </div>
       </div>
     </nav>

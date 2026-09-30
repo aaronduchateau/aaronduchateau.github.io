@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { LegacyPortfolioModal } from "@/components/LegacyPortfolioModal";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { Button, ModalFrame, SettingsGearIcon } from "@/components/ui";
+import { MinusIcon, PlusIcon } from "@/components/ui/simple/icons";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { requestAdaGuyExplainer } from "@/lib/adaGuyExplainer";
 import { navigateToRouteModal } from "@/lib/useRouteModal";
@@ -270,18 +271,18 @@ export function OptionsMenu() {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={menuId}
-        aria-label="Settings"
+        aria-label="Config"
         onClick={toggleMenu}
       >
         <SettingsGearIcon className="h-5 w-5 shrink-0" />
-        Settings
+        Config
       </Button>
 
       {open ? (
         <div
           id={menuId}
           role="menu"
-          aria-label="Settings"
+          aria-label="Config"
           className="options-menu-panel absolute right-0 top-[calc(100%+0.4rem)] z-[60] max-h-[min(70dvh,28rem)] min-w-[14rem] overflow-y-auto overscroll-contain border border-white/10 bg-surface-950/95 p-2 shadow-xl shadow-black/40"
         >
           <MenuRow
@@ -634,8 +635,11 @@ function MenuRow({
       className="flex w-full items-center justify-between rounded-lg px-2.5 py-2 text-left text-xs font-medium text-surface-200 transition hover:bg-white/5 hover:text-white"
     >
       <span>{label}</span>
-      <span className="text-surface-500" aria-hidden>
-        {expanded ? "▾" : "▸"}
+      <span
+        className="inline-flex h-4 w-4 shrink-0 items-center justify-center text-surface-400"
+        aria-hidden
+      >
+        {expanded ? <MinusIcon className="h-3.5 w-3.5" /> : <PlusIcon className="h-3.5 w-3.5" />}
       </span>
     </button>
   );

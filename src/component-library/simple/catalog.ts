@@ -215,7 +215,7 @@ export const SIMPLE_STORIES: readonly LibraryStory[] = [
     kind: "simple",
     name: "Page section",
     summary:
-      "Same homepage strip chrome as Work, Education, and Fun things. Hairline divider and padding are props; inner max-width is the role.",
+      "Same homepage strip chrome as Work, Education, and Human things. Hairline divider and padding are props; inner max-width is the role.",
     controls: [
       {
         key: "divider",

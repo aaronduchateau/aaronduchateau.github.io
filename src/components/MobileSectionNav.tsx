@@ -4,6 +4,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { requestEasterEggBoard } from "@/activity/milestoneCelebration";
 import { requestOptionsMenu } from "@/components/OptionsMenu";
+import { MinusIcon, PlusIcon } from "@/components/ui/simple/icons";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { navigateToRouteModal } from "@/lib/useRouteModal";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -12,7 +13,8 @@ import { useTheme } from "@/theme/ThemeProvider";
 const primaryLinks = [
   { href: "#testimonials", label: "Testimonials" },
   { href: "#education", label: "Education" },
-];
+  { href: "#human-things", label: "Human things", requiresFunThings: true },
+] as const;
 
 const workLinks = [
   { href: "#interactive-things", label: "Interactive things" },
@@ -28,14 +30,73 @@ type Props = {
   onOpenChange: (open: boolean) => void;
 };
 
-/** Phone-width section jump list — hamburger left of Aaron, left flyout. */
+
+/**
+ * Phone menu glyph: three lines → right chevron → down-V → peace hand.
+ * Peace artwork reads as a down chevron (filled silhouette, theme ink via currentColor).
+ */
+function MenuToggleGlyph() {
+  return (
+    <span className="theme-nav-menu-glyph">
+      <svg className="theme-nav-menu-glyph__lines" viewBox="0 0 24 24" fill="none" aria-hidden>
+        <g className="theme-nav-menu-glyph__spin">
+          <path
+            className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--top"
+            d="M4 7.5h16"
+          />
+          <path
+            className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--mid"
+            d="M4 12h16"
+          />
+          <path
+            className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--bot"
+            d="M4 16.5h16"
+          />
+        </g>
+      </svg>
+      <svg
+        className="theme-nav-menu-glyph__peace"
+        viewBox="0 0 256 256"
+        fill="none"
+        aria-hidden
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <g
+          className="theme-nav-menu-glyph__peace-strokes"
+          stroke="currentColor"
+          strokeWidth="8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          {/* index finger / left side of V */}
+          <path d="M102 147 C102 132 100 119 96 104 L78 34 C75 22 82 10 94 7 C106 4 118 11 121 23 L142 103" />
+          {/* middle finger and inside V */}
+          <path d="M142 103 L161 31 C164 19 176 12 188 15 C200 18 207 30 204 42 L177 144" />
+          {/* folded ring finger */}
+          <path d="M177 144 L187 108 C190 97 201 91 212 94 C223 97 229 108 226 119 L214 165 C211 176 200 182 189 179 C178 176 172 165 175 154 Z" />
+          {/* folded pinky */}
+          <path d="M217 132 C220 121 231 115 242 118 C253 121 259 132 256 143 L247 177 C244 188 233 194 222 191 C211 188 205 177 208 166 Z" />
+          {/* palm / outer hand */}
+          <path d="M102 147 L79 163 C72 168 68 175 68 184 L68 202 C68 232 92 256 122 256 L166 256 C198 256 224 230 224 198 L224 187" />
+          {/* thumb crossing palm */}
+          <path d="M79 163 L121 133 C131 126 144 128 151 138 C158 148 156 161 146 168 L118 188 L128 196" />
+        </g>
+      </svg>
+    </span>
+  );
+}
+
+/** Section jump list — menu glyph left of Aaron; left flyout at all breakpoints. */
 export function MobileSectionNav({ open, onOpenChange }: Props) {
   const menuId = useId();
   const titleId = useId();
   const panelRef = useRef<HTMLElement>(null);
   const [workOpen, setWorkOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
-  const { playNavClick } = useTheme();
+  const { playNavClick, visibility } = useTheme();
+  const sectionLinks = primaryLinks.filter(
+    (l) => !("requiresFunThings" in l && l.requiresFunThings) || visibility.funThings,
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -53,17 +114,9 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
       }
     };
 
-    const onViewport = () => {
-      if (window.matchMedia("(min-width: 768px)").matches) {
-        onOpenChange(false);
-      }
-    };
-
     document.addEventListener("keydown", onKeyDown);
-    window.addEventListener("resize", onViewport);
     return () => {
       document.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("resize", onViewport);
     };
   }, [open, onOpenChange]);
 
@@ -101,7 +154,7 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
   };
 
   return (
-    <div className="md:hidden">
+    <div>
       <button
         type="button"
         data-section-nav-toggle=""
@@ -112,26 +165,11 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
         aria-controls={menuId}
         onClick={toggle}
       >
-        <svg className="theme-nav-menu-glyph" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <g className="theme-nav-menu-glyph__spin">
-            <path
-              className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--top"
-              d="M3.25 7h17.5"
-            />
-            <path
-              className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--mid"
-              d="M3.25 12h17.5"
-            />
-            <path
-              className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--bot"
-              d="M3.25 17h17.5"
-            />
-          </g>
-        </svg>
+        <MenuToggleGlyph />
       </button>
       {mounted && open
         ? createPortal(
-            <div className="theme-nav-flyout-layer md:hidden" data-section-nav-panel="">
+            <div className="theme-nav-flyout-layer" data-section-nav-panel="">
               <div
                 className="theme-nav-flyout-backdrop"
                 aria-hidden="true"
@@ -165,7 +203,16 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
                     }}
                   >
                     Work
-                    <span aria-hidden>{workOpen ? "▾" : "▸"}</span>
+                    <span
+                      className="inline-flex h-5 w-5 shrink-0 items-center justify-center"
+                      aria-hidden
+                    >
+                      {workOpen ? (
+                        <MinusIcon className="h-4 w-4" />
+                      ) : (
+                        <PlusIcon className="h-4 w-4" />
+                      )}
+                    </span>
                   </button>
                   {workOpen
                     ? workLinks.map((link) => (
@@ -179,7 +226,7 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
                         </a>
                       ))
                     : null}
-                  {primaryLinks.map((link) => (
+                  {sectionLinks.map((link) => (
                     <a
                       key={link.href}
                       href={link.href}
@@ -207,7 +254,7 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
                       runAfterClose(() => requestOptionsMenu());
                     }}
                   >
-                    Settings
+                    Config
                   </button>
                   <button
                     type="button"
