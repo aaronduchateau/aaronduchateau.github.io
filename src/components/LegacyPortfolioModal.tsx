@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
+import { MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { useTheme } from "@/theme/ThemeProvider";
 
 /** Old portfolio era start — ~20 years before this v2 site (Aug 2026). */
@@ -84,7 +85,7 @@ export function LegacyPortfolioModal({ open, onClose }: Props) {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[80] flex items-stretch justify-center p-0 sm:items-stretch sm:p-3 lg:p-4"
+      className="fixed inset-0 z-[80] flex flex-col"
       style={{ background: "rgba(0,0,0,0.72)" }}
     >
       <div
@@ -93,18 +94,16 @@ export function LegacyPortfolioModal({ open, onClose }: Props) {
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className="relative flex h-dvh w-full max-w-none flex-col overflow-hidden sm:h-[min(96dvh,100%)] sm:max-w-[min(100vw-1.5rem,1600px)] sm:rounded-lg"
+        className="relative flex h-dvh max-h-dvh w-full flex-col overflow-hidden"
         style={{
           background: "#141414",
-          border: "1px solid #333",
-          borderRadius: "0.5rem",
-          boxShadow: "0 24px 64px rgba(0,0,0,0.55)",
           color: "#e8e8e8",
           fontFamily: 'system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
         }}
       >
+        <div className={MODAL_VIEWPORT_INNER}>
         <header
-          className="flex shrink-0 items-start justify-between gap-3 px-5 py-3 sm:px-6 sm:py-4"
+          className="flex shrink-0 items-start justify-between gap-3 py-3 sm:py-4"
           style={{ borderBottom: "1px solid #333", background: "#1a1a1a" }}
         >
           <div className="min-w-0">
@@ -150,6 +149,7 @@ export function LegacyPortfolioModal({ open, onClose }: Props) {
         </header>
         <div className="min-h-0 flex-1" style={{ background: "#f4f4f4" }}>
           <div ref={mountRef} className="h-full w-full" />
+        </div>
         </div>
       </div>
     </div>,

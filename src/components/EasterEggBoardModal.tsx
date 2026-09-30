@@ -63,7 +63,7 @@ export function EasterEggBoardModal({ open, onClose }: EasterEggBoardModalProps)
         />
       ) : (
         <>
-          <header className="theme-quest-board-header shrink-0 border-b border-white/10 px-5 py-3 sm:px-6">
+          <header className="theme-quest-board-header relative shrink-0 border-b border-white/10 py-3">
             <div className="absolute right-3 top-3">
               <ModalCloseButton onClick={onClose} size="sm" />
             </div>

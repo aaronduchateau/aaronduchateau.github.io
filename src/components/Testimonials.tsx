@@ -16,6 +16,7 @@ import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
 import { useTestimonialSpeech } from "@/hooks/useTestimonialSpeech";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
+import { MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { haltTestimonialPlayback } from "@/lib/testimonialPlaybackPreload";
 import { useRouteModal } from "@/lib/useRouteModal";
 import { testimonialFirstName } from "@/lib/testimonialIntro";
@@ -270,7 +271,7 @@ function TestimonialModalPanel({
   ]);
 
   return (
-    <div className="theme-glass relative z-10 flex h-[calc(100dvh-1.5rem)] max-h-[calc(100dvh-1.5rem)] w-full max-w-4xl flex-col overflow-hidden shadow-2xl sm:h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-2.5rem)]">
+    <div className="theme-glass relative z-10 flex h-full min-h-0 w-full flex-col overflow-hidden shadow-2xl">
       <p className="sr-only" aria-live="polite">
         {playback
           ? speech.phase === "intro"
@@ -422,7 +423,7 @@ export function Testimonials() {
           ? createPortal(
             <div
               ref={dialogRef}
-              className={`${launchClass} fixed inset-0 z-[120] flex items-center justify-center bg-surface-950/80 px-3 py-3 backdrop-blur-sm sm:px-4 sm:py-5`}
+              className={`${launchClass} fixed inset-0 z-[120] flex h-dvh max-h-dvh flex-col bg-surface-950/80 backdrop-blur-sm`}
               onAnimationEnd={onAnimationEnd}
               role="dialog"
               aria-modal="true"
@@ -438,6 +439,7 @@ export function Testimonials() {
                   closeTestimonials();
                 }}
               />
+              <div className={`${MODAL_VIEWPORT_INNER} relative z-10 min-h-0 flex-1 py-3 sm:py-5`}>
               {/* Fixed viewport height so cycling testimonials does not resize the shell */}
               <TestimonialModalPanel
                 letter={active}
@@ -451,6 +453,7 @@ export function Testimonials() {
                 autoPlay={play}
                 onAutoPlayConsumed={clearPlay}
               />
+              </div>
             </div>,
             document.body,
           )

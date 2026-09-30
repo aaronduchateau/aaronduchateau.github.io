@@ -125,7 +125,7 @@ export function CareerTimelineListModal({
       labelledBy={titleId}
       dialogRef={dialogRef}
     >
-      <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/10 px-5 py-4 sm:px-6">
+      <div className="flex shrink-0 items-start justify-between gap-4 border-b border-white/10 py-4">
         <div className="min-w-0 flex-1 pr-2">
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">
             Work history
@@ -155,7 +155,7 @@ export function CareerTimelineListModal({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-5 sm:px-6">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain py-5">
         <ol className="relative space-y-0">
           {items.map((item, index) => {
             const isLast = index === items.length - 1;

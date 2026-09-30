@@ -8,6 +8,7 @@ import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { getInteractiveDemoComponent } from "@/interactive-demos/registry";
 import { INTERACTIVE_DEMO_REQUEST_CLOSE } from "@/lib/interactiveDemoClose";
+import { MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type { InteractiveModalConfig } from "@/types/interactive-modal";
 
@@ -110,8 +111,6 @@ export function InteractiveModal({ config, onClose }: Props) {
 
   if (!config || !mounted) return null;
 
-  const padX = "px-3 sm:px-8 md:px-10";
-
   return createPortal(
     <div
       ref={dialogRef}
@@ -122,35 +121,37 @@ export function InteractiveModal({ config, onClose }: Props) {
       aria-labelledby="interactive-modal-title"
       tabIndex={-1}
     >
-      <div className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${padX}`}>
-        <ModalCloseButton onClick={onClose} />
-        <div className="flex items-center gap-2">
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">{config.date}</p>
-          <span className="lg:hidden">
-            <ModalChromeIconButton
-              icon={showMobileContext ? "back" : "info"}
-              ariaLabel={showMobileContext ? "Back to demo" : "View context"}
-              onClick={() => setShowMobileContext((open) => !open)}
-            />
-          </span>
-        </div>
-      </div>
-
-      <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.45fr)]">
-        <div
-          className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain ${padX} py-2 sm:py-3 ${
-            showMobileContext ? "flex" : "hidden lg:flex"
-          }`}
-        >
-          <ContextColumn config={config} onContextAction={() => setShowMobileContext(false)} />
+      <div className={MODAL_VIEWPORT_INNER}>
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10">
+          <ModalCloseButton onClick={onClose} />
+          <div className="flex items-center gap-2">
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">{config.date}</p>
+            <span className="lg:hidden">
+              <ModalChromeIconButton
+                icon={showMobileContext ? "back" : "info"}
+                ariaLabel={showMobileContext ? "Back to demo" : "View context"}
+                onClick={() => setShowMobileContext((open) => !open)}
+              />
+            </span>
+          </div>
         </div>
 
-        <div
-          className={`min-h-0 flex-col overflow-hidden border-t border-white/10 bg-black lg:border-l lg:border-t-0 ${padX} py-2 sm:py-3 ${
-            showMobileContext ? "hidden lg:flex" : "flex"
-          }`}
-        >
-          <InteractivePane config={config} />
+        <div className={MODAL_SPLIT_GRID_CLASS}>
+          <div
+            className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain py-2 sm:py-3 ${
+              showMobileContext ? "flex" : "hidden lg:flex"
+            }`}
+          >
+            <ContextColumn config={config} onContextAction={() => setShowMobileContext(false)} />
+          </div>
+
+          <div
+            className={`min-h-0 flex-col overflow-hidden border-t border-white/10 bg-black lg:border-l lg:border-t-0 py-2 sm:py-3 ${
+              showMobileContext ? "hidden lg:flex" : "flex"
+            }`}
+          >
+            <InteractivePane config={config} />
+          </div>
         </div>
       </div>
     </div>,

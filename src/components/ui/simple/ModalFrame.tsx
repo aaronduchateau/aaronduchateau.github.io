@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode, type RefObject } from "react";
 import { createPortal } from "react-dom";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
+import { MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 
 export type ModalFrameChrome = "confirm" | "board" | "list" | "note";
@@ -11,9 +12,9 @@ const OVERLAY: Record<ModalFrameChrome, string> = {
   confirm:
     "theme-modal-frame theme-modal-frame--confirm fixed inset-0 z-[130] flex items-center justify-center bg-surface-950/75 p-4 backdrop-blur-sm",
   board:
-    "theme-modal-frame theme-modal-frame--board fixed inset-0 z-[130] flex items-center justify-center bg-surface-950/75 p-3 backdrop-blur-sm sm:p-6",
+    "theme-modal-frame theme-modal-frame--board fixed inset-0 z-[130] flex flex-col bg-surface-950/75 backdrop-blur-sm",
   list:
-    "theme-modal-frame theme-modal-frame--list fixed inset-0 z-[120] flex items-center justify-center bg-surface-950/80 p-3 backdrop-blur-sm sm:p-6",
+    "theme-modal-frame theme-modal-frame--list fixed inset-0 z-[120] flex flex-col bg-surface-950/80 backdrop-blur-sm",
   note:
     "theme-modal-frame theme-modal-frame--note fixed inset-0 z-[130] flex items-center justify-center bg-surface-950/75 p-4 backdrop-blur-sm",
 };
@@ -22,9 +23,9 @@ const PANEL: Record<ModalFrameChrome, string> = {
   confirm:
     "theme-modal-panel theme-glass relative w-full max-w-md border p-5 shadow-2xl shadow-black/50 sm:p-6",
   board:
-    "theme-modal-panel theme-glass relative flex h-[min(90dvh,900px)] max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden border shadow-2xl shadow-black/50",
+    "theme-modal-panel theme-glass relative flex h-dvh max-h-dvh w-full max-w-none flex-col overflow-hidden border-0 shadow-none",
   list:
-    "theme-modal-panel theme-glass flex h-[min(88dvh,820px)] max-h-[92dvh] w-full max-w-2xl flex-col overflow-hidden border shadow-2xl shadow-black/50",
+    "theme-modal-panel theme-glass flex h-dvh max-h-dvh w-full max-w-none flex-col overflow-hidden border-0 shadow-none",
   note:
     "theme-modal-panel theme-glass relative max-h-[min(86dvh,40rem)] w-full max-w-lg overflow-y-auto overscroll-contain border p-5 shadow-2xl shadow-black/50 sm:p-6",
 };
@@ -90,7 +91,11 @@ export function ModalFrame({
         className={`${launchClass} ${PANEL[chrome]} ${className ?? ""}`.trim()}
         onAnimationEnd={onAnimationEnd}
       >
-        {children}
+        {chrome === "board" || chrome === "list" ? (
+          <div className={`${MODAL_VIEWPORT_INNER} flex-1`}>{children}</div>
+        ) : (
+          children
+        )}
       </div>
     </div>,
     document.body,

@@ -31,6 +31,7 @@ import {
   resolveModalStructure,
   type ModalStructurePolicy,
 } from "@/modal-structure";
+import { MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type {
   MediaModalCollectionItem,
@@ -1161,7 +1162,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   if (!config || !activeItem || !mounted) return null;
 
   const showEnterSplash = Boolean(config.enterSplash) && !splashDismissed;
-  const padX = testimonialOnly ? "px-3 sm:px-8" : "px-3 sm:px-8 md:px-10";
+  const padX = "";
 
   const contextLabel = collection?.contextLabel ?? config.contextLabel;
   const heading = collection?.title ?? config.title;
@@ -1236,25 +1237,16 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
     return createPortal(
       <div
         ref={dialogRef}
-        className={`${launchClass} fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6`}
+        className={`${launchClass} fixed inset-0 z-[120] flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-surface-950`}
         onAnimationEnd={onAnimationEnd}
         role="dialog"
         aria-modal="true"
         aria-labelledby="media-modal-title"
         tabIndex={-1}
       >
-        <button
-          type="button"
-          className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-          aria-label="Close modal"
-          onClick={() => {
-            playBoundNavClick();
-            onClose();
-          }}
-        />
-        <div className="relative z-10 flex h-[min(86dvh,820px)] max-h-[90dvh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-surface-950 shadow-2xl">
+        <div className={MODAL_VIEWPORT_INNER}>
           <ModalHeader date={config.date} onClose={onClose} padX={padX} tools={tools} />
-          <div className={`flex min-h-0 flex-1 flex-col overflow-hidden ${padX} py-4`}>
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden py-4">
             {leaveConfirmPane ?? (
               <MediaPane item={activeItem} forceBw={forceBw} structurePolicy={structurePolicy} />
             )}
@@ -1280,79 +1272,81 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
       aria-labelledby="media-modal-title"
       tabIndex={-1}
     >
-      <ModalHeader
-        date={config.date}
-        onClose={onClose}
-        padX={padX}
-        tools={tools}
-        compactNav={{
-          infoMode: showMobileContext,
-          onToggleInfo: () => setShowMobileContext((open) => !open),
-          collectionBack:
-            path.length > 0
-              ? { label: backLabel, onClick: exitCollection }
-              : undefined,
-        }}
-      />
-
-      {showEnterSplash && config.enterSplash ? (
-        <CollectionEnterSplashGate
-          splash={config.enterSplash}
-          onContinue={() => setSplashDismissed(true)}
+      <div className={MODAL_VIEWPORT_INNER}>
+        <ModalHeader
+          date={config.date}
+          onClose={onClose}
+          padX={padX}
+          tools={tools}
+          compactNav={{
+            infoMode: showMobileContext,
+            onToggleInfo: () => setShowMobileContext((open) => !open),
+            collectionBack:
+              path.length > 0
+                ? { label: backLabel, onClick: exitCollection }
+                : undefined,
+          }}
         />
-      ) : (
-      <div className="grid min-h-0 flex-1 grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.45fr)]">
-        <div
-          className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain ${padX} py-2 sm:py-3 ${
-            showMobileContext ? "flex" : "hidden lg:flex"
-          }`}
-        >
-          <ContextColumn
-            contextLabel={contextLabel}
-            heading={heading}
-            intro={intro}
-            detailLead={detailLead}
-            detail={detail}
+
+        {showEnterSplash && config.enterSplash ? (
+          <CollectionEnterSplashGate
+            splash={config.enterSplash}
+            onContinue={() => setSplashDismissed(true)}
           />
-        </div>
-
-        <div
-          className={`min-h-0 flex-col overflow-hidden border-t border-white/10 bg-black lg:border-l lg:border-t-0 ${padX} py-2 sm:py-3 ${
-            showMobileContext ? "hidden lg:flex" : "flex"
-          }`}
-        >
-          {path.length > 0 ? (
-            <div className="mb-2 hidden shrink-0 items-center justify-between gap-2 lg:flex">
-              <p className="min-w-0 truncate text-xs text-surface-500">{backLabel}</p>
-              <ModalCloseButton size="sm" onClick={exitCollection} ariaLabel={backLabel} />
+        ) : (
+          <div className={MODAL_SPLIT_GRID_CLASS}>
+            <div
+              className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain py-2 sm:py-3 ${
+                showMobileContext ? "flex" : "hidden lg:flex"
+              }`}
+            >
+              <ContextColumn
+                contextLabel={contextLabel}
+                heading={heading}
+                intro={intro}
+                detailLead={detailLead}
+                detail={detail}
+              />
             </div>
-          ) : null}
 
-          {leaveConfirmPane ?? (
-            <MediaPane
-              item={activeItem}
-              onEnter={() => enterCollection(activeItem)}
-              forceBw={forceBw}
-              showFinalResult={finalPhotoId !== null && activeItem.id === finalPhotoId}
-              onFinalResultGoBack={
-                structurePolicy.finalResultBadgeExitsCollection && path.length > 0
-                  ? exitCollection
-                  : undefined
-              }
-              structurePolicy={structurePolicy}
-            />
-          )}
+            <div
+              className={`min-h-0 flex-col overflow-hidden border-t border-white/10 bg-black lg:border-l lg:border-t-0 py-2 sm:py-3 ${
+                showMobileContext ? "hidden lg:flex" : "flex"
+              }`}
+            >
+              {path.length > 0 ? (
+                <div className="mb-2 hidden shrink-0 items-center justify-between gap-2 lg:flex">
+                  <p className="min-w-0 truncate text-xs text-surface-500">{backLabel}</p>
+                  <ModalCloseButton size="sm" onClick={exitCollection} ariaLabel={backLabel} />
+                </div>
+              ) : null}
 
-          {strip}
+              {leaveConfirmPane ?? (
+                <MediaPane
+                  item={activeItem}
+                  onEnter={() => enterCollection(activeItem)}
+                  forceBw={forceBw}
+                  showFinalResult={finalPhotoId !== null && activeItem.id === finalPhotoId}
+                  onFinalResultGoBack={
+                    structurePolicy.finalResultBadgeExitsCollection && path.length > 0
+                      ? exitCollection
+                      : undefined
+                  }
+                  structurePolicy={structurePolicy}
+                />
+              )}
 
-          {showWatchCta && activeLink ? (
-            <div className="mt-auto shrink-0 pt-3">
-              <ExternalLinkCta link={activeLink} onOpenLeaveConfirm={openLeaveConfirm} />
+              {strip}
+
+              {showWatchCta && activeLink ? (
+                <div className="mt-auto shrink-0 pt-3">
+                  <ExternalLinkCta link={activeLink} onOpenLeaveConfirm={openLeaveConfirm} />
+                </div>
+              ) : null}
             </div>
-          ) : null}
-        </div>
+          </div>
+        )}
       </div>
-      )}
     </div>,
     document.body,
   );
