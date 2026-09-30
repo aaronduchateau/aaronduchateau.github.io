@@ -105,15 +105,28 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
       <button
         type="button"
         data-section-nav-toggle=""
-        className="theme-nav-control theme-nav-hamburger theme-btn-shape"
+        className="theme-nav-menu-toggle"
         aria-label={open ? "Close section menu" : "Open section menu"}
         aria-haspopup="dialog"
         aria-expanded={open}
         aria-controls={menuId}
         onClick={toggle}
       >
-        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-          <path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z" />
+        <svg className="theme-nav-menu-glyph" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <g className="theme-nav-menu-glyph__spin">
+            <path
+              className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--top"
+              d="M3.25 7h17.5"
+            />
+            <path
+              className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--mid"
+              d="M3.25 12h17.5"
+            />
+            <path
+              className="theme-nav-menu-glyph__line theme-nav-menu-glyph__line--bot"
+              d="M3.25 17h17.5"
+            />
+          </g>
         </svg>
       </button>
       {mounted && open

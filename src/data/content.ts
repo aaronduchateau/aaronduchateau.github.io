@@ -1104,6 +1104,14 @@ Agents follow the same shape via \`.cursor/rules/ada-perfection-log.mdc\`.
 
 # Revision steps
 
+## 2026-09-29 — Phone section menu used a filled plate that stole space from the glyph
+
+### ADA refinement issue
+The left-of-Aaron menu control was a shaped button with a white ADA plate, so the three-line glyph stayed small and the header felt busier than paper/ink required.
+
+### ADA refinement action
+Phone-only control is now a bare SVG (\`.theme-nav-menu-toggle\`): three thick stroke lines, no fill/border/glow. Opening morphs mid-line away, tips the outer lines into a right chevron, then rotates the group −90° into an up chevron (with reduced-motion snap). ADA keeps black stroke + black focus ring; other themes inherit heading ink (\`MobileSectionNav.tsx\`, \`globals.css\`).
+
 ## 2026-09-29 — Options and score chest kept opaque plates that crowded the ADA header
 
 ### ADA refinement issue
