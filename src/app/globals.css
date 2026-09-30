@@ -546,15 +546,48 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   color: rgb(var(--accent-300, 103 232 249));
 }
 
-/* Nav chrome — Options + easter-chest share this role (not menu rows). */
+/* Nav chrome — Options + score chest: text-like at rest; plate only on hover/open.
+ * Sound uses `.sound-toggle` (unchanged). Hamburger keeps a resting plate below. */
 .theme-nav-control {
   color: rgb(var(--surface-100));
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  filter: none;
+}
+
+.theme-nav-control:hover,
+.theme-nav-control:focus-visible,
+.theme-nav-control[aria-expanded="true"] {
   background: rgb(255 255 255 / 0.1);
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
 }
 
-.theme-nav-control:hover {
-  background: rgb(255 255 255 / 0.15);
+/*
+ * Beat per-theme `.theme-btn-shape` / ADA fills on Options + score only.
+ * Sound toggle is not `.theme-nav-control`. Hamburger excluded so it stays a plate.
+ */
+[data-theme] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  filter: none !important;
+}
+
+[data-theme] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger):hover,
+[data-theme] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger):focus-visible,
+[data-theme] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger)[aria-expanded="true"] {
+  background: rgb(255 255 255 / 0.12) !important;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12) !important;
+  filter: none !important;
+}
+
+[data-theme="ada-first"] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger):hover,
+[data-theme="ada-first"] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger):focus-visible,
+[data-theme="ada-first"] .theme-nav button.theme-nav-control:not(.theme-nav-hamburger)[aria-expanded="true"] {
+  background: #f0f0f0 !important;
+  box-shadow: inset 0 0 0 2px #000 !important;
+  color: #000 !important;
 }
 
 /* Phone nav — hamburger + left section flyout (hidden from md up). */
@@ -565,6 +598,14 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   align-items: center;
   justify-content: center;
   padding: 0;
+  background: rgb(255 255 255 / 0.1);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+.theme-nav-hamburger:hover,
+.theme-nav-hamburger:focus-visible,
+.theme-nav-hamburger[aria-expanded="true"] {
+  background: rgb(255 255 255 / 0.15);
 }
 
 .theme-nav-flyout-layer {

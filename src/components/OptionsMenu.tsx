@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { LegacyPortfolioModal } from "@/components/LegacyPortfolioModal";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
-import { Button, ModalFrame } from "@/components/ui";
+import { Button, ModalFrame, SettingsGearIcon } from "@/components/ui";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { requestAdaGuyExplainer } from "@/lib/adaGuyExplainer";
 import { navigateToRouteModal } from "@/lib/useRouteModal";
@@ -266,19 +266,22 @@ export function OptionsMenu() {
       <Button
         role="nav"
         size="sm"
+        className="h-9 gap-1.5"
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={menuId}
+        aria-label="Settings"
         onClick={toggleMenu}
       >
-        Options
+        <SettingsGearIcon className="h-5 w-5 shrink-0" />
+        Settings
       </Button>
 
       {open ? (
         <div
           id={menuId}
           role="menu"
-          aria-label="Options"
+          aria-label="Settings"
           className="options-menu-panel absolute right-0 top-[calc(100%+0.4rem)] z-[60] max-h-[min(70dvh,28rem)] min-w-[14rem] overflow-y-auto overscroll-contain border border-white/10 bg-surface-950/95 p-2 shadow-xl shadow-black/40"
         >
           <MenuRow

@@ -194,7 +194,7 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
                       runAfterClose(() => requestOptionsMenu());
                     }}
                   >
-                    Options
+                    Settings
                   </button>
                   <button
                     type="button"

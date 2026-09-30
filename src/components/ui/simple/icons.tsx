@@ -246,6 +246,18 @@ export function TreasureChestIcon({ className }: AppIconProps) {
   );
 }
 
+export function SettingsGearIcon({ className }: AppIconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      {/* Flat 6-tooth cog — thick body, large hole, matches chest visual weight */}
+      <path
+        fillRule="evenodd"
+        d="M10.25 2.75h3.5v2.4l1.85.75 1.7-1.7 2.45 2.45-1.7 1.7.75 1.85h2.4v3.5h-2.4l-.75 1.85 1.7 1.7-2.45 2.45-1.7-1.7-1.85.75v2.4h-3.5v-2.4l-1.85-.75-1.7 1.7-2.45-2.45 1.7-1.7-.75-1.85h-2.4v-3.5h2.4l.75-1.85-1.7-1.7L6.7 4.2l1.7 1.7 1.85-.75V2.75zM12 8.25a3.75 3.75 0 100 7.5 3.75 3.75 0 000-7.5zm0 2.5a1.25 1.25 0 110 2.5 1.25 1.25 0 010-2.5z"
+      />
+    </svg>
+  );
+}
+
 /** Every unique UI glyph used on the site — catalog grid and shared imports. */
 export const APP_ICON_CATALOG: readonly AppIconEntry[] = [
   { id: "chevron-left", label: "Chevron left", Icon: ChevronLeftIcon },
@@ -274,6 +286,7 @@ export const APP_ICON_CATALOG: readonly AppIconEntry[] = [
   { id: "speaker-muted", label: "Speaker muted", Icon: SpeakerMutedIcon },
   { id: "restore", label: "Restore", Icon: RestoreIcon },
   { id: "chest", label: "Treasure chest", Icon: TreasureChestIcon },
+  { id: "settings", label: "Settings", Icon: SettingsGearIcon },
   { id: "compare", label: "Compare", Icon: CompareIcon },
   { id: "reply", label: "Reply", Icon: ReplyIcon },
 ];

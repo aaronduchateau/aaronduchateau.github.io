@@ -14,6 +14,7 @@ export { Preview, type PreviewProps, type PreviewSize } from "./Preview";
 export { SectionHeading } from "./SectionHeading";
 export {
   APP_ICON_CATALOG,
+  SettingsGearIcon,
   TreasureChestIcon,
   type AppIconComponent,
   type AppIconEntry,
