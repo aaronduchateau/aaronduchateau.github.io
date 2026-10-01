@@ -8,7 +8,7 @@ import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { getInteractiveDemoComponent } from "@/interactive-demos/registry";
 import { INTERACTIVE_DEMO_REQUEST_CLOSE } from "@/lib/interactiveDemoClose";
-import { MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
+import { MODAL_CHROME_PAD_X, MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type { InteractiveModalConfig } from "@/types/interactive-modal";
 
@@ -122,7 +122,9 @@ export function InteractiveModal({ config, onClose }: Props) {
       tabIndex={-1}
     >
       <div className={MODAL_VIEWPORT_INNER}>
-        <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10">
+        <div
+          className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${MODAL_CHROME_PAD_X}`}
+        >
           <ModalCloseButton onClick={onClose} />
           <div className="flex items-center gap-2">
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">{config.date}</p>
@@ -138,7 +140,7 @@ export function InteractiveModal({ config, onClose }: Props) {
 
         <div className={MODAL_SPLIT_GRID_CLASS}>
           <div
-            className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain py-2 sm:py-3 ${
+            className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain py-2 sm:py-3 ${MODAL_CHROME_PAD_X} ${
               showMobileContext ? "flex" : "hidden lg:flex"
             }`}
           >

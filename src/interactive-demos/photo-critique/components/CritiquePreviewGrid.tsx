@@ -12,9 +12,6 @@ type Props = {
   showEyeFlow: boolean;
   showThirds: boolean;
   showHeatmap: boolean;
-  onToggleEyeFlow: () => void;
-  onToggleThirds: () => void;
-  onToggleHeatmap: () => void;
 };
 
 export function CritiquePreviewGrid({
@@ -24,9 +21,6 @@ export function CritiquePreviewGrid({
   showEyeFlow,
   showThirds,
   showHeatmap,
-  onToggleEyeFlow,
-  onToggleThirds,
-  onToggleHeatmap,
 }: Props) {
   const imageAspect =
     report.width > 0 && report.height > 0 ? report.width / report.height : undefined;
@@ -43,9 +37,6 @@ export function CritiquePreviewGrid({
           showEyeFlow={showEyeFlow}
           showThirds={showThirds}
           showHeatmap={showHeatmap}
-          onToggleEyeFlow={onToggleEyeFlow}
-          onToggleThirds={onToggleThirds}
-          onToggleHeatmap={onToggleHeatmap}
         />
       </div>
 

@@ -1,4 +1,5 @@
 import { ModalCloseButton } from "@/components/ModalCloseButton";
+import { critiqueChromePadX } from "./photo-critique-layout";
 
 type Props = {
   label: string;
@@ -10,7 +11,7 @@ type Props = {
 /** Top bar for in-demo content views — context left, circular close right. */
 export function CritiqueContentHeader({ label, emphasis, suffix, onClose }: Props) {
   return (
-    <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
+    <div className={`mb-3 flex shrink-0 items-center justify-between gap-3 ${critiqueChromePadX}`}>
       <p className="min-w-0 truncate text-xs text-surface-500">
         {label}
         {emphasis ? (

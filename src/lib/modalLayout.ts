@@ -1,12 +1,19 @@
-/** Matches SiteNav / site footer — modal chrome aligns with header on wide viewports. */
+/** Matches SiteNav / site footer max width — modal chrome centers to the same column. */
 export const MODAL_SITE_MAX_WIDTH = "max-w-6xl";
 
-/** Horizontal padding aligned with `SiteNav` (`px-3 sm:px-5 md:px-10`). */
-export const MODAL_SITE_GUTTER_X = "px-3 sm:px-5 md:px-10";
+/**
+ * Horizontal inset for modal / demo **chrome rows** (close, tabs, actions, context copy).
+ * Same on all breakpoints — enough to keep controls off the edge; not site-nav gutters.
+ * Do **not** put this on `MODAL_VIEWPORT_INNER` — that would pad the middle media stage.
+ */
+export const MODAL_CHROME_PAD_X = "px-3";
 
-/** Full-height inner column inside a viewport-bleed modal shell. */
+/**
+ * Full-height centered column inside a viewport-bleed modal shell.
+ * Max-width only — no horizontal padding. Pad header/footer with `MODAL_CHROME_PAD_X`.
+ */
 export const MODAL_VIEWPORT_INNER =
-  `mx-auto flex h-full min-h-0 w-full ${MODAL_SITE_MAX_WIDTH} flex-col ${MODAL_SITE_GUTTER_X}`;
+  `mx-auto flex h-full min-h-0 w-full ${MODAL_SITE_MAX_WIDTH} flex-col`;
 
 /**
  * Two-up modal body: context −25% / content +25% vs prior 0.95fr / 1.45fr.

@@ -1,0 +1,30 @@
+---
+description: Modal chrome padding vs middle content — never pad the whole shell when middle should stay flush
+alwaysApply: true
+---
+
+# Modal chrome vs content padding
+
+Fullscreen and split modals (MediaModal, InteractiveModal, in-demo views like Photo Critique) often need **header/footer inset** without shrinking the **middle** media or demo stage.
+
+## Source of truth
+
+- [`src/lib/modalLayout.ts`](src/lib/modalLayout.ts)
+  - `MODAL_VIEWPORT_INNER` — **max-width + flex column only**. Never put `px-*` / site gutters here.
+  - `MODAL_CHROME_PAD_X` — `px-3` for **chrome rows only** (close/date header, tabs, actions, left context copy). Same on mobile and desktop so controls never sit flush against the edge. Not site-nav `sm:px-5 md:px-10`.
+
+## Do
+
+- Put horizontal padding on **chrome rows only**: close / date header, tab bars, overlay toggles, bottom action buttons.
+- Keep the **middle scroll / preview / embed / demo stage** flush to the content column (micro-insets like `pl-[6px]` only when explicitly requested).
+- Left **text context** columns may use `MODAL_CHROME_PAD_X` so copy clears the edge on mobile; the **right media/demo** column stays flush.
+
+## Do not
+
+- Wrap the entire modal body (header + middle + footer) in one `px-*` / `p-*` / `sm:px-5 md:px-10` container.
+- Put SiteNav gutters (`px-3 sm:px-5 md:px-10`) on `MODAL_VIEWPORT_INNER` — that pads the middle and fights full-bleed demos.
+- “Fix” demo edge spacing by padding the shared viewport wrapper.
+
+## Related
+
+- [`video-modal-layout.mdc`](video-modal-layout.mdc) — height / independent scroll for video + copy columns

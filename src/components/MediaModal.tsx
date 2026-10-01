@@ -31,7 +31,7 @@ import {
   resolveModalStructure,
   type ModalStructurePolicy,
 } from "@/modal-structure";
-import { MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
+import { MODAL_CHROME_PAD_X, MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type {
   MediaModalCollectionItem,
@@ -1162,7 +1162,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   if (!config || !activeItem || !mounted) return null;
 
   const showEnterSplash = Boolean(config.enterSplash) && !splashDismissed;
-  const padX = "";
+  const padX = MODAL_CHROME_PAD_X;
 
   const contextLabel = collection?.contextLabel ?? config.contextLabel;
   const heading = collection?.title ?? config.title;
@@ -1296,7 +1296,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
         ) : (
           <div className={MODAL_SPLIT_GRID_CLASS}>
             <div
-              className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain py-2 sm:py-3 ${
+              className={`min-h-0 flex-col overflow-x-hidden overflow-y-auto overscroll-contain py-2 sm:py-3 ${MODAL_CHROME_PAD_X} ${
                 showMobileContext ? "flex" : "hidden lg:flex"
               }`}
             >

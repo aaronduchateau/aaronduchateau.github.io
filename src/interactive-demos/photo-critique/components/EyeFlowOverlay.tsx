@@ -15,9 +15,6 @@ type Props = {
   showEyeFlow: boolean;
   showThirds: boolean;
   showHeatmap: boolean;
-  onToggleEyeFlow: () => void;
-  onToggleThirds: () => void;
-  onToggleHeatmap: () => void;
 };
 
 const FLOW_MARKER_ID = "photo-critique-flow-arrow";
@@ -99,9 +96,6 @@ export function EyeFlowOverlay({
   showEyeFlow,
   showThirds,
   showHeatmap,
-  onToggleEyeFlow,
-  onToggleThirds,
-  onToggleHeatmap,
 }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const heatCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -174,42 +168,6 @@ export function EyeFlowOverlay({
 
   return (
     <div className="flex min-h-0 flex-col">
-      <div className="mb-2 flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={onToggleEyeFlow}
-          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
-            showEyeFlow
-              ? "border-accent-500/50 bg-accent-950/40 text-accent-200"
-              : "border-white/15 text-surface-400 hover:text-surface-200"
-          }`}
-        >
-          Eye flow
-        </button>
-        <button
-          type="button"
-          onClick={onToggleThirds}
-          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
-            showThirds
-              ? "border-accent-500/50 bg-accent-950/40 text-accent-200"
-              : "border-white/15 text-surface-400 hover:text-surface-200"
-          }`}
-        >
-          Thirds grid
-        </button>
-        <button
-          type="button"
-          onClick={onToggleHeatmap}
-          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
-            showHeatmap
-              ? "border-amber-400/50 bg-amber-950/40 text-amber-200"
-              : "border-white/15 text-surface-400 hover:text-surface-200"
-          }`}
-        >
-          Heat map
-        </button>
-      </div>
-
       <div
         ref={containerRef}
         className={`${critiqueResultPhotoFrameClass} mx-auto w-full max-h-[min(42dvh,360px)]`}

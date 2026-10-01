@@ -1,6 +1,15 @@
 export const critiquePanelClass = "rounded-xl border border-white/10 bg-black/60";
 
 /**
+ * Horizontal inset for top tab/close chrome, overlay toggles, and bottom action rows.
+ * Same contract as `MODAL_CHROME_PAD_X` (`px-3` all breakpoints). Middle scroll stays flush.
+ */
+export const critiqueChromePadX = "px-3";
+
+/** Left inset for the critique results scroll body (photos + notes). */
+export const critiqueScrollPadL = "pl-[6px]";
+
+/**
  * Result photo frames (eye-flow / original / suggested).
  * Caps chrome at 8px so theme `--radius-media` never clips these previews.
  * Do not use `var(--radius-media)` here — theme radii stay untouched elsewhere.

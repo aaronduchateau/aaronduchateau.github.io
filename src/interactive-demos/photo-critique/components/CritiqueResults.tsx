@@ -6,8 +6,10 @@ import { CritiquePreviewGrid } from "./CritiquePreviewGrid";
 import { CritiqueContentHeader } from "./CritiqueContentHeader";
 import { ImprovementInstructions } from "./ImprovementInstructions";
 import {
+  critiqueChromePadX,
   critiqueMutedClass,
   critiquePanelClass,
+  critiqueScrollPadL,
   critiqueSectionTitleClass,
   tierBadgeClass,
   tierLabel,
@@ -98,7 +100,45 @@ export function CritiqueResults({
     <div className="flex h-full min-h-0 flex-col">
       <CritiqueContentHeader label="Critique for" emphasis={fileName} onClose={onClose} />
 
-      <div className="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1">
+      <div className={`mb-2 flex shrink-0 flex-wrap gap-2 ${critiqueChromePadX}`}>
+        <button
+          type="button"
+          onClick={() => setShowEyeFlow((v) => !v)}
+          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
+            showEyeFlow
+              ? "border-accent-500/50 bg-accent-950/40 text-accent-200"
+              : "border-white/15 text-surface-400 hover:text-surface-200"
+          }`}
+        >
+          Eye flow
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowThirds((v) => !v)}
+          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
+            showThirds
+              ? "border-accent-500/50 bg-accent-950/40 text-accent-200"
+              : "border-white/15 text-surface-400 hover:text-surface-200"
+          }`}
+        >
+          Thirds grid
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowHeatmap((v) => !v)}
+          className={`rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-wide transition ${
+            showHeatmap
+              ? "border-amber-400/50 bg-amber-950/40 text-amber-200"
+              : "border-white/15 text-surface-400 hover:text-surface-200"
+          }`}
+        >
+          Heat map
+        </button>
+      </div>
+
+      <div
+        className={`min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pr-1 ${critiqueScrollPadL}`}
+      >
         <CritiquePreviewGrid
           src={previewUrl}
           alt={`Critique of ${fileName}`}
@@ -106,9 +146,6 @@ export function CritiqueResults({
           showEyeFlow={showEyeFlow}
           showThirds={showThirds}
           showHeatmap={showHeatmap}
-          onToggleEyeFlow={() => setShowEyeFlow((v) => !v)}
-          onToggleThirds={() => setShowThirds((v) => !v)}
-          onToggleHeatmap={() => setShowHeatmap((v) => !v)}
         />
 
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -141,43 +178,43 @@ export function CritiqueResults({
         <p className={`${critiqueMutedClass} px-1`}>
           Visual weight center is nearest the <span className="text-accent-300/90">{report.nearestThird}</span> third.
         </p>
-
-        {resultSource === "upload" ? (
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <button
-              type="button"
-              onClick={onTryAnotherUpload}
-              className="flex-1 rounded-full bg-accent-500/90 px-5 py-2.5 text-sm font-semibold text-surface-950 hover:bg-accent-400"
-            >
-              Try Another upload
-            </button>
-            <button
-              type="button"
-              onClick={onTryADemo}
-              className="flex-1 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-surface-200 hover:border-white/35 hover:bg-white/10"
-            >
-              Try a demo
-            </button>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-2 sm:flex-row">
-            <button
-              type="button"
-              onClick={onSeeV1Results}
-              className="flex-1 rounded-full bg-accent-500/90 px-5 py-2.5 text-sm font-semibold text-surface-950 hover:bg-accent-400"
-            >
-              See V1 results
-            </button>
-            <button
-              type="button"
-              onClick={onTryAnotherDemo}
-              className="flex-1 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-surface-200 hover:border-white/35 hover:bg-white/10"
-            >
-              Try another demo
-            </button>
-          </div>
-        )}
       </div>
+
+      {resultSource === "upload" ? (
+        <div className={`mt-3 flex shrink-0 flex-col gap-2 sm:flex-row ${critiqueChromePadX}`}>
+          <button
+            type="button"
+            onClick={onTryAnotherUpload}
+            className="flex-1 rounded-full bg-accent-500/90 px-5 py-2.5 text-sm font-semibold text-surface-950 hover:bg-accent-400"
+          >
+            Try Another upload
+          </button>
+          <button
+            type="button"
+            onClick={onTryADemo}
+            className="flex-1 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-surface-200 hover:border-white/35 hover:bg-white/10"
+          >
+            Try a demo
+          </button>
+        </div>
+      ) : (
+        <div className={`mt-3 flex shrink-0 flex-col gap-2 sm:flex-row ${critiqueChromePadX}`}>
+          <button
+            type="button"
+            onClick={onSeeV1Results}
+            className="flex-1 rounded-full bg-accent-500/90 px-5 py-2.5 text-sm font-semibold text-surface-950 hover:bg-accent-400"
+          >
+            See V1 results
+          </button>
+          <button
+            type="button"
+            onClick={onTryAnotherDemo}
+            className="flex-1 rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-surface-200 hover:border-white/35 hover:bg-white/10"
+          >
+            Try another demo
+          </button>
+        </div>
+      )}
     </div>
   );
 }

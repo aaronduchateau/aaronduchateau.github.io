@@ -8,6 +8,7 @@ import { HowItWorks } from "./HowItWorks";
 import { ImplementationThreadList } from "./ImplementationChat";
 import { V2Psd } from "./V2Psd";
 import {
+  critiqueChromePadX,
   critiqueInputTabActiveClass,
   critiqueInputTabClass,
   critiqueInputTabInactiveClass,
@@ -92,7 +93,7 @@ export function PhotoInput({
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex flex-wrap items-center gap-2">
+      <div className={`flex flex-wrap items-center gap-2 ${critiqueChromePadX}`}>
         <div className="flex flex-wrap gap-2">
           {mainTabs.map(({ mode, label }) => (
             <button
@@ -197,7 +198,7 @@ export function PhotoInput({
       </div>
 
       {inputMode === "demo" ? (
-        <div className="mt-3 flex shrink-0 flex-col gap-2 sm:flex-row">
+        <div className={`mt-3 flex shrink-0 flex-col gap-2 sm:flex-row ${critiqueChromePadX}`}>
           <button
             type="button"
             disabled={analyzing}

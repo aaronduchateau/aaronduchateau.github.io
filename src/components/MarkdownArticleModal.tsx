@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { SimpleMarkdown } from "@/lib/simpleMarkdown";
-import { MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
+import { MODAL_CHROME_PAD_X, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type { MarkdownArticleModalConfig } from "@/types/markdown-article";
 
@@ -43,14 +43,18 @@ export function MarkdownArticleModal({ config, onClose }: Props) {
         className="relative flex h-dvh max-h-dvh w-full flex-col overflow-hidden bg-surface-950"
       >
         <div className={MODAL_VIEWPORT_INNER}>
-          <div className="flex h-14 shrink-0 items-center justify-between border-b border-white/10">
+          <div
+            className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${MODAL_CHROME_PAD_X}`}
+          >
             <ModalCloseButton onClick={handleClose} />
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">
               {config.date}
             </p>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col overflow-hidden py-5 sm:py-6">
+          <div
+            className={`flex min-h-0 flex-1 flex-col overflow-hidden py-5 sm:py-6 ${MODAL_CHROME_PAD_X}`}
+          >
             <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.18em] text-surface-500">
               {config.contextLabel}
             </p>
