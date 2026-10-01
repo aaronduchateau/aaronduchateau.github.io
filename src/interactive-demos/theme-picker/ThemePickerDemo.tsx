@@ -50,6 +50,8 @@ const THEME_BLURBS: Record<ThemeId, string> = {
     "Dog Days animation bay: warm wood, soft toy radii, Fredoka type, sunny orange + denim blue.",
   "retro-guy":
     "Retro beach bay: coin gold, pipe green, chunky red punches, Luckiest Guy type.",
+  "driver-guy":
+    "Night-drive cinema: asphalt black, hot-pink Mr Dafoe titles, cyan city lights.",
 };
 
 function themeCardImage(id: ThemeId): string | null {

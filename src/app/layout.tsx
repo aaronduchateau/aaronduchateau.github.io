@@ -17,6 +17,8 @@ import {
   fontRetroGuy,
   fontSurrealist,
   fontDogDaysGuy,
+  fontDriverGuy,
+  fontDriverGuySans,
   fontPopArt,
   fontPopArtScript,
 } from "@/lib/fonts";
@@ -59,6 +61,8 @@ export default function RootLayout({
     fontSurrealist.variable,
     fontDogDaysGuy.variable,
     fontRetroGuy.variable,
+    fontDriverGuy.variable,
+    fontDriverGuySans.variable,
   ].join(" ");
 
   return (

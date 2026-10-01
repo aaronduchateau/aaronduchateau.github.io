@@ -494,7 +494,7 @@ function StoryWorkbench({
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-4">
-      <div className="flex shrink-0 items-center gap-3">
+      <div className={`flex shrink-0 items-center gap-3 ${MODAL_CHROME_PAD_X}`}>
         <div className="min-w-0 flex-1">
           <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent-300/70">
             {story.kind === "simple" ? "Simple" : "Advanced"}
@@ -518,7 +518,7 @@ function StoryWorkbench({
       </div>
 
       {hasControls || advanced ? (
-        <div className="shrink-0 md:hidden">
+        <div className={`shrink-0 md:hidden ${MODAL_CHROME_PAD_X}`}>
           {hasControls ? (
             <PropGarden
               controls={story.controls}
@@ -534,7 +534,9 @@ function StoryWorkbench({
       ) : null}
 
       {hasControls ? (
-        <div className="hidden shrink-0 space-y-4 border-b border-white/10 pb-4 md:block">
+        <div
+          className={`hidden shrink-0 space-y-4 border-b border-white/10 pb-4 md:block ${MODAL_CHROME_PAD_X}`}
+        >
           <div className="flex flex-wrap gap-x-6 gap-y-4">
             {story.controls.map((control) => (
               <ControlField
@@ -627,7 +629,7 @@ export function ComponentLibraryDemo() {
       {storyId ? (
         <StoryWorkbench storyId={storyId} onBack={closeStory} />
       ) : (
-        <div className="h-full min-h-0 overflow-y-auto overscroll-contain pr-1">
+        <div className={`h-full min-h-0 overflow-y-auto overscroll-contain pr-1 ${MODAL_CHROME_PAD_X}`}>
           <StoryIndex onOpen={openStory} />
         </div>
       )}

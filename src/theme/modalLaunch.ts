@@ -54,6 +54,10 @@ export const THEME_MODAL_LAUNCH: Partial<Record<ThemeId, ModalLaunchMotion>> = {
     name: "retro-guy-pipe-warp",
     timing: "cubic-bezier(0.34, 1.4, 0.64, 1)",
   },
+  "driver-guy": {
+    name: "driver-guy-night-pass",
+    timing: "cubic-bezier(0.22, 1, 0.36, 1)",
+  },
 };
 
 export function modalLaunchForTheme(themeId: ThemeId): ModalLaunchMotion {

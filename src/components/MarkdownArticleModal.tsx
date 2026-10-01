@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { SimpleMarkdown } from "@/lib/simpleMarkdown";
-import { MODAL_CHROME_PAD_X, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
+import { MODAL_CHROME_PAD_X, MODAL_TOPBAR_PAD_X, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type { MarkdownArticleModalConfig } from "@/types/markdown-article";
 
@@ -44,7 +44,7 @@ export function MarkdownArticleModal({ config, onClose }: Props) {
       >
         <div className={MODAL_VIEWPORT_INNER}>
           <div
-            className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${MODAL_CHROME_PAD_X}`}
+            className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${MODAL_TOPBAR_PAD_X}`}
           >
             <ModalCloseButton onClick={handleClose} />
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">

@@ -29,6 +29,7 @@ Themes are resolved and applied **only on the client**. Static export ships Cybe
 | `psychedelic-hippie` | Psychedelic Hippie | Extra-soft organic radii | Pacifico display | Violet night, magenta/lime aura, dreamy glass |
 | `cursive-roman-empire` | Cursive Roman Empire | Near-rectilinear “tablet” corners | **Caveat**/Great Vibes large display + **Cinzel** body/UI | Marble / imperial gold |
 | `ada-first` | ADA First | No radius | System UI | **White bg / black text**, max contrast, no chrome |
+| `driver-guy` | Driver Guy | Motel-sign pills, tight chrome cards | **Mr Dafoe** script + **Rajdhani** HUD | Night asphalt, hot-pink titles, cyan city-light aura |
 
 ## What each theme owns
 
@@ -61,6 +62,7 @@ Nav: **Options → Themes**.
 - Relic Guy re-points display → adventure serif.
 - Roman Empire: display → Caveat (large moments), sans → Cinzel (titles/UI/body).
 - ADA: both slots → system-ui.
+- Driver Guy: display → Mr Dafoe (Drive poster script), sans → Rajdhani (HUD / buttons).
 
 Do **not** alias fonts through `:root` vars that resolve before next/font exists — that previously collapsed to Times New Roman.
 

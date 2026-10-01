@@ -11,7 +11,9 @@ Fullscreen and split modals (MediaModal, InteractiveModal, in-demo views like Ph
 
 - [`src/lib/modalLayout.ts`](src/lib/modalLayout.ts)
   - `MODAL_VIEWPORT_INNER` — **max-width + flex column only**. Never put `px-*` / site gutters here.
-  - `MODAL_CHROME_PAD_X` — `px-3` for **chrome rows only** (close/date header, tabs, actions, left context copy). Same on mobile and desktop so controls never sit flush against the edge. Not site-nav `sm:px-5 md:px-10`.
+  - `MODAL_TOPBAR_PAD_X` — same as SiteNav (`px-3 sm:px-5 md:px-10`) on the **close/date top bar** so the X lines up with the menu toggle when the modal closes. Mobile stays `px-3` (unchanged vs before).
+- `MODAL_CHROME_PAD_X` — `px-3` for other chrome (tabs, actions, context copy, seek/thumbs/CTA). Not site-nav gutters.
+- Media modal video **seek / thumb strip / visit CTA** share chrome pad via `ChromelessYouTubePlayer` (seek row) and MediaModal wrappers — hero uses a separate seek UI and must not inherit this.
 
 ## Do
 

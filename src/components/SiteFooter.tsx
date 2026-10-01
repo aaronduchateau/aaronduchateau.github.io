@@ -12,8 +12,13 @@ export function SiteFooter() {
           <Link href={person.instagram} className="text-surface-300 hover:text-white" target="_blank" rel="noreferrer">
             Website
           </Link>
-          <a href={`mailto:${person.email}`} className="text-surface-300 hover:text-white">
-            Email
+          <a
+            href={person.linkedin}
+            className="text-surface-300 hover:text-white"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Contact Aaron
           </a>
         </div>
       </div>

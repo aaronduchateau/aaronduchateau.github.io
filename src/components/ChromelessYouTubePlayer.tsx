@@ -22,6 +22,7 @@ import {
   type YtPlayer,
 } from "@/lib/youtubeIframeApi";
 import { playBoundNavClick } from "@/theme/sounds";
+import { MODAL_CHROME_PAD_X } from "@/lib/modalLayout";
 
 type Props = {
   youtubeId: string;
@@ -293,7 +294,7 @@ export function ChromelessYouTubePlayer({
         )}
       </div>
 
-      <div className={`flex shrink-0 items-center gap-2 py-2 ${seekClassName}`}>
+      <div className={`flex shrink-0 items-center gap-2 py-2 ${MODAL_CHROME_PAD_X} ${seekClassName}`}>
         <span className="shrink-0 font-mono text-[10px] tabular-nums text-surface-500">
           {formatVideoTime(current)}
         </span>

@@ -16,7 +16,8 @@ export type ThemeId =
   | "pop-art-guy"
   | "surrealist"
   | "dog-days-guy"
-  | "retro-guy";
+  | "retro-guy"
+  | "driver-guy";
 
 export const THEME_IDS: ThemeId[] = [
   "cyberpunk",
@@ -28,6 +29,7 @@ export const THEME_IDS: ThemeId[] = [
   "conspiracy-theorist",
   "galaxy-guy",
   "retro-guy",
+  "driver-guy",
   "captain-guy",
   "surrealist",
   "pop-art-guy",
@@ -56,6 +58,7 @@ export const THEME_LABELS: Record<ThemeId, string> = {
   surrealist: "Dream Guy",
   "dog-days-guy": "Dog Days Guy",
   "retro-guy": "Retro Guy",
+  "driver-guy": "Driver Guy",
 };
 
 /**
@@ -70,6 +73,7 @@ export const THEME_ALT_LABELS: Partial<Record<ThemeId, string>> = {
   atlantean: "Deep Sea Guy",
   "captain-guy": "Helm Guy",
   nerd: "Pixel Guy",
+  "driver-guy": "Night Ride Guy",
 };
 
 export function themeLabelHasAaron(label: string): boolean {
@@ -145,6 +149,7 @@ export const THEME_ID_ALIASES: Record<string, ThemeId> = {
   "andy-warhol": "pop-art-guy",
   "toy-story": "dog-days-guy",
   "super-mario": "retro-guy",
+  drive: "driver-guy",
 };
 
 /** Resolve a stored or historical theme id to the current ThemeId (or null). */

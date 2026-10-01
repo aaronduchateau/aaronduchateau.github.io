@@ -38,6 +38,7 @@ Each of these has `[data-theme] .theme-primary-cta` and/or blanket `.theme-btn-s
 - `surrealist` — velvet/brass CTA — **role skin** + **font**
 - `dog-days-guy` — toy radii, denim CTA — **role skin** + **font**
 - `retro-guy` — coin gold / pipe / bevel — **texture** + **role skin** + **font**
+- `driver-guy` — Mr Dafoe script titles, pink/cyan chrome — **role skin** + **font**
 
 ## Hard-coded classes (not theme CSS)
 

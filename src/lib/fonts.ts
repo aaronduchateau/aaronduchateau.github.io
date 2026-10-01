@@ -9,11 +9,13 @@ import {
   IM_Fell_English,
   Libre_Baskerville,
   Luckiest_Guy,
+  Mr_Dafoe,
   Orbitron,
   Oswald,
   Outfit,
   Pacifico,
   Permanent_Marker,
+  Rajdhani,
   Special_Elite,
   VT323,
 } from "next/font/google";
@@ -153,4 +155,20 @@ export const fontRetroGuy = Luckiest_Guy({
   variable: "--font-retro-guy",
   display: "swap",
   weight: "400",
+});
+
+/** Driver Guy — brush script title (Drive poster / Mr Dafoe). */
+export const fontDriverGuy = Mr_Dafoe({
+  subsets: ["latin"],
+  variable: "--font-driver-guy",
+  display: "swap",
+  weight: "400",
+});
+
+/** Driver Guy — condensed night-drive HUD / UI. */
+export const fontDriverGuySans = Rajdhani({
+  subsets: ["latin"],
+  variable: "--font-driver-guy-sans",
+  display: "swap",
+  weight: ["500", "600", "700"],
 });

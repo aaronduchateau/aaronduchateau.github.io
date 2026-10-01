@@ -7,10 +7,16 @@ type Props = {
   size?: "sm" | "md" | "lg";
   /** Accessible name — defaults to “Close”. */
   ariaLabel?: string;
+  className?: string;
 };
 
 /** Icon-only modal close — SVG cross stays centered in the circular border. */
-export function ModalCloseButton({ onClick, size = "md", ariaLabel = "Close" }: Props) {
+export function ModalCloseButton({
+  onClick,
+  size = "md",
+  ariaLabel = "Close",
+  className,
+}: Props) {
   const isSm = size === "sm";
   const isLg = size === "lg";
   const shell = isLg
@@ -27,7 +33,7 @@ export function ModalCloseButton({ onClick, size = "md", ariaLabel = "Close" }: 
         onClick();
       }}
       aria-label={ariaLabel}
-      className={shell}
+      className={`${shell}${className ? ` ${className}` : ""}`}
     >
       <svg
         viewBox="0 0 24 24"

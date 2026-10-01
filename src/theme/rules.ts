@@ -78,6 +78,11 @@ const THEME_MUSIC_PACKS: Record<
     themeMusicSrc: themeMusicSrc("Retro_Guy_Stroll.mp3"),
     themeMusicLoopIntervalMs: 30_000,
   },
+  // Stand-in until a dedicated night-drive bed exists.
+  "driver-guy": {
+    themeMusicSrc: themeMusicSrc("Midnight_Drone.mp3"),
+    themeMusicLoopIntervalMs: 30_000,
+  },
 };
 
 /**
@@ -464,6 +469,31 @@ export const retroGuyBayRule: RuleProperties = {
 };
 
 /**
+ * Driver Guy: full night-drive strip — playful galleries + neon swoop.
+ */
+export const driverGuyNightRule: RuleProperties = {
+  name: "layout:driver-guy-night",
+  priority: 20,
+  conditions: {
+    all: [
+      {
+        fact: "themeId",
+        operator: "equal",
+        value: "driver-guy" satisfies ThemeId,
+      },
+    ],
+  },
+  event: {
+    type: "set-section-visibility",
+    params: {
+      funThings: true,
+      animationStory: true,
+      heroLearnMoreSwoop: true,
+    },
+  },
+};
+
+/**
  * Default SFX pack for every theme. Per-theme packs can override later with
  * higher-priority `set-sound-defaults` events (same pattern as layout rules).
  */
@@ -527,6 +557,7 @@ export const allThemeRules: RuleProperties[] = [
   surrealistParlorRule,
   dogDaysGuyBayRule,
   retroGuyBayRule,
+  driverGuyNightRule,
   defaultSoundDefaultsRule,
   ...themeMusicRules,
 ];

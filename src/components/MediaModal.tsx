@@ -31,7 +31,13 @@ import {
   resolveModalStructure,
   type ModalStructurePolicy,
 } from "@/modal-structure";
-import { MODAL_CHROME_PAD_X, MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
+import {
+  MODAL_CHROME_PAD_X,
+  MODAL_SPLIT_GRID_CLASS,
+  MODAL_STACKED_FOOTER_PAD_X,
+  MODAL_TOPBAR_PAD_X,
+  MODAL_VIEWPORT_INNER,
+} from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type {
   MediaModalCollectionItem,
@@ -776,7 +782,7 @@ function ThumbnailStrip({
   const canGoNext = !rearranging && activeIndex >= 0 && activeIndex < items.length - 1;
 
   return (
-    <div className="mt-3 flex shrink-0 items-stretch gap-1.5">
+    <div className={`mt-3 flex shrink-0 items-stretch gap-1.5 ${MODAL_CHROME_PAD_X}`}>
       {showPaddles ? (
         <button
           type="button"
@@ -1162,7 +1168,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   if (!config || !activeItem || !mounted) return null;
 
   const showEnterSplash = Boolean(config.enterSplash) && !splashDismissed;
-  const padX = MODAL_CHROME_PAD_X;
+  const padX = MODAL_TOPBAR_PAD_X;
 
   const contextLabel = collection?.contextLabel ?? config.contextLabel;
   const heading = collection?.title ?? config.title;
@@ -1251,7 +1257,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
               <MediaPane item={activeItem} forceBw={forceBw} structurePolicy={structurePolicy} />
             )}
             {showWatchCta && activeLink ? (
-              <div className="mt-6">
+              <div className={`mt-6 ${MODAL_STACKED_FOOTER_PAD_X}`}>
                 <ExternalLinkCta link={activeLink} onOpenLeaveConfirm={openLeaveConfirm} />
               </div>
             ) : null}
@@ -1339,7 +1345,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
               {strip}
 
               {showWatchCta && activeLink ? (
-                <div className="mt-auto shrink-0 pt-3">
+                <div className={`mt-auto shrink-0 pt-3 ${MODAL_STACKED_FOOTER_PAD_X}`}>
                   <ExternalLinkCta link={activeLink} onOpenLeaveConfirm={openLeaveConfirm} />
                 </div>
               ) : null}

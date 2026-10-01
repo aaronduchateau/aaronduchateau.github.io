@@ -425,7 +425,8 @@ html[data-theme] .intro-game-modal h1.intro-loadout-title {
 html[data-theme="galaxy-guy"] .intro-game-modal h1.intro-loadout-title,
 html[data-theme="pop-art-guy"] .intro-game-modal h1.intro-loadout-title,
 html[data-theme="cursive-roman-empire"] .intro-game-modal h1.intro-loadout-title,
-html[data-theme="conspiracy-theorist"] .intro-game-modal h1.intro-loadout-title {
+html[data-theme="conspiracy-theorist"] .intro-game-modal h1.intro-loadout-title,
+html[data-theme="driver-guy"] .intro-game-modal h1.intro-loadout-title {
   font-size: 1.1rem;
 }
 
@@ -433,7 +434,8 @@ html[data-theme="conspiracy-theorist"] .intro-game-modal h1.intro-loadout-title 
   html[data-theme="galaxy-guy"] .intro-game-modal h1.intro-loadout-title,
   html[data-theme="pop-art-guy"] .intro-game-modal h1.intro-loadout-title,
   html[data-theme="cursive-roman-empire"] .intro-game-modal h1.intro-loadout-title,
-  html[data-theme="conspiracy-theorist"] .intro-game-modal h1.intro-loadout-title {
+  html[data-theme="conspiracy-theorist"] .intro-game-modal h1.intro-loadout-title,
+  html[data-theme="driver-guy"] .intro-game-modal h1.intro-loadout-title {
     font-size: 1.25rem;
   }
 }
@@ -2891,6 +2893,13 @@ button.theme-quest-view-unlock {
   --hero-learn-ribbon-hover: #e62429;
 }
 
+[data-theme="driver-guy"] .hero-video-widget {
+  --hero-learn-face-right-r: 9999px;
+  --hero-learn-face-right-br: 9999px;
+  --hero-learn-ribbon: rgb(var(--accent-400));
+  --hero-learn-ribbon-hover: rgb(0 229 255);
+}
+
 @keyframes hero-cue-fade-in {
   from {
     opacity: 0;
@@ -4395,6 +4404,147 @@ button.theme-quest-view-unlock {
   }
 }
 
+/*
+  Driver Guy: Mr Dafoe script titles (Drive poster), Rajdhani HUD UI,
+  hot-pink primary plates, chrome ghost controls, night-pass modal open.
+*/
+[data-theme="driver-guy"] {
+  --font-display: var(--font-driver-guy);
+  --font-sans: var(--font-driver-guy-sans);
+  --driver-cyan: 0 229 255;
+}
+
+[data-theme="driver-guy"] h1,
+[data-theme="driver-guy"] h2,
+[data-theme="driver-guy"] .font-display,
+[data-theme="driver-guy"] .section-display-heading,
+[data-theme="driver-guy"] .card-display-heading,
+[data-theme="driver-guy"] .modal-display-heading {
+  font-family: var(--font-driver-guy), "Segoe Script", cursive;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  overflow: visible;
+  padding-block: 0.08em 0.18em;
+  color: var(--heading);
+  text-shadow:
+    0 0 14px rgb(var(--accent-400) / 0.4),
+    0 1px 0 rgb(0 0 0 / 0.35);
+}
+
+[data-theme="driver-guy"] h1,
+[data-theme="driver-guy"] h1.font-display {
+  font-size: clamp(2.6rem, 5.6vw, 4.4rem);
+  line-height: 1.28;
+  letter-spacing: 0.03em;
+}
+
+/* Default control skin (Options, ghost, nav) — chrome glass. Primary overrides below. */
+[data-theme="driver-guy"] .theme-btn-shape {
+  border: 1px solid rgb(var(--accent-400) / 0.45);
+  background: rgb(12 8 18 / 0.72);
+  color: #ffe6f4;
+  box-shadow:
+    0 0 14px rgb(var(--accent-400) / 0.16),
+    inset 0 1px 0 rgb(255 255 255 / 0.08);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-driver-guy-sans), system-ui, sans-serif;
+  font-weight: 600;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+[data-theme="driver-guy"] .theme-btn-shape:hover {
+  border-color: rgb(var(--driver-cyan) / 0.75);
+  background: rgb(var(--accent-500) / 0.18);
+  color: #fff;
+  box-shadow:
+    0 0 20px rgb(var(--driver-cyan) / 0.28),
+    inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+
+/* Primary CTA variant — hot neon plate (Enter / LinkedIn / Visit Site). */
+[data-theme="driver-guy"] .theme-primary-cta {
+  background: rgb(var(--accent-400) / 0.94);
+  color: #14030c;
+  border-color: rgb(255 176 210 / 0.95);
+  text-shadow: none;
+  box-shadow:
+    0 0 22px rgb(var(--accent-400) / 0.5),
+    inset 0 1px 0 rgb(255 255 255 / 0.28);
+}
+
+[data-theme="driver-guy"] .theme-primary-cta:hover {
+  background: rgb(255 120 180 / 0.96);
+  color: #14030c;
+  border-color: rgb(var(--driver-cyan) / 0.85);
+  box-shadow:
+    0 0 28px rgb(var(--accent-300) / 0.55),
+    0 0 18px rgb(var(--driver-cyan) / 0.3),
+    inset 0 1px 0 rgb(255 255 255 / 0.32);
+}
+
+[data-theme="driver-guy"] .theme-card,
+[data-theme="driver-guy"] .theme-glass {
+  border-color: rgb(var(--accent-400) / 0.38);
+  box-shadow:
+    0 0 0 1px rgb(var(--accent-400) / 0.1),
+    0 18px 48px rgb(0 0 0 / 0.5),
+    inset 0 0 40px rgb(var(--accent-400) / 0.06);
+  background-image:
+    radial-gradient(ellipse at 12% 0%, rgb(var(--accent-400) / 0.16), transparent 52%),
+    radial-gradient(ellipse at 92% 100%, rgb(var(--driver-cyan) / 0.1), transparent 46%),
+    linear-gradient(
+      rgb(var(--surface-950) / var(--glass-alpha, 0.78)),
+      rgb(var(--surface-950) / var(--glass-alpha, 0.78))
+    );
+}
+
+[data-theme="driver-guy"] .theme-play-btn {
+  border-width: 2px;
+  border-color: rgb(var(--accent-400));
+  background: rgb(var(--surface-950) / 0.78);
+  box-shadow: 0 0 24px rgb(var(--accent-400) / 0.38);
+}
+
+[data-theme="driver-guy"] .theme-nav {
+  border-bottom-color: rgb(var(--accent-400) / 0.38);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(7 4 12 / 0.9),
+    rgb(20 16 28 / 0.55)
+  );
+  box-shadow: 0 0 28px rgb(var(--accent-400) / 0.1);
+}
+
+@keyframes driver-guy-night-pass {
+  0% {
+    opacity: 0;
+    transform: translateX(2.4rem) scale(0.98);
+    filter: brightness(1.35) saturate(1.25);
+  }
+  42% {
+    opacity: 0.88;
+    filter: brightness(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="driver-guy"] .theme-btn-shape {
+    transition: none;
+  }
+}
+
 [data-theme="psychedelic-hippie"] {
   --font-display: var(--font-hippie);
 }
@@ -5505,7 +5655,10 @@ html[data-modal-open-instant="true"] .modal-launch,
 [data-theme="dog-days-guy"] .modal-display-heading,
 [data-theme="retro-guy"] .section-display-heading,
 [data-theme="retro-guy"] .card-display-heading,
-[data-theme="retro-guy"] .modal-display-heading {
+[data-theme="retro-guy"] .modal-display-heading,
+[data-theme="driver-guy"] .section-display-heading,
+[data-theme="driver-guy"] .card-display-heading,
+[data-theme="driver-guy"] .modal-display-heading {
   color: var(--heading);
 }
 

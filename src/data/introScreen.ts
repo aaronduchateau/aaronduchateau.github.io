@@ -203,6 +203,13 @@ export const INTRO_CHARACTER_STATS: Record<ThemeId, IntroCharacterStat[]> = {
     { id: "wit", label: "Wit", value: 66 },
     { id: "chaos", label: "Chaos", value: 60 },
   ],
+  "driver-guy": [
+    { id: "strength", label: "Strength", value: 78 },
+    { id: "endurance", label: "Endurance", value: 86 },
+    { id: "empathy", label: "Empathy", value: 48 },
+    { id: "wit", label: "Wit", value: 71 },
+    { id: "chaos", label: "Chaos", value: 64 },
+  ],
 };
 
 export function introCharacterLabel(

@@ -8,7 +8,7 @@ import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
 import { getInteractiveDemoComponent } from "@/interactive-demos/registry";
 import { INTERACTIVE_DEMO_REQUEST_CLOSE } from "@/lib/interactiveDemoClose";
-import { MODAL_CHROME_PAD_X, MODAL_SPLIT_GRID_CLASS, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
+import { MODAL_CHROME_PAD_X, MODAL_SPLIT_GRID_CLASS, MODAL_TOPBAR_PAD_X, MODAL_VIEWPORT_INNER } from "@/lib/modalLayout";
 import { playBoundNavClick } from "@/theme/sounds";
 import type { InteractiveModalConfig } from "@/types/interactive-modal";
 
@@ -123,7 +123,7 @@ export function InteractiveModal({ config, onClose }: Props) {
     >
       <div className={MODAL_VIEWPORT_INNER}>
         <div
-          className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${MODAL_CHROME_PAD_X}`}
+          className={`flex h-14 shrink-0 items-center justify-between border-b border-white/10 ${MODAL_TOPBAR_PAD_X}`}
         >
           <ModalCloseButton onClick={onClose} />
           <div className="flex items-center gap-2">

@@ -1017,6 +1017,76 @@ const RETRO_GUY: ThemeTokens = {
   },
 };
 
+/**
+ * Driver Guy — night-drive cinema: asphalt black, hot-pink neon,
+ * cyan city-light aura, sleek chrome radii, Mr Dafoe titles.
+ */
+const DRIVER_GUY: ThemeTokens = {
+  id: "driver-guy",
+  background: "#07040c",
+  foreground: "#f3e8f0",
+  heading: "#ff4d9a",
+  rootFontSize: "100%",
+  navBlur: "14px",
+  heroImage: "/photos/Aaron_DuChateau_hero-driver-guy.png",
+
+  /** Motel-sign pills + tight chrome panels. */
+  radiusPill: "9999px",
+  radiusCard: "0.5rem",
+  radiusMedia: "0.35rem",
+  radiusControl: "0.3rem",
+  radiusPlay: "9999px",
+
+  /** Keep the night overlook readable; pink wash at the edges. */
+  heroScrimFrom: "0.38",
+  heroScrimVia: "0.7",
+  heroScrimTo: "0.96",
+  heroAccent: "255 45 149",
+  heroAccentAlpha: "0.16",
+
+  glassAlpha: "0.78",
+  glassBlur: "14px",
+  decorativeOpacity: "0.82",
+  auraFrom: "255 45 149",
+  auraFromAlpha: "0.38",
+  auraVia: "0 229 255",
+  auraViaAlpha: "0.2",
+
+  borderAlpha: "0.28",
+  cardSurfaceAlpha: "0.48",
+  cardHoverBorderAlpha: "0.5",
+  cardHoverRingAlpha: "0.28",
+
+  /** Asphalt / midnight navy neutrals */
+  surface: {
+    "50": "244 240 246",
+    "100": "220 214 228",
+    "200": "176 168 188",
+    "300": "128 120 142",
+    "400": "88 80 104",
+    "500": "64 56 78",
+    "600": "46 40 58",
+    "700": "32 26 42",
+    "800": "20 16 28",
+    "900": "12 8 18",
+    "950": "7 4 12",
+  },
+  /** Hot neon pink (accent “cyan” channels); cyan city lights in CSS */
+  accent: {
+    "50": "255 241 248",
+    "100": "255 214 232",
+    "200": "255 176 210",
+    "300": "255 120 180",
+    "400": "255 45 149",
+    "500": "232 20 120",
+    "600": "196 12 96",
+    "700": "158 10 78",
+    "800": "112 8 56",
+    "900": "72 6 38",
+    "950": "40 4 22",
+  },
+};
+
 export const THEME_PALETTES: Record<ThemeId, ThemeTokens> = {
   cyberpunk: CYBERPUNK,
   "relic-guy": RELIC_GUY,
@@ -1033,4 +1103,5 @@ export const THEME_PALETTES: Record<ThemeId, ThemeTokens> = {
   surrealist: SURREALIST,
   "dog-days-guy": DOG_DAYS_GUY,
   "retro-guy": RETRO_GUY,
+  "driver-guy": DRIVER_GUY,
 };

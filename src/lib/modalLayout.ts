@@ -2,11 +2,25 @@
 export const MODAL_SITE_MAX_WIDTH = "max-w-6xl";
 
 /**
- * Horizontal inset for modal / demo **chrome rows** (close, tabs, actions, context copy).
- * Same on all breakpoints — enough to keep controls off the edge; not site-nav gutters.
- * Do **not** put this on `MODAL_VIEWPORT_INNER` — that would pad the middle media stage.
+ * Same horizontal gutters as SiteNav (`px-3 sm:px-5 md:px-10`).
+ * Use on the **top bar only** so the close control lines up with the menu toggle
+ * when the modal closes. Do not put on `MODAL_VIEWPORT_INNER` or the media stage.
+ */
+export const MODAL_TOPBAR_PAD_X = "px-3 sm:px-5 md:px-10";
+
+/**
+ * Horizontal inset for other modal / demo chrome (tabs, actions, context copy).
+ * Lighter than the top bar — not site-nav gutters.
  */
 export const MODAL_CHROME_PAD_X = "px-3";
+
+/**
+ * Footer / CTA gutters when the left context column is stacked away (`< lg`)
+ * but the viewport is still mid-width (`md+`). Matches `MODAL_TOPBAR_PAD_X`
+ * so Watch on YouTube lines up with close + info. Mobile (`< md`) and the
+ * split layout (`lg+`) stay on `MODAL_CHROME_PAD_X`.
+ */
+export const MODAL_STACKED_FOOTER_PAD_X = "px-3 md:px-10 lg:px-3";
 
 /**
  * Full-height centered column inside a viewport-bleed modal shell.
