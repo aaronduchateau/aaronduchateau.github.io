@@ -26,10 +26,10 @@ Themes are resolved and applied **only on the client**. Static export ships Cybe
 | --- | --- | --- | --- | --- |
 | `cyberpunk` | Cyber Blue | Full pills, `1.5rem` cards | Outfit + DM Sans | Glass scrim `/70`–`/85`, cyan→fuchsia aura — **locked to original** |
 | `relic-guy` | Relic Guy | Squared buttons, tighter cards | Libre Baskerville display | Clearer photo veil, gold aura |
+| `driver-guy` | Driver Guy | Motel-sign pills, tight chrome cards | **Mr Dafoe** script + **Rajdhani** HUD | Night asphalt, hot-pink titles, cyan city-light aura |
 | `psychedelic-hippie` | Psychedelic Hippie | Extra-soft organic radii | Pacifico display | Violet night, magenta/lime aura, dreamy glass |
 | `cursive-roman-empire` | Cursive Roman Empire | Near-rectilinear “tablet” corners | **Caveat**/Great Vibes large display + **Cinzel** body/UI | Marble / imperial gold |
 | `ada-first` | ADA First | No radius | System UI | **White bg / black text**, max contrast, no chrome |
-| `driver-guy` | Driver Guy | Motel-sign pills, tight chrome cards | **Mr Dafoe** script + **Rajdhani** HUD | Night asphalt, hot-pink titles, cyan city-light aura |
 
 ## What each theme owns
 

@@ -78,9 +78,8 @@ const THEME_MUSIC_PACKS: Record<
     themeMusicSrc: themeMusicSrc("Retro_Guy_Stroll.mp3"),
     themeMusicLoopIntervalMs: 30_000,
   },
-  // Stand-in until a dedicated night-drive bed exists.
   "driver-guy": {
-    themeMusicSrc: themeMusicSrc("Midnight_Drone.mp3"),
+    themeMusicSrc: themeMusicSrc("Midnight_Slow_Drive.mp3"),
     themeMusicLoopIntervalMs: 30_000,
   },
 };

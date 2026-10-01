@@ -46,7 +46,7 @@ export function MajorProjectCardBody({
   showDecorativeMedia,
 }: MajorProjectCardBodyProps) {
   const photoClass = revealPhotoOnHover
-    ? "object-cover grayscale opacity-[0.18] transition duration-300 ease-out group-hover:grayscale-0 group-hover:opacity-100"
+    ? "theme-card-photo-reveal object-cover grayscale opacity-[0.2] transition-[opacity,filter] duration-300 ease-out group-hover:grayscale-0 group-hover:opacity-100 group-hover:blur-[3px] motion-reduce:transition-none motion-reduce:group-hover:blur-none"
     : "object-cover";
 
   const solidMetaPlate = (
@@ -67,8 +67,8 @@ export function MajorProjectCardBody({
         />
         {revealPhotoOnHover ? (
           <>
-            <div className="theme-card-photo-veil theme-card-photo-veil--mobile absolute inset-0 opacity-0 transition duration-300 ease-out group-hover:opacity-100 sm:hidden" />
-            <div className="theme-card-photo-veil theme-card-photo-veil--desktop absolute inset-0 hidden opacity-0 transition duration-300 ease-out group-hover:opacity-100 sm:block sm:right-auto sm:w-[200%]" />
+            <div className="theme-card-photo-veil theme-card-photo-veil--mobile pointer-events-none absolute inset-0 transition-[background] duration-300 ease-out sm:hidden" />
+            <div className="theme-card-photo-veil theme-card-photo-veil--desktop pointer-events-none absolute inset-0 hidden transition-[background] duration-300 ease-out sm:block" />
           </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-t from-surface-950 via-surface-950/25 to-transparent sm:bg-gradient-to-r" />

@@ -22,6 +22,7 @@ export type ThemeId =
 export const THEME_IDS: ThemeId[] = [
   "cyberpunk",
   "relic-guy",
+  "driver-guy",
   "psychedelic-hippie",
   "cursive-roman-empire",
   "ada-first",
@@ -29,7 +30,6 @@ export const THEME_IDS: ThemeId[] = [
   "conspiracy-theorist",
   "galaxy-guy",
   "retro-guy",
-  "driver-guy",
   "captain-guy",
   "surrealist",
   "pop-art-guy",

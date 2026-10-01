@@ -86,6 +86,8 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
   } = useTheme();
   const [displayedLabel, setDisplayedLabel] = useState(() => themeDisplayLabel(themeId));
   const previousDisplayedRef = useRef<string | null>(null);
+  /** Pending roster index while theme apply is async — keeps ◂/▸ cycling bidirectional. */
+  const cycleIndexRef = useRef<number | null>(null);
   const isAda = themeId === "ada-first";
 
   const allCharacters = useMemo(
@@ -113,7 +115,9 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
       if (prev === primary || (alt != null && prev === alt)) return prev;
       return themeDisplayLabel(themeId, null);
     });
-  }, [themeId]);
+    const idx = allCharacters.findIndex((c) => c.id === themeId);
+    if (idx >= 0) cycleIndexRef.current = idx;
+  }, [themeId, allCharacters]);
 
   const leaveIntro = () => {
     markIntroCompleted();
@@ -181,11 +185,13 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
 
   const cycleCharacter = (delta: -1 | 1) => {
     if (allCharacters.length === 0) return;
-    const idx = Math.max(
-      0,
-      allCharacters.findIndex((c) => c.id === themeId),
-    );
-    const next = allCharacters[(idx + delta + allCharacters.length) % allCharacters.length];
+    const idx =
+      cycleIndexRef.current ??
+      Math.max(0, allCharacters.findIndex((c) => c.id === themeId));
+    const nextIdx = (idx + delta + allCharacters.length) % allCharacters.length;
+    cycleIndexRef.current = nextIdx;
+    const next = allCharacters[nextIdx];
+    if (!next) return;
     playNavClick();
     void applyCharacter(next.id);
   };
@@ -659,7 +665,7 @@ function CycleArrow({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="theme-btn-shape flex w-9 shrink-0 items-center justify-center border border-white/15 bg-white/5 text-lg text-accent-200 transition hover:border-accent-500/40 hover:bg-accent-950/30 sm:w-10"
+      className="theme-btn-shape relative z-10 flex w-9 shrink-0 items-center justify-center border border-white/15 bg-white/5 text-lg text-accent-200 transition hover:border-accent-500/40 hover:bg-accent-950/30 sm:w-10"
     >
       {direction === "left" ? "‹" : "›"}
     </button>
