@@ -30,6 +30,7 @@ import { Button, Preview, type PreviewSize } from "@/components/ui";
 import { PreviewStage } from "@/component-library/PreviewStage";
 import { DemoPanel } from "../shared/DemoPanel";
 import { LibraryThemeSelect } from "./LibraryThemeSelect";
+import { MODAL_CHROME_PAD_X } from "@/lib/modalLayout";
 
 const JSON_DEBOUNCE_MS = 400;
 

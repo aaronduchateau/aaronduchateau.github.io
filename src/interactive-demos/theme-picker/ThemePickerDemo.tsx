@@ -20,6 +20,7 @@ import {
   type ThemeId,
 } from "@/theme/types";
 import { DemoPanel } from "../shared/DemoPanel";
+import { MODAL_CHROME_PAD_X } from "@/lib/modalLayout";
 
 export { INTERACTIVE_DEMO_REQUEST_CLOSE } from "@/lib/interactiveDemoClose";
 
@@ -158,7 +159,9 @@ export function ThemePickerDemo() {
 
   return (
     <DemoPanel title="Theme playground">
-      <div className="flex h-full min-h-0 flex-col gap-4 overflow-y-auto overscroll-contain pr-1">
+      <div
+        className={`flex h-full min-h-0 flex-col gap-4 overflow-y-auto overscroll-contain pr-1 ${MODAL_CHROME_PAD_X}`}
+      >
         <p className="shrink-0 text-sm leading-relaxed text-surface-400">
           Pick a visual theme. Choices apply site-wide through the same rules-engine tokens
           used in Options → Themes — including hero art, radii, and type.

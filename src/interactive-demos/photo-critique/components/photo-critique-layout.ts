@@ -2,9 +2,9 @@ export const critiquePanelClass = "rounded-xl border border-white/10 bg-black/60
 
 /**
  * Horizontal inset for top tab/close chrome, overlay toggles, and bottom action rows.
- * Same contract as `MODAL_CHROME_PAD_X` (`px-3` all breakpoints). Middle scroll stays flush.
+ * Re-exports `MODAL_CHROME_PAD_X` so Photo Critique stays on the shared chrome contract.
  */
-export const critiqueChromePadX = "px-3";
+export { MODAL_CHROME_PAD_X as critiqueChromePadX } from "@/lib/modalLayout";
 
 /** Left inset for the critique results scroll body (photos + notes). */
 export const critiqueScrollPadL = "pl-[6px]";

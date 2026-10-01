@@ -9,6 +9,7 @@ import {
 } from "./audit-layout";
 import { demoSamples, type DemoSampleId } from "../demoSamples";
 import type { AuditInputMode } from "../types";
+import { MODAL_CHROME_PAD_X } from "@/lib/modalLayout";
 
 type Props = {
   inputMode: AuditInputMode;
@@ -47,7 +48,7 @@ export function AuditInput({
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="flex flex-wrap gap-2">
+      <div className={`flex flex-wrap gap-2 ${MODAL_CHROME_PAD_X}`}>
         {tabs.map(({ mode, label }) => (
           <button
             key={mode}

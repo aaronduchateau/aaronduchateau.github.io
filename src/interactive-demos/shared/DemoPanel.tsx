@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { MODAL_CHROME_PAD_X } from "@/lib/modalLayout";
 
 type Props = {
   title?: string;
@@ -14,7 +15,9 @@ export function DemoPanel({ title, actions, children }: Props) {
   return (
     <div className="flex h-full min-h-0 flex-col">
       {showHeader ? (
-        <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
+        <div
+          className={`mb-3 flex shrink-0 items-center justify-between gap-3 ${MODAL_CHROME_PAD_X}`}
+        >
           {title ? (
             <p className="min-w-0 font-mono text-[10px] uppercase tracking-[0.18em] text-accent-300/70">
               {title}
