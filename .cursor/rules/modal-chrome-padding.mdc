@@ -11,8 +11,9 @@ Fullscreen and split modals (MediaModal, InteractiveModal, in-demo views like Ph
 
 - [`src/lib/modalLayout.ts`](src/lib/modalLayout.ts)
   - `MODAL_VIEWPORT_INNER` — **max-width + flex column only**. Never put `px-*` / site gutters here.
-  - `MODAL_TOPBAR_PAD_X` — same as SiteNav (`px-3 sm:px-5 md:px-10`) on the **close/date top bar** so the X lines up with the menu toggle when the modal closes. Mobile stays `px-3` (unchanged vs before).
-- `MODAL_CHROME_PAD_X` — `px-3` for other chrome (tabs, actions, context copy, seek/thumbs/CTA). Not site-nav gutters.
+  - `MODAL_SITE_MAX_WIDTH` — `max-w-6xl` until `min-[1152px]` (72rem site max), then `max-w-[69rem]` (slightly narrower than SiteNav). Do **not** change SiteNav / page `max-w-6xl`. Use px in the min-variant (not rem) so Tailwind emits it.
+  - `MODAL_TOPBAR_PAD_X` — SiteNav gutters (`px-3 sm:px-5 md:px-10`) below the site max so the X overlays the menu toggle; from `min-[1152px]` use `px-4` so the narrower column keeps that overlay without looking over-indented. Mobile stays `px-3`.
+  - `MODAL_CHROME_PAD_X` — `px-3` for other chrome (tabs, actions, context copy, seek/thumbs/CTA). Not site-nav gutters.
 - Media modal video **seek / thumb strip / visit CTA** share chrome pad via `ChromelessYouTubePlayer` (seek row) and MediaModal wrappers — hero uses a separate seek UI and must not inherit this.
 
 ## Do
@@ -26,6 +27,7 @@ Fullscreen and split modals (MediaModal, InteractiveModal, in-demo views like Ph
 - Wrap the entire modal body (header + middle + footer) in one `px-*` / `p-*` / `sm:px-5 md:px-10` container.
 - Put SiteNav gutters (`px-3 sm:px-5 md:px-10`) on `MODAL_VIEWPORT_INNER` — that pads the middle and fights full-bleed demos.
 - “Fix” demo edge spacing by padding the shared viewport wrapper.
+- Shrink SiteNav / page max-width to “fix” modal header indentation — modal column + topbar pad only.
 
 ## Related
 
