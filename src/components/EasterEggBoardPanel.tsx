@@ -40,12 +40,22 @@ export function EasterEggBoardScore({ score, id }: { score: number; id?: string 
 }
 
 /** Shared easter-board quest list (intro + main-site overlay). */
-export function EasterEggBoardPanel({ quests }: { quests: IntroSideQuest[] }) {
+export function EasterEggBoardPanel({
+  quests,
+  columns = "one",
+}: {
+  quests: IntroSideQuest[];
+  /** Main-site board uses `two`; intro keeps the default single stack. */
+  columns?: "one" | "two";
+}) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [quizId, setQuizId] = useState<string | null>(null);
   const actionQuests = quests.filter((q) => questCategory(q) === "action");
-  const openingActQuests = actionQuests.filter((q) => q.id === "intro-video-end");
-  const sideQuests = actionQuests.filter((q) => q.id !== "intro-video-end");
+  /** Opening Act leads the side-quest block; keep it first when present. */
+  const sideQuests = [
+    ...actionQuests.filter((q) => q.id === "intro-video-end"),
+    ...actionQuests.filter((q) => q.id !== "intro-video-end"),
+  ];
   const quizQuests = quests.filter((q) => questCategory(q) === "quiz");
   const scoreQuests = quests.filter((q) => questCategory(q) === "score");
   const selected = selectedId ? quests.find((q) => q.id === selectedId) ?? null : null;
@@ -115,18 +125,15 @@ export function EasterEggBoardPanel({ quests }: { quests: IntroSideQuest[] }) {
           <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-surface-500">
             Quiz Power
           </h3>
-          <QuestRoundList quests={quizQuests} onOpenQuest={openQuest} />
+          <QuestRoundList quests={quizQuests} onOpenQuest={openQuest} columns={columns} />
         </div>
-      ) : null}
-      {openingActQuests.length > 0 ? (
-        <QuestRoundList quests={openingActQuests} onOpenQuest={openQuest} />
       ) : null}
       {sideQuests.length > 0 ? (
         <div className="flex flex-col gap-2">
           <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-surface-500">
             Side quests
           </h3>
-          <QuestRoundList quests={sideQuests} onOpenQuest={openQuest} />
+          <QuestRoundList quests={sideQuests} onOpenQuest={openQuest} columns={columns} />
         </div>
       ) : null}
       {scoreQuests.length > 0 ? (
@@ -134,7 +141,7 @@ export function EasterEggBoardPanel({ quests }: { quests: IntroSideQuest[] }) {
           <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-surface-500">
             Score tiers
           </h3>
-          <QuestRoundList quests={scoreQuests} onOpenQuest={openQuest} />
+          <QuestRoundList quests={scoreQuests} onOpenQuest={openQuest} columns={columns} />
         </div>
       ) : null}
     </div>

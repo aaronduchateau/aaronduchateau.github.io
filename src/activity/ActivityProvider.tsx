@@ -16,7 +16,9 @@ import {
   hydrateActivityStore,
   recordActivity,
   resetActivityStore,
+  applyUnlockAllCheat,
   subscribeActivity,
+  type UnlockAllCheatStatus,
 } from "./tracker";
 import { buildMilestoneFacts } from "./milestoneFacts";
 import {
@@ -45,6 +47,7 @@ type ActivityContextValue = {
   unlockedMilestoneIds: readonly string[];
   record: (input: RecordActivityInput) => Promise<void>;
   reset: () => void;
+  applyUnlockAllCheat: (code: string) => Promise<UnlockAllCheatStatus>;
 };
 
 const ActivityContext = createContext<ActivityContextValue | null>(null);
@@ -130,6 +133,10 @@ export function ActivityProvider({ children }: { children: ReactNode }) {
   }, [hydrated, onIntroRoute, onPreviewRoute, themeId, unlockedMilestoneIds, setThemeId]);
 
   const record = useCallback((input: RecordActivityInput) => recordActivity(input), []);
+  const applyCheat = useCallback(
+    (code: string) => applyUnlockAllCheat(code),
+    [],
+  );
   const reset = useCallback(() => {
     resetActivityStore();
     if (
@@ -164,8 +171,9 @@ export function ActivityProvider({ children }: { children: ReactNode }) {
       unlockedMilestoneIds,
       record,
       reset,
+      applyUnlockAllCheat: applyCheat,
     }),
-    [store, hydrated, grantedPrizes, unlockedMilestoneIds, record, reset],
+    [store, hydrated, grantedPrizes, unlockedMilestoneIds, record, reset, applyCheat],
   );
 
   return (

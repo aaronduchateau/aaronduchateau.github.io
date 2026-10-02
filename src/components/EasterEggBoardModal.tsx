@@ -15,6 +15,7 @@ import {
   THEME_PLAYGROUND_NAMESPACE,
   markThemePickerReturnToBoard,
 } from "@/lib/easterEggBoardRoute";
+import { MODAL_TOPBAR_PAD_X } from "@/lib/modalLayout";
 import { navigateToRouteModal, useRouteModal } from "@/lib/useRouteModal";
 
 type EasterEggBoardModalProps = {
@@ -24,7 +25,8 @@ type EasterEggBoardModalProps = {
 
 /**
  * Main-site overlay for the easter-egg / score-tier board.
- * Same quest list as the intro board — not the intro shell itself.
+ * Conventional bordered max-width shell (ModalFrame `board`) — not the
+ * edge-bleed interactive demo chrome.
  */
 export function EasterEggBoardModal({ open, onClose }: EasterEggBoardModalProps) {
   const titleId = useId();
@@ -63,20 +65,21 @@ export function EasterEggBoardModal({ open, onClose }: EasterEggBoardModalProps)
         />
       ) : (
         <>
-          <header className="theme-quest-board-header relative shrink-0 border-b border-white/10 py-3">
-            <div className="absolute right-3 top-3">
-              <ModalCloseButton onClick={onClose} size="sm" />
-            </div>
-            <div className="flex items-center justify-between gap-3 pr-10">
-              <h2 id={titleId} className="modal-display-heading min-w-0 text-xl text-white sm:text-2xl">
-                <span className="modal-display-heading__text">Easter egg board</span>
-              </h2>
-              <EasterEggBoardScore score={score} id={descId} />
-            </div>
+          <header
+            className={`theme-quest-board-header flex h-14 shrink-0 items-center gap-3 border-b border-white/10 ${MODAL_TOPBAR_PAD_X}`}
+          >
+            <ModalCloseButton onClick={onClose} />
+            <h2
+              id={titleId}
+              className="modal-display-heading min-w-0 flex-1 text-xl text-white sm:text-2xl"
+            >
+              <span className="modal-display-heading__text">Easter egg board</span>
+            </h2>
+            <EasterEggBoardScore score={score} id={descId} />
           </header>
 
           <div className="theme-quest-board-shell">
-            <EasterEggBoardPanel quests={quests} />
+            <EasterEggBoardPanel quests={quests} columns="two" />
           </div>
         </>
       )}

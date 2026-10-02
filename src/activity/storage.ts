@@ -77,7 +77,8 @@ function isEventType(value: unknown): value is ActivityEventType {
     value === "sound.zeepEnable" ||
     value === "demo.photoCritique" ||
     value === "quiz.complete" ||
-    value === "milestone.unlock"
+    value === "milestone.unlock" ||
+    value === "cheat.unlock-all"
   );
 }
 

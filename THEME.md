@@ -41,12 +41,14 @@ Not just colors. Token packs in `src/theme/palettes.ts` also set:
 - **Quote panel** — glass fill alpha, blur, decorative aura colors/opacity
 - **Cards** — surface alpha, border alpha, hover ring
 - **Nav blur**, root font size, palette channels
+- **Human-things gallery photos** — tint hue from `background` → `--background-channels`; shared roles `.theme-gallery-photo-tint` / `.theme-gallery-photo-dim` (optional `galleryPhotoTintAlpha*` / `galleryPhotoDimAlpha`)
 
 Primitive classes in `src/app/globals.css`:
 
 - `theme-hero-scrim` / `theme-hero-accent`
 - `theme-glass` / `theme-quote-aura`
 - `theme-card` / `theme-btn-shape`
+- `theme-gallery-photo-tint` / `theme-gallery-photo-dim` / `theme-gallery-photo-title`
 - `theme-decorative` (hidden entirely in ADA)
 
 ## Entry point

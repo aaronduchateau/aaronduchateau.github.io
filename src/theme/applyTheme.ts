@@ -1,6 +1,12 @@
 import { resolveComponentSlots } from "./slots";
 import { applyModalLaunchMotion } from "./modalLaunch";
+import { colorToRgbChannels } from "./swatches";
 import type { ThemeTokens } from "./types";
+
+/** Shared Human-things gallery photo formula — theme supplies hue via background. */
+const GALLERY_PHOTO_TINT_ALPHA = "0.78";
+const GALLERY_PHOTO_TINT_ALPHA_HOVER = "0.28";
+const GALLERY_PHOTO_DIM_ALPHA = "0.5";
 
 const TOKEN_STYLE_MAP: { key: keyof ThemeTokens; cssVar: string }[] = [
   { key: "background", cssVar: "--background" },
@@ -49,6 +55,23 @@ export function applyThemeTokens(tokens: ThemeTokens): void {
       root.style.setProperty(cssVar, value);
     }
   }
+
+  root.style.setProperty(
+    "--background-channels",
+    colorToRgbChannels(tokens.background),
+  );
+  root.style.setProperty(
+    "--gallery-photo-tint-alpha",
+    tokens.galleryPhotoTintAlpha ?? GALLERY_PHOTO_TINT_ALPHA,
+  );
+  root.style.setProperty(
+    "--gallery-photo-tint-alpha-hover",
+    tokens.galleryPhotoTintAlphaHover ?? GALLERY_PHOTO_TINT_ALPHA_HOVER,
+  );
+  root.style.setProperty(
+    "--gallery-photo-dim-alpha",
+    tokens.galleryPhotoDimAlpha ?? GALLERY_PHOTO_DIM_ALPHA,
+  );
 
   for (const [step, value] of Object.entries(tokens.surface)) {
     root.style.setProperty(`--surface-${step}`, value);

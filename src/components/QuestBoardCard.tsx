@@ -265,12 +265,22 @@ export function QuestBoardCard({
 export function QuestRoundList({
   quests,
   onOpenQuest,
+  columns = "one",
 }: {
   quests: IntroSideQuest[];
   onOpenQuest: (id: string) => void;
+  /**
+   * `two` — from `sm`, grid of two equal columns (a lone card stays half-width).
+   * Default `one` keeps the intro board stack unchanged.
+   */
+  columns?: "one" | "two";
 }) {
   return (
-    <ul className="theme-quest-round">
+    <ul
+      className={
+        columns === "two" ? "theme-quest-round theme-quest-round--columns" : "theme-quest-round"
+      }
+    >
       {quests.map((quest) => (
         <li key={quest.id}>
           <QuestBoardCard

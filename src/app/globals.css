@@ -9,6 +9,7 @@
 */
 :root {
   --background: #020617;
+  --background-channels: 2 6 23;
   --foreground: #e2e8f0;
   --heading: #ffffff;
   --root-font-size: 100%;
@@ -38,6 +39,15 @@
   --card-surface-alpha: 0.4;
   --card-hover-border-alpha: 0.35;
   --card-hover-ring-alpha: 0.2;
+
+  /*
+    Human-things gallery photo formula.
+    Hue: --background-channels (from ThemeTokens.background).
+    Alphas painted by applyThemeTokens (optional per-theme overrides).
+  */
+  --gallery-photo-tint-alpha: 0.78;
+  --gallery-photo-tint-alpha-hover: 0.28;
+  --gallery-photo-dim-alpha: 0.5;
 
   /* Content-window open SFX length → modal launch animation (0ms = instant). */
   --modal-open-duration: 0ms;
@@ -216,6 +226,68 @@ html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
 
 .theme-card-cover-wash {
   background: radial-gradient(circle at 30% 20%, rgb(var(--accent-400) / 0.15), transparent 55%);
+}
+
+/*
+  Human-things gallery tiles — theme background tint + hover dim.
+  Color comes from --background-channels; strengths from --gallery-photo-*-alpha.
+  No per-theme [data-theme] overrides.
+*/
+.theme-gallery-photo {
+  transform-origin: center;
+}
+
+.theme-gallery-photo-tint {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-color: rgb(var(--background-channels));
+  mix-blend-mode: color;
+  opacity: var(--gallery-photo-tint-alpha);
+  transition: opacity 300ms ease-out;
+}
+
+.group:hover .theme-gallery-photo-tint,
+.group:focus-visible .theme-gallery-photo-tint {
+  opacity: var(--gallery-photo-tint-alpha-hover);
+}
+
+.theme-gallery-photo-dim {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-color: rgb(var(--surface-950) / 0);
+  transition: background-color 300ms ease-out;
+}
+
+.group:hover .theme-gallery-photo-dim,
+.group:focus-visible .theme-gallery-photo-dim {
+  background-color: rgb(var(--surface-950) / var(--gallery-photo-dim-alpha));
+}
+
+.theme-gallery-photo-title {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: 0.75rem;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.group:hover .theme-gallery-photo-title,
+.group:focus-visible .theme-gallery-photo-title {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-gallery-photo-tint,
+  .theme-gallery-photo-dim,
+  .theme-gallery-photo-title {
+    transition: none;
+  }
 }
 
 .theme-card-photo-veil--mobile {
@@ -1653,6 +1725,24 @@ html.component-preview-embed body {
 
 .theme-quest-round > li {
   position: relative;
+}
+
+/*
+  Main-site board only (`.theme-quest-round--columns`).
+  From `sm`: two equal columns — a single card stays half-width.
+*/
+.theme-quest-round--columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.1rem;
+  /* Room for peeking trading-card thumbs without stacking pad on the scrollport. */
+  padding-right: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .theme-quest-round--columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .theme-quest-row {
@@ -5226,8 +5316,16 @@ button.theme-quest-view-unlock {
 [data-theme="ada-first"] [class*="radial-gradient"],
 [data-theme="ada-first"] .theme-card-photo-veil,
 [data-theme="ada-first"] .theme-card-cover-wash,
+[data-theme="ada-first"] .theme-gallery-photo-tint,
+[data-theme="ada-first"] .theme-gallery-photo-dim,
 [data-theme="ada-first"] .theme-employer-mark {
   background-image: none !important;
+}
+
+[data-theme="ada-first"] .theme-gallery-photo-tint,
+[data-theme="ada-first"] .theme-gallery-photo-dim {
+  background-color: transparent !important;
+  opacity: 0 !important;
 }
 
 [data-theme="ada-first"] .theme-employer-mark {

@@ -77,7 +77,8 @@ export const SWATCH_OVERRIDES: Partial<Record<SwatchId, string>> = {
   // "amber-200": "253 230 138",
 };
 
-function hexToRgbChannels(hex: string): string {
+/** `#rrggbb` / `#rgb` → `"r g b"` channels for `rgb(var(--…) / a)` roles. */
+export function hexToRgbChannels(hex: string): string {
   const raw = hex.replace("#", "").trim();
   const full =
     raw.length === 3
@@ -91,6 +92,16 @@ function hexToRgbChannels(hex: string): string {
   }
   const n = Number.parseInt(full, 16);
   return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
+}
+
+/**
+ * Theme `background` is usually `#hex`; accept pre-split `"r g b"` too
+ * so applyTheme can paint `--background-channels` safely.
+ */
+export function colorToRgbChannels(value: string): string {
+  const trimmed = value.trim();
+  if (/^\d{1,3}\s+\d{1,3}\s+\d{1,3}$/.test(trimmed)) return trimmed;
+  return hexToRgbChannels(trimmed);
 }
 
 function familyScale(family: SwatchFamily): Scale {

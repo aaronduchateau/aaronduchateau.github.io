@@ -77,18 +77,12 @@ export function GalleryStrip() {
                       src={card.imageSrc}
                       alt=""
                       fill
-                      className="object-cover transition duration-500 ease-out group-hover:scale-105 group-focus-visible:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100"
+                      className="theme-gallery-photo object-cover transition duration-500 ease-out group-hover:scale-105 group-focus-visible:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100"
                       sizes="(max-width: 640px) 50vw, 16vw"
                     />
-                    {/* Hover veil — keeps center title readable on busy photos */}
-                    <div
-                      className="pointer-events-none absolute inset-0 bg-surface-950/0 transition-colors duration-300 ease-out group-hover:bg-surface-950/50 group-focus-visible:bg-surface-950/50 motion-reduce:transition-none"
-                      aria-hidden
-                    />
-                    <div
-                      className="pointer-events-none absolute inset-0 flex items-center justify-center px-3 opacity-0 transition-opacity duration-300 ease-out group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:duration-0"
-                      aria-hidden
-                    >
+                    <div className="theme-gallery-photo-tint" aria-hidden />
+                    <div className="theme-gallery-photo-dim" aria-hidden />
+                    <div className="theme-gallery-photo-title" aria-hidden>
                       <span className="text-center text-sm font-semibold leading-snug tracking-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] sm:text-base">
                         {card.title}
                       </span>

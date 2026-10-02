@@ -240,6 +240,15 @@ export type ThemeTokens = {
   cardHoverBorderAlpha: string;
   cardHoverRingAlpha: string;
 
+  /**
+   * Human-things gallery photo formula (optional — applyTheme falls back).
+   * Tint hue always comes from `background` → `--background-channels`.
+   * Alphas drive `.theme-gallery-photo-tint` / `.theme-gallery-photo-dim`.
+   */
+  galleryPhotoTintAlpha?: string;
+  galleryPhotoTintAlphaHover?: string;
+  galleryPhotoDimAlpha?: string;
+
   /** Neutral scale. Painted as `--surface-*`. */
   surface: Record<ScaleStep, string>;
   /** Accent scale. Painted as `--accent-*`. */

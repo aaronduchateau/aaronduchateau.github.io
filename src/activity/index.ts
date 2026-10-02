@@ -26,7 +26,12 @@ export {
 } from "./unlockFeatures";
 export { applyFeatureGates, navigateToUnlockedContent } from "./unlockRoutes";
 export { resolveIntroSideQuests } from "./resolveIntroSideQuests";
-export { recordActivity, resetActivityStore, getActivityStoreSnapshot } from "./tracker";
+export { recordActivity, resetActivityStore, getActivityStoreSnapshot, applyUnlockAllCheat } from "./tracker";
+export type { UnlockAllCheatStatus } from "./tracker";
+export {
+  PUMPKIN_EATER_CHEAT_CODE,
+  CHEAT_UNLOCK_ALL_EVENT_KEY,
+} from "./cheatRules";
 export {
   DEFAULT_PRIZE_ANIMATIONS_ENABLED,
   persistPrizeAnimationsEnabled,

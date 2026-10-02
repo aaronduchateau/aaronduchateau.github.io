@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { CheatCodeModal } from "@/components/CheatCodeModal";
 import { readEasterThemeOptinDone } from "@/lib/easterEggBoardRoute";
 import { readSoftwarePortfolioOnly } from "@/lib/softwarePortfolioPref";
 import { Button } from "@/components/ui";
@@ -34,6 +35,7 @@ export function EasterEggBoardIntro({
   const [softwareOnly, setSoftwareOnly] = useState(false);
   const [optinDone, setOptinDone] = useState(false);
   const [enterThemeGame, setEnterThemeGame] = useState(false);
+  const [cheatOpen, setCheatOpen] = useState(false);
 
   useEffect(() => {
     setSoftwareOnly(readSoftwarePortfolioOnly());
@@ -69,8 +71,21 @@ export function EasterEggBoardIntro({
           </div>
           <p id={descriptionId} className="theme-quest-board-intro__copy">
             Interact with Aaron&rsquo;s portfolio — watch, click, and try things.
-            Some content might be locked by default! Finish a quest and you unlock a
-            trading card or a new feature.
+            Finish a quest to unlock trading cards or access to new themes and features of
+            Aaron&rsquo;s site!
+          </p>
+          <p className="mt-3">
+            <button
+              type="button"
+              data-track-ignore=""
+              className="text-xs font-medium text-surface-500 underline decoration-white/20 underline-offset-2 transition hover:text-surface-300"
+              onClick={() => {
+                playBoundNavClick();
+                setCheatOpen(true);
+              }}
+            >
+              Have a code?
+            </button>
           </p>
         </div>
       </div>
@@ -123,6 +138,8 @@ export function EasterEggBoardIntro({
           </Button>
         </div>
       </div>
+
+      <CheatCodeModal open={cheatOpen} onClose={() => setCheatOpen(false)} />
     </div>
   );
 }

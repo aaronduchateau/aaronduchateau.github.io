@@ -14,7 +14,8 @@ export type ActivityEventType =
   | "sound.zeepEnable"
   | "demo.photoCritique"
   | "quiz.complete"
-  | "milestone.unlock";
+  | "milestone.unlock"
+  | "cheat.unlock-all";
 
 export type ActivityLogEntry = {
   id: string;
