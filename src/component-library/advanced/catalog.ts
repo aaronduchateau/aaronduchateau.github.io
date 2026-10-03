@@ -1,6 +1,7 @@
 import { INTRO_SIDE_QUESTS } from "@/data/introScreen";
 import { education, testimonials, workHistory } from "@/data/content";
 import type { LibraryStory } from "../types";
+import { COMPARE_SLIDER_SAMPLES } from "../compareSliderStory";
 import { THEME_CARD_SAMPLES } from "../themeCardStory";
 import { LEAVE_SITE_LIBRARY_PROJECTS } from "../leaveSiteConfirmStory";
 
@@ -53,6 +54,25 @@ export const ADVANCED_STORIES: readonly LibraryStory[] = [
     summary:
       "Same FullScreenQuote as the bottom of the homepage. Parent looks up copy and photo; the plate only consumes quote, attribution, and portrait.",
     controls: [],
+  },
+  {
+    id: "compare-slider",
+    kind: "advanced",
+    name: "Compare slider",
+    summary:
+      "Same before/after slide-reveal as Photo Critique visual weight. Parent looks up a sample pair; the plate only consumes before/after images and labels. Drag or use the range input to reveal.",
+    controls: [
+      {
+        key: "sampleId",
+        label: "Sample (parent lookup)",
+        type: "select",
+        defaultValue: COMPARE_SLIDER_SAMPLES[0]?.id ?? "gardenTomatoes",
+        options: COMPARE_SLIDER_SAMPLES.map((row) => ({
+          value: row.id,
+          label: row.label,
+        })),
+      },
+    ],
   },
   {
     id: "career-timeline",

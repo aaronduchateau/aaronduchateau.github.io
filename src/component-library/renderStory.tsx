@@ -12,6 +12,7 @@ import {
   LibrarySectionHeading,
   LibraryEducationCard,
   LibraryFullScreenQuote,
+  LibraryCompareSlider,
   LibraryCareerTimeline,
   LibraryLeaveSiteConfirm,
   LibraryQuestBoardCard,
@@ -97,6 +98,15 @@ export function renderLibraryStory(storyId: string, props: LibraryPropMap) {
           attribution={props.attribution ?? ""}
           photo={props.photo ?? ""}
           photoAlt={props.photoAlt}
+        />
+      );
+    case "compare-slider":
+      return (
+        <LibraryCompareSlider
+          beforeSrc={props.beforeSrc ?? ""}
+          afterSrc={props.afterSrc ?? ""}
+          beforeLabel={props.beforeLabel ?? "Original"}
+          afterLabel={props.afterLabel ?? "Suggested"}
         />
       );
     case "career-timeline":

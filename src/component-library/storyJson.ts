@@ -59,6 +59,9 @@ export function storyPropsToJson(story: LibraryStory, props: LibraryPropMap): Re
   if (story.id === "full-screen-quote") {
     return fullScreenQuoteStoryJson(props);
   }
+  if (story.id === "compare-slider") {
+    return compareSliderStoryJson(props);
+  }
   if (story.id === "career-timeline") {
     return careerTimelineStoryJson(props);
   }
@@ -117,6 +120,15 @@ function fullScreenQuoteStoryJson(props: LibraryPropMap): Record<string, unknown
     attribution: props.attribution ?? "",
     photo: props.photo ?? "",
     photoAlt: props.photoAlt ?? "",
+  };
+}
+
+function compareSliderStoryJson(props: LibraryPropMap): Record<string, unknown> {
+  return {
+    beforeSrc: props.beforeSrc ?? "",
+    afterSrc: props.afterSrc ?? "",
+    beforeLabel: props.beforeLabel ?? "Original",
+    afterLabel: props.afterLabel ?? "Suggested",
   };
 }
 

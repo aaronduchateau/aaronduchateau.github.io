@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {
   Card,
   CareerTimeline,
+  CompareSlider,
   EducationCard,
   FullScreenQuote,
   MajorProjectCardBody,
@@ -279,6 +280,47 @@ function parseTimelineItems(raw: string | undefined): CareerTimelineItem[] {
   } catch {
     return [];
   }
+}
+
+export function LibraryCompareSlider({
+  beforeSrc,
+  afterSrc,
+  beforeLabel,
+  afterLabel,
+}: {
+  beforeSrc: string;
+  afterSrc: string;
+  beforeLabel: string;
+  afterLabel: string;
+}) {
+  return (
+    <div className="w-full min-w-0 max-w-xl">
+      <CompareSlider
+        aspectRatio={4 / 3}
+        beforeLabel={beforeLabel}
+        afterLabel={afterLabel}
+        sliderLabel={`Compare ${beforeLabel} and ${afterLabel}`}
+        before={
+          // eslint-disable-next-line @next/next/no-img-element -- catalog sample URLs
+          <img
+            src={beforeSrc}
+            alt={beforeLabel}
+            className="h-full w-full bg-black object-contain"
+            draggable={false}
+          />
+        }
+        after={
+          // eslint-disable-next-line @next/next/no-img-element -- catalog sample URLs
+          <img
+            src={afterSrc}
+            alt={afterLabel}
+            className="h-full w-full bg-black object-contain"
+            draggable={false}
+          />
+        }
+      />
+    </div>
+  );
 }
 
 export function LibraryCareerTimeline({

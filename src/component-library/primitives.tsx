@@ -14,6 +14,7 @@ export {
 export {
   LibraryEducationCard,
   LibraryFullScreenQuote,
+  LibraryCompareSlider,
   LibraryCareerTimeline,
   LibraryLeaveSiteConfirm,
   LibraryQuestBoardCard,

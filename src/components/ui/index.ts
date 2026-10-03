@@ -21,6 +21,7 @@ export {
   type AppIconProps,
 } from "./simple";
 export { Card, CardGrid, type CardCover, type CardProps } from "./advanced";
+export { CompareSlider, type CompareSliderProps } from "./advanced";
 export {
   CareerTimeline,
   type CareerTimelineItem,

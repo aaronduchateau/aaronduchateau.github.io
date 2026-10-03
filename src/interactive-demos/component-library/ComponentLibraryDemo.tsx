@@ -16,6 +16,11 @@ import {
 } from "@/component-library/testimonialStory";
 import { applyEducationControl, educationJsonNeedsHydration, hydrateEducationLibraryProps } from "@/component-library/educationStory";
 import { applyThemeCardControl, hydrateThemeCardLibraryProps, themeCardJsonNeedsHydration } from "@/component-library/themeCardStory";
+import {
+  applyCompareSliderControl,
+  compareSliderJsonNeedsHydration,
+  hydrateCompareSliderLibraryProps,
+} from "@/component-library/compareSliderStory";
 import { applyCareerTimelineControl, careerTimelineJsonNeedsHydration, hydrateCareerTimelineLibraryProps } from "@/component-library/careerTimelineStory";
 import { applyLeaveSiteConfirmControl, hydrateLeaveSiteConfirmLibraryProps, leaveSiteConfirmJsonNeedsHydration } from "@/component-library/leaveSiteConfirmStory";
 import { buildComponentPreviewSrc } from "@/component-library/previewUrl";
@@ -319,6 +324,10 @@ function applyStoryJson(
     setProps(hydrateThemeCardLibraryProps(merged));
     return;
   }
+  if (story.id === "compare-slider" && compareSliderJsonNeedsHydration(parsed.props)) {
+    setProps(hydrateCompareSliderLibraryProps(merged));
+    return;
+  }
   if (story.id === "career-timeline" && careerTimelineJsonNeedsHydration(parsed.props)) {
     setProps(hydrateCareerTimelineLibraryProps(merged));
     return;
@@ -423,6 +432,10 @@ function StoryWorkbench({
       }
       if (story?.id === "theme-card") {
         commitProps(applyThemeCardControl(props, key, next));
+        return;
+      }
+      if (story?.id === "compare-slider") {
+        commitProps(applyCompareSliderControl(props, key, next));
         return;
       }
       if (story?.id === "career-timeline") {

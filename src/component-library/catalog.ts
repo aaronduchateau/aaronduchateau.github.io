@@ -6,6 +6,7 @@ import { hydrateTestimonialLibraryProps } from "./testimonialStory";
 import { hydrateEducationLibraryProps } from "./educationStory";
 import { hydrateThemeCardLibraryProps } from "./themeCardStory";
 import { hydrateFullScreenQuoteLibraryProps } from "./fullScreenQuoteStory";
+import { hydrateCompareSliderLibraryProps } from "./compareSliderStory";
 import { hydrateCareerTimelineLibraryProps } from "./careerTimelineStory";
 import { hydrateLeaveSiteConfirmLibraryProps } from "./leaveSiteConfirmStory";
 import type { LibraryStory, LibraryStoryId } from "./types";
@@ -38,6 +39,7 @@ export function defaultPropsForStory(story: LibraryStory): Record<string, string
   if (story.id === "education-card") return hydrateEducationLibraryProps(base);
   if (story.id === "theme-card") return hydrateThemeCardLibraryProps(base);
   if (story.id === "full-screen-quote") return hydrateFullScreenQuoteLibraryProps(base);
+  if (story.id === "compare-slider") return hydrateCompareSliderLibraryProps(base);
   if (story.id === "career-timeline") return hydrateCareerTimelineLibraryProps(base);
   if (story.id === "leave-site-confirm") return hydrateLeaveSiteConfirmLibraryProps(base);
   return base;

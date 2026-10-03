@@ -22,6 +22,7 @@ export type LibraryStoryId =
   | "education-card"
   | "testimonial-card"
   | "full-screen-quote"
+  | "compare-slider"
   | "career-timeline"
   | "leave-site-confirm"
   | "quiz-player"

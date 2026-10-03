@@ -1,4 +1,5 @@
 export { Card, CardGrid, type CardCover, type CardProps } from "./Card";
+export { CompareSlider, type CompareSliderProps } from "./CompareSlider";
 export {
   CareerTimeline,
   type CareerTimelineItem,
