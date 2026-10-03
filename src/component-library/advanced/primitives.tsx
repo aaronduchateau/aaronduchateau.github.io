@@ -394,7 +394,7 @@ export function LibraryLeaveSiteConfirm({
 
   return (
     <div className="w-full min-w-full">
-      <article className="group flex w-full overflow-hidden rounded-2xl border border-white/10 bg-surface-900/40">
+      <article className="group theme-radius-card flex w-full overflow-hidden border border-white/10 bg-surface-900/40">
         <LeaveSiteConfirm
           phase={phase}
           title={company}

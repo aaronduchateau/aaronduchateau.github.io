@@ -183,7 +183,7 @@ function ContributionCard({
           onActionClick();
           onOpen();
         }}
-        className={`${groupClass}flex h-full w-full overflow-hidden rounded-2xl border border-white/10 bg-surface-900/40 text-left`}
+        className={`${groupClass}theme-radius-card flex h-full w-full overflow-hidden border border-white/10 bg-surface-900/40 text-left`}
         aria-label={`Open ${project.company}`}
         {...trackAttrs(project.id)}
       >
@@ -204,7 +204,7 @@ function ContributionCard({
             triggerWiggle();
           }
         }}
-        className={`${groupClass}flex h-full cursor-default overflow-hidden rounded-2xl border border-white/10 bg-surface-900/40 ${
+        className={`${groupClass}theme-radius-card flex h-full cursor-default overflow-hidden border border-white/10 bg-surface-900/40 ${
           wiggle ? "animate-wiggle" : ""
         }`}
         aria-label={project.company}
@@ -220,7 +220,7 @@ function ContributionCard({
   return (
     <article
       ref={cardRef}
-      className={`${groupClass}flex overflow-hidden rounded-2xl border border-white/10 bg-surface-900/40 ${
+      className={`${groupClass}theme-radius-card flex overflow-hidden border border-white/10 bg-surface-900/40 ${
         lockedHeightPx != null ? "shrink-0" : "h-full"
       }`}
       style={

@@ -205,7 +205,7 @@ export type ThemeTokens = {
   /** Hero background photo path, or null when the theme has no photo (ADA). */
   heroImage: string | null;
 
-  /** Pill / CTA silhouette (cyberpunk: full pill). */
+  /** Pill / CTA silhouette (cyberpunk: full pill). Full CSS border-radius strings OK. */
   radiusPill: string;
   /** Large cards / hero quote (cyberpunk: 1.5rem = rounded-3xl). */
   radiusCard: string;
@@ -215,6 +215,22 @@ export type ThemeTokens = {
   radiusControl: string;
   /** Video play control (cyberpunk: circle; Roman: square with slight round). */
   radiusPlay: string;
+
+  /**
+   * Optional hover silhouettes (Surrealist melt-deep, etc.).
+   * applyTheme falls back to the matching rest radius when omitted.
+   */
+  radiusPillHover?: string;
+  radiusCardHover?: string;
+  radiusMediaHover?: string;
+  radiusControlHover?: string;
+  radiusPlayHover?: string;
+  /**
+   * Top-only radius for `.theme-card__cover` (TL/TR).
+   * When omitted, applyTheme derives top corners from `radiusCard`.
+   */
+  radiusCardCover?: string;
+  radiusCardCoverHover?: string;
 
   /** Hero vertical scrim opacities over slate-950. */
   heroScrimFrom: string;

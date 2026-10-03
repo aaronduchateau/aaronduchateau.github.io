@@ -84,11 +84,11 @@ function CoverRegion({ cover, date }: { cover: CardCover; date?: string }) {
 
     return (
       <div
-        className={`theme-card__cover relative isolate aspect-[16/10] overflow-hidden rounded-t-3xl bg-surface-900 ${
+        className={`theme-card__cover relative isolate aspect-[16/10] overflow-hidden bg-surface-900 ${
           video ? "theme-card__cover--video" : "theme-card__cover--image"
         }`}
       >
-        <div className="theme-card__thumb absolute inset-0 overflow-hidden rounded-t-3xl">
+        <div className="theme-card__thumb absolute inset-0 overflow-hidden">
           <div className={video ? "theme-card__thumb-zoom" : "relative h-full w-full"}>
             <Image
               src={cover.src}
@@ -106,7 +106,7 @@ function CoverRegion({ cover, date }: { cover: CardCover; date?: string }) {
           </div>
         </div>
         {video ? <div className="theme-card__thumb-dim" aria-hidden /> : null}
-        <div className="pointer-events-none absolute inset-0 z-[2] rounded-t-3xl bg-gradient-to-t from-surface-950/90 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-surface-950/90 to-transparent" />
         {play ? (
           <span className="pointer-events-none absolute inset-0 z-10 grid place-items-center" aria-hidden>
             <PlayMark className="theme-card__play theme-play-btn h-14 w-14 origin-center opacity-0 drop-shadow-[0_6px_14px_rgba(0,0,0,0.55)] transition-[opacity,transform] duration-card-reveal ease-card-reveal delay-0 scale-[0.92] will-change-[opacity,transform] motion-reduce:transition-none group-hover:scale-100 group-hover:opacity-100 group-hover:delay-card-reveal sm:h-16 sm:w-16" />
@@ -119,7 +119,7 @@ function CoverRegion({ cover, date }: { cover: CardCover; date?: string }) {
 
   return (
     <div
-      className={`theme-card__cover relative isolate aspect-[16/10] overflow-hidden rounded-t-3xl bg-gradient-to-br from-surface-900 via-black to-accent-950/40 ${
+      className={`theme-card__cover relative isolate aspect-[16/10] overflow-hidden bg-gradient-to-br from-surface-900 via-black to-accent-950/40 ${
         coverKind === "demo" ? "theme-card__cover--demo" : "theme-card__cover--article"
       }`}
     >
@@ -156,7 +156,7 @@ export function Card({
   const body = (
     <>
       {cover ? <CoverRegion cover={cover} date={date} /> : null}
-      <div className="theme-card__body flex min-h-0 flex-1 flex-col overflow-visible rounded-b-3xl p-6 pb-8">
+      <div className="theme-card__body flex min-h-0 flex-1 flex-col overflow-visible p-6 pb-8">
         {date ? <p className="theme-card__row-date">{date}</p> : null}
         <h3 className="card-display-heading">
           <span className="card-display-heading__text">{title}</span>

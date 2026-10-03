@@ -20,6 +20,14 @@
   --radius-media: 1rem;
   --radius-control: 0.75rem;
   --radius-play: 9999px;
+  /* Hover silhouettes — applyTheme mirrors rest when a theme omits hover tokens. */
+  --radius-pill-hover: var(--radius-pill);
+  --radius-card-hover: var(--radius-card);
+  --radius-media-hover: var(--radius-media);
+  --radius-control-hover: var(--radius-control);
+  --radius-play-hover: var(--radius-play);
+  --radius-card-cover: 1.5rem 1.5rem 0 0;
+  --radius-card-cover-hover: var(--radius-card-cover);
 
   --hero-scrim-from: 0.7;
   --hero-scrim-via: 0.85;
@@ -342,6 +350,12 @@ html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
 
 .theme-btn-shape {
   border-radius: var(--radius-pill);
+  transition: border-radius 420ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.theme-btn-shape:hover,
+.theme-btn-shape:focus-visible {
+  border-radius: var(--radius-pill-hover);
 }
 
 .theme-primary-cta {
@@ -380,14 +394,32 @@ html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
 
 .theme-radius-card {
   border-radius: var(--radius-card);
+  transition: border-radius 500ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.group:hover .theme-radius-card,
+.group:focus-visible .theme-radius-card {
+  border-radius: var(--radius-card-hover);
 }
 
 .theme-radius-media {
   border-radius: var(--radius-media);
+  transition: border-radius 500ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.group:hover .theme-radius-media,
+.group:focus-visible .theme-radius-media {
+  border-radius: var(--radius-media-hover);
 }
 
 .theme-radius-control {
   border-radius: var(--radius-control);
+  transition: border-radius 420ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.group:hover .theme-radius-control,
+.group:focus-visible .theme-radius-control {
+  border-radius: var(--radius-control-hover);
 }
 
 .theme-hairline {
@@ -1015,6 +1047,12 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   background: rgb(var(--surface-950) / 0.82);
   border: 2px solid rgb(var(--accent-400) / 0.45);
   box-sizing: border-box;
+  transition: border-radius 480ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.theme-play-btn:hover,
+.theme-play-btn:focus-visible {
+  border-radius: var(--radius-play-hover);
 }
 
 .theme-play-triangle {
@@ -1107,6 +1145,12 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   background: rgb(var(--surface-950) / var(--glass-alpha));
   backdrop-filter: blur(var(--glass-blur));
   -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: border-radius 500ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.theme-glass:hover,
+.theme-glass:focus-visible {
+  border-radius: var(--radius-card-hover);
 }
 
 /*
@@ -1195,12 +1239,25 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   border-radius: var(--radius-card);
   border: 1px solid rgb(var(--slot-hairline) / var(--border-alpha));
   background: rgb(var(--surface-900) / var(--card-surface-alpha));
+  transition: border-radius 500ms cubic-bezier(0.37, 0, 0.63, 1);
 }
 
 .theme-card:hover,
 .theme-card:focus-visible {
+  border-radius: var(--radius-card-hover);
   border-color: rgb(var(--accent-500) / var(--card-hover-border-alpha));
   box-shadow: 0 0 0 1px rgb(var(--accent-400) / var(--card-hover-ring-alpha));
+}
+
+/* Cover TL/TR follow the pack (derived from --radius-card); bottom stays square into the body. */
+.theme-card__cover {
+  border-radius: var(--radius-card-cover);
+  transition: border-radius 500ms cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+.theme-card:hover .theme-card__cover,
+.theme-card:focus-visible .theme-card__cover {
+  border-radius: var(--radius-card-cover-hover);
 }
 
 .theme-card__row-date,
@@ -1233,7 +1290,7 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border-radius: 1.5rem 1.5rem 0 0;
+  border-radius: inherit;
   background: rgb(var(--surface-950) / 0.45);
   transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -3951,10 +4008,7 @@ button.theme-quest-view-unlock {
 */
 [data-theme="surrealist"] {
   --font-display: var(--font-surrealist);
-  --surreal-melt: 2rem 1.15rem 2.55rem 0.85rem / 1.35rem 2.15rem 0.95rem 1.9rem;
-  --surreal-melt-deep: 1.6rem 1.4rem 3.4rem 0.55rem / 1.8rem 2.6rem 0.7rem 2.5rem;
-  --surreal-card-melt: 1.9rem 2.7rem 3.1rem 1.15rem / 2.5rem 1.35rem 2.9rem 1.55rem;
-  --surreal-card-melt-deep: 2.2rem 2.4rem 3.8rem 0.9rem / 2.8rem 1.6rem 3.4rem 1.3rem;
+  /* Melt silhouettes live in the Surrealist token pack (--radius-* / --radius-*-hover). */
 }
 
 [data-theme="surrealist"] h1,
@@ -3983,10 +4037,9 @@ button.theme-quest-view-unlock {
   text-transform: uppercase;
 }
 
-/* Default control skin (Options, ghost, nav). Primary role overrides below. */
+/* Default control skin (Options, ghost, nav). Primary role overrides below. Radius from tokens. */
 [data-theme="surrealist"] .theme-btn-shape {
   border: 1px solid rgb(196 150 72 / 0.65);
-  border-radius: var(--surreal-melt);
   background:
     radial-gradient(
       ellipse at 30% 20%,
@@ -4013,7 +4066,6 @@ button.theme-quest-view-unlock {
 }
 
 [data-theme="surrealist"] .theme-btn-shape:hover {
-  border-radius: var(--surreal-melt-deep);
   border-color: rgb(240 217 160 / 0.85);
   color: #f5e6c8;
   box-shadow:
@@ -4047,7 +4099,6 @@ button.theme-quest-view-unlock {
 }
 
 [data-theme="surrealist"] .theme-primary-cta:hover {
-  border-radius: var(--surreal-melt-deep);
   color: #fff6e0;
   border-color: rgb(255 236 200 / 0.95);
   transform: translateY(3px) skewX(-0.6deg);
@@ -4060,7 +4111,6 @@ button.theme-quest-view-unlock {
 [data-theme="surrealist"] .theme-card,
 [data-theme="surrealist"] .theme-glass {
   border: 1px solid rgb(196 150 72 / 0.45);
-  border-radius: var(--surreal-card-melt);
   box-shadow:
     0 22px 48px rgb(0 0 0 / 0.55),
     0 8px 20px rgb(110 28 48 / 0.2),
@@ -4082,19 +4132,16 @@ button.theme-quest-view-unlock {
       rgb(40 28 24 / var(--glass-alpha, 0.7)),
       rgb(22 16 14 / var(--glass-alpha, 0.7))
     );
-  transition: border-radius 500ms cubic-bezier(0.37, 0, 0.63, 1);
 }
 
 [data-theme="surrealist"] .theme-card:hover,
 [data-theme="surrealist"] .theme-card:focus-visible {
-  border-radius: var(--surreal-card-melt-deep);
   border-color: rgb(196 150 72 / 0.7);
 }
 
 [data-theme="surrealist"] .theme-play-btn {
   border-width: 1px;
   border-color: rgb(196 150 72 / 0.75);
-  border-radius: 58% 42% 62% 38% / 48% 58% 42% 52%;
   background:
     radial-gradient(
       circle at 35% 30%,
@@ -4104,11 +4151,6 @@ button.theme-quest-view-unlock {
   box-shadow:
     0 14px 32px rgb(0 0 0 / 0.5),
     0 0 16px rgb(196 150 72 / 0.22);
-  transition: border-radius 480ms cubic-bezier(0.37, 0, 0.63, 1);
-}
-
-[data-theme="surrealist"] .theme-play-btn:hover {
-  border-radius: 48% 52% 70% 30% / 55% 45% 60% 40%;
 }
 
 [data-theme="surrealist"] .theme-nav {
@@ -4136,13 +4178,21 @@ button.theme-quest-view-unlock {
   100% {
     opacity: 1;
     transform: none;
-    border-radius: var(--surreal-card-melt);
+    border-radius: var(--radius-card);
     filter: none;
   }
 }
 
 
 @media (prefers-reduced-motion: reduce) {
+  .theme-btn-shape,
+  .theme-card,
+  .theme-card__cover,
+  .theme-glass,
+  .theme-play-btn,
+  .theme-radius-card,
+  .theme-radius-media,
+  .theme-radius-control,
   [data-theme="surrealist"] .theme-btn-shape,
   [data-theme="surrealist"] .theme-card,
   [data-theme="surrealist"] .theme-play-btn {

@@ -35,7 +35,7 @@ Each of these has `[data-theme] .theme-primary-cta` and/or blanket `.theme-btn-s
 - `captain-guy` — amber/stone CTA — **role skin** + **font**
 - `nerd` — CRT phosphor CTA — **role skin** + **font**
 - `pop-art-guy` — halftone fill — **texture** + **role skin** + **font**
-- `surrealist` — velvet/brass CTA — **role skin** + **font**
+- `surrealist` — velvet/brass CTA — **role skin** + **font** (melt radii tokenized: `--radius-*` / `--radius-*-hover` in pack; cover TL/TR via `--radius-card-cover`)
 - `dog-days-guy` — toy radii, denim CTA — **role skin** + **font**
 - `retro-guy` — coin gold / pipe / bevel — **texture** + **role skin** + **font**
 - `driver-guy` — Mr Dafoe script titles, pink/cyan chrome — **role skin** + **font**

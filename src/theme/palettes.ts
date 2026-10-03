@@ -825,7 +825,13 @@ const SURREALIST: ThemeTokens = {
   radiusCard: "1.9rem 2.7rem 3.1rem 1.15rem / 2.5rem 1.35rem 2.9rem 1.55rem",
   radiusMedia: "1.6rem 2.2rem 2.6rem 1rem / 2.1rem 1.2rem 2.4rem 1.4rem",
   radiusControl: "1.4rem 0.9rem 1.8rem 0.7rem / 1.1rem 1.6rem 0.8rem 1.5rem",
-  radiusPlay: "55% 45% 60% 40% / 50% 55% 45% 50%",
+  radiusPlay: "58% 42% 62% 38% / 48% 58% 42% 52%",
+  /** Hover sag — same motion as former `--surreal-*-melt-deep` CSS vars. */
+  radiusPillHover: "1.6rem 1.4rem 3.4rem 0.55rem / 1.8rem 2.6rem 0.7rem 2.5rem",
+  radiusCardHover: "2.2rem 2.4rem 3.8rem 0.9rem / 2.8rem 1.6rem 3.4rem 1.3rem",
+  radiusMediaHover: "1.9rem 2.0rem 3.2rem 0.75rem / 2.4rem 1.4rem 2.9rem 1.15rem",
+  radiusControlHover: "1.6rem 1.4rem 3.4rem 0.55rem / 1.8rem 2.6rem 0.7rem 2.5rem",
+  radiusPlayHover: "48% 52% 70% 30% / 55% 45% 60% 40%",
 
   /** Keep the brass lamp + desert canvases lit; parlor dark closes the frame. */
   heroScrimFrom: "0.4",

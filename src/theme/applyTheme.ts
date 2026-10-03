@@ -8,6 +8,29 @@ const GALLERY_PHOTO_TINT_ALPHA = "0.78";
 const GALLERY_PHOTO_TINT_ALPHA_HOVER = "0.28";
 const GALLERY_PHOTO_DIM_ALPHA = "0.5";
 
+/**
+ * Top-only border-radius for card covers (TL/TR, bottom square).
+ * Supports 1-value, 4-value, and elliptical 8-value (`a b c d / e f g h`) strings.
+ */
+export function coverRadiusFromCard(radiusCard: string): string {
+  const raw = radiusCard.trim();
+  if (!raw) return "0";
+  if (raw.includes("/")) {
+    const [horizPart, vertPart] = raw.split("/").map((part) => part.trim());
+    const horiz = horizPart.split(/\s+/).filter(Boolean);
+    const vert = vertPart.split(/\s+/).filter(Boolean);
+    if (horiz.length === 4 && vert.length === 4) {
+      return `${horiz[0]} ${horiz[1]} 0 0 / ${vert[0]} ${vert[1]} 0 0`;
+    }
+  }
+  const parts = raw.split(/\s+/).filter(Boolean);
+  if (parts.length === 1) return `${parts[0]} ${parts[0]} 0 0`;
+  if (parts.length === 2) return `${parts[0]} ${parts[1]} 0 0`;
+  if (parts.length === 3) return `${parts[0]} ${parts[1]} 0 ${parts[2]}`;
+  if (parts.length >= 4) return `${parts[0]} ${parts[1]} 0 0`;
+  return raw;
+}
+
 const TOKEN_STYLE_MAP: { key: keyof ThemeTokens; cssVar: string }[] = [
   { key: "background", cssVar: "--background" },
   { key: "foreground", cssVar: "--foreground" },
@@ -55,6 +78,25 @@ export function applyThemeTokens(tokens: ThemeTokens): void {
       root.style.setProperty(cssVar, value);
     }
   }
+
+  const pillHover = tokens.radiusPillHover ?? tokens.radiusPill;
+  const cardHover = tokens.radiusCardHover ?? tokens.radiusCard;
+  const mediaHover = tokens.radiusMediaHover ?? tokens.radiusMedia;
+  const controlHover = tokens.radiusControlHover ?? tokens.radiusControl;
+  const playHover = tokens.radiusPlayHover ?? tokens.radiusPlay;
+  root.style.setProperty("--radius-pill-hover", pillHover);
+  root.style.setProperty("--radius-card-hover", cardHover);
+  root.style.setProperty("--radius-media-hover", mediaHover);
+  root.style.setProperty("--radius-control-hover", controlHover);
+  root.style.setProperty("--radius-play-hover", playHover);
+  root.style.setProperty(
+    "--radius-card-cover",
+    tokens.radiusCardCover ?? coverRadiusFromCard(tokens.radiusCard),
+  );
+  root.style.setProperty(
+    "--radius-card-cover-hover",
+    tokens.radiusCardCoverHover ?? coverRadiusFromCard(cardHover),
+  );
 
   root.style.setProperty(
     "--background-channels",
