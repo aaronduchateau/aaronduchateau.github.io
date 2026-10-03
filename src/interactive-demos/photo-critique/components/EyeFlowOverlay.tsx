@@ -165,128 +165,122 @@ export function EyeFlowOverlay({
 
   const flowD = pathToSvgD(eyeFlowPath);
   const showFlow = showEyeFlow && flowD.length > 0;
+  const aspect =
+    imageAspect && imageAspect > 0
+      ? imageAspect
+      : naturalSize
+        ? naturalSize.w / naturalSize.h
+        : undefined;
 
   return (
-    <div className="flex min-h-0 flex-col">
-      <div
-        ref={containerRef}
-        className={`${critiqueResultPhotoFrameClass} mx-auto w-full max-h-[min(42dvh,360px)]`}
-        style={{
-          // Match the photo — avoids theme-agnostic 4:3 letterboxing that reads as a thick crop.
-          aspectRatio:
-            imageAspect && imageAspect > 0
-              ? imageAspect
-              : naturalSize
-                ? naturalSize.w / naturalSize.h
-                : 4 / 3,
+    <div
+      ref={containerRef}
+      className={`${critiqueResultPhotoFrameClass} w-full`}
+      style={aspect ? { aspectRatio: aspect } : { minHeight: "7rem" }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element -- blob URLs from user uploads */}
+      <img
+        src={src}
+        alt={alt}
+        className="absolute inset-0 h-full w-full object-contain"
+        onLoad={(e) => {
+          const img = e.currentTarget;
+          if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+            setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
+          }
         }}
-      >
-          {/* eslint-disable-next-line @next/next/no-img-element -- blob URLs from user uploads */}
-          <img
-            src={src}
-            alt={alt}
-            className="absolute inset-0 h-full w-full object-contain"
-            onLoad={(e) => {
-              const img = e.currentTarget;
-              if (img.naturalWidth > 0 && img.naturalHeight > 0) {
-                setNaturalSize({ w: img.naturalWidth, h: img.naturalHeight });
-              }
-            }}
-          />
+      />
 
-          {imageRect && showHeatmap ? (
-            <canvas
-              ref={heatCanvasRef}
-              className="pointer-events-none absolute"
-              style={{
-                left: imageRect.left,
-                top: imageRect.top,
-                width: imageRect.width,
-                height: imageRect.height,
-                mixBlendMode: "screen",
-              }}
-              aria-hidden
-            />
+      {imageRect && showHeatmap ? (
+        <canvas
+          ref={heatCanvasRef}
+          className="pointer-events-none absolute"
+          style={{
+            left: imageRect.left,
+            top: imageRect.top,
+            width: imageRect.width,
+            height: imageRect.height,
+            mixBlendMode: "screen",
+          }}
+          aria-hidden
+        />
+      ) : null}
+
+      {imageRect ? (
+        <svg
+          className="pointer-events-none absolute overflow-visible"
+          style={{
+            left: imageRect.left,
+            top: imageRect.top,
+            width: imageRect.width,
+            height: imageRect.height,
+          }}
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          {showThirds ? (
+            <g stroke="rgba(255,255,255,0.45)" strokeWidth="0.35" vectorEffect="non-scaling-stroke">
+              <line x1="33.333" y1="0" x2="33.333" y2="100" />
+              <line x1="66.666" y1="0" x2="66.666" y2="100" />
+              <line x1="0" y1="33.333" x2="100" y2="33.333" />
+              <line x1="0" y1="66.666" x2="100" y2="66.666" />
+            </g>
           ) : null}
 
-          {imageRect ? (
-            <svg
-              className="pointer-events-none absolute overflow-visible"
-              style={{
-                left: imageRect.left,
-                top: imageRect.top,
-                width: imageRect.width,
-                height: imageRect.height,
-              }}
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              aria-hidden
-            >
-              {showThirds ? (
-                <g stroke="rgba(255,255,255,0.45)" strokeWidth="0.35" vectorEffect="non-scaling-stroke">
-                  <line x1="33.333" y1="0" x2="33.333" y2="100" />
-                  <line x1="66.666" y1="0" x2="66.666" y2="100" />
-                  <line x1="0" y1="33.333" x2="100" y2="33.333" />
-                  <line x1="0" y1="66.666" x2="100" y2="66.666" />
-                </g>
-              ) : null}
-
-              {showFlow ? (
-                <>
-                  <defs>
-                    <marker
-                      id={FLOW_MARKER_ID}
-                      markerWidth="6"
-                      markerHeight="6"
-                      refX="5"
-                      refY="3"
-                      orient="auto"
-                      markerUnits="strokeWidth"
-                    >
-                      <path d="M0,0 L6,3 L0,6 Z" fill="#22d3ee" />
-                    </marker>
-                  </defs>
-                  <path
-                    d={flowD}
-                    fill="none"
-                    stroke="#22d3ee"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    markerEnd={`url(#${FLOW_MARKER_ID})`}
-                  />
-                  {eyeFlowPath.map((p, i) => {
-                    const isFirst = i === 0;
-                    return (
-                      <g key={`${p.x.toFixed(3)}-${p.y.toFixed(3)}-${i}`}>
-                        <circle
-                          cx={p.x * 100}
-                          cy={p.y * 100}
-                          r={isFirst ? 3 : 2.3}
-                          fill={isFirst ? "#22d3ee" : "#0e7490"}
-                          stroke="#a5f3fc"
-                          strokeWidth="0.4"
-                          vectorEffect="non-scaling-stroke"
-                          opacity="0.95"
-                        />
-                        <text
-                          x={p.x * 100}
-                          y={p.y * 100 + 0.9}
-                          textAnchor="middle"
-                          fontSize="2.6"
-                          fontWeight="700"
-                          fill="#ecfeff"
-                        >
-                          {i + 1}
-                        </text>
-                      </g>
-                    );
-                  })}
-                </>
-              ) : null}
-            </svg>
+          {showFlow ? (
+            <>
+              <defs>
+                <marker
+                  id={FLOW_MARKER_ID}
+                  markerWidth="6"
+                  markerHeight="6"
+                  refX="5"
+                  refY="3"
+                  orient="auto"
+                  markerUnits="strokeWidth"
+                >
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#22d3ee" />
+                </marker>
+              </defs>
+              <path
+                d={flowD}
+                fill="none"
+                stroke="#22d3ee"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                markerEnd={`url(#${FLOW_MARKER_ID})`}
+              />
+            </>
           ) : null}
-      </div>
+        </svg>
+      ) : null}
+
+      {/* HTML badges stay circular under non-square aspect (SVG circles stretch with preserveAspectRatio=none). */}
+      {imageRect && showFlow
+        ? eyeFlowPath.map((p, i) => {
+            const isFirst = i === 0;
+            return (
+              <span
+                key={`${p.x.toFixed(3)}-${p.y.toFixed(3)}-${i}`}
+                className={`pointer-events-none absolute z-[1] flex items-center justify-center rounded-full border border-cyan-200/90 font-bold text-cyan-50 opacity-95 ${
+                  isFirst
+                    ? "h-[18px] w-[18px] bg-cyan-400 text-[10px] leading-none"
+                    : "h-[15px] w-[15px] bg-cyan-700 text-[9px] leading-none"
+                }`}
+                style={{
+                  left: imageRect.left + p.x * imageRect.width,
+                  top: imageRect.top + p.y * imageRect.height,
+                  transform: "translate(-50%, -50%)",
+                }}
+                aria-hidden
+              >
+                {i + 1}
+              </span>
+            );
+          })
+        : null}
     </div>
   );
 }
