@@ -33,7 +33,7 @@ export function FullScreenQuote({
 
   const body = (
     <div className="relative z-[1] mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:items-center sm:gap-8 sm:px-10">
-      <div className="theme-closing-quote__photo relative isolate h-28 w-28 shrink-0 overflow-hidden sm:h-32 sm:w-32">
+      <div className="theme-closing-quote__photo relative h-28 w-28 shrink-0 overflow-hidden sm:h-32 sm:w-32">
         <Image
           src={photo}
           alt={photoAlt}
@@ -41,7 +41,6 @@ export function FullScreenQuote({
           className="object-cover object-top"
           sizes="128px"
         />
-        <div className="theme-photo-tint" aria-hidden />
       </div>
       <blockquote className="min-w-0 flex-1">
         <p className="theme-closing-quote__text">&ldquo;{quote}&rdquo;</p>
