@@ -2,8 +2,7 @@
 
 import type { CritiqueReport } from "../types";
 import { EyeFlowOverlay } from "./EyeFlowOverlay";
-import { PlainPhotoPreview } from "./PlainPhotoPreview";
-import { SuggestedEditPreview } from "./SuggestedEditPreview";
+import { VisualWeightCompare } from "./VisualWeightCompare";
 
 type Props = {
   src: string;
@@ -26,7 +25,7 @@ export function CritiquePreviewGrid({
     report.width > 0 && report.height > 0 ? report.width / report.height : undefined;
 
   return (
-    <div className="grid min-h-0 grid-cols-1 gap-2 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
+    <div className="grid min-h-0 grid-cols-1 gap-2 sm:grid-cols-2">
       <div className="min-h-0 min-w-0">
         <EyeFlowOverlay
           src={src}
@@ -40,11 +39,10 @@ export function CritiquePreviewGrid({
         />
       </div>
 
-      <div className="flex min-w-0 flex-col gap-2">
-        <PlainPhotoPreview src={src} alt={`Original ${alt}`} imageAspect={imageAspect} />
-        <SuggestedEditPreview
+      <div className="min-h-0 min-w-0">
+        <VisualWeightCompare
           src={src}
-          alt={`Suggested visual weight for ${alt}`}
+          alt={alt}
           report={report}
           imageAspect={imageAspect}
         />

@@ -10,7 +10,7 @@ export { MODAL_CHROME_PAD_X as critiqueChromePadX } from "@/lib/modalLayout";
 export const critiqueScrollPadL = "pl-[6px]";
 
 /**
- * Result photo frames (eye-flow / original / suggested).
+ * Result photo frames (eye-flow / visual-weight compare).
  * Caps chrome at 8px so theme `--radius-media` never clips these previews.
  * Do not use `var(--radius-media)` here — theme radii stay untouched elsewhere.
  */
