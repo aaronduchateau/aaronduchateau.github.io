@@ -241,9 +241,9 @@ export type ThemeTokens = {
   cardHoverRingAlpha: string;
 
   /**
-   * Human-things gallery photo formula (optional — applyTheme falls back).
+   * Decorative home-card photo tint formula (optional — applyTheme falls back).
    * Tint hue always comes from `background` → `--background-channels`.
-   * Alphas drive `.theme-gallery-photo-tint` / `.theme-gallery-photo-dim`.
+   * Alphas drive `.theme-photo-tint` / `.theme-gallery-photo-dim`.
    */
   galleryPhotoTintAlpha?: string;
   galleryPhotoTintAlphaHover?: string;

@@ -54,7 +54,8 @@ function ContributionCard({
   const hasModal = Boolean(project.modal);
   const isWiggleOnly = Boolean(project.wiggleOnClick);
   const showChevron = Boolean(project.url) && !hasModal && !isWiggleOnly;
-  const groupClass = revealPhotoOnHover && showDecorativeMedia ? "group " : "";
+  /** `group` enables shared `.theme-photo-tint` hover fade (and reveal-photo veils). */
+  const groupClass = showDecorativeMedia ? "group " : "";
 
   const clearHeightLockStyles = useCallback(() => {
     const el = cardRef.current;

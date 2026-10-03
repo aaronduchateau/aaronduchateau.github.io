@@ -80,7 +80,7 @@ export function GalleryStrip() {
                       className="theme-gallery-photo object-cover transition duration-500 ease-out group-hover:scale-105 group-focus-visible:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100 motion-reduce:group-focus-visible:scale-100"
                       sizes="(max-width: 640px) 50vw, 16vw"
                     />
-                    <div className="theme-gallery-photo-tint" aria-hidden />
+                    <div className="theme-photo-tint" aria-hidden />
                     <div className="theme-gallery-photo-dim" aria-hidden />
                     <div className="theme-gallery-photo-title" aria-hidden>
                       <span className="text-center text-sm font-semibold leading-snug tracking-tight text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.85)] sm:text-base">

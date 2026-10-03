@@ -3,7 +3,7 @@ import { applyModalLaunchMotion } from "./modalLaunch";
 import { colorToRgbChannels } from "./swatches";
 import type { ThemeTokens } from "./types";
 
-/** Shared Human-things gallery photo formula — theme supplies hue via background. */
+/** Shared decorative home-card photo tint formula — theme supplies hue via background. */
 const GALLERY_PHOTO_TINT_ALPHA = "0.78";
 const GALLERY_PHOTO_TINT_ALPHA_HOVER = "0.28";
 const GALLERY_PHOTO_DIM_ALPHA = "0.5";

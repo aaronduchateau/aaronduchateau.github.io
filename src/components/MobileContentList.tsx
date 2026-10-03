@@ -90,6 +90,7 @@ function ListGraphic({
         className={`object-cover ${graphic.tone === "bw" ? "grayscale" : ""}`.trim()}
         sizes="56px"
       />
+      <div className="theme-photo-tint" aria-hidden />
       {graphic.mark === "play" ? <PlayMark /> : null}
     </span>
   );

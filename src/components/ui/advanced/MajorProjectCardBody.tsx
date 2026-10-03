@@ -65,6 +65,7 @@ export function MajorProjectCardBody({
           className={photoClass}
           sizes="(max-width: 640px) 100vw, 176px"
         />
+        <div className="theme-photo-tint" aria-hidden />
         {revealPhotoOnHover ? (
           <>
             <div className="theme-card-photo-veil theme-card-photo-veil--mobile pointer-events-none absolute inset-0 transition-[background] duration-300 ease-out sm:hidden" />
@@ -78,7 +79,7 @@ export function MajorProjectCardBody({
           company={company}
           location={location}
           window={window}
-          className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4"
+          className="absolute bottom-3 left-3 right-3 z-[1] sm:bottom-4 sm:left-4 sm:right-4"
         />
       </div>
     </div>

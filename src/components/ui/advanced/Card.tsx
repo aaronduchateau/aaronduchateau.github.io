@@ -98,6 +98,7 @@ function CoverRegion({ cover, date }: { cover: CardCover; date?: string }) {
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           </div>
+          <div className="theme-photo-tint" aria-hidden />
         </div>
         {video ? <div className="theme-card__thumb-dim" aria-hidden /> : null}
         <div className="pointer-events-none absolute inset-0 z-[2] rounded-t-3xl bg-gradient-to-t from-surface-950/90 to-transparent" />

@@ -36,7 +36,7 @@ export function TestimonialCard({
       type="button"
       onClick={onClick}
       aria-label={ariaLabel ?? `Read full testimonial from ${name}`}
-      className={`theme-card flex h-full w-full flex-col justify-between bg-gradient-to-b from-surface-900/80 to-surface-950/80 p-6 text-left shadow-inner shadow-white/5 ${className ?? ""}`.trim()}
+      className={`theme-card group flex h-full w-full flex-col justify-between bg-gradient-to-b from-surface-900/80 to-surface-950/80 p-6 text-left shadow-inner shadow-white/5 ${className ?? ""}`.trim()}
     >
       <div>
         <p className="text-sm leading-relaxed text-surface-300">“{preview}”</p>
@@ -59,6 +59,7 @@ export function TestimonialCard({
               className="object-cover grayscale"
               sizes="56px"
             />
+            <div className="theme-photo-tint" aria-hidden />
           </div>
         </div>
       </footer>
