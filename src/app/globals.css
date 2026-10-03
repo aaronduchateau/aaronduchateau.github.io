@@ -1217,20 +1217,15 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   will-change: transform;
 }
 
+/* Full-opacity photo so `.theme-photo-tint` can color-blend; resting wash is `.theme-card__thumb-dim`. */
 .theme-card__thumb-fade {
   object-fit: cover;
-  opacity: 0.4;
-  transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
 }
 
 .theme-card:hover .theme-card__thumb-zoom,
 .theme-card:focus-visible .theme-card__thumb-zoom {
   transform: scale(1.38);
-}
-
-.theme-card:hover .theme-card__thumb-fade,
-.theme-card:focus-visible .theme-card__thumb-fade {
-  opacity: 1;
 }
 
 .theme-card__thumb-dim {
@@ -1250,7 +1245,6 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
 
 @media (prefers-reduced-motion: reduce) {
   .theme-card__thumb-zoom,
-  .theme-card__thumb-fade,
   .theme-card__thumb-dim {
     transition: none;
   }
@@ -1334,12 +1328,6 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
     inset: 0;
     border-radius: 0.55rem;
     transform: none;
-  }
-
-  .theme-card--compact .theme-card__thumb-fade,
-  .theme-card--compact:hover .theme-card__thumb-fade,
-  .theme-card--compact:focus-visible .theme-card__thumb-fade {
-    opacity: 1;
   }
 
   .theme-card--compact .theme-card__thumb-dim,

@@ -51,7 +51,7 @@ export function TestimonialCard({
             <p className="theme-heading-ink font-semibold">{name}</p>
             <p className="text-surface-500">{title}</p>
           </div>
-          <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/15">
+          <div className="relative isolate h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/15">
             <Image
               src={photo}
               alt=""

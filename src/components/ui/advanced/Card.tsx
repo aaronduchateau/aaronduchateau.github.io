@@ -94,11 +94,16 @@ function CoverRegion({ cover, date }: { cover: CardCover; date?: string }) {
               src={cover.src}
               alt={cover.alt ?? ""}
               fill
-              className={video ? "theme-card__thumb-fade" : "object-cover transition duration-500 group-hover:scale-105"}
+              className={
+                video
+                  ? "theme-card__thumb-fade object-cover"
+                  : "object-cover transition duration-500 group-hover:scale-105"
+              }
               sizes="(max-width: 768px) 100vw, 33vw"
             />
+            {/* Tint must sit on the photo (inside zoom) so mix-blend samples the image, not the dim plate. */}
+            <div className="theme-photo-tint" aria-hidden />
           </div>
-          <div className="theme-photo-tint" aria-hidden />
         </div>
         {video ? <div className="theme-card__thumb-dim" aria-hidden /> : null}
         <div className="pointer-events-none absolute inset-0 z-[2] rounded-t-3xl bg-gradient-to-t from-surface-950/90 to-transparent" />
