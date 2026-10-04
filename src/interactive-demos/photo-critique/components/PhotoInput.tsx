@@ -111,7 +111,7 @@ export function PhotoInput({
         <button
           type="button"
           onClick={() => onInputModeChange("upload")}
-          className={`${critiqueInputTabClass} ml-auto ${
+          className={`ml-auto max-md:hidden ${critiqueInputTabClass} ${
             inputMode === "upload" ? critiqueUploadTabActiveClass : critiqueUploadTabInactiveClass
           }`}
         >
