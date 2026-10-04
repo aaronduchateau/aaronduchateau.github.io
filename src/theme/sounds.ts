@@ -321,25 +321,54 @@ export function playBoundModalOpen(): void {
 }
 
 /**
- * Start a looping theme-music bed (intro modal only — gated by ThemeProvider).
- * Stops any other theme bed first so only one plays.
+ * Ensure a looping theme-music bed is playing.
+ * Same src already playing → no-op. Same src paused → resume without seek.
+ * Different src → stop others and start fresh from the beginning.
  */
 export function startThemeMusicLoop(src: string): void {
   if (typeof window === "undefined" || !src) return;
-  stopThemeMusicLoop();
+
+  themeMusicAudioBySrc.forEach((audio, key) => {
+    if (key === src) return;
+    try {
+      audio.loop = false;
+      audio.pause();
+      audio.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
+  });
+
   const audio = ensureAudio(themeMusicAudioBySrc, src, src);
   audio.loop = true;
-  try {
-    audio.currentTime = 0;
-  } catch {
-    /* ignore */
+  if (!audio.paused && !audio.ended) {
+    return;
+  }
+  // Resume mid-track after a modal/hero hold; only seek when starting cold.
+  if (audio.currentTime <= 0 || audio.ended) {
+    try {
+      audio.currentTime = 0;
+    } catch {
+      /* ignore */
+    }
   }
   void audio.play().catch(() => {
     /* autoplay / gesture policies */
   });
 }
 
-/** Stop any in-flight theme-music bed. */
+/** Pause theme beds without resetting playhead (modal / hero holds). */
+export function pauseThemeMusicLoop(): void {
+  themeMusicAudioBySrc.forEach((audio) => {
+    try {
+      audio.pause();
+    } catch {
+      /* ignore */
+    }
+  });
+}
+
+/** Stop any in-flight theme-music bed and reset playhead. */
 export function stopThemeMusicLoop(): void {
   themeMusicAudioBySrc.forEach((audio) => {
     try {

@@ -42,6 +42,7 @@ import {
   playContentWindowOpen,
   preloadThemeSounds,
   SOUND_ENABLED_STORAGE_KEY,
+  pauseThemeMusicLoop,
   startThemeMusicLoop,
   stopThemeMusicLoop,
   type BaseClickPreference,
@@ -466,7 +467,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       themeMusicHoldsRef.current.size > 0 ||
       isComponentPreviewPath()
     ) {
-      stopThemeMusicLoop();
+      // Preserve playhead while held so resume / Enter portfolio doesn’t restart.
+      pauseThemeMusicLoop();
       return;
     }
     startThemeMusicLoop(themeMusicSrcRef.current);
@@ -489,7 +491,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const holdThemeMusic = useCallback(
     (holdId = "suppress") => {
       themeMusicHoldsRef.current.add(holdId);
-      stopThemeMusicLoop();
+      pauseThemeMusicLoop();
     },
     [],
   );
@@ -579,7 +581,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const onModalOpened = () => {
       themeMusicHoldsRef.current.add("modal");
-      stopThemeMusicLoop();
+      pauseThemeMusicLoop();
     };
     const onModalClosed = () => {
       themeMusicHoldsRef.current.delete("modal");
