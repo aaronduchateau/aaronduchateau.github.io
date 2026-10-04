@@ -505,19 +505,22 @@ html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
 }
 
 /*
-  Intro modal header: fixed budget so theme display fonts don’t nudge the
-  divider when cycling characters. Scoped to .intro-game-modal only.
+  Intro modal header: fixed height so theme display fonts don’t nudge the
+  divider / template when cycling characters. Scoped to .intro-game-modal only.
   Use overflow-x only — overflow-y:hidden was clipping script ascenders/descenders.
 */
 .intro-game-modal .intro-game-header {
-  max-height: 7.75rem;
+  height: 118px;
+  max-height: 118px;
+  box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: visible;
 }
 
 @media (min-width: 640px) {
   .intro-game-modal .intro-game-header {
-    max-height: 8.25rem;
+    height: 130px;
+    max-height: 130px;
   }
 }
 
