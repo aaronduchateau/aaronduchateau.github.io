@@ -21,18 +21,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Instagram images (optional static assets)
-
-Download recent timeline JPEGs (and profile thumbnail) into `public/instagram/<username>/` for local/static use:
-
-```bash
-npm run download:instagram
-```
-
-Default username is `aaronduchat`. Override: `npm run download:instagram -- otheruser` or `INSTAGRAM_USERNAME=otheruser npm run download:instagram`.
-
-Only a limited number of recent posts are returned by Instagram’s public endpoint; use an official export or Graph API for a full archive.
-
 ## Static export for GitHub Pages
 
 - `npm run build` writes `out/index.html` and assets under `out/` (no Node server needed to host).

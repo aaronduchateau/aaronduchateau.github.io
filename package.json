@@ -12,8 +12,7 @@
     "build:prod": "NEXT_PUBLIC_PORTFOLIO_MODE=production next build",
     "start": "next start",
     "preview:static": "npx serve out",
-    "lint": "next lint",
-    "download:instagram": "node scripts/download-instagram-static.mjs"
+    "lint": "next lint"
   },
   "dependencies": {
     "chart.js": "^4.4.8",
