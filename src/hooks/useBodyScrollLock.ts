@@ -9,7 +9,8 @@ export const MODAL_CLOSED_EVENT = "portfolio:modal-closed";
 
 /**
  * Fired when the first modal layer opens (lock count 0 → 1).
- * Used to pause theme music until the user re-enables it.
+ * ThemeProvider temporarily holds theme music (preference unchanged) until
+ * `MODAL_CLOSED_EVENT` when `pauseThemeMusic` is true for that layer.
  */
 export const MODAL_OPENED_EVENT = "portfolio:modal-opened";
 
@@ -22,7 +23,8 @@ declare global {
 export type BodyScrollLockOptions = {
   /**
    * When true (default), opening this lock layer fires `MODAL_OPENED_EVENT`
-   * so theme music can pause. Intro setup passes false so music can play.
+   * so theme music can pause (and resume on close). Intro / Theme Locked pass
+   * false so music can keep playing.
    */
   pauseThemeMusic?: boolean;
 };

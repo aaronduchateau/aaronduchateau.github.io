@@ -10,7 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { MODAL_OPENED_EVENT } from "@/hooks/useBodyScrollLock";
+import { MODAL_CLOSED_EVENT, MODAL_OPENED_EVENT } from "@/hooks/useBodyScrollLock";
 import { SignatureBootSplash } from "@/components/SignatureBootSplash";
 import { recordActivity } from "@/activity/tracker";
 import { isComponentPreviewPath } from "@/lib/componentPreview";
@@ -96,7 +96,14 @@ type ThemeContextValue = {
   /** Primary theme music bed (rules-engine). Default on; survives intro → main. */
   themeMusicEnabled: boolean;
   setThemeMusicEnabled: (enabled: boolean) => void;
-  /** Force theme music off (modal / hero) until the user turns it back on. */
+  /**
+   * Temporarily hold theme music without clearing the user preference
+   * (e.g. hero intro video). Pair with `releaseThemeMusicHold`.
+   */
+  holdThemeMusic: (holdId?: string) => void;
+  /** Clear a hold from `holdThemeMusic` / `suppressThemeMusic` and resume if still enabled. */
+  releaseThemeMusicHold: (holdId?: string) => void;
+  /** @deprecated Prefer `holdThemeMusic` — same temporary hold, does not persist “off”. */
   suppressThemeMusic: () => void;
   /** Force theme music + interaction SFX off (e.g. intro character cycle). */
   muteAllSounds: () => void;
@@ -214,6 +221,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   soundEnabledRef.current = soundEnabled;
   const themeMusicEnabledRef = useRef(themeMusicEnabled);
   themeMusicEnabledRef.current = themeMusicEnabled;
+  const themeMusicSrcRef = useRef(themeMusicSrc);
+  themeMusicSrcRef.current = themeMusicSrc;
+  const readyRef = useRef(ready);
+  readyRef.current = ready;
+  /** Named holds (modal stack, hero video) — do not clear `themeMusicEnabled` preference. */
+  const themeMusicHoldsRef = useRef(new Set<string>());
   const lastBaseClickIdRef = useRef<BaseClickPreference>(DEFAULT_BASE_CLICK_ID);
   const lastContentWindowSoundIdRef = useRef<ContentWindowPreference>(
     DEFAULT_CONTENT_WINDOW_SOUND_ID,
@@ -445,19 +458,53 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     [persistSoundEnabled, syncLaunchDuration],
   );
 
+  const syncThemeMusicPlayback = useCallback(() => {
+    if (
+      !readyRef.current ||
+      !themeMusicEnabledRef.current ||
+      !themeMusicSrcRef.current ||
+      themeMusicHoldsRef.current.size > 0 ||
+      isComponentPreviewPath()
+    ) {
+      stopThemeMusicLoop();
+      return;
+    }
+    startThemeMusicLoop(themeMusicSrcRef.current);
+  }, []);
+
   const setThemeMusicEnabled = useCallback(
     (enabled: boolean) => {
       persistThemeMusicEnabled(enabled);
       setThemeMusicEnabledState(enabled);
       themeMusicEnabledRef.current = enabled;
-      if (!enabled) stopThemeMusicLoop();
+      if (!enabled) {
+        stopThemeMusicLoop();
+        return;
+      }
+      syncThemeMusicPlayback();
     },
-    [persistThemeMusicEnabled],
+    [persistThemeMusicEnabled, syncThemeMusicPlayback],
+  );
+
+  const holdThemeMusic = useCallback(
+    (holdId = "suppress") => {
+      themeMusicHoldsRef.current.add(holdId);
+      stopThemeMusicLoop();
+    },
+    [],
+  );
+
+  const releaseThemeMusicHold = useCallback(
+    (holdId = "suppress") => {
+      themeMusicHoldsRef.current.delete(holdId);
+      syncThemeMusicPlayback();
+    },
+    [syncThemeMusicPlayback],
   );
 
   const suppressThemeMusic = useCallback(() => {
-    setThemeMusicEnabled(false);
-  }, [setThemeMusicEnabled]);
+    holdThemeMusic("suppress");
+  }, [holdThemeMusic]);
 
   const muteAllSounds = useCallback(() => {
     setSoundEnabled(false);
@@ -527,15 +574,24 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setContentWindowSoundId(DEFAULT_CONTENT_WINDOW_SOUND_ID);
   }, [setBaseClickId, setContentWindowSoundId]);
 
-  // Content modals pause theme music until the user turns it back on.
+  // Content modals temporarily hold the bed; preference stays so close can resume.
+  // Intro / Theme Locked pass `pauseThemeMusic: false` and do not take this hold.
   useEffect(() => {
     const onModalOpened = () => {
-      if (!themeMusicEnabledRef.current) return;
-      setThemeMusicEnabled(false);
+      themeMusicHoldsRef.current.add("modal");
+      stopThemeMusicLoop();
+    };
+    const onModalClosed = () => {
+      themeMusicHoldsRef.current.delete("modal");
+      syncThemeMusicPlayback();
     };
     window.addEventListener(MODAL_OPENED_EVENT, onModalOpened);
-    return () => window.removeEventListener(MODAL_OPENED_EVENT, onModalOpened);
-  }, [setThemeMusicEnabled]);
+    window.addEventListener(MODAL_CLOSED_EVENT, onModalClosed);
+    return () => {
+      window.removeEventListener(MODAL_OPENED_EVENT, onModalOpened);
+      window.removeEventListener(MODAL_CLOSED_EVENT, onModalClosed);
+    };
+  }, [syncThemeMusicPlayback]);
 
   const playNavClick = useCallback(() => {
     if (!soundEnabledRef.current) return;
@@ -550,15 +606,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Site-wide looping theme bed — continues across intro → main when left on.
   // Isolated component-preview iframes must not start a second music loop.
   useEffect(() => {
-    if (!ready || !themeMusicEnabled || !themeMusicSrc || isComponentPreviewPath()) {
-      stopThemeMusicLoop();
-      return;
-    }
-    startThemeMusicLoop(themeMusicSrc);
+    syncThemeMusicPlayback();
     return () => {
       stopThemeMusicLoop();
     };
-  }, [ready, themeMusicEnabled, themeMusicSrc]);
+  }, [ready, themeMusicEnabled, themeMusicSrc, syncThemeMusicPlayback]);
 
   useEffect(() => bindNavClickPlayer(playNavClick), [playNavClick]);
   useEffect(() => bindModalOpenPlayer(playModalOpen), [playModalOpen]);
@@ -580,6 +632,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       playModalOpen,
       themeMusicEnabled,
       setThemeMusicEnabled,
+      holdThemeMusic,
+      releaseThemeMusicHold,
       suppressThemeMusic,
       muteAllSounds,
       unmuteAllSounds,
@@ -606,6 +660,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       playModalOpen,
       themeMusicEnabled,
       setThemeMusicEnabled,
+      holdThemeMusic,
+      releaseThemeMusicHold,
       suppressThemeMusic,
       muteAllSounds,
       unmuteAllSounds,

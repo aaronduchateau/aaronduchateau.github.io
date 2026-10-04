@@ -23,7 +23,8 @@ export function ThemeLockedModal({
   const descId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
 
-  useModalAccessibility(open, dialogRef);
+  // Do not pause theme music — Confirm is a short interrupt; preference stays live.
+  useModalAccessibility(open, dialogRef, undefined, { pauseThemeMusic: false });
 
   useEffect(() => {
     if (!open) return;

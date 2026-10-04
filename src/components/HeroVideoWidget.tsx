@@ -44,7 +44,7 @@ const LEARN_SHIMMER_DELAY_MS = 1000;
 type Stage = "idle" | "choose" | "loading" | "revealed";
 
 export function HeroVideoWidget() {
-  const { visibility, playNavClick, suppressThemeMusic } = useTheme();
+  const { visibility, playNavClick, holdThemeMusic, releaseThemeMusicHold } = useTheme();
   const hostId = useId().replace(/:/g, "");
   const hostElementId = `hero-yt-${hostId}`;
   const playerRef = useRef<YtPlayer | null>(null);
@@ -306,15 +306,22 @@ export function HeroVideoWidget() {
     paintCueTimerBar(current);
   }, [current, playing, isNonInteractive, paintCueTimerBar]);
 
+  // Hold theme music only while the intro trailer is actually playing.
+  useEffect(() => {
+    if (playing) {
+      holdThemeMusic("hero-intro-video");
+      return () => releaseThemeMusicHold("hero-intro-video");
+    }
+    releaseThemeMusicHold("hero-intro-video");
+  }, [playing, holdThemeMusic, releaseThemeMusicHold]);
+
   const openChooser = () => {
     playNavClick();
-    suppressThemeMusic();
     setStage("choose");
   };
 
   const selectVariant = (variant: HeroVideoVariant) => {
     playNavClick();
-    suppressThemeMusic();
     setVariantId(variant.id);
     // Loading cover goes up immediately on click; video plays underneath.
     setStage("loading");
@@ -353,13 +360,12 @@ export function HeroVideoWidget() {
     }
     const p = playerRef.current;
     if (!p) return;
-    suppressThemeMusic();
     if (playingRef.current) {
       p.pauseVideo();
     } else {
       startPlayback(p);
     }
-  }, [startPlayback, suppressThemeMusic]);
+  }, [startPlayback]);
 
   // While the trailer is playing, any click/tap on the page pauses it
   // (Learn more, nav, cards, etc.). Intentionally capture-phase so it runs
