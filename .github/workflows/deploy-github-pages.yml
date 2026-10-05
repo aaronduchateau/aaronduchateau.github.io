@@ -34,9 +34,6 @@ jobs:
 
       - name: Build static export
         run: npm run build
-        env:
-          # User site is served from domain root — no basePath.
-          NEXT_PUBLIC_PORTFOLIO_MODE: production
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

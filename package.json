@@ -8,8 +8,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:dev": "NEXT_PUBLIC_PORTFOLIO_MODE=dev next build",
-    "build:prod": "NEXT_PUBLIC_PORTFOLIO_MODE=production next build",
     "start": "next start",
     "preview:static": "npx serve out",
     "lint": "next lint"
