@@ -1,52 +1,45 @@
 # Aaron DuChateau — portfolio
 
-Next.js static portfolio (App Router + Tailwind). Content lives in `src/data/content.ts`; imagery uses Unsplash URLs in that file.
+Personal portfolio site for [Aaron DuChateau](https://aaronduchateau.github.io/).
 
-## Requirements
+More documentation for this repository is coming soon.
 
-Use **Node.js 18.17+** or **20+**. With [nvm](https://github.com/nvm-sh/nvm):
+## Intent
+
+This project is built as a **unique portfolio experience**: a fast, responsive, client-side design system with ongoing revisions aimed at something that feels personal and intentional—not a stock template. Details and deeper write-ups will follow.
+
+## Copyright and license
+
+**This is not open source.**
+
+© Aaron DuChateau. All rights reserved.
+
+The site, source, design system, copy, and media in this repository are copyrighted. You may not use, copy, modify, redistribute, or reuse any of it without the **express written consent** of Aaron DuChateau.
+
+See [`LICENSE`](LICENSE) for the full terms. The code may live in a public repository for hosting and visibility; that does **not** mean the work is free to take or adapt.
+
+## Local development
+
+Use **Node.js 18.17+** or **20+** (see `.nvmrc`). With [nvm](https://github.com/nvm-sh/nvm):
 
 ```bash
-cd aaron_portfolio_2026
 nvm install
 nvm use
 npm install
-```
-
-## Run locally
-
-```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
 
-## Static export for GitHub Pages
-
-- `npm run build` writes `out/index.html` and assets under `out/` (no Node server needed to host).
-
-Preview locally:
+Static export (GitHub Pages shape):
 
 ```bash
 npm run build
 npm run preview:static
 ```
 
-## Deploy on GitHub Pages
+`npm run build` writes a static site under `out/`. Deploy is via GitHub Actions to [aaronduchateau.github.io](https://aaronduchateau.github.io/).
 
-Publish the contents of `out/` to your Pages branch (e.g. for [aaronduchateau.github.io](https://aaronduchateau.github.io/)).
+## Status
 
-## Deploy on Vercel
-
-Import the repo in [Vercel](https://vercel.com/new) with default Next.js settings, or:
-
-```bash
-cd aaron_portfolio_2026
-npx vercel
-```
-
-## Project structure
-
-- `src/app/page.tsx` — page layout
-- `src/data/content.ts` — copy and image URLs
-- `src/components/*` — sections
+This is a **work in progress** and should currently be considered **beta**. Expect changes, rough edges, and revisions as the experience continues to evolve.

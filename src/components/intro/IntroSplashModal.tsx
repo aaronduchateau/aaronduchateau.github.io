@@ -47,7 +47,7 @@ const AARON_NOTE = `My portfolio needed an update, so i decided to start with a 
 
 Think about my portfolio experience like a handshake, or perhaps, an interactive conversation, at the end of which both of our objectives may be satisfied.
 
-Good Luck, and may the wind be forever at your back!`;
+Good Luck, welcome to the beta, and may the wind be forever at your back!`;
 
 type SoundToggleRowProps = {
   label: string;
