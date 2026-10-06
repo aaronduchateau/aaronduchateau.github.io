@@ -443,6 +443,33 @@ export const playThemeMusicSting = startThemeMusicLoop;
 /** @deprecated Prefer stopThemeMusicLoop */
 export const stopThemeMusicSting = stopThemeMusicLoop;
 
+/**
+ * Prime the intro sting element during a tap so later play() from timers works
+ * on iOS WebKit. Safe to call from the same gesture that starts playback.
+ */
+export function primeTestimonialIntroStingGesture(): void {
+  if (typeof window === "undefined") return;
+  const audio = ensureAudio(
+    testimonialIntroStingBySrc,
+    TESTIMONIAL_INTRO_STING_SRC,
+    TESTIMONIAL_INTRO_STING_SRC,
+  );
+  audio.loop = false;
+  void audio
+    .play()
+    .then(() => {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch {
+        /* ignore */
+      }
+    })
+    .catch(() => {
+      /* autoplay / gesture */
+    });
+}
+
 export function playTestimonialIntroSting(): HTMLAudioElement | null {
   if (typeof window === "undefined") return null;
   const audio = ensureAudio(

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { recordActivity } from "@/activity/tracker";
+import { primeTestimonialPlaybackGesture } from "@/lib/testimonialPlaybackPreload";
 
 const PARAM = "modal";
 const PATH_PARAM = "path";
@@ -204,6 +205,9 @@ export function useRouteModal<T>(
       const nextPath = opts?.path ?? [];
       const sel = opts?.selection ?? null;
       const nextPlay = Boolean(opts?.play);
+      if (nextPlay) {
+        primeTestimonialPlaybackGesture();
+      }
       activeKeyRef.current = key;
       setActive(config);
       setActiveKey(key);
@@ -291,6 +295,11 @@ export function navigateToRouteModal(
   },
 ) {
   if (typeof window === "undefined") return;
+  // Learn-more / deep-link autoplay speaks after modal open timers — prime TTS
+  // and the intro sting while we still have the opening click gesture (iOS).
+  if (opts?.play) {
+    primeTestimonialPlaybackGesture();
+  }
   trackModalOpen(namespace, key);
   const url = new URL(window.location.href);
   url.searchParams.set(PARAM, `${namespace}:${key}`);

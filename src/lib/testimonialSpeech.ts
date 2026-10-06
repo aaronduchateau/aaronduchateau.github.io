@@ -27,6 +27,28 @@ export function ensureTestimonialSpeech(): Promise<boolean> {
   return initPromise;
 }
 
+/**
+ * iOS WebKit (Safari + Chrome on iPhone) blocks speechSynthesis.speak unless the
+ * first utterance is queued during a user gesture. Call this synchronously from
+ * click/touch handlers before any delayed intro / quote speech.
+ */
+export function unlockTestimonialSpeechGesture(): void {
+  if (typeof window === "undefined") return;
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  try {
+    const utter = new SpeechSynthesisUtterance(" ");
+    utter.volume = 0;
+    utter.rate = 10;
+    utter.pitch = 1;
+    synth.speak(utter);
+  } catch {
+    /* ignore */
+  }
+  // Warm EasySpeech init without awaiting — must not delay the gesture speak.
+  void ensureTestimonialSpeech();
+}
+
 function guessGender(voice: SpeechSynthesisVoice): TestimonialVoiceGender | "unknown" {
   const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
   if (

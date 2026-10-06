@@ -1,5 +1,13 @@
-import { cancelTestimonialSpeech, ensureTestimonialSpeech } from "@/lib/testimonialSpeech";
-import { preloadTestimonialIntroSting, stopTestimonialIntroSting } from "@/theme/sounds";
+import {
+  cancelTestimonialSpeech,
+  ensureTestimonialSpeech,
+  unlockTestimonialSpeechGesture,
+} from "@/lib/testimonialSpeech";
+import {
+  preloadTestimonialIntroSting,
+  primeTestimonialIntroStingGesture,
+  stopTestimonialIntroSting,
+} from "@/theme/sounds";
 
 let preloadPromise: Promise<boolean> | null = null;
 
@@ -16,6 +24,15 @@ export function ensureTestimonialPlaybackPreload(): Promise<boolean> {
     ]).then(([speechOk]) => speechOk);
   }
   return preloadPromise;
+}
+
+/**
+ * Call synchronously from a click/touch that will start (or auto-start)
+ * testimonial playback — unlocks iOS WebKit speech + HTMLAudio for the sting.
+ */
+export function primeTestimonialPlaybackGesture(): void {
+  unlockTestimonialSpeechGesture();
+  primeTestimonialIntroStingGesture();
 }
 
 /** Hard-stop TTS + intro sting when the testimonials modal closes. */

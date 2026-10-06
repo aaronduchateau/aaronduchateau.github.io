@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { TestimonialVoiceGender } from "@/lib/testimonialSpeech";
-import { ensureTestimonialPlaybackPreload } from "@/lib/testimonialPlaybackPreload";
+import {
+  ensureTestimonialPlaybackPreload,
+  primeTestimonialPlaybackGesture,
+} from "@/lib/testimonialPlaybackPreload";
 import {
   cancelTestimonialSpeech,
   pauseTestimonialSpeech,
@@ -440,6 +443,8 @@ export function useTestimonialSpeech(
     }
 
     if (status === "paused") {
+      // Resume may speak after this turn — re-prime iOS WebKit in the tap.
+      primeTestimonialPlaybackGesture();
       if (phase === "intro") {
         setStatus("playing");
         resumeTestimonialSpeech();
@@ -473,6 +478,9 @@ export function useTestimonialSpeech(
       return;
     }
 
+    // Fresh start: unlock speech + sting audio during this user gesture so the
+    // delayed intro voice (and later quote chunks) are allowed on iPhone.
+    primeTestimonialPlaybackGesture();
     setPhase("intro");
     setStatus("playing");
   }, [pauseClock, phase, ready, resumeClock, speakAt, status, supported]);
