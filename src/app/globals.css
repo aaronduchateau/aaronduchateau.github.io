@@ -3073,10 +3073,38 @@ button.theme-quest-view-unlock {
   }
 }
 
+@keyframes hero-expand-cue-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .hero-learn-cue-copy {
   /* 1 truncated title + 2 description lines. */
   min-height: 4.25rem;
   animation: hero-cue-fade-in 280ms ease-out;
+}
+
+/* Fullscreen cue stack — slide in from the right (title → copy → CTA). */
+.hero-expand-cue-item {
+  animation: hero-expand-cue-slide-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hero-expand-cue-item--title {
+  animation-delay: 40ms;
+}
+
+.hero-expand-cue-item--desc {
+  animation-delay: 120ms;
+}
+
+.hero-expand-cue-item--cta {
+  animation-delay: 200ms;
 }
 
 @media (min-width: 640px) {
@@ -3088,6 +3116,16 @@ button.theme-quest-view-unlock {
 @media (prefers-reduced-motion: reduce) {
   .hero-learn-cue-copy {
     animation: none;
+  }
+
+  .hero-expand-cue-item {
+    animation: hero-cue-fade-in 280ms ease-out both;
+  }
+
+  .hero-expand-cue-item--title,
+  .hero-expand-cue-item--desc,
+  .hero-expand-cue-item--cta {
+    animation-delay: 0ms;
   }
 }
 

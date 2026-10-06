@@ -51,8 +51,8 @@ export const SCRUB_SEEK_THROTTLE_MS = 120;
 export function fitPlayerToHost(hostElementId: string, player: YtPlayer | null) {
   const host = document.getElementById(hostElementId);
   if (!host) return;
-  const width = host.clientWidth;
-  const height = host.clientHeight;
+  const width = Math.round(host.clientWidth);
+  const height = Math.round(host.clientHeight);
   if (width < 2 || height < 2) return;
   try {
     player?.setSize?.(width, height);
@@ -61,11 +61,42 @@ export function fitPlayerToHost(hostElementId: string, player: YtPlayer | null) 
   }
   const iframe = host.querySelector("iframe");
   if (iframe instanceof HTMLIFrameElement) {
+    iframe.setAttribute("width", String(width));
+    iframe.setAttribute("height", String(height));
+    // Keep autoplay permission after layout changes (expand / resize).
+    const allow = iframe.getAttribute("allow") ?? "";
+    if (!/\bautoplay\b/i.test(allow)) {
+      iframe.setAttribute(
+        "allow",
+        allow ? `${allow}; autoplay; encrypted-media` : "autoplay; encrypted-media; picture-in-picture",
+      );
+    }
     iframe.style.width = "100%";
     iframe.style.height = "100%";
-    iframe.removeAttribute("width");
-    iframe.removeAttribute("height");
+    iframe.style.maxWidth = "none";
+    iframe.style.maxHeight = "none";
   }
+}
+
+/**
+ * Move a node under a new parent. Prefers `moveBefore` when it can preserve
+ * iframe state; always falls back to `appendChild` on HierarchyRequestError
+ * or missing support (YouTube hosts often cannot atomically move).
+ */
+export function reparentNode(parent: Node, node: Node) {
+  if (node.parentNode === parent) return;
+  const movable = parent as ParentNode & {
+    moveBefore?: (node: Node, child: Node | null) => void;
+  };
+  if (typeof movable.moveBefore === "function") {
+    try {
+      movable.moveBefore(node, null);
+      return;
+    } catch {
+      /* invalid hierarchy for atomic move — e.g. node with live iframe */
+    }
+  }
+  parent.appendChild(node);
 }
 
 /** Single shared load — never stack intervals / onYouTubeIframeAPIReady handlers. */

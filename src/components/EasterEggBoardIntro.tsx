@@ -71,8 +71,8 @@ export function EasterEggBoardIntro({
           </div>
           <p id={descriptionId} className="theme-quest-board-intro__copy">
             Interact with Aaron&rsquo;s portfolio — watch, click, and try things.
-            Finish a quest to unlock trading cards or access to new themes and features of
-            Aaron&rsquo;s site!
+            Finish a quest to unlock sounds, themes, trading cards or access to new features
+            on Aaron&rsquo;s site!
           </p>
           <p className="mt-3">
             <button
