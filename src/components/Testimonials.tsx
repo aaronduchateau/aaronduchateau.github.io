@@ -13,6 +13,7 @@ import {
   testimonials,
 } from "@/data/content";
 import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
+import { usePhoneHorizontalSwipe } from "@/hooks/usePhoneHorizontalSwipe";
 import { useTestimonialSpeech } from "@/hooks/useTestimonialSpeech";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
@@ -24,9 +25,6 @@ import { playBoundNavClick } from "@/theme/sounds";
 import { useTheme } from "@/theme/ThemeProvider";
 
 export type Testimonial = (typeof testimonials)[number];
-
-const SWIPE_MIN_DX = 56;
-const SWIPE_MAX_DY_RATIO = 0.75;
 
 function testimonialParagraphs(quote: string) {
   return quote.split(/\n\n+/).map((p) => p.trim()).filter(Boolean);
@@ -343,8 +341,6 @@ export function Testimonials() {
   const [mounted, setMounted] = useState(false);
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = useId();
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const mobileSwipeRef = useRef(false);
 
   const { visibility } = useTheme();
   const isMobile = useMobileOnlyViewport();
@@ -373,16 +369,6 @@ export function Testimonials() {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 639px)");
-    const sync = () => {
-      mobileSwipeRef.current = mq.matches;
-    };
-    sync();
-    mq.addEventListener("change", sync);
-    return () => mq.removeEventListener("change", sync);
-  }, []);
-
   const goRelative = useCallback(
     (delta: number) => {
       if (activeIndex < 0) return;
@@ -393,28 +379,11 @@ export function Testimonials() {
     [activeIndex, open],
   );
 
-  const onTouchStart = (event: React.TouchEvent) => {
-    if (!mobileSwipeRef.current) return;
-    const touch = event.changedTouches[0];
-    if (!touch) return;
-    touchStartRef.current = { x: touch.clientX, y: touch.clientY };
-  };
-
-  const onTouchEnd = (event: React.TouchEvent) => {
-    if (!mobileSwipeRef.current) return;
-    const start = touchStartRef.current;
-    touchStartRef.current = null;
-    const touch = event.changedTouches[0];
-    if (!start || !touch) return;
-
-    const dx = touch.clientX - start.x;
-    const dy = touch.clientY - start.y;
-    if (Math.abs(dx) < SWIPE_MIN_DX) return;
-    if (Math.abs(dy) > Math.abs(dx) * SWIPE_MAX_DY_RATIO) return;
-
-    // Swipe left → next, swipe right → previous
-    goRelative(dx < 0 ? 1 : -1);
-  };
+  const { onTouchStart, onTouchEnd } = usePhoneHorizontalSwipe({
+    enabled: testimonials.length > 1 && activeIndex >= 0,
+    onSwipeLeft: () => goRelative(1),
+    onSwipeRight: () => goRelative(-1),
+  });
 
   return (
     <PageSection

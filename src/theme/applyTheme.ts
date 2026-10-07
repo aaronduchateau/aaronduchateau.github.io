@@ -37,6 +37,7 @@ const TOKEN_STYLE_MAP: { key: keyof ThemeTokens; cssVar: string }[] = [
   { key: "heading", cssVar: "--heading" },
   { key: "rootFontSize", cssVar: "--root-font-size" },
   { key: "navBlur", cssVar: "--nav-blur" },
+  { key: "navBrandFontSize", cssVar: "--nav-brand-font-size" },
   { key: "radiusPill", cssVar: "--radius-pill" },
   { key: "radiusCard", cssVar: "--radius-card" },
   { key: "radiusMedia", cssVar: "--radius-media" },
@@ -78,6 +79,13 @@ export function applyThemeTokens(tokens: ThemeTokens): void {
       root.style.setProperty(cssVar, value);
     }
   }
+
+  root.style.setProperty(
+    "--nav-brand-line-height",
+    tokens.navBrandLineHeight ?? "1",
+  );
+  // Optical ink vs em-box — see ThemeTokens.navBrandNudgeY.
+  root.style.setProperty("--nav-brand-nudge-y", tokens.navBrandNudgeY ?? "0px");
 
   const pillHover = tokens.radiusPillHover ?? tokens.radiusPill;
   const cardHover = tokens.radiusCardHover ?? tokens.radiusCard;

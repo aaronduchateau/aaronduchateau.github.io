@@ -22,6 +22,7 @@ import { recordActivity } from "@/activity/tracker";
 import { DevModalToolsMenu, dumpStudioExport } from "@/dev/content-studio";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
+import { usePhoneHorizontalSwipe } from "@/hooks/usePhoneHorizontalSwipe";
 import { isDevMode } from "@/lib/portfolioMode";
 import {
   DEFAULT_MODAL_STRUCTURE_POLICY,
@@ -1149,6 +1150,16 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
     [navigate, path, structurePolicy],
   );
 
+  const mainPaneSwipe = usePhoneHorizontalSwipe({
+    enabled: currentItems.length > 1 && !sorting && !leaveConfirm,
+    onSwipeLeft: () => {
+      if (activeIndex < currentItems.length - 1) navigate(path, activeIndex + 1);
+    },
+    onSwipeRight: () => {
+      if (activeIndex > 0) navigate(path, activeIndex - 1);
+    },
+  });
+
   const activeItemId = activeItem?.id ?? null;
   /** Sort only when the current path’s content list has 2+ items (from modal JSON). */
   const canSort = resolvedItems.length > 1;
@@ -1254,7 +1265,13 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
           <ModalHeader date={config.date} onClose={onClose} padX={padX} tools={tools} />
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden py-4">
             {leaveConfirmPane ?? (
-              <MediaPane item={activeItem} forceBw={forceBw} structurePolicy={structurePolicy} />
+              <div
+                className="flex min-h-0 w-full flex-1 flex-col touch-pan-y"
+                onTouchStart={mainPaneSwipe.onTouchStart}
+                onTouchEnd={mainPaneSwipe.onTouchEnd}
+              >
+                <MediaPane item={activeItem} forceBw={forceBw} structurePolicy={structurePolicy} />
+              </div>
             )}
             {showWatchCta && activeLink ? (
               <div className={`mt-6 ${MODAL_STACKED_FOOTER_PAD_X}`}>
@@ -1328,18 +1345,24 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
               ) : null}
 
               {leaveConfirmPane ?? (
-                <MediaPane
-                  item={activeItem}
-                  onEnter={() => enterCollection(activeItem)}
-                  forceBw={forceBw}
-                  showFinalResult={finalPhotoId !== null && activeItem.id === finalPhotoId}
-                  onFinalResultGoBack={
-                    structurePolicy.finalResultBadgeExitsCollection && path.length > 0
-                      ? exitCollection
-                      : undefined
-                  }
-                  structurePolicy={structurePolicy}
-                />
+                <div
+                  className="flex min-h-0 w-full flex-1 flex-col touch-pan-y"
+                  onTouchStart={mainPaneSwipe.onTouchStart}
+                  onTouchEnd={mainPaneSwipe.onTouchEnd}
+                >
+                  <MediaPane
+                    item={activeItem}
+                    onEnter={() => enterCollection(activeItem)}
+                    forceBw={forceBw}
+                    showFinalResult={finalPhotoId !== null && activeItem.id === finalPhotoId}
+                    onFinalResultGoBack={
+                      structurePolicy.finalResultBadgeExitsCollection && path.length > 0
+                        ? exitCollection
+                        : undefined
+                    }
+                    structurePolicy={structurePolicy}
+                  />
+                </div>
               )}
 
               {strip}

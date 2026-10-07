@@ -2,6 +2,7 @@
 
 import { forwardRef, useCallback, useEffect, useRef } from "react";
 import { EmployerMark } from "@/components/EmployerMark";
+import { usePhoneHorizontalSwipe } from "@/hooks/usePhoneHorizontalSwipe";
 
 export type CareerTimelineMark = {
   initials: string;
@@ -75,6 +76,18 @@ export const CareerTimeline = forwardRef<HTMLElement, CareerTimelineProps>(
     const timelineScrollRef = useRef<HTMLDivElement>(null);
     const dotRefs = useRef<(HTMLButtonElement | null)[]>([]);
     const activeItem = items[activeIndex] ?? items[0];
+
+    // Swipe left → older; swipe right → newer (same axis as the hidden phone paddles).
+    const { onTouchStart: onDetailTouchStart, onTouchEnd: onDetailTouchEnd } =
+      usePhoneHorizontalSwipe({
+        enabled: items.length > 1,
+        onSwipeLeft: () => {
+          if (activeIndex < items.length - 1) onOlder();
+        },
+        onSwipeRight: () => {
+          if (activeIndex > 0) onNewer();
+        },
+      });
 
     const scrollTimelineToActive = useCallback(
       (index: number) => {
@@ -198,7 +211,11 @@ export const CareerTimeline = forwardRef<HTMLElement, CareerTimelineProps>(
               />
             </div>
 
-            <div className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto px-6 pb-3 pt-3 sm:px-8 sm:pb-4">
+            <div
+              className="scrollbar-none flex min-h-0 flex-1 touch-pan-y flex-col overflow-y-auto px-6 pb-3 pt-3 sm:px-8 sm:pb-4"
+              onTouchStart={onDetailTouchStart}
+              onTouchEnd={onDetailTouchEnd}
+            >
               <div className="flex min-h-[10rem] flex-1 flex-col sm:min-h-[9rem] md:min-h-[8rem] lg:min-h-[7rem] lg:flex-row lg:items-start lg:gap-6 xl:min-h-[6.5rem]">
                 <EmployerMark mark={activeItem.mark} className="hidden lg:flex" />
                 <div className="min-w-0 flex-1 space-y-3">

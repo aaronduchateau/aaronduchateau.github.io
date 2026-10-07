@@ -138,14 +138,14 @@ export function SiteNav() {
         setSectionMenuOpen(false);
       }}
     >
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-3 sm:gap-4 sm:px-5 md:px-10">
-        <div className="flex min-w-0 items-center gap-2">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 overflow-visible px-3 sm:gap-4 sm:px-5 md:px-10">
+        <div className="flex min-w-0 items-center gap-2 overflow-visible">
           <MobileSectionNav open={sectionMenuOpen} onOpenChange={setSectionMenuOpen} />
           <Link
             key={titleReplay}
             href={PORTFOLIO_PATH}
             onClick={playNavClick}
-            className={`font-display text-sm font-semibold tracking-tight text-white ${
+            className={`theme-nav-brand font-display text-white ${
               titleReplay > 0 ? "nav-title-fade-in" : ""
             }`}
           >
@@ -163,7 +163,7 @@ export function SiteNav() {
             </li>
           ))}
         </ul>
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex shrink-0 flex-row-reverse items-center gap-2 md:flex-row">
           <SoundMenu />
           <ScoreChestButton />
           <OptionsMenu />

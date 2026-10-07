@@ -15,6 +15,7 @@ const CYBERPUNK: ThemeTokens = {
   foreground: "#e2e8f0",
   heading: "#ffffff",
   rootFontSize: "100%",
+  navBrandFontSize: "1.75rem",
   navBlur: "12px",
   heroImage: "/photos/Aaron_DuChateau_aaron.png",
 
@@ -55,6 +56,7 @@ const RELIC_GUY: ThemeTokens = {
   foreground: "#f0e6d3",
   heading: "#fff8ec",
   rootFontSize: "100%",
+  navBrandFontSize: "1.65rem",
   navBlur: "8px",
   heroImage: "/photos/Aaron_DuChateau_hero-relic-guy.png",
 
@@ -123,6 +125,9 @@ const PSYCHEDELIC_HIPPIE: ThemeTokens = {
   foreground: "#f5e6ff",
   heading: "#ffe56b",
   rootFontSize: "100%",
+  navBrandFontSize: "1.55rem",
+  // Pacifico: unused ascent in the em box — see ThemeTokens.navBrandNudgeY.
+  navBrandNudgeY: "0.06em",
   navBlur: "14px",
   heroImage: "/photos/Aaron_DuChateau_hero-psychedelic-hippie.png",
 
@@ -188,6 +193,9 @@ const CURSIVE_ROMAN: ThemeTokens = {
   foreground: "#ebe4d6",
   heading: "#f7f1e4",
   rootFontSize: "100%",
+  navBrandFontSize: "2.05rem",
+  // Great Vibes: unused ascent in the em box — see ThemeTokens.navBrandNudgeY.
+  navBrandNudgeY: "0.1em",
   navBlur: "8px",
   heroImage: "/photos/Aaron_DuChateau_hero-cursive-roman-empire.png",
 
@@ -257,6 +265,7 @@ const PROFESSIONAL: ThemeTokens = {
   foreground: "#e6e2da",
   heading: "#f7f4ee",
   rootFontSize: "100%",
+  navBrandFontSize: "1.75rem",
   navBlur: "10px",
   heroImage: "/photos/Aaron_DuChateau_hero-software-only.jpg",
 
@@ -330,6 +339,7 @@ const ADA_FIRST: ThemeTokens = {
   foreground: "#000000",
   heading: "#000000",
   rootFontSize: "100%",
+  navBrandFontSize: "1.7rem",
   navBlur: "0px",
   heroImage: null,
 
@@ -394,6 +404,7 @@ const CONSPIRACY_THEORIST: ThemeTokens = {
   foreground: "#e8dcc8",
   heading: "#f3e6c8",
   rootFontSize: "100%",
+  navBrandFontSize: "1.65rem",
   navBlur: "6px",
   heroImage: "/photos/Aaron_DuChateau_hero-conspiracy-theorist.jpg",
 
@@ -467,6 +478,7 @@ const GALAXY_GUY: ThemeTokens = {
   foreground: "#d7eefc",
   heading: "#f0fbff",
   rootFontSize: "100%",
+  navBrandFontSize: "1.5rem",
   navBlur: "14px",
   heroImage: "/photos/Aaron_DuChateau_hero-galaxy-guy.jpg",
 
@@ -537,6 +549,7 @@ const ATLANTEAN: ThemeTokens = {
   foreground: "#c8e8f0",
   heading: "#e8f8ff",
   rootFontSize: "100%",
+  navBrandFontSize: "2rem",
   navBlur: "12px",
   heroImage: "/photos/Aaron_DuChateau_hero-atlantean.jpg",
 
@@ -607,6 +620,7 @@ const CAPTAIN_GUY: ThemeTokens = {
   foreground: "#e8dcc4",
   heading: "#ffe2a0",
   rootFontSize: "100%",
+  navBrandFontSize: "1.7rem",
   navBlur: "11px",
   heroImage: "/photos/Aaron_DuChateau_hero-captain-guy.jpg",
 
@@ -677,6 +691,7 @@ const NERD: ThemeTokens = {
   foreground: "#b8f5c8",
   heading: "#00ff41",
   rootFontSize: "100%",
+  navBrandFontSize: "2.05rem",
   navBlur: "10px",
   heroImage: "/photos/Aaron_DuChateau_hero-nerd.jpg",
 
@@ -747,6 +762,7 @@ const POP_ART_GUY: ThemeTokens = {
   foreground: "#fff6ff",
   heading: "#ffed4a",
   rootFontSize: "100%",
+  navBrandFontSize: "1.5rem",
   navBlur: "0px",
   heroImage: "/photos/Aaron_DuChateau_hero-pop-art-guy.jpg",
 
@@ -817,6 +833,7 @@ const SURREALIST: ThemeTokens = {
   foreground: "#e8d8c4",
   heading: "#f0d9a0",
   rootFontSize: "100%",
+  navBrandFontSize: "1.7rem",
   navBlur: "14px",
   heroImage: "/photos/Aaron_DuChateau_hero-surrealist.jpg",
 
@@ -893,6 +910,7 @@ const DOG_DAYS_GUY: ThemeTokens = {
   foreground: "#f3e6d4",
   heading: "#ffe08a",
   rootFontSize: "100%",
+  navBrandFontSize: "1.7rem",
   navBlur: "12px",
   heroImage: "/photos/Aaron_DuChateau_hero-dog-days-guy.jpg",
 
@@ -963,6 +981,7 @@ const RETRO_GUY: ThemeTokens = {
   foreground: "#fff4e0",
   heading: "#ffd700",
   rootFontSize: "100%",
+  navBrandFontSize: "1.45rem",
   navBlur: "10px",
   heroImage: "/photos/Aaron_DuChateau_hero-retro-guy.jpg",
 
@@ -1033,6 +1052,9 @@ const DRIVER_GUY: ThemeTokens = {
   foreground: "#f3e8f0",
   heading: "#ff4d9a",
   rootFontSize: "100%",
+  navBrandFontSize: "1.95rem",
+  // Mr Dafoe: unused ascent in the em box — see ThemeTokens.navBrandNudgeY.
+  navBrandNudgeY: "0.08em",
   navBlur: "14px",
   heroImage: "/photos/Aaron_DuChateau_hero-driver-guy.png",
 

@@ -2460,6 +2460,7 @@ const repairMedia = [
     type: "collection" as const,
     id: "repair-ceiling-fan",
     title: "Ceiling fan",
+    openLabel: "the ceiling fan project",
     cover: { src: "/repair/Aaron_DuChateau_fan_final_jars.jpg", alt: "Ceiling fan — mason jar lights" },
     contextLabel: "Repairs & Projects",
     intro:

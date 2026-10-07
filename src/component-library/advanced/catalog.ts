@@ -79,7 +79,7 @@ export const ADVANCED_STORIES: readonly LibraryStory[] = [
     kind: "advanced",
     name: "Career timeline",
     summary:
-      "Same CareerTimeline plate as the homepage. Parent looks up the roster; the plate only consumes items, the active index, and timer flags. Phone hides side paddles; tablet and full screen show them.",
+      "Same CareerTimeline plate as the homepage. Parent looks up the roster; the plate only consumes items, the active index, and timer flags. Phone hides side paddles and swipes the role panel; tablet and full screen show paddles.",
     controls: [
       {
         key: "workHistoryId",

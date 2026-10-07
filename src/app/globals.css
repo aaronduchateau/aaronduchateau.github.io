@@ -14,6 +14,15 @@
   --heading: #ffffff;
   --root-font-size: 100%;
   --nav-blur: 12px;
+  /* SiteNav brand — ~2× text-sm; per-theme packs retune for display metrics. */
+  --nav-brand-font-size: 1.75rem;
+  --nav-brand-line-height: 1;
+  /*
+    Optical Y nudge: flex centers the em/line box, not glyph ink. Display faces
+    often leave unused ascent/descender room so “Aaron.” looks off-center; a
+    small translateY is the per-theme fix (see ThemeTokens.navBrandNudgeY).
+  */
+  --nav-brand-nudge-y: 0px;
 
   --radius-pill: 9999px;
   --radius-card: 1.5rem;
@@ -164,8 +173,25 @@ html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
 /* ——— Theme surface primitives (prefer these over one-off opacity stacks) ——— */
 
 .theme-nav {
+  /* Let the brand overflow the fixed h-14 row without growing the bar. */
+  overflow: visible;
   backdrop-filter: blur(var(--nav-blur));
   -webkit-backdrop-filter: blur(var(--nav-blur));
+}
+
+/*
+  SiteNav “Aaron.” — font-size / line-height / optical nudge from theme tokens.
+  Flex-centered in the h-14 row; glyphs/shadows may overflow vertically.
+*/
+.theme-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--nav-brand-font-size);
+  font-weight: 600;
+  line-height: var(--nav-brand-line-height);
+  letter-spacing: -0.025em;
+  /* Ink-vs-em-box optical correction — see --nav-brand-nudge-y / ThemeTokens. */
+  transform: translateY(var(--nav-brand-nudge-y));
 }
 
 /* Easter-egg intro: opt-in to pick a theme and enter the intro game. */

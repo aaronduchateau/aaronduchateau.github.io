@@ -202,6 +202,28 @@ export type ThemeTokens = {
   rootFontSize: string;
   navBlur: string;
 
+  /**
+   * SiteNav “Aaron.” brand size — about 2× legacy `text-sm`, tuned per display
+   * face so visual weight stays comparable across themes. Bar stays `h-14`;
+   * the brand is flex-centered and may overflow the bar vertically.
+   */
+  navBrandFontSize: string;
+  /**
+   * Line box for the brand (default `1`).
+   */
+  navBrandLineHeight?: string;
+  /**
+   * Optical Y correction (`translateY`) for SiteNav “Aaron.”.
+   *
+   * Flex centers the font’s em/line box next to the menu glyph — not the painted
+   * ink. Many display faces leave unused ascent (and unused descender room that
+   * “Aaron.” never uses), so the letters look high or low even when the box is
+   * perfectly centered. Line-height alone does not move ink inside that box.
+   * A small per-theme nudge is the practical optical fix (short of `text-box-trim`
+   * once we can rely on it). Positive shifts down. Omitted → `0px`.
+   */
+  navBrandNudgeY?: string;
+
   /** Hero background photo path, or null when the theme has no photo (ADA). */
   heroImage: string | null;
 

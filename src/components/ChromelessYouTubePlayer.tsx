@@ -294,7 +294,10 @@ export function ChromelessYouTubePlayer({
         )}
       </div>
 
-      <div className={`flex shrink-0 items-center gap-2 py-2 ${MODAL_CHROME_PAD_X} ${seekClassName}`}>
+      <div
+        data-no-swipe-nav
+        className={`flex shrink-0 items-center gap-2 py-2 ${MODAL_CHROME_PAD_X} ${seekClassName}`}
+      >
         <span className="shrink-0 font-mono text-[10px] tabular-nums text-surface-500">
           {formatVideoTime(current)}
         </span>

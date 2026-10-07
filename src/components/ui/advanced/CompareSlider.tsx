@@ -72,6 +72,7 @@ export function CompareSlider({
   return (
     <div
       ref={containerRef}
+      data-compare-slider
       className={`${className ?? DEFAULT_FRAME} w-full touch-none select-none`}
       style={aspectRatio && aspectRatio > 0 ? { aspectRatio } : { minHeight: "7rem" }}
       onPointerDown={(event) => {
