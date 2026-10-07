@@ -30,15 +30,18 @@ import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { focusCareerTimeline } from "@/lib/careerTimelineFocus";
 import { MODAL_CHROME_PAD_X, MODAL_TOPBAR_PAD_X } from "@/lib/modalLayout";
 import { navigateToRouteModal } from "@/lib/useRouteModal";
+import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
 import {
   fitPlayerToHost,
   formatVideoTime,
+  getYouTubeApiIfReady,
   loadYouTubeApi,
   SCRUB_SEEK_THROTTLE_MS,
   VideoPauseIcon,
   VideoPlayIcon,
   YT_ENDED,
   YT_PLAYING,
+  type YtNamespace,
   type YtPlayer,
 } from "@/lib/youtubeIframeApi";
 import { useTheme } from "@/theme/ThemeProvider";
@@ -130,6 +133,7 @@ export function HeroVideoWidget() {
   const [portalReady, setPortalReady] = useState(false);
   const [stageRoot, setStageRoot] = useState<HTMLDivElement | null>(null);
   const isLandscape = useIsLandscape();
+  const isMobile = useMobileOnlyViewport();
 
   useEffect(() => {
     const root = document.createElement("div");
@@ -348,13 +352,23 @@ export function HeroVideoWidget() {
     }
   }, []);
 
-  const mountPlayer = useCallback(
-    async (videoId: string) => {
+  /**
+   * Build the YT player synchronously when the API is already present.
+   * Mobile WebKit drops play() that runs after `await loadYouTubeApi()`.
+   */
+  const mountPlayerWithApi = useCallback(
+    (videoId: string, YT: YtNamespace, opts?: { prewarm?: boolean }) => {
+      const prewarm = opts?.prewarm === true;
+      const stageNow = stageRef.current;
+      if (stageNow === "idle") return;
+      if (prewarm && stageNow !== "choose") return;
+      if (!prewarm && stageNow !== "loading" && stageNow !== "revealed" && stageNow !== "choose") {
+        return;
+      }
+
       const startAt = Math.max(0, resumeAtRef.current);
-      // Keep the intro chooser/cover gate honest on a cold start, but never flash it
-      // when remounting past the obfuscation window (fullscreen layout transfer).
       const pastIntro = startAt >= heroVideoWidget.introHiddenSeconds;
-      if (pastIntro) {
+      if (!prewarm && pastIntro) {
         pixelsUnlockedRef.current = true;
         setPixelsUnlocked(true);
         if (
@@ -368,22 +382,19 @@ export function HeroVideoWidget() {
       }
 
       const gen = ++mountGenRef.current;
-      const YT = await loadYouTubeApi();
-      if (gen !== mountGenRef.current) return;
-      if (stageRef.current !== "loading" && stageRef.current !== "revealed") return;
-
-      destroyPlayer({ clearUnlock: !pastIntro });
-      if (pastIntro) {
-        pixelsUnlockedRef.current = true;
-        setPixelsUnlocked(true);
-      } else {
-        setPixelsUnlocked(false);
+      destroyPlayer({ clearUnlock: prewarm ? false : !pastIntro });
+      if (!prewarm) {
+        if (pastIntro) {
+          pixelsUnlockedRef.current = true;
+          setPixelsUnlocked(true);
+        } else {
+          setPixelsUnlocked(false);
+        }
       }
 
       const host = ensureHostElement();
       if (!host) return;
 
-      // Stable outer shell is reparented; YT may replace only this inner mount node.
       host.replaceChildren();
       const mount = document.createElement("div");
       mount.style.width = "100%";
@@ -413,7 +424,8 @@ export function HeroVideoWidget() {
         events: {
           onReady: (event) => {
             if (gen !== mountGenRef.current) return;
-            if (stageRef.current !== "loading" && stageRef.current !== "revealed") return;
+            const st = stageRef.current;
+            if (st === "idle") return;
             const live = document.getElementById(hostElementId);
             if (live instanceof HTMLDivElement) ytHostRef.current = live;
             playerRef.current = event.target;
@@ -431,19 +443,27 @@ export function HeroVideoWidget() {
                 /* ignore */
               }
             }
-            if (pastIntro) {
+            if (!prewarm && pastIntro) {
               pixelsUnlockedRef.current = true;
               setPixelsUnlocked(true);
             }
             setReady(true);
             fitPlayerToHost(hostElementId, event.target);
+            // Prewarm under the chooser stays muted; keep the engine warm for the next tap.
             startPlayback(event.target, { unmute: false });
+            if (prewarm && stageRef.current === "choose") {
+              try {
+                event.target.pauseVideo();
+              } catch {
+                /* ignore */
+              }
+            }
           },
           onStateChange: (event) => {
             const ended = event.data === (YT.PlayerState?.ENDED ?? YT_ENDED);
             const isPlaying = event.data === (YT.PlayerState?.PLAYING ?? YT_PLAYING);
             setPlaying(isPlaying);
-            if (isPlaying) {
+            if (isPlaying && stageRef.current !== "choose") {
               tryUnmute(event.target);
             }
             if (ended) {
@@ -470,6 +490,16 @@ export function HeroVideoWidget() {
       scheduleLearnShimmer,
       tryUnmute,
     ],
+  );
+
+  const mountPlayer = useCallback(
+    async (videoId: string, opts?: { prewarm?: boolean }) => {
+      const YT = await loadYouTubeApi();
+      if (stageRef.current === "idle") return;
+      if (opts?.prewarm && stageRef.current !== "choose") return;
+      mountPlayerWithApi(videoId, YT, opts);
+    },
+    [mountPlayerWithApi],
   );
 
   useEffect(() => {
@@ -630,13 +660,32 @@ export function HeroVideoWidget() {
 
   const openChooser = () => {
     playNavClick();
+    stageRef.current = "choose";
     setStage("choose");
-    void loadYouTubeApi();
+    // Phone: enter fullscreen immediately so chooser + playback share one shell.
+    if (isMobile) setExpanded(true);
+    // Preload API + muted player while the chooser is up so the variant tap can
+    // call loadVideoById/playVideo synchronously (iOS WebKit gesture rules).
+    void (async () => {
+      await loadYouTubeApi();
+      if (stageRef.current !== "choose") return;
+      if (playerRef.current) return;
+      const warmId = heroVideoWidget.variants[0]?.youtubeId;
+      if (!warmId) return;
+      const YT = getYouTubeApiIfReady();
+      if (YT) {
+        mountPlayerWithApi(warmId, YT, { prewarm: true });
+        return;
+      }
+      void mountPlayer(warmId, { prewarm: true });
+    })();
   };
 
   const selectVariant = (variant: HeroVideoVariant) => {
     playNavClick();
     resumeAtRef.current = 0;
+    variantIdRef.current = variant.id;
+    stageRef.current = "loading";
     setVariantId(variant.id);
     setStage("loading");
     setCurrent(0);
@@ -647,16 +696,24 @@ export function HeroVideoWidget() {
     wantsUnmutedRef.current = false;
     paintCueTimerBar(0);
 
+    // Keep play() inside this tap — awaiting the API on mobile drops the gesture.
     const existing = playerRef.current;
     if (existing?.loadVideoById) {
       try {
+        existing.mute();
         existing.loadVideoById(variant.youtubeId);
-        startPlayback(existing, { unmute: false });
+        existing.playVideo();
         setReady(true);
+        fitPlayerToHost(hostElementId, existing);
         return;
       } catch {
         /* fall through to remount */
       }
+    }
+    const YT = getYouTubeApiIfReady();
+    if (YT) {
+      mountPlayerWithApi(variant.youtubeId, YT);
+      return;
     }
     void mountPlayer(variant.youtubeId);
   };
@@ -683,15 +740,19 @@ export function HeroVideoWidget() {
     }
   }, [startPlayback]);
 
+  // Outside-tap pause only after the trailer is visible — not during chooser /
+  // loading cover (mobile taps on mode buttons were racing a warm player).
   useEffect(() => {
-    if (!playing) return;
+    if (!playing || stage !== "revealed" || !pixelsUnlocked) return;
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target;
       if (
         target instanceof Element &&
         (target.closest("[data-hero-playback-toggle]") ||
           target.closest("[data-hero-expand-toggle]") ||
-          target.closest("[data-hero-expand-chrome]"))
+          target.closest("[data-hero-expand-chrome]") ||
+          target.closest("[data-hero-variant-choice]") ||
+          target.closest("[data-hero-selection-overlay]"))
       ) {
         return;
       }
@@ -699,7 +760,7 @@ export function HeroVideoWidget() {
     };
     window.addEventListener("pointerdown", onPointerDown, true);
     return () => window.removeEventListener("pointerdown", onPointerDown, true);
-  }, [playing, pausePlayback]);
+  }, [playing, stage, pixelsUnlocked, pausePlayback]);
 
   useEffect(() => {
     if (stage !== "loading" && stage !== "revealed") return;
@@ -815,6 +876,26 @@ export function HeroVideoWidget() {
     </button>
   );
 
+  const exitFullscreen = useCallback(() => {
+    playNavClick();
+    setExpanded(false);
+    window.requestAnimationFrame(() => {
+      syncStageRootToMeasure();
+      restoreHeroAudio();
+    });
+  }, [playNavClick, syncStageRootToMeasure, restoreHeroAudio]);
+
+  /** Fullscreen-only — stays put (no cue slide-in) under Learn more. */
+  const expandedGoBackControl = (
+    <button
+      type="button"
+      onClick={exitFullscreen}
+      className="theme-btn-shape theme-ghost-cta inline-flex w-full items-center justify-center px-4 py-2.5 text-sm font-semibold"
+    >
+      Go back
+    </button>
+  );
+
   const seekRow = (
     <div className={`flex items-center gap-2 py-2 ${expanded ? "px-2 sm:px-3" : "px-3"}`}>
       <span className="shrink-0 font-mono text-[10px] tabular-nums text-surface-500">
@@ -916,6 +997,7 @@ export function HeroVideoWidget() {
           {expandedLearnMoreControl}
         </div>
       ) : null}
+      <div className="w-full shrink-0">{expandedGoBackControl}</div>
     </div>
   );
 
@@ -994,7 +1076,7 @@ export function HeroVideoWidget() {
       ) : null}
 
       {showSelectionOverlay ? (
-        <div className="absolute inset-0 z-20 bg-surface-950">
+        <div className="absolute inset-0 z-20 bg-surface-950" data-hero-selection-overlay="">
           <Image
             src={heroVideoWidget.posterSrc}
             alt=""
@@ -1017,6 +1099,7 @@ export function HeroVideoWidget() {
                 <button
                   key={variant.id}
                   type="button"
+                  data-hero-variant-choice=""
                   onClick={() => selectVariant(variant)}
                   className={`theme-btn-shape group border px-4 py-3.5 text-left backdrop-blur-sm transition sm:px-5 sm:py-4 ${
                     variantId === variant.id
@@ -1139,7 +1222,7 @@ export function HeroVideoWidget() {
               className={`pointer-events-none absolute inset-x-0 top-0 z-[220] flex h-14 items-center ${MODAL_TOPBAR_PAD_X}`}
             >
               <div className="pointer-events-auto">
-                <ModalCloseButton onClick={toggleExpanded} ariaLabel="Exit full screen" />
+                <ModalCloseButton onClick={exitFullscreen} ariaLabel="Exit full screen" />
               </div>
             </div>
 

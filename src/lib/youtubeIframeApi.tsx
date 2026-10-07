@@ -47,6 +47,12 @@ export const YT_ENDED = 0;
 /** Min ms between seekTo calls while dragging the timeline. */
 export const SCRUB_SEEK_THROTTLE_MS = 120;
 
+/** Sync read when the IFrame API is already on the page (keeps mobile tap gestures). */
+export function getYouTubeApiIfReady(): YtNamespace | null {
+  if (typeof window === "undefined") return null;
+  return window.YT?.Player ? window.YT : null;
+}
+
 /** YT often bakes iframe pixel size at create — force it to fill the slot. */
 export function fitPlayerToHost(hostElementId: string, player: YtPlayer | null) {
   const host = document.getElementById(hostElementId);
