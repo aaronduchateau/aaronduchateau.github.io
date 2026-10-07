@@ -80,6 +80,27 @@ export function MinusIcon({ className }: AppIconProps) {
   );
 }
 
+/** Circular refresh arrow — Options “Start over”, etc. */
+export function RefreshIcon({ className }: AppIconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M20 12a8 8 0 10-2.34 5.66"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M20 7v5h-5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function ExpandIcon({ className }: AppIconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" {...stroke} aria-hidden>
@@ -292,6 +313,7 @@ export const APP_ICON_CATALOG: readonly AppIconEntry[] = [
   { id: "caret-down", label: "Caret down", Icon: CaretDownIcon },
   { id: "arrow-right", label: "Arrow right", Icon: ArrowRightIcon },
   { id: "close", label: "Close", Icon: CloseIcon },
+  { id: "refresh", label: "Refresh", Icon: RefreshIcon },
   { id: "expand", label: "Expand", Icon: ExpandIcon },
   { id: "fullscreen", label: "Full screen", Icon: FullscreenIcon },
   { id: "natural", label: "Natural", Icon: NaturalIcon },

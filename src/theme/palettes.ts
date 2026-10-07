@@ -982,6 +982,8 @@ const RETRO_GUY: ThemeTokens = {
   heading: "#ffd700",
   rootFontSize: "100%",
   navBrandFontSize: "1.45rem",
+  // Luckiest Guy: glyphs sit high in a tall em box — see ThemeTokens.navBrandNudgeY.
+  navBrandNudgeY: "0.22em",
   navBlur: "10px",
   heroImage: "/photos/Aaron_DuChateau_hero-retro-guy.jpg",
 

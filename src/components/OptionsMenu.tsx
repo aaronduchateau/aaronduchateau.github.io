@@ -4,9 +4,10 @@ import { useEffect, useId, useRef, useState } from "react";
 import { LegacyPortfolioModal } from "@/components/LegacyPortfolioModal";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { Button, ModalFrame, SettingsGearIcon } from "@/components/ui";
-import { MinusIcon, PlusIcon } from "@/components/ui/simple/icons";
+import { MinusIcon, PlusIcon, RefreshIcon } from "@/components/ui/simple/icons";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { requestAdaGuyExplainer } from "@/lib/adaGuyExplainer";
+import { startOverAndLeave } from "@/lib/startOver";
 import { navigateToRouteModal } from "@/lib/useRouteModal";
 import {
   OPEN_OPTIONS_MENU_EVENT,
@@ -58,6 +59,7 @@ export function OptionsMenu() {
   const [zeepConfirmOpen, setZeepConfirmOpen] = useState(false);
   const [restoreDefaultsConfirmOpen, setRestoreDefaultsConfirmOpen] = useState(false);
   const [resetPointsConfirmOpen, setResetPointsConfirmOpen] = useState(false);
+  const [startOverConfirmOpen, setStartOverConfirmOpen] = useState(false);
   const [lockedPrompt, setLockedPrompt] = useState(false);
   const { reset: resetActivityStore, unlockedMilestoneIds } = useActivity();
   const {
@@ -423,6 +425,22 @@ export function OptionsMenu() {
               <SubmenuAction label="Reset point count" onClick={promptResetPoints} />
             </div>
           ) : null}
+
+          <div className="mt-2 border-t border-white/10 pt-2">
+            <Button
+              role="primary"
+              size="sm"
+              className="h-9 w-full gap-1.5"
+              onClick={() => {
+                playNavClick();
+                closeMenu();
+                setStartOverConfirmOpen(true);
+              }}
+            >
+              <RefreshIcon className="h-3.5 w-3.5 shrink-0" />
+              Start over
+            </Button>
+          </div>
         </div>
       ) : null}
 
@@ -459,6 +477,19 @@ export function OptionsMenu() {
         title="Reset point count?"
         description="This clears your local activity score, awarded actions, and event log for this browser. Milestone progress resets too. This cannot be undone."
         confirmLabel="Reset point count"
+      />
+
+      <OptionsConfirmModal
+        open={startOverConfirmOpen}
+        onCancel={() => setStartOverConfirmOpen(false)}
+        onConfirm={() => {
+          setStartOverConfirmOpen(false);
+          startOverAndLeave();
+        }}
+        eyebrow="Start over"
+        title="Leave and wipe this browser’s progress?"
+        description="This clears your points, event log, theme choice, and all sound/settings stored for this site, then sends you to the classic portfolio at aaronduchateau.github.io. Coming back later will feel brand new. This cannot be undone."
+        confirmLabel="Start over"
       />
 
       <LegacyPortfolioModal
