@@ -5,7 +5,7 @@ import { testimonialIntroSpeechText } from "@/lib/testimonialIntro";
 import { speakTestimonial } from "@/lib/testimonialSpeech";
 import {
   pauseTestimonialIntroSting,
-  playTestimonialIntroSting,
+  playTestimonialIntroStingIfNeeded,
   resumeTestimonialIntroSting,
   stopTestimonialIntroSting,
   TESTIMONIAL_INTRO_HOLD_MS,
@@ -63,6 +63,9 @@ export function useTestimonialIntroMedia({
       clearTimers();
       voicedRef.current = false;
       holdingRef.current = false;
+      // Stop only when leaving an active intro (idle / reading). Do not rely on
+      // effect cleanup for this — Strict Mode remount cleanup was silencing the
+      // gesture-started sting while animations kept running.
       stopTestimonialIntroSting();
       return;
     }
@@ -127,12 +130,14 @@ export function useTestimonialIntroMedia({
       }, delay);
     };
 
-    playTestimonialIntroSting();
+    // Play click may have already started the sting in-gesture; don't restart.
+    playTestimonialIntroStingIfNeeded();
     if (!pausedRef.current) armVoice(TESTIMONIAL_INTRO_VOICE_DELAY_MS);
 
     return () => {
       clearTimers();
-      stopTestimonialIntroSting();
+      // Intentionally do not stop the sting here. Cleanup runs on Strict Mode
+      // remount and would mute intro audio while the swoop animation continues.
       if (generationRef.current === generation) {
         generationRef.current += 1;
       }

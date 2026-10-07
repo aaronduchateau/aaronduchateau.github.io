@@ -444,8 +444,8 @@ export const playThemeMusicSting = startThemeMusicLoop;
 export const stopThemeMusicSting = stopThemeMusicLoop;
 
 /**
- * Prime the intro sting element during a tap so later play() from timers works
- * on iOS WebKit. Safe to call from the same gesture that starts playback.
+ * Warm the intro sting element during a tap without starting audible playback.
+ * Prefer `playTestimonialIntroSting()` in the same gesture when intro begins.
  */
 export function primeTestimonialIntroStingGesture(): void {
   if (typeof window === "undefined") return;
@@ -455,19 +455,11 @@ export function primeTestimonialIntroStingGesture(): void {
     TESTIMONIAL_INTRO_STING_SRC,
   );
   audio.loop = false;
-  void audio
-    .play()
-    .then(() => {
-      try {
-        audio.pause();
-        audio.currentTime = 0;
-      } catch {
-        /* ignore */
-      }
-    })
-    .catch(() => {
-      /* autoplay / gesture */
-    });
+  try {
+    audio.load();
+  } catch {
+    /* ignore */
+  }
 }
 
 export function playTestimonialIntroSting(): HTMLAudioElement | null {
@@ -478,6 +470,7 @@ export function playTestimonialIntroSting(): HTMLAudioElement | null {
     TESTIMONIAL_INTRO_STING_SRC,
   );
   audio.loop = false;
+  audio.muted = false;
   try {
     audio.currentTime = 0;
   } catch {
@@ -487,6 +480,22 @@ export function playTestimonialIntroSting(): HTMLAudioElement | null {
     /* autoplay / gesture */
   });
   return audio;
+}
+
+/** Start the sting only when it is not already playing (e.g. play click started it). */
+export function playTestimonialIntroStingIfNeeded(): HTMLAudioElement | null {
+  if (typeof window === "undefined") return null;
+  const existing = testimonialIntroStingBySrc.get(TESTIMONIAL_INTRO_STING_SRC);
+  if (
+    existing &&
+    !existing.paused &&
+    !existing.ended &&
+    Number.isFinite(existing.currentTime) &&
+    existing.currentTime > 0.02
+  ) {
+    return existing;
+  }
+  return playTestimonialIntroSting();
 }
 
 export function pauseTestimonialIntroSting(): void {
@@ -513,6 +522,7 @@ export function stopTestimonialIntroSting(): void {
   try {
     audio.pause();
     audio.currentTime = 0;
+    audio.muted = false;
   } catch {
     /* ignore */
   }

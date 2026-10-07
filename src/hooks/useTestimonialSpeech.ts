@@ -16,7 +16,7 @@ import {
   testimonialSpeechTune,
   testimonialSpeechUsesChunks,
 } from "@/lib/testimonialSpeech";
-import { stopTestimonialIntroSting } from "@/theme/sounds";
+import { playTestimonialIntroSting, stopTestimonialIntroSting } from "@/theme/sounds";
 import {
   elapsedMsAtWord,
   isUtteranceNearEnd,
@@ -478,9 +478,10 @@ export function useTestimonialSpeech(
       return;
     }
 
-    // Fresh start: unlock speech + sting audio during this user gesture so the
-    // delayed intro voice (and later quote chunks) are allowed on iPhone.
+    // Fresh start: unlock TTS in this tap, and start the intro sting here so it
+    // is not killed by a deferred gesture-prime pause (manual play path).
     primeTestimonialPlaybackGesture();
+    playTestimonialIntroSting();
     setPhase("intro");
     setStatus("playing");
   }, [pauseClock, phase, ready, resumeClock, speakAt, status, supported]);
