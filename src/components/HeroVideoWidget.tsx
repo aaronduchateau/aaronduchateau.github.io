@@ -1189,8 +1189,14 @@ export function HeroVideoWidget() {
           />
           <div className="absolute inset-0 bg-surface-950" aria-hidden />
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 p-3 sm:gap-4 sm:p-6">
-            <p className="sr-only md:not-sr-only md:block w-full max-w-md text-center font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80">
-              Choose a viewing mode
+            <p
+              className={
+                expanded
+                  ? "w-full max-w-md text-center font-mono text-[10px] uppercase tracking-[0.2em] text-accent-300/80"
+                  : "sr-only"
+              }
+            >
+              Please choose a viewing mode
             </p>
             <div
               className={`grid w-full gap-3 sm:gap-3.5 ${

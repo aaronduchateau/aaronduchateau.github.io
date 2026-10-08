@@ -1,0 +1,64 @@
+---
+description: Log key structural/device/performance/feature decisions in the Generalized changes How-this-site-works card
+alwaysApply: true
+---
+
+# Generalized changes decision log
+
+When you ship a change that is a **key architectural decision** for this portfolio—not every tweak, and not personal taste—append a step to:
+
+[`src/data/content.ts`](src/data/content.ts) → `generalizedChangesMarkdown` (card **Generalized changes** under How this site works).
+
+Do this in the **same change set** as the code when practical.
+
+## When to log
+
+Log if the decision is primarily one or more of:
+
+| Category | Include |
+| --- | --- |
+| **Structural** | Layout shells, modal scroll model, portals vs in-flow, shared chrome/layout contracts |
+| **Device** | Mobile/desktop/fullscreen/orientation behavior, viewport workarounds that become policy |
+| **Performance** | Scroll/compositor strategy, prewarm, resize policy, caching/asset strategy that others must follow |
+| **Feature** | Gating, unlock/capability rules, dual-mode product behavior, cross-cutting feature contracts |
+
+Skip (do **not** log) personal or content-only preference, for example:
+
+- “This photo makes me look weird” / “I have a better picture”
+- Pure copy tone without a behavior or architecture change
+- One-off visual preference that does not establish a reusable rule
+
+Not every commit or iteration needs an entry. Prefer logging when a future agent/human should **match or avoid** the pattern.
+
+## Step shape (required)
+
+Newest steps go **at the top** of the `# Decision log` section (below the intro / criteria).
+
+```markdown
+## YYYY-MM-DD — <short decision title>
+
+### Category
+Structural | Device | Performance | Feature (one or more)
+
+### Decision
+What we chose, changed, or queued. Name surfaces/files in backticks when helpful.
+
+### Reason
+Why—in engineering/product terms (constraints, consistency, platform limits). No personal aesthetics-as-rationale.
+```
+
+- **Decision** = the rule or behavior (or “queued” / “documented only”).
+- **Reason** = non-personal justification.
+- Do **not** invent fake shipped work—if research-only, say so under **Decision**.
+
+## Relationship to other logs
+
+- **ADA example awareness** (`adaPerfectionMarkdown`) — ADA Guy / accessibility refinements only; keep using that for ADA steps.
+- **Generalized changes** — cross-cutting architecture going forward; this log **started after** most of the original build.
+- Hero-unit narrative articles can stay educational; durable *policy* decisions that apply beyond one article should also appear here when they meet the criteria.
+
+## Complements
+
+- After site-affecting edits, follow `verify-build-before-resting` (build + static preview).
+- `modal-chrome-padding.mdc` / `video-modal-layout.mdc` — still apply until an explicit generalized-changes entry supersedes them.
+`)

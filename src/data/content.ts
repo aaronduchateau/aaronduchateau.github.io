@@ -1992,26 +1992,94 @@ ADA Guy is the high-contrast control look—paper and ink, not a second-class fo
 4. Rebuild and verify Cyberpunk still matches the original hero glass before resting.
 `;
 
+const generalizedChangesMarkdown = `# Generalized changes
+
+This log started **after most of the original portfolio work was already shipped**. It is not a rewrite of early history. Going forward it records **key architectural decisions** in one place—similar in spirit to ADA example awareness, but for cross-cutting product/engineering choices rather than ADA Guy alone.
+
+## What belongs here
+
+Log decisions that are primarily:
+
+| Category | Examples |
+| --- | --- |
+| **Structural** | Modal scroll model, layout shells, portal vs in-flow, shared chrome contracts |
+| **Device** | Mobile vs desktop behavior, fullscreen rules, orientation layouts, viewport quirks |
+| **Performance** | Scroll/compositor strategy, prewarm, avoid resize thrash, asset strategy |
+| **Feature** | Gating, unlock flows, dual variants, cue systems, capability flags |
+
+## What does **not** belong here
+
+Personal taste or one-off content preference—for example: “I didn’t like how this photo made me look,” “I have a better picture,” “this color feels moodier to me.” Put those in commits or content edits without a log entry unless they force a **structural / device / performance / feature** rule.
+
+Not every commit needs a step. Prefer entries when the decision will matter later (another surface should match, a rule changed, a pattern is being retired or adopted).
+
+## Step shape
+
+Newest first under **Decision log**. Each step:
+
+\`\`\`markdown
+## YYYY-MM-DD — <short decision title>
+
+### Category
+Structural | Device | Performance | Feature (one or more)
+
+### Decision
+What we chose (or queued). Be specific about behavior and scope.
+
+### Reason
+Why—in product/engineering terms (constraints, consistency, platform limits). No personal aesthetics-as-rationale.
+\`\`\`
+
+---
+
+# Decision log
+
+## 2026-10-07 — Retire fixed title + independent body scroll in text-led modals
+
+### Category
+Structural · Device
+
+### Decision
+**Queued:** Move text-led fullscreen/mobile modals (starting with \`MarkdownArticleModal\`) off the “frozen title/intro, scrolling markdown below” split. Prefer **one continuous scroll** for context label + title + intro + body, while keeping the top close/date chrome as true chrome. Split media demos (video/demo stage + copy) stay under a separate pass so we do not break the video-height / independent-copy rule without an explicit follow-up.
+
+### Reason
+The frozen header block is used across article and context UIs on phone and desktop fullscreen; it creates two scroll contexts and feels inconsistent with reading long architecture write-ups. Unifying scroll is a structural consistency fix, not a visual preference tweak. Media-column layouts that must keep stage height bounded remain an exception until audited on purpose.
+`;
+
 const heroVideoUnitMarkdown = `# “Hero Unit Video — the details matter”
 
-A 16:9 YouTube trailer in a glass card sounds simple. In practice the hero unit is its own product: two viewing modes, a timed CTA rail, a fullscreen shell that must not kill audio, mobile portrait/landscape layouts, caption suppression that actually sticks, and a scroll strategy that keeps a live iframe from jiggling out of its frame.
+Normally I would not build a portfolio trailer like this.
 
-Source of truth: \`src/components/HeroVideoWidget.tsx\` + cue/config in \`src/data/heroVideoWidget.ts\` + YouTube helpers in \`src/lib/youtubeIframeApi.tsx\`.
+The boring, correct default is a poster, a play button, and a fullscreen (or modal) player. Drop a YouTube iframe in a card, call \`play()\`, move on. Most sites should do that. I would do that on almost any other project.
+
+This hero unit is different on purpose. The brief was not “embed a video.” It was: two real cuts, a cue rail that tracks the edit, Learn more that lands in the right portfolio surface, inline play on desktop while the page still scrolls, fullscreen that does not kill audio, phones that actually start playback, captions that stay off, and a resting placard that never jiggles in the glass. **To get those details right, every detail matters**—and once you insist on all of them at once, the simple embed stops being honest.
+
+And to top it all off, I wanted a clean intro that tackled introduction noise—“chromeless,” if you will… ;)
+
+So, would I normally build something this way? The answer is **no**—but I wanted it to work the way I wanted it to work on *my* portfolio site, so I got a little feature-greedy. What can you do?
+
+What follows is the architecture we kept, and **why** each weird piece exists.
+
+Source of truth: \`src/components/HeroVideoWidget.tsx\`, \`src/data/heroVideoWidget.ts\`, \`src/lib/youtubeIframeApi.tsx\`.
 
 ---
 
-## What it has to do at once
+## What “simple” would have been
 
-- Sit in the hero right rail as a **themed glass card** (square top corners so the video plane meets the chrome cleanly).
-- Offer **Interactive** vs **Non-interactive** cuts (separate YouTube IDs) before pixels unlock.
-- Drive a **cue panel** from playhead time: title, blurb, Learn more destinations that change as the cut progresses.
-- Support **inline** playback and a **fullscreen** overlay without remounting / reparenting the iframe (audio + cue state must survive expand).
-- Stay **usable on phone**: forced fullscreen on play, stacked portrait vs side-by-side landscape, captions off, no WebKit caption bounce-back.
-- Avoid **scroll jiggle**: a live YouTube iframe cannot cheaply resize every scroll frame, so geometry is glued with care—and when the UI is just a still + play icon, that still lives in normal layout, not on the glued layer.
+| Simple default | What we required instead |
+| --- | --- |
+| One YouTube URL | **Interactive** and **Non-interactive** cuts (separate IDs) with an explicit chooser |
+| Poster → fullscreen play | Desktop may play **inline** in the hero card while the page scrolls; phone still goes fullscreen |
+| Stock YT chrome | Custom seek, themed play control, cue panel, Learn more routing |
+| Remount iframe on expand | **Same host** across expand so sound and playhead survive |
+| Trust \`cc_load_policy: 0\` | Captions **forced off** on every viewport with unload + retries |
+| Image and video share one layer | Resting UI is an **in-flow still**; live video uses a **fixed stage portal** |
+
+If we dropped “live YouTube playing in a scrolling card,” half of the portal machinery could go. We did not drop it—so we pay for it deliberately.
 
 ---
 
-## Dual-layer geometry (why scroll used to fight us)
+## Why a fixed portal + scroll sync (when we keep it)
 
 \`\`\`mermaid caption="Hero video: measure box vs fixed stage portal"
 flowchart TB
@@ -2028,27 +2096,39 @@ flowchart TB
   still -.->|"idle / inline paused:<br/>portal opacity 0"| portal
 \`\`\`
 
-1. **Measure box** — an empty (or still-covered) \`aspect-video\` div in the card. This is what layout and the glass border own.
-2. **Stage root** — a \`position: fixed\` node appended to \`document.body\`, portaling the real player via \`createPortal\`. It is pinned with \`translate3d(rect.left, rect.top, 0)\` to the measure box.
-3. **Scroll path** — while scrolling, only the transform updates (rAF loop). Width/height / \`player.setSize\` / border-radius refresh on resize or after scroll idle (~100ms). That split is what stopped the iframe from snapping every frame.
-4. **Inline static cover** — when \`idle\` or **inline paused** (\`revealed\` + unlocked + not playing + not fullscreen), the **outpost** still + dim + \`.theme-play-btn\` render **inside the measure box**. The stage root is \`opacity: 0\` / \`pointer-events: none\`. A pure image does not need scroll glue, so it no longer slides relative to the frame.
+**Normally:** put the iframe in the card and let the document scroll.
 
-Fullscreen raises the stage z-index above the page chrome; Escape / the modal close control exits expand.
+**Why not here:** a YouTube iframe resized or reflowed on every scroll frame janks and snaps. Expanding by reparenting the iframe often drops audio. So:
+
+1. **Measure box** — in-flow \`aspect-video\` the glass owns (border, width, place in the rail).
+2. **Stage root** — \`position: fixed\` on \`document.body\`, player portaled in, glued with \`translate3d(rect.left, rect.top, 0)\`.
+3. **Scroll path** — transform-only on rAF while scrolling; width/height / \`setSize\` / radius only on resize or ~100ms after scroll idle.
+4. **Inline static cover** — idle and inline-paused use the **outpost** still + dim + \`.theme-play-btn\` **inside the measure box**; portal is hidden. A still does not need glue—putting it on the portal made it slide. Live inline play and fullscreen still use the portal.
+
+So: portal + sync is not for the placard. It is for **desktop playing-inline-while-scrolling** (and briefly for chooser/loading on the stage). Phone play already forces fullscreen, so mobile barely needs scroll glue for playback.
 
 ---
 
-## Lifecycle stages
+## Lifecycle stages (and why they are not one boolean)
 
-| Stage | Meaning |
-| --- | --- |
-| \`idle\` | First paint: in-flow outpost + play. Tap opens the mode chooser. |
-| \`choose\` | Interactive vs Non-interactive overlay. Player may **prewarm** muted under the chooser so the next tap starts cold less often. |
-| \`loading\` | Selected cut mounting; cover fades out after \`coverFadeStartSeconds\` (4.1s) over \`coverFadeDurationSeconds\` (0.75s). Video/audio keep running under the fade. |
-| \`revealed\` | Pixels unlocked after the playhead clears \`introHiddenSeconds\` (4s). Cue rail follows the timeline. Scrubbing **before** 4s returns the selection overlay. |
+| Stage | Meaning | Why it exists |
+| --- | --- | --- |
+| \`idle\` | Outpost + play in the card | Resting UI must be normal layout, not a glued iframe |
+| \`choose\` | Interactive vs Non-interactive | Dual cuts are a product choice, not a hidden URL |
+| \`loading\` | Cover fades from 4.1s over 0.75s while A/V runs | Hide unfinished chrome without stopping the cut |
+| \`revealed\` | Past the 4s intro gate; cue rail live | Pixels and CTAs only after the intro window |
 
-Activity recording: finishing a cut fires \`video.complete\` with \`hero-intro:interactive\` or \`hero-intro:nonInteractive\` for the rules engine.
+Finishing a cut records \`video.complete\` as \`hero-intro:interactive\` or \`hero-intro:nonInteractive\` for the rules engine.
 
-Mute policy: create with \`mute: 1\`, then unmute on a real user gesture once (\`wantsUnmutedRef\` restores unmute after layout sync if the browser remutes). Theme music is held while the trailer plays and released when it pauses/ends—fullscreen does **not** pause theme music via body-scroll lock (\`pauseThemeMusic: false\`).
+**Mute:** start muted, unmute once on a real gesture; \`wantsUnmutedRef\` restores unmute after layout if the browser remutes. Theme music holds while the trailer plays; expand uses body scroll lock with \`pauseThemeMusic: false\` so fullscreen does not pretend the user muted the site.
+
+### Prewarm (ugly, intentional)
+
+While the chooser is open we load the API and mount a **muted** player (\`prewarm: true\`) so the variant tap can \`loadVideoById\` + \`playVideo\` **in the same user gesture**. iOS WebKit often ignores play if you only \`await\` the API after the tap. Normally I would mount on select and accept a cold start; here cold start means “phone never starts,” so we prewarm.
+
+### Scrub-to-chooser (also intentional)
+
+\`introHiddenSeconds\` is 4s. If the playhead is scrubbed back before that gate, \`pixelsUnlocked\` clears and the **mode chooser returns**. The early timeline is treated as “not yet committed to a revealed cut,” not as ordinary early scrubbing. Strict, but it matches the intro/loading story.
 
 ---
 
@@ -2057,49 +2137,49 @@ Mute policy: create with \`mute: 1\`, then unmute on a real user gesture once (\
 | | Interactive | Non-interactive |
 | --- | --- | --- |
 | YouTube ID | \`HhmoD29vUgg\` | \`EKVIPiDmhN8\` |
-| Cue panel | Full cue list by playhead | **Pinned** to the first cue (Testimonials) |
-| Learn more | Per-cue targets (modals, career timeline, etc.) | Forced to Brunson Moody (same as bookend cues) |
-| Timer fill on the cue divider | Progress through the active cue window | Hidden / zero |
+| Cue panel | Full list by playhead | Pinned to Testimonials |
+| Learn more | Per-cue targets | Forced Brunson Moody (same as bookend cues) |
+| Cue timer fill | Progress through the active window | Hidden |
 
-Bookend rule (interactive): first and last cues also force Brunson Moody for Learn more (\`resolveHeroLearnMore\`).
+Bookends (first/last cue) on interactive also force Brunson Moody (\`resolveHeroLearnMore\`).
 
-Mobile: opening the chooser / starting play **forces fullscreen** so the phone experience is the expanded shell, not a tiny inline iframe fight with Safari chrome.
+Mobile: chooser / play **forces fullscreen** so we are not fighting Safari chrome inside a tiny card.
 
 ---
 
 ## Time-triggered cues (interactive cut)
 
-Cues live in \`heroVideoWidget.cues\`, sorted by \`triggerTime\`. The active cue is the **latest** whose trigger is ≤ current time (\`cueForTime\` / \`cueIndexForTime\`). Segment progress (0–1) fills the cyan divider between cues; first/last cues omit the timer line.
+This part *is* the kind of complexity I would keep on a simpler player: data in \`heroVideoWidget.cues\`, active cue = latest \`triggerTime\` ≤ playhead, segment progress fills the divider (omitted on first/last).
 
 | Time (s) | Title | Learn more destination |
 | ---: | --- | --- |
-| 0.00 | Testimonials | Testimonials modal → Brunson Moody |
-| 14.18 | LotHoppers | Featured work modal (\`work-vvxlxbaitge\`) |
-| 18.88 | SpaceRanchDAO | Hackathons → Nearcon contribution |
-| 26.68 | LivePlan | Career timeline → Palo Alto Software (\`workHistoryId: "4"\`) |
-| 33.18 | DealBrewer | Archive / featured work (\`work-w5a0tpo6bou\`) |
+| 0.00 | Testimonials | Testimonials → Brunson Moody |
+| 14.18 | LotHoppers | Featured work (\`work-vvxlxbaitge\`) |
+| 18.88 | SpaceRanchDAO | Hackathons → Nearcon |
+| 26.68 | LivePlan | Career timeline → Palo Alto (\`workHistoryId: "4"\`) |
+| 33.18 | DealBrewer | Archive / featured (\`work-w5a0tpo6bou\`) |
 | 39.48 | Outpost | Career timeline → Palo Alto |
-| 44.68 | LegalGPS | Archive product demo (\`work-cpbseuddjeq\`) |
+| 44.68 | LegalGPS | Archive demo (\`work-cpbseuddjeq\`) |
 | 50.88 | Connected Lane County | Hero learn placeholder |
 | 54.88 | StockBOSSup | Hero learn placeholder |
-| 61.68 | Coast2Coast Management | Older Video Showcase → ShareFile portal |
-| 65.18 | MenuViolet MVP | Video showcase (\`work-45dzo3peo2k\`) |
-| 72.78 | Elmstreet — MLS fed Consumer sites | Featured MLS search (\`work-7k2bict15gc\`) |
-| 78.58 | Elmstreet — Theme Administration | Same MLS featured work |
+| 61.68 | Coast2Coast Management | Older videos → ShareFile portal |
+| 65.18 | MenuViolet MVP | Showcase (\`work-45dzo3peo2k\`) |
+| 72.78 | Elmstreet — MLS fed Consumer sites | Featured MLS (\`work-7k2bict15gc\`) |
+| 78.58 | Elmstreet — Theme Administration | Same MLS work |
 | 87.58 | Elmstreet — Virtual Staging | Featured AI Redesign (\`work-dqpqfhk-8k\`) |
 | 90.28 | Testimonials | Brunson Moody (bookend) |
 
-Learn more kinds: **route modal** (namespace + key), **testimonials / hero-learn modals**, or **career-timeline** (scroll to \`#work\`, select employer, pause auto-advance). After the cut ends, the Learn control can shimmer once as a soft nudge.
+Learn more kinds: route modal, testimonials / hero-learn modal, or career-timeline focus. End of cut can shimmer Learn more once.
 
 ---
 
-## Fullscreen, devices, and captions
+## Fullscreen, devices, captions
 
-- **Expand** keeps the same stage root—no iframe remount—so playhead and audio survive. Overlay is \`fixed inset-0\` with close in the topbar pad shared with other modals.
-- **Landscape + expanded** → video + cue panel side by side. **Portrait + expanded** → stacked column with independent scroll.
-- **Captions**: \`cc_load_policy: 0\` is not enough (WebKit and desktop fullscreen both re-enable CC). We always \`unloadModule("captions")\` + clear the captions track, with staggered retries on ready / playing / expand. Captions stay **off on every viewport**.
-- **Player chrome**: custom seek row, play/pause hit targets, modest YouTube vars (\`controls: 0\`, \`modestbranding\`, \`iv_load_policy: 3\`, \`youtube-nocookie.com\` host).
-- **Square tops**: hero glass forces \`border-top-*-radius: 0\` so the video plane does not sit under a rounded lip that emphasized 1px sync error.
+- **Expand** does not remount the iframe—same stage root—so audio and playhead survive. Overlay uses shared modal topbar padding; Escape / close exits.
+- **Landscape + expanded** → video + cues side by side. **Portrait** → stacked with its own scroll; **Go back** under Learn more on phone.
+- **Captions always off:** \`cc_load_policy: 0\` lies on WebKit and can fail on desktop fullscreen. We \`unloadModule("captions")\`, clear the track, and retry on ready / playing / expand.
+- Custom seek + themed play; YT vars keep chrome quiet (\`controls: 0\`, \`modestbranding\`, \`iv_load_policy: 3\`, \`youtube-nocookie.com\`).
+- Square top radii on hero glass so a 1px portal seam is not hidden (or worsened) by a rounded lip.
 
 ---
 
@@ -2108,54 +2188,54 @@ Learn more kinds: **route modal** (namespace + key), **testimonials / hero-learn
 | Path | Role |
 | --- | --- |
 | \`src/components/HeroVideoWidget.tsx\` | Stages, portal sync, overlays, expand, cues UI |
-| \`src/data/heroVideoWidget.ts\` | Variants, cue table, progress helpers, Learn more resolution |
-| \`src/lib/youtubeIframeApi.tsx\` | API load, \`fitPlayerToHost\`, caption suppress + retries |
-| \`src/app/globals.css\` (\`.hero-video-widget\`) | Ribbon / swoop / square-top glass / seek skin |
-| \`/archive/v1/img/outpost.png\` | Inline idle + paused still (\`pausedPosterSrc\`) |
+| \`src/data/heroVideoWidget.ts\` | Variants, cue table, progress, Learn more resolution |
+| \`src/lib/youtubeIframeApi.tsx\` | API load, \`fitPlayerToHost\`, caption suppress |
+| \`src/app/globals.css\` (\`.hero-video-widget\`) | Ribbon / swoop / square-top glass / seek |
+| \`/archive/v1/img/outpost.png\` | Idle + inline paused still |
 
 ---
 
 # Revision timeline
 
-*Things we noticed and fixed while making the hero unit behave. Newest first.*
+*What we noticed, what we fixed. Newest first. Same lesson each time: the default embed was not enough for the brief.*
 
 ## 2026-10-07 — Static still must not ride the scroll glue
 
-**Noticed:** Even with the outpost placeholder under the play button, the image **slid** relative to the glass while scrolling—because it was painted on the fixed stage portal. First load at rest also still showed the old crest path.
+**Noticed:** Outpost under the play button still **slid** in the frame—it lived on the fixed portal. First load at rest also missed the new still.
 
-**Fixed:** Idle and inline-paused render outpost + dim + theme play **in the measure box**. Portal hides (\`opacity: 0\`) in those states. Playing / fullscreen / mode chooser still use the live stage. Asset: \`/archive/v1/img/outpost.png\`.
+**Fixed:** Idle / inline-paused paint outpost in the **measure box**; hide the portal. Glue stays for live inline video only.
 
-## 2026-10-07 — Captions back on desktop fullscreen
+## 2026-10-07 — Captions on desktop fullscreen
 
-**Noticed:** Caption kill was gated to mobile only; desktop fullscreen relied on \`cc_load_policy: 0\` and CC came back.
+**Noticed:** Suppress was mobile-only; desktop FS trusted \`cc_load_policy\`.
 
-**Fixed:** Suppress + retry on every viewport whenever the player is ready/playing/expanded.
+**Fixed:** Suppress + retry on every viewport.
 
 ## 2026-10-07 — Scroll lag vs correctness
 
-**Noticed:** Transform-only glue reduced jank but a few pixels of vertical drift remained vs the frame (worse with square tops). Fullscreen looked fine because it is not framed by the same glass border.
+**Noticed:** Transform glue helped jank but left a couple pixels of drift (worse with square tops).
 
-**Decision:** Keep compositor scroll sync for **live** video; stop asking a still+icon UI to participate in that system (see static cover above). Lag during live scroll is acceptable compared to iframe resize thrash.
+**Decision:** Keep sync for **live** video; never put a placard on that layer. Lag while playing inline is cheaper than resizing the iframe every frame.
 
-## 2026-10 — Mobile play, go-back, and fullscreen survival
+## 2026-10 — Mobile play, go-back, fullscreen survival
 
-**Noticed:** Starting the trailer on phone could stick on loading; expand could drop audio or reparent the host; portrait needed a way back besides the X.
+**Noticed:** Stuck loading, expand killed audio, portrait needed an exit besides X.
 
-**Fixed:** Force fullscreen on mobile play; keep stage root stable across expand; restore unmute after layout; add fullscreen **Go back** under Learn more; landscape vs portrait cue layouts.
+**Fixed:** Force fullscreen on mobile play; stable stage root; unmute restore; Go back; landscape/portrait cue layouts.
 
-## 2026-10 — Captions on iPhone / mobile WebKit
+## 2026-10 — Captions on iPhone / WebKit
 
-**Noticed:** \`cc_load_policy\` ignored; captions reappeared after \`PLAYING\` and after leaving fullscreen.
+**Noticed:** Policy ignored; CC returned after PLAYING / leaving FS.
 
-**Fixed:** \`unloadModule\` + clear track with retries; re-suppress on play / expand transitions (later extended to desktop).
+**Fixed:** Unload + clear track + retries (later extended to desktop).
 
 ## Earlier foundation
 
-- Dual YouTube variants + chooser prewarm so interactive vs straight cut is an explicit product choice, not a hidden URL.
-- Cue table with modal / career-timeline / showcase routing and bookend Testimonials.
-- Intro gate (\`introHiddenSeconds\`) + loading cover fade so the cut does not flash unfinished chrome.
-- Theme play button / glass / ribbon swoop as theme-contract surfaces, not one-off CSS.
-- Body scroll lock on expand without killing theme music preference.
+- Dual variants + prewarm for gesture-safe start.
+- Cue table with modal / timeline / showcase routing.
+- Intro gate + loading fade.
+- Theme play / glass / ribbon as contract surfaces.
+- Expand scroll lock without clearing theme music preference.
 `;
 
 export const howThisSiteWorksCards = [
@@ -2194,14 +2274,29 @@ export const howThisSiteWorksCards = [
     title: "Hero unit video",
     date: "Architecture",
     excerpt:
-      "Why a trailer in a glass card needed a fixed stage portal, timed Learn more cues, fullscreen survival, and an in-flow still so scroll never jiggles a play icon.",
+      "Normally I wouldn’t build a trailer this way—but to get every detail right, every detail matters. Why the portal, cues, prewarm, and placard exist.",
     modal: {
       title: "Hero Unit Video — the details matter",
       date: "Architecture",
       contextLabel: "Hero video engineering",
       intro:
-        "A thorough walkthrough of the portfolio trailer: dual cuts, time-triggered CTAs, scroll glue vs static cover, fullscreen on every device, and a revision timeline of what broke and what we fixed.",
+        "Normally a poster and a fullscreen embed would be enough. Here’s why this hero unit isn’t built that way—and what each odd piece is paying for.",
       markdown: heroVideoUnitMarkdown,
+    },
+  },
+  {
+    id: "generalized-changes",
+    title: "Generalized changes",
+    date: "Architecture",
+    excerpt:
+      "Forward-looking log of structural, device, performance, and feature decisions—started after most of the original build. Not personal taste notes.",
+    modal: {
+      title: "Generalized changes",
+      date: "Architecture",
+      contextLabel: "Decision log",
+      intro:
+        "Key architectural decisions going forward (structural, device, performance, feature). This section began after most of the original work shipped—newest entries first.",
+      markdown: generalizedChangesMarkdown,
     },
   },
   {
@@ -2226,7 +2321,7 @@ export const howThisSiteWorksSection = {
   eyebrow: "Building this thing",
   title: "How this site works",
   description:
-    "Architecture notes for the hero trailer, themes, and the classic archive port, plus a living ADA Guy revision log pairing each issue with its fix.",
+    "Architecture notes for the hero trailer, themes, and the classic archive port; a forward decision log for generalized changes; plus a living ADA Guy revision log.",
   cards: howThisSiteWorksCards,
 } as const;
 
