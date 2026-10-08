@@ -49,17 +49,35 @@ export function unlockTestimonialSpeechGesture(): void {
   void ensureTestimonialSpeech();
 }
 
+/** Voice catalog differs by engine: Chrome desktop Google cloud vs Apple/Android local TTS. */
+export type SpeechPlatform = "ios" | "android" | "desktop";
+
+export function detectSpeechPlatform(): SpeechPlatform {
+  if (typeof navigator === "undefined") return "desktop";
+  const ua = navigator.userAgent;
+  // iPadOS 13+ can report as MacIntel; touch points distinguish it.
+  if (
+    /iPhone|iPod|iPad/i.test(ua) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1)
+  ) {
+    return "ios";
+  }
+  if (/Android/i.test(ua)) return "android";
+  return "desktop";
+}
+
 function guessGender(voice: SpeechSynthesisVoice): TestimonialVoiceGender | "unknown" {
   const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
+  // Android TTS often uses opaque ids (en-us-x-sfg-local) instead of “Samantha”.
   if (
-    /\bfemale\b|\bwoman\b|samantha|victoria|karen|moira|tessa|fiona|veena|serena|zira|hazel|susan|salli|ivy|joanna|kendra|kimberly|nicole|amy|emma|olivia|allison|ava|martha|samantha|karen|moira|fiona|tessa|veena|kate|princess|vicki|kathy/.test(
+    /\bfemale\b|\bwoman\b|samantha|victoria|karen|moira|tessa|fiona|veena|serena|zira|hazel|susan|salli|ivy|joanna|kendra|kimberly|nicole|amy|emma|olivia|allison|ava|martha|kate|princess|vicki|kathy|en-us-x-sfg|en-us-x-tpf|en-gb-x-gba|en-au-x-au[cf]|en-gb-x-rfp/.test(
       label,
     )
   ) {
     return "female";
   }
   if (
-    /\bmale\b|\bman\b|\bdavid\b|daniel|alex\b|fred|tom\b|jorge|diego|rishi|bruce|nathan|gordon|ralph|arthur|george|james|aaron|fred|thomas|oliver|google uk english male|microsoft david|microsoft mark|microsoft guy/.test(
+    /\bmale\b|\bman\b|\bdavid\b|daniel|alex\b|fred|tom\b|jorge|diego|rishi|bruce|nathan|gordon|ralph|arthur|george|james|aaron|thomas|oliver|google uk english male|microsoft david|microsoft mark|microsoft guy|en-us-x-tpd|en-us-x-iob|en-gb-x-gbb|en-gb-x-rbf|en-au-x-au[dm]/.test(
       label,
     )
   ) {
@@ -80,15 +98,37 @@ function rankVoice(voice: SpeechSynthesisVoice) {
   let score = 1;
   if (/google/.test(label)) score += 8;
   if (/premium|enhanced|neural|natural/.test(label)) score += 6;
+  // Android network voices usually beat the same id’s -local variant.
+  if (/-network\b/.test(label)) score += 4;
   if (voice.localService === false) score += 3;
   if (
-    /samantha|daniel|moira|tessa|karen|serena|fiona|veena|rishi|arthur|gordon|\btom\b|\balex\b|nicky|microsoft david|microsoft mark|microsoft zira/.test(
+    /samantha|daniel|moira|tessa|karen|serena|fiona|veena|rishi|arthur|gordon|\btom\b|\balex\b|nicky|microsoft david|microsoft mark|microsoft zira|en-us-x-sfg|en-us-x-tpd|en-gb-x-gba|en-gb-x-gbb/.test(
       label,
     )
   ) {
     score += 4;
   }
   return score;
+}
+
+function voiceLabel(voice: SpeechSynthesisVoice) {
+  return `${voice.name} ${voice.voiceURI}`;
+}
+
+function findVoiceByHints(
+  pool: SpeechSynthesisVoice[],
+  hints: readonly (string | RegExp)[],
+) {
+  for (const hint of hints) {
+    const match = pool.find((voice) => {
+      const label = voiceLabel(voice);
+      return typeof hint === "string"
+        ? label.toLowerCase().includes(hint)
+        : hint.test(label);
+    });
+    if (match) return match;
+  }
+  return null;
 }
 
 function uniqueByName(voices: SpeechSynthesisVoice[]) {
@@ -120,38 +160,84 @@ function rankedVoicesForGender(gender: TestimonialVoiceGender) {
   return uniqueByName((good.length > 0 ? good : ranked).map((row) => row.voice));
 }
 
-/** Name hints for the female voice Mimi should keep. First match wins. */
-const LOCKED_FEMALE_VOICE_HINTS = [
-  "google uk english female",
-  "google us english",
-  "samantha",
-];
+/**
+ * Female pick: Google cloud voices when the engine exposes them (desktop Chrome,
+ * often Android Chrome). Otherwise prefer the best native voice for the OS —
+ * iOS WebKit never ships Google voices, so Samantha/Moira/… matter there.
+ */
+const FEMALE_HINTS_GOOGLE = ["google uk english female", "google us english"] as const;
+
+const FEMALE_HINTS_IOS = [
+  /samantha/i,
+  /moira/i,
+  /karen/i,
+  /tessa/i,
+  /serena/i,
+  /fiona/i,
+  /\bava\b/i,
+  /allison/i,
+] as const;
+
+const FEMALE_HINTS_ANDROID = [
+  /en-us-x-sfg/i,
+  /en-gb-x-gba/i,
+  /en-us-x-tpf/i,
+  /en-au-x-auc/i,
+  /\bfemale\b/i,
+] as const;
+
+const FEMALE_HINTS_DESKTOP_FALLBACK = ["samantha", "zira", "hazel"] as const;
 
 /** Highest-ranked natural female voice (Mimi / all women). Do not replace via word-callback probing. */
 export function preferredFemaleVoice() {
   const pool = rankedVoicesForGender("female");
-  for (const hint of LOCKED_FEMALE_VOICE_HINTS) {
-    const match = pool.find((voice) => voice.name.toLowerCase().includes(hint));
-    if (match) return match;
+  const google = findVoiceByHints(pool, FEMALE_HINTS_GOOGLE);
+  if (google) return google;
+
+  const platform = detectSpeechPlatform();
+  if (platform === "ios") {
+    return findVoiceByHints(pool, FEMALE_HINTS_IOS) ?? pool[0] ?? null;
   }
-  return pool[0] ?? null;
+  if (platform === "android") {
+    return findVoiceByHints(pool, FEMALE_HINTS_ANDROID) ?? pool[0] ?? null;
+  }
+  return findVoiceByHints(pool, FEMALE_HINTS_DESKTOP_FALLBACK) ?? pool[0] ?? null;
 }
 
 /**
- * Male voice pick (trial).
+ * Male pick (trial).
  *
  * TRY (current): Google UK English Male first — same Chrome Google engine as Mimi.
- * Pitch/rate stay flat (1 / 0.97). Do not restore the old hash-based pitch nudges.
+ * On iOS/Android without Google, prefer Alex / Android en-*-x-* males.
+ * Pitch/rate stay flat (1 / 0.97).
  *
- * REVERT to Alex:
- * 1. Put `/^alex\b/i` first in LOCKED_MALE_VOICE_HINTS (remove the Google UK Male hint).
- * 2. In isSkippedMaleVoice, skip Google UK Male again:
- *    `/google uk english male/i.test(...) || /^daniel\b/i.test(voice.name)`
+ * REVERT to Alex-first everywhere:
+ * 1. Put `/^alex\b/i` ahead of Google in FEMALE/MALE google lists (or remove Google).
+ * 2. In isSkippedMaleVoice, skip Google UK Male again.
  * 3. In testimonialSpeechUsesChunks, `return gender === "male"` (drop the Google exception).
- * Chunk / slash / early-end code in useTestimonialSpeech stays either way.
  */
-const LOCKED_MALE_VOICE_HINTS = [
-  /google uk english male/i,
+const MALE_HINTS_GOOGLE = [/google uk english male/i] as const;
+
+const MALE_HINTS_IOS = [
+  /^alex\b/i,
+  /^arthur\b/i,
+  /^gordon\b/i,
+  /^tom\b/i,
+  /^daniel\b/i,
+  /^nicky\b/i,
+  /^aaron\b/i,
+] as const;
+
+const MALE_HINTS_ANDROID = [
+  /en-us-x-tpd/i,
+  /en-us-x-iob/i,
+  /en-gb-x-gbb/i,
+  /en-gb-x-rbf/i,
+  /en-au-x-aud/i,
+  /\bmale\b/i,
+] as const;
+
+const MALE_HINTS_DESKTOP_FALLBACK = [
   /^alex\b/i,
   /microsoft david/i,
   /^tom\b/i,
@@ -159,23 +245,32 @@ const LOCKED_MALE_VOICE_HINTS = [
   /^gordon\b/i,
   /microsoft mark/i,
   /^nathan\b/i,
-];
+] as const;
 
-function isSkippedMaleVoice(voice: SpeechSynthesisVoice) {
-  return /^daniel\b/i.test(voice.name);
+function isSkippedMaleVoice(voice: SpeechSynthesisVoice, platform: SpeechPlatform) {
+  // Desktop Chrome: Daniel is choppy next to Google/Alex. On iOS Daniel is a solid UK male.
+  if (platform !== "ios" && /^daniel\b/i.test(voice.name)) return true;
+  return false;
 }
 
 /** Smoother installed male voice. Does not replace the locked Mimi female pick. */
 export function preferredMaleVoice() {
-  const ranked = rankedVoicesForGender("male").filter((voice) => !isSkippedMaleVoice(voice));
+  const platform = detectSpeechPlatform();
+  const ranked = rankedVoicesForGender("male").filter(
+    (voice) => !isSkippedMaleVoice(voice, platform),
+  );
   const pool = ranked.length > 0 ? ranked : rankedVoicesForGender("male");
-  for (const hint of LOCKED_MALE_VOICE_HINTS) {
-    const match = pool.find(
-      (voice) => hint.test(`${voice.name} ${voice.voiceURI}`) && guessGender(voice) !== "female",
-    );
-    if (match) return match;
+
+  const google = findVoiceByHints(pool, MALE_HINTS_GOOGLE);
+  if (google && guessGender(google) !== "female") return google;
+
+  if (platform === "ios") {
+    return findVoiceByHints(pool, MALE_HINTS_IOS) ?? pool[0] ?? null;
   }
-  return pool[0] ?? null;
+  if (platform === "android") {
+    return findVoiceByHints(pool, MALE_HINTS_ANDROID) ?? pool[0] ?? null;
+  }
+  return findVoiceByHints(pool, MALE_HINTS_DESKTOP_FALLBACK) ?? pool[0] ?? null;
 }
 
 export function pickTestimonialVoice(_id: string, gender: TestimonialVoiceGender) {

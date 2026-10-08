@@ -23,9 +23,16 @@ const DEFAULT_FRAME =
 const LABEL_CLASS =
   "pointer-events-none absolute left-2 top-2 z-[1] rounded-full bg-black/70 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wide";
 
+/** Start scrubbing only after a clear horizontal drag (lets the page scroll vertically). */
+const HORIZONTAL_LOCK_DX = 12;
+const HORIZONTAL_LOCK_RATIO = 1.15;
+
 /**
  * Before/after slide-reveal with drag handle + keyboard range input.
  * Same chrome Photo Critique uses for visual-weight compare.
+ *
+ * Mobile: `touch-pan-y` + deferred horizontal lock so the plate does not trap
+ * vertical page scroll. Mouse still scrubs immediately.
  */
 export function CompareSlider({
   before,
@@ -39,6 +46,7 @@ export function CompareSlider({
 }: CompareSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+  const pendingRef = useRef<{ x: number; y: number; id: number } | null>(null);
   const sliderId = useId();
   const [position, setPosition] = useState(() =>
     Math.min(100, Math.max(0, initialPosition)),
@@ -51,21 +59,56 @@ export function CompareSlider({
     setPosition(Math.min(100, Math.max(0, pct)));
   }, []);
 
+  const beginDrag = useCallback(
+    (pointerId: number, clientX: number) => {
+      dragging.current = true;
+      pendingRef.current = null;
+      containerRef.current?.setPointerCapture(pointerId);
+      setPositionFromClientX(clientX);
+    },
+    [setPositionFromClientX],
+  );
+
   useEffect(() => {
     const onMove = (event: PointerEvent) => {
-      if (!dragging.current) return;
-      setPositionFromClientX(event.clientX);
+      if (dragging.current) {
+        setPositionFromClientX(event.clientX);
+        return;
+      }
+
+      const pending = pendingRef.current;
+      if (!pending || event.pointerId !== pending.id) return;
+
+      const dx = event.clientX - pending.x;
+      const dy = event.clientY - pending.y;
+      if (Math.abs(dx) < HORIZONTAL_LOCK_DX && Math.abs(dy) < HORIZONTAL_LOCK_DX) return;
+
+      // Vertical intent — let the browser keep scrolling; abandon scrub.
+      if (Math.abs(dy) >= Math.abs(dx) * HORIZONTAL_LOCK_RATIO) {
+        pendingRef.current = null;
+        return;
+      }
+
+      // Horizontal intent — take over.
+      if (Math.abs(dx) > Math.abs(dy)) {
+        beginDrag(event.pointerId, event.clientX);
+      }
     };
-    const onUp = () => {
+
+    const onUp = (event: PointerEvent) => {
+      if (pendingRef.current?.id === event.pointerId) pendingRef.current = null;
       dragging.current = false;
     };
+
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
     };
-  }, [setPositionFromClientX]);
+  }, [beginDrag, setPositionFromClientX]);
 
   const clipRight = 100 - position;
 
@@ -73,12 +116,24 @@ export function CompareSlider({
     <div
       ref={containerRef}
       data-compare-slider
-      className={`${className ?? DEFAULT_FRAME} w-full touch-none select-none`}
+      className={`${className ?? DEFAULT_FRAME} w-full touch-pan-y select-none`}
       style={aspectRatio && aspectRatio > 0 ? { aspectRatio } : { minHeight: "7rem" }}
       onPointerDown={(event) => {
-        dragging.current = true;
-        containerRef.current?.setPointerCapture(event.pointerId);
-        setPositionFromClientX(event.clientX);
+        // Range input handles its own pointer stream.
+        if (event.target instanceof HTMLInputElement) return;
+
+        // Desktop mouse: scrub immediately.
+        if (event.pointerType === "mouse") {
+          beginDrag(event.pointerId, event.clientX);
+          return;
+        }
+
+        // Touch/pen: wait for horizontal lock so vertical scroll isn’t stolen.
+        pendingRef.current = {
+          x: event.clientX,
+          y: event.clientY,
+          id: event.pointerId,
+        };
       }}
     >
       <div className="absolute inset-0">{after}</div>
@@ -124,7 +179,7 @@ export function CompareSlider({
         value={Math.round(position)}
         onChange={(event) => setPosition(Number(event.target.value))}
         onPointerDown={(event) => event.stopPropagation()}
-        className="absolute inset-x-2 bottom-2 z-30 h-6 w-[calc(100%-1rem)] cursor-ew-resize opacity-0"
+        className="absolute inset-x-2 bottom-2 z-30 h-6 w-[calc(100%-1rem)] cursor-ew-resize touch-none opacity-0"
       />
     </div>
   );

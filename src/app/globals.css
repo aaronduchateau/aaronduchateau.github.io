@@ -2761,6 +2761,14 @@ button.theme-quest-view-unlock {
   --hero-learn-ribbon-hover: rgb(var(--accent-400));
 }
 
+/* Hero video plate: square top on every theme; bottom still follows --radius-card. */
+.hero-video-widget .theme-glass,
+.hero-video-widget .theme-glass:hover,
+.hero-video-widget .theme-glass:focus-visible {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 /* Hero timeline playhead — accent fill, surface track (not browser default blue). */
 .hero-video-seek {
   accent-color: rgb(var(--accent-400));

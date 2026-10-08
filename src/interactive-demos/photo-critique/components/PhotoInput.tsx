@@ -198,7 +198,9 @@ export function PhotoInput({
       </div>
 
       {inputMode === "demo" ? (
-        <div className={`mt-3 flex shrink-0 flex-col gap-2 sm:flex-row ${critiqueChromePadX}`}>
+        <div
+          className={`mt-3 flex shrink-0 flex-col-reverse gap-2 sm:flex-row ${critiqueChromePadX}`}
+        >
           <button
             type="button"
             disabled={analyzing}

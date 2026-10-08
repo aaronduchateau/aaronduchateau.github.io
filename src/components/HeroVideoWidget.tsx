@@ -1195,7 +1195,7 @@ export function HeroVideoWidget() {
           <div className="aspect-video w-full bg-surface-950" aria-hidden />
         ) : (
           <>
-            <div className="overflow-hidden rounded-t-[inherit]">
+            <div className="overflow-hidden rounded-t-none">
               {measureBox}
               {seekRow}
             </div>

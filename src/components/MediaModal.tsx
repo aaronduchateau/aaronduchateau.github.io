@@ -259,6 +259,10 @@ function easeInOutCubic(t: number) {
   return t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
 }
 
+/** Horizontal lock so slide-reveal does not trap vertical page/modal scroll on phones. */
+const SLIDE_REVEAL_LOCK_DX = 12;
+const SLIDE_REVEAL_LOCK_RATIO = 1.15;
+
 function SlideRevealPane({
   item,
   forceBw,
@@ -268,6 +272,7 @@ function SlideRevealPane({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+  const pendingRef = useRef<{ x: number; y: number; id: number } | null>(null);
   const animating = useRef(false);
   const [position, setPosition] = useState(SLIDE_REVEAL_INTRO_START);
   const [hasIntroAnimated, setHasIntroAnimated] = useState(false);
@@ -279,8 +284,20 @@ function SlideRevealPane({
     setPosition(Math.min(100, Math.max(0, pct)));
   }, []);
 
+  const beginDrag = useCallback(
+    (pointerId: number, clientX: number) => {
+      animating.current = false;
+      dragging.current = true;
+      pendingRef.current = null;
+      containerRef.current?.setPointerCapture(pointerId);
+      setPositionFromClientX(clientX);
+    },
+    [setPositionFromClientX],
+  );
+
   useEffect(() => {
     dragging.current = false;
+    pendingRef.current = null;
     animating.current = false;
     setHasIntroAnimated(false);
     setPosition(SLIDE_REVEAL_INTRO_START);
@@ -320,19 +337,40 @@ function SlideRevealPane({
 
   useEffect(() => {
     const onMove = (event: PointerEvent) => {
-      if (!dragging.current) return;
-      setPositionFromClientX(event.clientX);
+      if (dragging.current) {
+        setPositionFromClientX(event.clientX);
+        return;
+      }
+
+      const pending = pendingRef.current;
+      if (!pending || event.pointerId !== pending.id) return;
+
+      const dx = event.clientX - pending.x;
+      const dy = event.clientY - pending.y;
+      if (Math.abs(dx) < SLIDE_REVEAL_LOCK_DX && Math.abs(dy) < SLIDE_REVEAL_LOCK_DX) return;
+
+      if (Math.abs(dy) >= Math.abs(dx) * SLIDE_REVEAL_LOCK_RATIO) {
+        pendingRef.current = null;
+        return;
+      }
+
+      if (Math.abs(dx) > Math.abs(dy)) {
+        beginDrag(event.pointerId, event.clientX);
+      }
     };
-    const onUp = () => {
+    const onUp = (event: PointerEvent) => {
+      if (pendingRef.current?.id === event.pointerId) pendingRef.current = null;
       dragging.current = false;
     };
     window.addEventListener("pointermove", onMove);
     window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
     };
-  }, [setPositionFromClientX]);
+  }, [beginDrag, setPositionFromClientX]);
 
   const clipRight = 100 - position;
   const showPulse = hasIntroAnimated && !dragging.current;
@@ -340,15 +378,21 @@ function SlideRevealPane({
   return (
     <div
       ref={containerRef}
-      className={`relative min-h-0 w-full flex-1 touch-none select-none overflow-hidden bg-black ${
+      data-compare-slider
+      className={`relative min-h-0 w-full flex-1 touch-pan-y select-none overflow-hidden bg-black ${
         forceBw ? "grayscale" : ""
       }`}
       onPointerDown={(event) => {
         if (isItemLocked(item)) return;
-        animating.current = false;
-        dragging.current = true;
-        containerRef.current?.setPointerCapture(event.pointerId);
-        setPositionFromClientX(event.clientX);
+        if (event.pointerType === "mouse") {
+          beginDrag(event.pointerId, event.clientX);
+          return;
+        }
+        pendingRef.current = {
+          x: event.clientX,
+          y: event.clientY,
+          id: event.pointerId,
+        };
       }}
     >
       <div className="absolute inset-0">
