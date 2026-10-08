@@ -281,7 +281,7 @@ export function useTestimonialSpeech(
       clearAdvanceTimer();
       ignoreErrorRef.current = false;
       restartOnResumeRef.current = false;
-      const tune = testimonialSpeechTune(current.id, current.voice.gender);
+      const tune = testimonialSpeechTune(current.id, current.voice.gender, picked);
 
       const finishSentence = () => {
         if (generationRef.current !== generation) return;

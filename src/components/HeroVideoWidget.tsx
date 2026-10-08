@@ -41,6 +41,8 @@ import {
   VideoPlayIcon,
   YT_ENDED,
   YT_PLAYING,
+  suppressYouTubeCaptions,
+  suppressYouTubeCaptionsWithRetries,
   type YtNamespace,
   type YtPlayer,
 } from "@/lib/youtubeIframeApi";
@@ -112,6 +114,9 @@ export function HeroVideoWidget() {
   /** One-shot marker at 3.28s — independent of the cover fade. */
   const pomegranateLoggedRef = useRef(false);
   const mountGenRef = useRef(0);
+  /** Cancel pending caption-off retries when the player remounts. */
+  const captionSuppressCancelRef = useRef<(() => void) | null>(null);
+  const isMobileRef = useRef(false);
   const unmuteOnceRef = useRef(false);
   /** User earned unmuted playback — restore after layout sync if the browser remutes. */
   const wantsUnmutedRef = useRef(false);
@@ -134,6 +139,22 @@ export function HeroVideoWidget() {
   const [stageRoot, setStageRoot] = useState<HTMLDivElement | null>(null);
   const isLandscape = useIsLandscape();
   const isMobile = useMobileOnlyViewport();
+  isMobileRef.current = isMobile;
+
+  const suppressMobileCaptions = useCallback((player: YtPlayer | null | undefined) => {
+    // Desktop + fullscreen already stay caption-free; mobile inline WebKit ignores
+    // cc_load_policy and often reloads auto-captions after PLAYING.
+    if (!isMobileRef.current || !player) return;
+    captionSuppressCancelRef.current?.();
+    suppressYouTubeCaptions(player);
+    captionSuppressCancelRef.current = suppressYouTubeCaptionsWithRetries(player);
+  }, []);
+
+  // Leaving fullscreen / staying on the phone card — captions often reappear.
+  useEffect(() => {
+    if (!isMobile || !playing || expanded) return;
+    suppressMobileCaptions(playerRef.current);
+  }, [isMobile, playing, expanded, suppressMobileCaptions]);
 
   useEffect(() => {
     const root = document.createElement("div");
@@ -230,6 +251,8 @@ export function HeroVideoWidget() {
   }, [clearLearnShimmer]);
 
   const destroyPlayer = useCallback((opts?: { clearUnlock?: boolean }) => {
+    captionSuppressCancelRef.current?.();
+    captionSuppressCancelRef.current = null;
     try {
       playerRef.current?.destroy();
     } catch {
@@ -429,11 +452,7 @@ export function HeroVideoWidget() {
             const live = document.getElementById(hostElementId);
             if (live instanceof HTMLDivElement) ytHostRef.current = live;
             playerRef.current = event.target;
-            try {
-              event.target.unloadModule?.("captions");
-            } catch {
-              /* captions module optional */
-            }
+            suppressMobileCaptions(event.target);
             const d = event.target.getDuration();
             if (Number.isFinite(d)) setDuration(d);
             if (startAt > 0) {
@@ -463,6 +482,9 @@ export function HeroVideoWidget() {
             const ended = event.data === (YT.PlayerState?.ENDED ?? YT_ENDED);
             const isPlaying = event.data === (YT.PlayerState?.PLAYING ?? YT_PLAYING);
             setPlaying(isPlaying);
+            if (isPlaying) {
+              suppressMobileCaptions(event.target);
+            }
             if (isPlaying && stageRef.current !== "choose") {
               tryUnmute(event.target);
             }
@@ -488,6 +510,7 @@ export function HeroVideoWidget() {
       hostElementId,
       startPlayback,
       scheduleLearnShimmer,
+      suppressMobileCaptions,
       tryUnmute,
     ],
   );

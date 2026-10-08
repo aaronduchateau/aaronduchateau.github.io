@@ -68,16 +68,19 @@ export function detectSpeechPlatform(): SpeechPlatform {
 
 function guessGender(voice: SpeechSynthesisVoice): TestimonialVoiceGender | "unknown" {
   const label = `${voice.name} ${voice.voiceURI}`.toLowerCase();
+  // Apple Siri bundle ids: com.apple…siri_female_en-US… / siri_male_en-US…
+  if (/siri[_-]?female|female[_-]?en[-_]/.test(label)) return "female";
+  if (/siri[_-]?male|male[_-]?en[-_]/.test(label)) return "male";
   // Android TTS often uses opaque ids (en-us-x-sfg-local) instead of “Samantha”.
   if (
-    /\bfemale\b|\bwoman\b|samantha|victoria|karen|moira|tessa|fiona|veena|serena|zira|hazel|susan|salli|ivy|joanna|kendra|kimberly|nicole|amy|emma|olivia|allison|ava|martha|kate|princess|vicki|kathy|en-us-x-sfg|en-us-x-tpf|en-gb-x-gba|en-au-x-au[cf]|en-gb-x-rfp/.test(
+    /\bfemale\b|\bwoman\b|samantha|victoria|karen|moira|tessa|fiona|veena|serena|zira|hazel|susan|salli|ivy|joanna|kendra|kimberly|nicole|amy|emma|olivia|allison|ava|martha|kate|princess|vicki|kathy|stephanie|shelley|sandy|en-us-x-sfg|en-us-x-tpf|en-gb-x-gba|en-au-x-au[cf]|en-gb-x-rfp/.test(
       label,
     )
   ) {
     return "female";
   }
   if (
-    /\bmale\b|\bman\b|\bdavid\b|daniel|alex\b|fred|tom\b|jorge|diego|rishi|bruce|nathan|gordon|ralph|arthur|george|james|aaron|thomas|oliver|google uk english male|microsoft david|microsoft mark|microsoft guy|en-us-x-tpd|en-us-x-iob|en-gb-x-gbb|en-gb-x-rbf|en-au-x-au[dm]/.test(
+    /\bmale\b|\bman\b|\bdavid\b|daniel|\balex\b|fred|\btom\b|jorge|diego|rishi|bruce|nathan|gordon|ralph|arthur|george|james|\baaron\b|thomas|oliver|\bevan\b|\breed\b|\bnoel\b|google uk english male|microsoft david|microsoft mark|microsoft guy|en-us-x-tpd|en-us-x-iob|en-gb-x-gbb|en-gb-x-rbf|en-au-x-au[dm]/.test(
       label,
     )
   ) {
@@ -149,15 +152,30 @@ function englishVoices() {
   return english.length > 0 ? english : all;
 }
 
+/**
+ * Ranked voices for one gender only.
+ * Never falls back to the other gender — that made iPhone male letters speak
+ * as Samantha when Alex wasn’t installed / recognized.
+ */
 function rankedVoicesForGender(gender: TestimonialVoiceGender) {
   const pool = englishVoices().filter((voice) => guessGender(voice) === gender);
-  const fallback = pool.length > 0 ? pool : englishVoices();
-  const ranked = fallback
+  const ranked = pool
     .map((voice) => ({ voice, score: rankVoice(voice) }))
     .filter((row) => row.score >= 0)
     .sort((a, b) => b.score - a.score);
   const good = ranked.filter((row) => row.score >= 4);
   return uniqueByName((good.length > 0 ? good : ranked).map((row) => row.voice));
+}
+
+function rankedNonFemaleEnglish() {
+  const pool = englishVoices().filter((voice) => guessGender(voice) !== "female");
+  return uniqueByName(
+    pool
+      .map((voice) => ({ voice, score: rankVoice(voice) }))
+      .filter((row) => row.score >= 0)
+      .sort((a, b) => b.score - a.score)
+      .map((row) => row.voice),
+  );
 }
 
 /**
@@ -219,13 +237,19 @@ export function preferredFemaleVoice() {
 const MALE_HINTS_GOOGLE = [/google uk english male/i] as const;
 
 const MALE_HINTS_IOS = [
-  /^alex\b/i,
-  /^arthur\b/i,
-  /^gordon\b/i,
-  /^tom\b/i,
-  /^daniel\b/i,
-  /^nicky\b/i,
-  /^aaron\b/i,
+  /siri[_-]?male/i,
+  /\balex\b/i,
+  /\barthur\b/i,
+  /\bgordon\b/i,
+  /\btom\b/i,
+  /\bdaniel\b/i,
+  /\bnicky\b/i,
+  /\baaron\b/i,
+  /\bevan\b/i,
+  /\bnathan\b/i,
+  /\breed\b/i,
+  /\bnoel\b/i,
+  /\bbruce\b/i,
 ] as const;
 
 const MALE_HINTS_ANDROID = [
@@ -253,24 +277,38 @@ function isSkippedMaleVoice(voice: SpeechSynthesisVoice, platform: SpeechPlatfor
   return false;
 }
 
-/** Smoother installed male voice. Does not replace the locked Mimi female pick. */
+/**
+ * Smoother installed male voice. Does not replace the locked Mimi female pick.
+ * Searches non-female voices by platform hints first so iOS still finds Alex /
+ * Siri male even when `guessGender` misses a URI shape — and never returns Samantha.
+ */
 export function preferredMaleVoice() {
   const platform = detectSpeechPlatform();
-  const ranked = rankedVoicesForGender("male").filter(
+  const males = rankedVoicesForGender("male").filter(
     (voice) => !isSkippedMaleVoice(voice, platform),
   );
-  const pool = ranked.length > 0 ? ranked : rankedVoicesForGender("male");
+  const nonFemale = rankedNonFemaleEnglish().filter(
+    (voice) => !isSkippedMaleVoice(voice, platform),
+  );
+  // Prefer hint search over the whole non-female list (includes unknowns).
+  const hintPool = uniqueByName([...males, ...nonFemale]);
 
-  const google = findVoiceByHints(pool, MALE_HINTS_GOOGLE);
+  const google = findVoiceByHints(hintPool, MALE_HINTS_GOOGLE);
   if (google && guessGender(google) !== "female") return google;
 
-  if (platform === "ios") {
-    return findVoiceByHints(pool, MALE_HINTS_IOS) ?? pool[0] ?? null;
-  }
-  if (platform === "android") {
-    return findVoiceByHints(pool, MALE_HINTS_ANDROID) ?? pool[0] ?? null;
-  }
-  return findVoiceByHints(pool, MALE_HINTS_DESKTOP_FALLBACK) ?? pool[0] ?? null;
+  const hints =
+    platform === "ios"
+      ? MALE_HINTS_IOS
+      : platform === "android"
+        ? MALE_HINTS_ANDROID
+        : MALE_HINTS_DESKTOP_FALLBACK;
+
+  return (
+    findVoiceByHints(hintPool, hints) ??
+    males[0] ??
+    nonFemale[0] ??
+    null
+  );
 }
 
 export function pickTestimonialVoice(_id: string, gender: TestimonialVoiceGender) {
@@ -278,9 +316,17 @@ export function pickTestimonialVoice(_id: string, gender: TestimonialVoiceGender
   return preferredMaleVoice();
 }
 
-export function testimonialSpeechTune(_id: string, gender: TestimonialVoiceGender) {
+export function testimonialSpeechTune(
+  _id: string,
+  gender: TestimonialVoiceGender,
+  voice?: SpeechSynthesisVoice | null,
+) {
   if (gender === "female") {
     return { pitch: 1.05, rate: 0.97 };
+  }
+  // Last resort when the OS only exposes female English voices (common on stock iOS).
+  if (!voice || guessGender(voice) === "female") {
+    return { pitch: 0.72, rate: 0.95 };
   }
   return { pitch: 1, rate: 0.97 };
 }
@@ -355,7 +401,7 @@ export async function speakTestimonial(options: {
   if (options.cancelBefore !== false) cancelTestimonialSpeech();
 
   const voice = pickTestimonialVoice(options.id, options.gender);
-  const tune = testimonialSpeechTune(options.id, options.gender);
+  const tune = testimonialSpeechTune(options.id, options.gender, voice);
   const chain = options.cancelBefore === false;
   const localVoice = voice?.localService === true;
 

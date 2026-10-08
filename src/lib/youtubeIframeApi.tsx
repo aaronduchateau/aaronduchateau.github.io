@@ -53,6 +53,39 @@ export function getYouTubeApiIfReady(): YtNamespace | null {
   return window.YT?.Player ? window.YT : null;
 }
 
+/**
+ * Best-effort caption off. `cc_load_policy: 0` is ignored on many mobile WebKit
+ * inline players; unload + clear track is what actually sticks (sometimes only
+ * after PLAYING, so callers should retry).
+ */
+export function suppressYouTubeCaptions(player: YtPlayer | null | undefined) {
+  if (!player) return;
+  try {
+    player.unloadModule?.("captions");
+  } catch {
+    /* optional */
+  }
+  try {
+    player.setOption?.("captions", "track", {});
+  } catch {
+    /* optional */
+  }
+}
+
+/** Fire suppress at staggered delays; returns a cancel fn for remount/cleanup. */
+export function suppressYouTubeCaptionsWithRetries(
+  player: YtPlayer | null | undefined,
+  delaysMs: readonly number[] = [0, 200, 600, 1500, 3000],
+): () => void {
+  if (typeof window === "undefined" || !player) return () => {};
+  const ids = delaysMs.map((ms) =>
+    window.setTimeout(() => suppressYouTubeCaptions(player), ms),
+  );
+  return () => {
+    for (const id of ids) window.clearTimeout(id);
+  };
+}
+
 /** YT often bakes iframe pixel size at create — force it to fill the slot. */
 export function fitPlayerToHost(hostElementId: string, player: YtPlayer | null) {
   const host = document.getElementById(hostElementId);
