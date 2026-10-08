@@ -1709,6 +1709,23 @@ html.component-preview-embed body {
   color: rgb(var(--surface-100));
 }
 
+/* Testimonials mobile roster: name left / photo right, larger first-name type. */
+.theme-content-list--testimonials .theme-content-list__row {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.theme-content-list--testimonials .theme-content-list__copy {
+  flex: 1;
+}
+
+.theme-content-list--testimonials .theme-content-list__title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
 .theme-content-list__footer {
   padding: 0 0 0.55rem;
 }

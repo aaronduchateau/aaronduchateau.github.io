@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { testimonialFirstName } from "@/lib/testimonialIntro";
 
 export function testimonialPreview(quote: string, maxLength = 230) {
   const flat = quote.replace(/\n\n+/g, " ");
@@ -30,12 +31,13 @@ export function TestimonialCard({
   className,
 }: TestimonialCardProps) {
   const preview = testimonialPreview(quote);
+  const givenName = testimonialFirstName(name);
 
   return (
     <button
       type="button"
       onClick={onClick}
-      aria-label={ariaLabel ?? `Read full testimonial from ${name}`}
+      aria-label={ariaLabel ?? `Read full testimonial from ${givenName}`}
       className={`theme-card group flex h-full w-full flex-col justify-between bg-gradient-to-b from-surface-900/80 to-surface-950/80 p-6 text-left shadow-inner shadow-white/5 ${className ?? ""}`.trim()}
     >
       <div>
@@ -48,7 +50,7 @@ export function TestimonialCard({
       <footer className="mt-8 border-t border-white/10 pt-4 text-sm">
         <div className="flex items-end justify-between gap-4">
           <div className="min-w-0">
-            <p className="theme-heading-ink font-semibold">{name}</p>
+            <p className="theme-heading-ink font-semibold">{givenName}</p>
             <p className="text-surface-500">{title}</p>
           </div>
           <div className="relative isolate h-14 w-14 shrink-0 overflow-hidden rounded-full ring-2 ring-white/15">

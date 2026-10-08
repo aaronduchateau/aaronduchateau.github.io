@@ -42,7 +42,7 @@ export function TestimonialSpeechFooter({
       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-white/15">
         <Image
           src={photo}
-          alt={`Portrait of ${name}`}
+          alt={`Portrait of ${givenName}`}
           fill
           className="object-cover grayscale"
           sizes="48px"

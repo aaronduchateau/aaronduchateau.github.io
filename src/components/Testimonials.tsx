@@ -438,20 +438,24 @@ export function Testimonials() {
 
       {isMobile ? (
         <MobileContentList
+          className="theme-content-list--testimonials"
           showDecorativeMedia={visibility.decorativeCardMedia}
-          items={testimonials.map((t) => ({
-            id: t.id,
-            title: t.name,
-            graphic: {
-              kind: "image" as const,
-              src: t.photo,
-              alt: "",
-              shape: "circle",
-              tone: "bw",
-            },
-            ariaLabel: `Read full testimonial from ${t.name}`,
-            onClick: () => open(t.id, t),
-          }))}
+          items={testimonials.map((t) => {
+            const givenName = testimonialFirstName(t.name);
+            return {
+              id: t.id,
+              title: givenName,
+              graphic: {
+                kind: "image" as const,
+                src: t.photo,
+                alt: "",
+                shape: "circle",
+                tone: "bw",
+              },
+              ariaLabel: `Read full testimonial from ${givenName}`,
+              onClick: () => open(t.id, t),
+            };
+          })}
         />
       ) : (
         <div className="mt-12 grid gap-6 md:grid-cols-3">

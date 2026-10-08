@@ -117,6 +117,8 @@ export function HeroVideoWidget() {
   /** Cancel pending caption-off retries when the player remounts. */
   const captionSuppressCancelRef = useRef<(() => void) | null>(null);
   const isMobileRef = useRef(false);
+  /** Last applied stage-root box size — skip width/height / YT resize when unchanged. */
+  const stageSyncSizeRef = useRef({ w: -1, h: -1 });
   const unmuteOnceRef = useRef(false);
   /** User earned unmuted playback — restore after layout sync if the browser remutes. */
   const wantsUnmutedRef = useRef(false);
@@ -160,9 +162,14 @@ export function HeroVideoWidget() {
     const root = document.createElement("div");
     root.setAttribute("data-hero-video-stage-root", "");
     root.style.position = "fixed";
+    root.style.top = "0";
+    root.style.left = "0";
     root.style.pointerEvents = "none";
     root.style.overflow = "hidden";
     root.style.zIndex = "40";
+    // Compositor-friendly moves while glued to the scrolling measure box.
+    root.style.willChange = "transform";
+    root.style.transform = "translate3d(0,0,0)";
     document.body.appendChild(root);
     stageRootRef.current = root;
     setStageRoot(root);
@@ -328,27 +335,47 @@ export function HeroVideoWidget() {
     }
   }, []);
 
-  const syncStageRootToMeasure = useCallback(() => {
+  /**
+   * Glue the fixed stage root to the measure box.
+   * Scroll path: transform-only (no YT setSize) so the iframe doesn’t lag/snap.
+   * Layout/resize path: also refresh box size, radius, and fitPlayerToHost.
+   */
+  const syncStageRootToMeasure = useCallback((opts?: { fitPlayer?: boolean }) => {
     const root = stageRootRef.current;
     const measure = measureRef.current;
     if (!root || !measure) return;
     const rect = measure.getBoundingClientRect();
     const width = Math.max(0, rect.width);
     const height = Math.max(0, rect.height);
-    root.style.top = `${Math.round(rect.top)}px`;
-    root.style.left = `${Math.round(rect.left)}px`;
-    root.style.width = `${Math.round(width)}px`;
-    root.style.height = `${Math.round(height)}px`;
+    const w = Math.round(width);
+    const h = Math.round(height);
+    const sizeChanged = w !== stageSyncSizeRef.current.w || h !== stageSyncSizeRef.current.h;
+    const allowFit = opts?.fitPlayer === true;
+
+    // Pin at (0,0); move with translate3d so scroll tracking stays on the compositor.
+    root.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
     root.style.zIndex = expanded ? "210" : "40";
     root.style.pointerEvents = "auto";
     root.style.opacity = width < 2 || height < 2 ? "0" : "1";
-    if (!expanded) {
-      const radius = getComputedStyle(measure).borderRadius;
-      root.style.borderRadius = radius && radius !== "0px" ? radius : "0px";
-    } else {
-      root.style.borderRadius = "0px";
+
+    if (sizeChanged) {
+      stageSyncSizeRef.current = { w, h };
+      root.style.width = `${w}px`;
+      root.style.height = `${h}px`;
     }
-    fitPlayerToHost(hostElementId, playerRef.current);
+
+    if (allowFit || sizeChanged) {
+      if (!expanded) {
+        const radius = getComputedStyle(measure).borderRadius;
+        root.style.borderRadius = radius && radius !== "0px" ? radius : "0px";
+      } else {
+        root.style.borderRadius = "0px";
+      }
+    }
+
+    if (allowFit || sizeChanged) {
+      fitPlayerToHost(hostElementId, playerRef.current);
+    }
   }, [expanded, hostElementId]);
 
   const startPlayback = useCallback((player: YtPlayer, opts?: { unmute?: boolean }) => {
@@ -543,10 +570,10 @@ export function HeroVideoWidget() {
   // Keep the stable stage root glued to the card / fullscreen measure box.
   useLayoutEffect(() => {
     ensureHostElement();
-    syncStageRootToMeasure();
+    syncStageRootToMeasure({ fitPlayer: true });
     restoreHeroAudio();
     const raf = window.requestAnimationFrame(() => {
-      syncStageRootToMeasure();
+      syncStageRootToMeasure({ fitPlayer: true });
       restoreHeroAudio();
     });
     return () => window.cancelAnimationFrame(raf);
@@ -564,24 +591,51 @@ export function HeroVideoWidget() {
     const measure = measureRef.current;
     if (!measure) return;
 
-    const sync = () => syncStageRootToMeasure();
-    sync();
+    const syncFull = () => syncStageRootToMeasure({ fitPlayer: true });
+    const syncPosition = () => syncStageRootToMeasure({ fitPlayer: false });
+    syncFull();
 
-    const ro = new ResizeObserver(sync);
+    const ro = new ResizeObserver(syncFull);
     ro.observe(measure);
     if (measure.parentElement) ro.observe(measure.parentElement);
 
-    window.addEventListener("resize", sync);
-    window.addEventListener("scroll", sync, true);
-    window.visualViewport?.addEventListener("resize", sync);
-    window.visualViewport?.addEventListener("scroll", sync);
+    // While scrolling: rAF loop updates transform only. On idle: one full sync.
+    let scrollLoopRaf = 0;
+    let scrollIdleTimer = 0;
+    const stopScrollLoop = () => {
+      if (scrollLoopRaf) {
+        window.cancelAnimationFrame(scrollLoopRaf);
+        scrollLoopRaf = 0;
+      }
+    };
+    const scrollTick = () => {
+      syncPosition();
+      scrollLoopRaf = window.requestAnimationFrame(scrollTick);
+    };
+    const onScroll = () => {
+      if (!scrollLoopRaf) {
+        scrollLoopRaf = window.requestAnimationFrame(scrollTick);
+      }
+      window.clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = window.setTimeout(() => {
+        stopScrollLoop();
+        syncFull();
+      }, 100);
+    };
+
+    window.addEventListener("resize", syncFull);
+    window.addEventListener("scroll", onScroll, true);
+    window.visualViewport?.addEventListener("resize", syncFull);
+    window.visualViewport?.addEventListener("scroll", onScroll);
 
     return () => {
+      stopScrollLoop();
+      window.clearTimeout(scrollIdleTimer);
       ro.disconnect();
-      window.removeEventListener("resize", sync);
-      window.removeEventListener("scroll", sync, true);
-      window.visualViewport?.removeEventListener("resize", sync);
-      window.visualViewport?.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", syncFull);
+      window.removeEventListener("scroll", onScroll, true);
+      window.visualViewport?.removeEventListener("resize", syncFull);
+      window.visualViewport?.removeEventListener("scroll", onScroll);
     };
   }, [expanded, expandedLandscape, portalReady, syncStageRootToMeasure]);
 
@@ -665,7 +719,7 @@ export function HeroVideoWidget() {
     setExpanded((open) => !open);
     // Expand click is a user gesture — restore audio in the same turn if needed.
     window.requestAnimationFrame(() => {
-      syncStageRootToMeasure();
+      syncStageRootToMeasure({ fitPlayer: true });
       restoreHeroAudio();
     });
   }, [playNavClick, syncStageRootToMeasure, restoreHeroAudio]);
@@ -903,7 +957,7 @@ export function HeroVideoWidget() {
     playNavClick();
     setExpanded(false);
     window.requestAnimationFrame(() => {
-      syncStageRootToMeasure();
+      syncStageRootToMeasure({ fitPlayer: true });
       restoreHeroAudio();
     });
   }, [playNavClick, syncStageRootToMeasure, restoreHeroAudio]);
