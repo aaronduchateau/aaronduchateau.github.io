@@ -207,7 +207,9 @@ export function OptionsMenu() {
 
   const pickBaseClick = (id: BaseClickPreference) => {
     if (id !== NO_SOUND_ID && !isBaseClickUnlocked(id, unlockedMilestoneIds)) {
-      openEasterEggBoard();
+      // Same locked-theme confirm → Aaron game board (Options + intro).
+      closeMenu();
+      setLockedPrompt(true);
       return;
     }
     if (id === ZEEP_ZOOP_CLICK_ID && baseClickId !== ZEEP_ZOOP_CLICK_ID) {
@@ -220,7 +222,8 @@ export function OptionsMenu() {
 
   const pickContentWindowSound = (id: ContentWindowPreference) => {
     if (id !== NO_SOUND_ID && !isContentWindowSoundUnlocked(id, unlockedMilestoneIds)) {
-      openEasterEggBoard();
+      closeMenu();
+      setLockedPrompt(true);
       return;
     }
     setContentWindowSoundId(id);

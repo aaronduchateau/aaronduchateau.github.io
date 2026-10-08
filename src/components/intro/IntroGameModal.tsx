@@ -315,9 +315,9 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
                   contentWindowSoundId={contentWindowSoundId}
                   onCycle={cycleCharacter}
                   onSoundTease={() => {
+                    // Locked kit → same ThemeLockedModal as locked characters / main Options.
                     playNavClick();
-                    setEasterEntered(false);
-                    setPanel("easter-eggs");
+                    setLockedPrompt(true);
                   }}
                   onMuteBaseClicks={() => {
                     if (baseClickId === NO_SOUND_ID) {
@@ -925,7 +925,7 @@ function SoundBrowseList({
                     ? "Mute this sound kit"
                     : unlocked
                       ? "Equip this sound"
-                      : "Locked — opens easter egg board"
+                      : "Locked — finish a quest to unlock"
                 }
                 className={`flex w-full items-center gap-2 px-2.5 py-1.5 text-left text-xs transition ${
                   current

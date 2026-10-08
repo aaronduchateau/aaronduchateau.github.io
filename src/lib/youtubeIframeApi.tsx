@@ -54,9 +54,9 @@ export function getYouTubeApiIfReady(): YtNamespace | null {
 }
 
 /**
- * Best-effort caption off. `cc_load_policy: 0` is ignored on many mobile WebKit
- * inline players; unload + clear track is what actually sticks (sometimes only
- * after PLAYING, so callers should retry).
+ * Best-effort caption off for every viewport. `cc_load_policy: 0` is ignored on
+ * many WebKit players and can fail to stick on desktop fullscreen too; unload +
+ * clear track is what actually works (sometimes only after PLAYING — retry).
  */
 export function suppressYouTubeCaptions(player: YtPlayer | null | undefined) {
   if (!player) return;

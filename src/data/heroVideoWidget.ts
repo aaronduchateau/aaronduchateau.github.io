@@ -84,6 +84,8 @@ const testimonialsCue = {
 export const heroVideoWidget = {
   /** Crest poster behind the play / chooser overlays. */
   posterSrc: "/photos/Aaron_DuChateau_hero-video-poster.png",
+  /** Inline paused (not fullscreen, not mode chooser) — 16:9 still under the play button. */
+  pausedPosterSrc: "/archive/v1/img/outpost.png",
   /** Scrubbing earlier than this returns the selection overlay. */
   introHiddenSeconds: 4,
   /** Loading cover begins fading out at this playhead time (video + audio keep running). */

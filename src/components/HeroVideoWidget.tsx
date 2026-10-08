@@ -143,20 +143,19 @@ export function HeroVideoWidget() {
   const isMobile = useMobileOnlyViewport();
   isMobileRef.current = isMobile;
 
-  const suppressMobileCaptions = useCallback((player: YtPlayer | null | undefined) => {
-    // Desktop + fullscreen already stay caption-free; mobile inline WebKit ignores
-    // cc_load_policy and often reloads auto-captions after PLAYING.
-    if (!isMobileRef.current || !player) return;
+  /** Always off — `cc_load_policy: 0` alone is ignored on WebKit and can fail on desktop FS too. */
+  const suppressCaptions = useCallback((player: YtPlayer | null | undefined) => {
+    if (!player) return;
     captionSuppressCancelRef.current?.();
     suppressYouTubeCaptions(player);
     captionSuppressCancelRef.current = suppressYouTubeCaptionsWithRetries(player);
   }, []);
 
-  // Leaving fullscreen / staying on the phone card — captions often reappear.
+  // Captions often reappear on PLAYING / expand / viewport changes — re-kill every time.
   useEffect(() => {
-    if (!isMobile || !playing || expanded) return;
-    suppressMobileCaptions(playerRef.current);
-  }, [isMobile, playing, expanded, suppressMobileCaptions]);
+    if (!playing) return;
+    suppressCaptions(playerRef.current);
+  }, [playing, expanded, isMobile, suppressCaptions]);
 
   useEffect(() => {
     const root = document.createElement("div");
@@ -215,6 +214,14 @@ export function HeroVideoWidget() {
    */
   const showSelectionOverlay =
     stage === "choose" || (stage === "revealed" && !pixelsUnlocked);
+
+  /**
+   * Idle + inline paused: static still + play in the card (not the fixed stage).
+   * Keeps the poster framed with the glass and avoids scroll-glue lag/slide.
+   */
+  const showInlineStaticCover =
+    !expanded &&
+    (stage === "idle" || (stage === "revealed" && pixelsUnlocked && !playing));
 
   const loadingCoverOpacity =
     stage !== "loading"
@@ -355,8 +362,16 @@ export function HeroVideoWidget() {
     // Pin at (0,0); move with translate3d so scroll tracking stays on the compositor.
     root.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
     root.style.zIndex = expanded ? "210" : "40";
-    root.style.pointerEvents = "auto";
-    root.style.opacity = width < 2 || height < 2 ? "0" : "1";
+    // Hide while the in-flow still covers the card — no need to paint/slide the portal.
+    const hideForStaticCover =
+      !expanded &&
+      (stageRef.current === "idle" ||
+        (stageRef.current === "revealed" &&
+          pixelsUnlockedRef.current &&
+          !playingRef.current));
+    root.style.pointerEvents = hideForStaticCover ? "none" : "auto";
+    root.style.opacity =
+      hideForStaticCover || width < 2 || height < 2 ? "0" : "1";
 
     if (sizeChanged) {
       stageSyncSizeRef.current = { w, h };
@@ -479,7 +494,7 @@ export function HeroVideoWidget() {
             const live = document.getElementById(hostElementId);
             if (live instanceof HTMLDivElement) ytHostRef.current = live;
             playerRef.current = event.target;
-            suppressMobileCaptions(event.target);
+            suppressCaptions(event.target);
             const d = event.target.getDuration();
             if (Number.isFinite(d)) setDuration(d);
             if (startAt > 0) {
@@ -510,7 +525,7 @@ export function HeroVideoWidget() {
             const isPlaying = event.data === (YT.PlayerState?.PLAYING ?? YT_PLAYING);
             setPlaying(isPlaying);
             if (isPlaying) {
-              suppressMobileCaptions(event.target);
+              suppressCaptions(event.target);
             }
             if (isPlaying && stageRef.current !== "choose") {
               tryUnmute(event.target);
@@ -537,7 +552,7 @@ export function HeroVideoWidget() {
       hostElementId,
       startPlayback,
       scheduleLearnShimmer,
-      suppressMobileCaptions,
+      suppressCaptions,
       tryUnmute,
     ],
   );
@@ -638,6 +653,12 @@ export function HeroVideoWidget() {
       window.visualViewport?.removeEventListener("scroll", onScroll);
     };
   }, [expanded, expandedLandscape, portalReady, syncStageRootToMeasure]);
+
+  // Idle / inline-pause toggles portal visibility without a resize — force a sync.
+  useLayoutEffect(() => {
+    if (!portalReady) return;
+    syncStageRootToMeasure({ fitPlayer: false });
+  }, [showInlineStaticCover, portalReady, syncStageRootToMeasure]);
 
   useEffect(() => {
     if (!ready) return;
@@ -1113,22 +1134,12 @@ export function HeroVideoWidget() {
           ? "relative min-h-0 w-full flex-1 overflow-hidden bg-surface-950"
           : "relative aspect-video w-full overflow-hidden bg-surface-950"
       }
-      aria-hidden
-    />
-  );
-
-  const videoStageContent = (
-    <div className="relative h-full w-full overflow-hidden bg-surface-950">
-      <div
-        ref={slotRef}
-        className="pointer-events-none absolute inset-0 z-0 h-full w-full [&_iframe]:pointer-events-none [&_iframe]:!absolute [&_iframe]:!inset-0 [&_iframe]:!h-full [&_iframe]:!w-full [&_iframe]:!max-h-none [&_iframe]:!max-w-none [&_iframe]:border-0"
-        aria-hidden={!pixelsUnlocked}
-      />
-
-      {stage === "idle" ? (
-        <div className="absolute inset-0 z-10">
+      aria-hidden={showInlineStaticCover ? undefined : true}
+    >
+      {showInlineStaticCover ? (
+        <>
           <Image
-            src={heroVideoWidget.posterSrc}
+            src={heroVideoWidget.pausedPosterSrc}
             alt=""
             fill
             className="object-cover"
@@ -1138,9 +1149,13 @@ export function HeroVideoWidget() {
           <div className="absolute inset-0 bg-surface-950/45" aria-hidden />
           <button
             type="button"
-            onClick={openChooser}
-            aria-label="Play portfolio trailer"
-            className="absolute inset-0 z-10 grid place-items-center"
+            onClick={stage === "idle" ? openChooser : togglePlayback}
+            disabled={stage !== "idle" && !ready}
+            aria-label={
+              stage === "idle" ? "Play portfolio trailer" : "Play video"
+            }
+            data-hero-playback-toggle={stage === "idle" ? undefined : ""}
+            className="absolute inset-0 z-10 grid place-items-center disabled:cursor-wait"
           >
             <span
               className="theme-play-btn relative z-10 h-12 w-12 drop-shadow-[0_6px_14px_rgba(0,0,0,0.55)] sm:h-14 sm:w-14"
@@ -1149,8 +1164,18 @@ export function HeroVideoWidget() {
               <span className="theme-play-triangle" />
             </span>
           </button>
-        </div>
+        </>
       ) : null}
+    </div>
+  );
+
+  const videoStageContent = (
+    <div className="relative h-full w-full overflow-hidden bg-surface-950">
+      <div
+        ref={slotRef}
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full [&_iframe]:pointer-events-none [&_iframe]:!absolute [&_iframe]:!inset-0 [&_iframe]:!h-full [&_iframe]:!w-full [&_iframe]:!max-h-none [&_iframe]:!max-w-none [&_iframe]:border-0"
+        aria-hidden={!pixelsUnlocked}
+      />
 
       {showSelectionOverlay ? (
         <div className="absolute inset-0 z-20 bg-surface-950" data-hero-selection-overlay="">
@@ -1227,7 +1252,8 @@ export function HeroVideoWidget() {
         />
       ) : null}
 
-      {stage === "revealed" && pixelsUnlocked && !playing ? (
+      {/* Inline paused uses in-flow still; fullscreen paused keeps portal chrome. */}
+      {expanded && stage === "revealed" && pixelsUnlocked && !playing ? (
         <button
           type="button"
           onClick={togglePlayback}
