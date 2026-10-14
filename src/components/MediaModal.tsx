@@ -1292,6 +1292,20 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
 
   const exitCollection = useCallback(() => navigate(path.slice(0, -1), -1), [navigate, path]);
 
+  /** Leave recipe mode and re-select that recipe cover on the parent strip. */
+  const exitRecipe = useCallback(() => {
+    const recipeId = activeRecipe?.id;
+    const parentPath = path.slice(0, -1);
+    const { items } = resolveView(media, parentPath);
+    const idx = recipeId ? items.findIndex((it) => it.id === recipeId) : -1;
+    navigate(parentPath, idx >= 0 ? idx : -1);
+  }, [activeRecipe?.id, media, navigate, path]);
+
+  const exitDrillIn = useCallback(() => {
+    if (inRecipeMode) exitRecipe();
+    else exitCollection();
+  }, [exitCollection, exitRecipe, inRecipeMode]);
+
   const enterCollection = useCallback(
     (item: MediaModalItem) => {
       if (!isCollection(item)) return;
@@ -1483,7 +1497,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
               ? {
                   infoMode: false,
                   onToggleInfo: () => undefined,
-                  collectionBack: { label: backLabel, onClick: exitCollection },
+                  collectionBack: { label: backLabel, onClick: exitDrillIn },
                   hideInfo: true,
                 }
               : {
@@ -1491,7 +1505,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
                   onToggleInfo: () => setShowMobileContext((open) => !open),
                   collectionBack:
                     path.length > 0
-                      ? { label: backLabel, onClick: exitCollection }
+                      ? { label: backLabel, onClick: exitDrillIn }
                       : undefined,
                 }
           }
@@ -1504,11 +1518,12 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
           />
         ) : inRecipeMode && activeRecipe ? (
           <div className="flex min-h-0 flex-1 flex-col overflow-hidden border-t border-white/10 bg-surface-950">
-            <div className={`mb-0 hidden shrink-0 items-center justify-between gap-2 border-b border-white/10 py-2 lg:flex ${MODAL_CHROME_PAD_X}`}>
-              <p className="min-w-0 truncate text-xs text-surface-500">{backLabel}</p>
-              <ModalCloseButton size="sm" onClick={exitCollection} ariaLabel={backLabel} />
-            </div>
-            <RecipeModePane recipe={activeRecipe} forceBw={forceBw} />
+            <RecipeModePane
+              recipe={activeRecipe}
+              forceBw={forceBw}
+              onGoBack={exitDrillIn}
+              backLabel={backLabel}
+            />
           </div>
         ) : (
           <div className={MODAL_SPLIT_GRID_CLASS}>
@@ -1534,7 +1549,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
               {path.length > 0 ? (
                 <div className="mb-2 hidden shrink-0 items-center justify-between gap-2 lg:flex">
                   <p className="min-w-0 truncate text-xs text-surface-500">{backLabel}</p>
-                  <ModalCloseButton size="sm" onClick={exitCollection} ariaLabel={backLabel} />
+                  <ModalCloseButton size="sm" onClick={exitDrillIn} ariaLabel={backLabel} />
                 </div>
               ) : null}
 
