@@ -15,8 +15,8 @@ type Props = {
 };
 
 /**
- * Text-first modal (no video column): short intro + scrollable markdown body.
- * Shell height matches other portfolio modals; body scrolls independently.
+ * Text-first modal (no video column). Close/date stay as chrome; title, intro,
+ * and markdown share one continuous scroll (phone + desktop fullscreen).
  */
 export function MarkdownArticleModal({ config, onClose }: Props) {
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -53,19 +53,19 @@ export function MarkdownArticleModal({ config, onClose }: Props) {
           </div>
 
           <div
-            className={`flex min-h-0 flex-1 flex-col overflow-hidden py-5 sm:py-6 ${MODAL_CHROME_PAD_X}`}
+            className={`min-h-0 flex-1 overflow-y-auto overscroll-contain py-5 sm:py-6 ${MODAL_CHROME_PAD_X}`}
           >
-            <p className="shrink-0 font-mono text-[10px] uppercase tracking-[0.18em] text-surface-500">
+            <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-surface-500">
               {config.contextLabel}
             </p>
             <h2
               id="markdown-article-modal-title"
-              className="modal-display-heading mt-2 shrink-0 text-xl sm:text-2xl"
+              className="modal-display-heading mt-2 text-xl sm:text-2xl"
             >
               <span className="modal-display-heading__text">{config.title}</span>
             </h2>
-            <p className="mt-3 shrink-0 text-sm leading-relaxed text-surface-300">{config.intro}</p>
-            <div className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-contain border-t border-white/10 pt-4 pr-1">
+            <p className="mt-3 text-sm leading-relaxed text-surface-300">{config.intro}</p>
+            <div className="mt-4 border-t border-white/10 pt-4 pr-1">
               <SimpleMarkdown source={config.markdown} />
             </div>
           </div>

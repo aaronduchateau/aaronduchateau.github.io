@@ -2034,211 +2034,347 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
-## 2026-10-07 — Retire fixed title + independent body scroll in text-led modals
+## 2026-10-07 — Writing standard for How this site works cards
+
+### Category
+Feature · Structural
+
+### Decision
+**Shipped:** Public card **Writing these explanations** plus always-on Cursor rule \`.cursor/rules/how-this-site-works-writing.mdc\`. Architecture articles under How this site works must show the on-page UI first, quote control labels, and avoid unexplained nicknames/slang.
+
+### Reason
+Readers (and agents) were compressing UI nicknames and button copy into prose as if they were shared vocabulary. A written standard keeps future architecture cards usable for first-time visitors.
+
+## 2026-10-07 — Unified scroll for markdown architecture modals
 
 ### Category
 Structural · Device
 
 ### Decision
-**Queued:** Move text-led fullscreen/mobile modals (starting with \`MarkdownArticleModal\`) off the “frozen title/intro, scrolling markdown below” split. Prefer **one continuous scroll** for context label + title + intro + body, while keeping the top close/date chrome as true chrome. Split media demos (video/demo stage + copy) stay under a separate pass so we do not break the video-height / independent-copy rule without an explicit follow-up.
+**Shipped** in \`MarkdownArticleModal\`: context label, title, intro, and markdown body share **one** \`overflow-y-auto\` region. Only the close/date top bar stays fixed. Nested “title frozen / article scrolls underneath” is removed for How-this-site-works articles (phone and desktop fullscreen). Split media demos (video/demo + copy) remain a separate pass.
 
 ### Reason
-The frozen header block is used across article and context UIs on phone and desktop fullscreen; it creates two scroll contexts and feels inconsistent with reading long architecture write-ups. Unifying scroll is a structural consistency fix, not a visual preference tweak. Media-column layouts that must keep stage height bounded remain an exception until audited on purpose.
+Two scroll contexts made long architecture write-ups feel broken—the heading block never moved while only the article scrolled. One continuous read matches normal document scrolling; true chrome (close control) can stay pinned without freezing the article title.
+
+## 2026-10-07 — Retire fixed title + independent body scroll (queued scope)
+
+### Category
+Structural · Device
+
+### Decision
+**Queued (broader):** After markdown articles, align Media/Interactive context columns the same way where safe. Do not silently break the video-height / independent-copy rule for split media modals without an explicit follow-up.
+
+### Reason
+Article modals were the clearest offender and the first ship target; media splits still need a deliberate height contract so the stage does not stretch with copy.
+`;
+
+const howThisSiteWorksWritingMarkdown = `# Writing these explanations
+
+How this site works is meant for a **curious person who just opened the portfolio**—not only for engineers who already know the UI nicknames and the codebase.
+
+This card is the public version of that standard. Agents follow the same rules in \`.cursor/rules/how-this-site-works-writing.mdc\`.
+
+---
+
+## The core move: show, then name
+
+Before you use a nickname (“trailer panel,” “frosted box,” “hero unit”), **point at what someone can see**:
+
+1. Where it sits on the page  
+2. What it looks like  
+3. What words appear on the buttons or prompts  
+
+Only then say “that’s what I mean when I say ___.”
+
+If the sentence only works for someone who already built the feature, rewrite it.
+
+### Instead of this
+
+> Imagine the glass card has a picture-frame opening…
+
+### Write more like this
+
+> On the right side of the top of the page is a frosted, see-through panel with a still photo and a play button. The wide rectangle that shows that photo is like a picture frame…
+
+---
+
+## Button text is a label, not a vocabulary word
+
+Words that appear on the screen—**“Learn more”**, **“Please choose a viewing mode”**, **“Go back”**—must be **quoted** and called out as labels.
+
+Also say what the control *does* in ordinary language (a call to action, a mode choice, a way to leave fullscreen). Do not drop the bare label into a run-on sentence and hope the reader invents the meaning.
+
+### Instead of this
+
+> Learn more that lands in the right place…
+
+### Write more like this
+
+> Under that text is a button labeled **“Learn more.”** That label is just the current wording. The button is a call to action—a door into another part of the portfolio—and which door it opens depends on where you are in the trailer.
+
+---
+
+## Slang is optional
+
+Industry shorthand (“poster,” “chrome,” “portal,” “glass card,” “cue rail”) is **not** assumed knowledge.
+
+- Prefer everyday wording: placeholder image, browser clutter, floating layer, chapter text under the video.  
+- If you mention slang, define it once, then keep using the plain term.  
+- File paths and API names can live in a short appendix—not in the first paragraphs.
+
+---
+
+## Checklist before publishing a card
+
+- [ ] Could someone brand-new to the site follow the opening without already knowing our nicknames?  
+- [ ] Are on-screen labels quoted and explained as controls?  
+- [ ] Does every metaphor attach to something visible (or clearly hypothetical)?  
+- [ ] Is the modal intro / card excerpt as clear as the article body?  
+- [ ] Are code details parked after the human explanation?
+
+---
+
+## Why this exists
+
+We learned the hard way on the hero trailer write-up: compressing “poster,” “glass card,” and “Learn more” into prose reads as fluent to the author and opaque to everyone else. These cards teach how the site is built—they should not require a decoder ring.
 `;
 
 const heroVideoUnitMarkdown = `# “Hero Unit Video — the details matter”
 
-Normally I would not build a portfolio trailer like this.
+## What you’re looking at
 
-The boring, correct default is a poster, a play button, and a fullscreen (or modal) player. Drop a YouTube iframe in a card, call \`play()\`, move on. Most sites should do that. I would do that on almost any other project.
+Open the launched portfolio and look at the **top of the page**. On one side is my intro copy. On the other side is a **rounded rectangle with a soft, see-through panel**—a light border, a little blur, a shadow—so it feels like a pane of frosted glass sitting on the hero. Inside that panel you’ll see:
 
-This hero unit is different on purpose. The brief was not “embed a video.” It was: two real cuts, a cue rail that tracks the edit, Learn more that lands in the right portfolio surface, inline play on desktop while the page still scrolls, fullscreen that does not kill audio, phones that actually start playback, captions that stay off, and a resting placard that never jiggles in the glass. **To get those details right, every detail matters**—and once you insist on all of them at once, the simple embed stops being honest.
+- a **wide still photograph** (right now it’s a project shot from Outpost—desks / office gear, not a freeze-frame grabbed from the YouTube file),
+- a **round play button** drawn in the current site theme (not YouTube’s red play triangle),
+- and **under** that image area, a title, a short blurb, and a button labeled **“Learn more.”**
 
-And to top it all off, I wanted a clean intro that tackled introduction noise—“chromeless,” if you will… ;)
+That whole panel—the frosted box plus the text underneath—is what I mean when I later say **the trailer panel** (or “this unit”). I’m not assuming you already know design slang like “glass card.” If I say “panel,” I mean that visible box you can point at on the screen.
+
+This article is only about that trailer panel: what happens before play, while you watch, when the video goes big, and how the text under the image stays in step with the trailer. It is **not** about the large photo of me in the hero background, and not about every other video later on the page.
+
+## How most sites would handle a trailer
+
+On a typical site, a “watch this trailer” block is simple on purpose:
+
+1. **Before anyone presses play**, you see a **still picture** in the video area—like a movie one-sheet in a theater lobby, or the thumbnail on a streaming app. That picture is only a placeholder so the box doesn’t look empty.
+2. You press **play**.
+3. The real video usually jumps to **fullscreen** (or a big overlay), plays **one** video, and when you close it you’re back to that same placeholder image.
+
+That’s the honest, boring solution. It’s what I would build almost anywhere else.
+
+## What I asked this trailer panel to do instead
+
+I didn’t want “a YouTube link in a box.” I wanted a small guided experience. In plain language, the wish list looked like this:
+
+- **Two different versions of the trailer.** One choice on screen says **Interactive**, the other says **Non-interactive**. They are separate videos. Before things really get going, you pick which version you want—the prompt even reads **“Please choose a viewing mode.”**
+- **Text under the image that changes as the trailer plays.** Think of chapter titles on a DVD, or the lower-third graphics on a documentary: when the edit moves to a new project, the title and short description under the panel update to match.
+- **A call to action under that text.** The label on that button right now is **“Learn more.”** I’m quoting the label because it’s just words on a button—not a technical term. The important part is what the button *does*: it’s a door into the rest of the portfolio. Depending on where you are in the trailer, pressing it might open a recommendation, jump to a project write-up, or scroll you to a job on the career timeline. Same label; different destination on purpose.
+- **On a laptop or desktop, you can watch inside that frosted panel** while the rest of the page still scrolls—you don’t always have to leave the page layout for a takeover screen.
+- **Making the video large must not kill the sound** or reset the video like a bad reload. It should feel like enlarging the same player, not starting over.
+- **On a phone, play has to actually start** when you tap. Mobile browsers are picky about that.
+- **Closed captions stay off.** YouTube often tries to show them anyway; we keep turning them off.
+- **When you’re not watching**, you should still see a calm still photo with the themed play button—and when you scroll the page, that still should move with the frosted panel’s border, not slip a couple of pixels as if it weren’t attached.
+
+**To get those details right, every detail matters.** Once you insist on all of that at once, the simple “placeholder image → fullscreen YouTube” approach stops being enough.
+
+And to top it all off, I wanted a clean intro that cut down on visual noise—“chromeless,” if you will… ;)  
+By that I mean: as little YouTube clutter as we can control (our own progress bar under the image, our themed play button, captions off)—not a magical fully blank YouTube window. YouTube doesn’t really allow that.
 
 So, would I normally build something this way? The answer is **no**—but I wanted it to work the way I wanted it to work on *my* portfolio site, so I got a little feature-greedy. What can you do?
 
-What follows is the architecture we kept, and **why** each weird piece exists.
-
-Source of truth: \`src/components/HeroVideoWidget.tsx\`, \`src/data/heroVideoWidget.ts\`, \`src/lib/youtubeIframeApi.tsx\`.
+The rest of this article explains the machinery underneath, still in human terms where I can—and with a little more precision where the trick is technical.
 
 ---
 
-## What “simple” would have been
+## Side by side: simple trailer vs this panel
 
-| Simple default | What we required instead |
+| What a simple site would do | What this trailer panel does |
 | --- | --- |
-| One YouTube URL | **Interactive** and **Non-interactive** cuts (separate IDs) with an explicit chooser |
-| Poster → fullscreen play | Desktop may play **inline** in the hero card while the page scrolls; phone still goes fullscreen |
-| Stock YT chrome | Custom seek, themed play control, cue panel, Learn more routing |
-| Remount iframe on expand | **Same host** across expand so sound and playhead survive |
-| Trust \`cc_load_policy: 0\` | Captions **forced off** on every viewport with unload + retries |
-| Image and video share one layer | Resting UI is an **in-flow still**; live video uses a **fixed stage portal** |
+| One video link | Two videos; you pick **Interactive** or **Non-interactive** first |
+| Placeholder image, then jump to fullscreen | On desktop you can watch **inside the frosted panel** while scrolling; on phones we still open fullscreen so a tiny in-page player isn’t fighting the browser’s own bars |
+| YouTube’s built-in controls | Our progress bar, our play button, and the changing text + the **“Learn more”** button underneath |
+| Rebuild the player when going big | Keep the **same** player so sound and place in the video survive |
+| Hope YouTube hides captions | Force captions off, repeatedly if needed |
+| Keep the live YouTube surface even when paused | When waiting or paused in the panel: show the Outpost still photo with play on top, as a normal page image; only use the special lined-up live layer while video is actually playing |
 
-If we dropped “live YouTube playing in a scrolling card,” half of the portal machinery could go. We did not drop it—so we pay for it deliberately.
+If I had given up on “watch inside the scrolling page on desktop,” a lot of the complexity below could go away. I kept that goal, so the complexity stays.
 
 ---
 
-## Why a fixed portal + scroll sync (when we keep it)
+## Why the moving video isn’t “just another image in the box”
 
-\`\`\`mermaid caption="Hero video: measure box vs fixed stage portal"
+Point at the frosted panel again. The top part—the wide rectangle that shows the still photo before you play—is like a **picture frame**: a fixed opening with a border. On a normal site, you’d drop YouTube straight into that opening the way you’d drop a photo into a frame. When you scroll the page, the frame and whatever’s inside it would move together, because they’re one object.
+
+Live YouTube is heavier than a photo. If the browser keeps shoving and resizing that player while you scroll, playback often stutters. If you rip the player out of the opening and paste it into a fullscreen shell the wrong way, the sound can die.
+
+So we cheat—in a careful way:
+
+1. The frosted panel keeps an empty **opening** (that wide rectangle) that owns the size and the border you can see.
+2. The actual YouTube player is drawn on a **separate layer above the page**—think of a second transparent sheet we keep sliding so its edges stay lined up with that opening as you scroll.
+3. While you’re mid-scroll we only nudge that alignment (cheap for the computer). We only tell YouTube “resize yourself” after you pause scrolling or when the window changes size.
+4. When you’re **not** watching, we stop using that floating sheet. We put the still photograph and the play button **inside** the opening as ordinary page content—the same way any image on the site scrolls. That way the waiting view can’t “swim” against its own border. The floating sheet comes back when live video needs it (playing, or fullscreen).
+
+**In short:** the lined-up floating player is for **watching on desktop while the page moves**. The calm still photo is for **waiting**. Phones mostly skip the hard part by going fullscreen when you hit play.
+
+\`\`\`mermaid caption="Still photo in the panel vs live video lined up with the same opening"
 flowchart TB
-  card["theme-glass card<br/>in-flow layout"]
-  measure["measureBox<br/>aspect-video placeholder"]
-  portal["body portal<br/>data-hero-video-stage-root<br/>position:fixed"]
-  yt["YouTube iframe<br/>host never reparented on expand"]
-  still["Inline static cover<br/>outpost still + theme-play-btn"]
+  panel["Frosted trailer panel on the page"]
+  opening["Wide opening where the picture/video shows"]
+  live["Live YouTube on a floating sheet"]
+  still["Still photo + play button in the opening"]
 
-  card --> measure
-  measure -.->|"getBoundingClientRect"| portal
-  portal --> yt
-  card --> still
-  still -.->|"idle / inline paused:<br/>portal opacity 0"| portal
+  panel --> opening
+  opening -.->|"lined up while watching"| live
+  panel --> still
+  still -.->|"floating sheet hidden while waiting"| live
 \`\`\`
 
-**Normally:** put the iframe in the card and let the document scroll.
+---
 
-**Why not here:** a YouTube iframe resized or reflowed on every scroll frame janks and snaps. Expanding by reparenting the iframe often drops audio. So:
+## More than play and pause: the path you walk through
 
-1. **Measure box** — in-flow \`aspect-video\` the glass owns (border, width, place in the rail).
-2. **Stage root** — \`position: fixed\` on \`document.body\`, player portaled in, glued with \`translate3d(rect.left, rect.top, 0)\`.
-3. **Scroll path** — transform-only on rAF while scrolling; width/height / \`setSize\` / radius only on resize or ~100ms after scroll idle.
-4. **Inline static cover** — idle and inline-paused use the **outpost** still + dim + \`.theme-play-btn\` **inside the measure box**; portal is hidden. A still does not need glue—putting it on the portal made it slide. Live inline play and fullscreen still use the portal.
+From your point of view it feels like: look at a still → choose a mode → watch. Under the hood the panel moves through a few intentional rooms:
 
-So: portal + sync is not for the placard. It is for **desktop playing-inline-while-scrolling** (and briefly for chooser/loading on the stage). Phone play already forces fullscreen, so mobile barely needs scroll glue for playback.
+1. **Waiting** — You see the Outpost still photo and the themed play button. Nothing live is lined up with the scroll yet.
+2. **Choosing** — You see **“Please choose a viewing mode”** and the two options (**Interactive** / **Non-interactive**).
+3. **Settling in** — The chosen video starts, but a cover fades away over the first few seconds so the opening doesn’t flash half-ready controls.
+4. **Watching for real** — After roughly the first four seconds, the changing titles under the image (and the button labeled **“Learn more”**) follow the edit.
+
+Finishing either version of the trailer is also noted by the site’s unlock / activity system (so other features can know you completed an intro cut).
+
+**Sound behavior, simply:** browsers often block noisy autoplay, so we start quiet, then turn sound on after you clearly tap. Background theme music for the rest of the site ducks while the trailer is playing. Fullscreen freezes page scrolling but doesn’t pretend you muted the whole site.
+
+### Warming up the player before you choose (why phones need this)
+
+While the choose-a-mode screen is open, we quietly prepare YouTube in the background (muted). Then, when you tap **Interactive** or **Non-interactive**, play can start in that same tap. On iPhone especially, if you only start loading YouTube *after* the tap, the phone often shrugs and refuses to play. Annoying? Yes. Necessary for “tap and it works”? Also yes.
+
+### Dragging back to the beginning
+
+If you drag the progress bar under the video back into the first ~four seconds, the choose-a-mode screen can return. We treat that opening stretch as “still in the foyer,” not as a normal early chapter of the unlocked experience.
 
 ---
 
-## Lifecycle stages (and why they are not one boolean)
+## Interactive vs non-interactive (what actually changes)
 
-| Stage | Meaning | Why it exists |
+| | **Interactive** | **Non-interactive** |
 | --- | --- | --- |
-| \`idle\` | Outpost + play in the card | Resting UI must be normal layout, not a glued iframe |
-| \`choose\` | Interactive vs Non-interactive | Dual cuts are a product choice, not a hidden URL |
-| \`loading\` | Cover fades from 4.1s over 0.75s while A/V runs | Hide unfinished chrome without stopping the cut |
-| \`revealed\` | Past the 4s intro gate; cue rail live | Pixels and CTAs only after the intro window |
+| The video itself | One YouTube cut | A different YouTube cut |
+| Text under the image | Steps through many project moments as time passes | Stays on the opening “Testimonials” moment |
+| The button labeled **“Learn more”** | Points at different places in the portfolio depending on the moment | Always opens the Brunson Moody recommendation (same idea as the opening and closing moments of the interactive cut) |
+| Thin progress tick between moments | Shows how far you are through the current chapter | Hidden |
 
-Finishing a cut records \`video.complete\` as \`hero-intro:interactive\` or \`hero-intro:nonInteractive\` for the rules engine.
-
-**Mute:** start muted, unmute once on a real gesture; \`wantsUnmutedRef\` restores unmute after layout if the browser remutes. Theme music holds while the trailer plays; expand uses body scroll lock with \`pauseThemeMusic: false\` so fullscreen does not pretend the user muted the site.
-
-### Prewarm (ugly, intentional)
-
-While the chooser is open we load the API and mount a **muted** player (\`prewarm: true\`) so the variant tap can \`loadVideoById\` + \`playVideo\` **in the same user gesture**. iOS WebKit often ignores play if you only \`await\` the API after the tap. Normally I would mount on select and accept a cold start; here cold start means “phone never starts,” so we prewarm.
-
-### Scrub-to-chooser (also intentional)
-
-\`introHiddenSeconds\` is 4s. If the playhead is scrubbed back before that gate, \`pixelsUnlocked\` clears and the **mode chooser returns**. The early timeline is treated as “not yet committed to a revealed cut,” not as ordinary early scrubbing. Strict, but it matches the intro/loading story.
+On a phone, choosing a mode / hitting play moves you into fullscreen so you’re not trying to watch inside a postage stamp under Safari’s bars.
 
 ---
 
-## Interactive vs non-interactive
+## The timed chapters (interactive cut)
 
-| | Interactive | Non-interactive |
-| --- | --- | --- |
-| YouTube ID | \`HhmoD29vUgg\` | \`EKVIPiDmhN8\` |
-| Cue panel | Full list by playhead | Pinned to Testimonials |
-| Learn more | Per-cue targets | Forced Brunson Moody (same as bookend cues) |
-| Cue timer fill | Progress through the active window | Hidden |
+This part is the good kind of complexity: a schedule. At certain times in the video, the title and description under the image change, and the button labeled **“Learn more”** is pointed at a new destination.
 
-Bookends (first/last cue) on interactive also force Brunson Moody (\`resolveHeroLearnMore\`).
-
-Mobile: chooser / play **forces fullscreen** so we are not fighting Safari chrome inside a tiny card.
-
----
-
-## Time-triggered cues (interactive cut)
-
-This part *is* the kind of complexity I would keep on a simpler player: data in \`heroVideoWidget.cues\`, active cue = latest \`triggerTime\` ≤ playhead, segment progress fills the divider (omitted on first/last).
-
-| Time (s) | Title | Learn more destination |
+| Time in video | Chapter title | Where the **“Learn more”** button takes you |
 | ---: | --- | --- |
-| 0.00 | Testimonials | Testimonials → Brunson Moody |
-| 14.18 | LotHoppers | Featured work (\`work-vvxlxbaitge\`) |
-| 18.88 | SpaceRanchDAO | Hackathons → Nearcon |
-| 26.68 | LivePlan | Career timeline → Palo Alto (\`workHistoryId: "4"\`) |
-| 33.18 | DealBrewer | Archive / featured (\`work-w5a0tpo6bou\`) |
-| 39.48 | Outpost | Career timeline → Palo Alto |
-| 44.68 | LegalGPS | Archive demo (\`work-cpbseuddjeq\`) |
-| 50.88 | Connected Lane County | Hero learn placeholder |
-| 54.88 | StockBOSSup | Hero learn placeholder |
-| 61.68 | Coast2Coast Management | Older videos → ShareFile portal |
-| 65.18 | MenuViolet MVP | Showcase (\`work-45dzo3peo2k\`) |
-| 72.78 | Elmstreet — MLS fed Consumer sites | Featured MLS (\`work-7k2bict15gc\`) |
-| 78.58 | Elmstreet — Theme Administration | Same MLS work |
-| 87.58 | Elmstreet — Virtual Staging | Featured AI Redesign (\`work-dqpqfhk-8k\`) |
-| 90.28 | Testimonials | Brunson Moody (bookend) |
+| 0:00 | Testimonials | Recommendations — Brunson Moody |
+| 0:14 | LotHoppers | Featured work for that project |
+| 0:18 | SpaceRanchDAO | Hackathons — Nearcon work |
+| 0:26 | LivePlan | Career timeline — Palo Alto Software |
+| 0:33 | DealBrewer | Project / archive write-up |
+| 0:39 | Outpost | Career timeline — Palo Alto Software |
+| 0:44 | LegalGPS | Archive product demo |
+| 0:50 | Connected Lane County | Placeholder deep-link for now |
+| 0:54 | StockBOSSup | Placeholder deep-link for now |
+| 1:01 | Coast2Coast Management | Older video showcase — ShareFile portal |
+| 1:05 | MenuViolet MVP | Video showcase piece |
+| 1:12 | Elmstreet — MLS consumer sites | Featured MLS search work |
+| 1:18 | Elmstreet — Theme Administration | Same featured MLS work |
+| 1:27 | Elmstreet — Virtual Staging | Featured AI Redesign work |
+| 1:30 | Testimonials | Recommendations — Brunson Moody again (closing beat) |
 
-Learn more kinds: route modal, testimonials / hero-learn modal, or career-timeline focus. End of cut can shimmer Learn more once.
-
----
-
-## Fullscreen, devices, captions
-
-- **Expand** does not remount the iframe—same stage root—so audio and playhead survive. Overlay uses shared modal topbar padding; Escape / close exits.
-- **Landscape + expanded** → video + cues side by side. **Portrait** → stacked with its own scroll; **Go back** under Learn more on phone.
-- **Captions always off:** \`cc_load_policy: 0\` lies on WebKit and can fail on desktop fullscreen. We \`unloadModule("captions")\`, clear the track, and retry on ready / playing / expand.
-- Custom seek + themed play; YT vars keep chrome quiet (\`controls: 0\`, \`modestbranding\`, \`iv_load_policy: 3\`, \`youtube-nocookie.com\`).
-- Square top radii on hero glass so a 1px portal seam is not hidden (or worsened) by a rounded lip.
+When the trailer ends, that button can gently shimmer once—like a soft “you can keep exploring from here.”
 
 ---
 
-## File map
+## Fullscreen, phones, and captions
 
-| Path | Role |
+- Making the player large keeps the **same** YouTube session—sound and place in the timeline should survive. Close or Escape exits.
+- Phone sideways: video and the chapter text can sit side by side. Phone upright: they stack, and there’s a control labeled **“Go back”** under the call to action—not only the X in the corner.
+- Captions: we don’t trust YouTube’s “off” switch alone. We keep clearing captions when the player starts, plays, or goes fullscreen—on phones and desktops.
+- You see our progress bar and themed play button more than YouTube’s usual clutter.
+- The top corners of the frosted panel are square (not rounded) so a tiny misalignment between the live video layer and the opening isn’t hidden—or made stranger—by a curved corner.
+
+---
+
+## For people who want the file names
+
+| File | What it’s responsible for |
 | --- | --- |
-| \`src/components/HeroVideoWidget.tsx\` | Stages, portal sync, overlays, expand, cues UI |
-| \`src/data/heroVideoWidget.ts\` | Variants, cue table, progress, Learn more resolution |
-| \`src/lib/youtubeIframeApi.tsx\` | API load, \`fitPlayerToHost\`, caption suppress |
-| \`src/app/globals.css\` (\`.hero-video-widget\`) | Ribbon / swoop / square-top glass / seek |
-| \`/archive/v1/img/outpost.png\` | Idle + inline paused still |
+| \`src/components/HeroVideoWidget.tsx\` | The trailer panel’s behavior: waiting, choosing, playing, fullscreen, chapter UI |
+| \`src/data/heroVideoWidget.ts\` | Which videos exist, the chapter schedule, where the **“Learn more”** button should go |
+| \`src/lib/youtubeIframeApi.tsx\` | Talking to YouTube, sizing the player, forcing captions off |
+| \`src/app/globals.css\` (\`.hero-video-widget\`) | Look of the frosted panel, accent ribbon, and progress bar |
+| \`/archive/v1/img/outpost.png\` | The still photograph when you’re waiting or paused (not a live grab of the video’s first frame) |
 
 ---
 
-# Revision timeline
+# What broke, what we fixed
 
-*What we noticed, what we fixed. Newest first. Same lesson each time: the default embed was not enough for the brief.*
+*Newest first. Same theme every time: the simple trailer pattern wasn’t enough for the wish list.*
 
-## 2026-10-07 — Static still must not ride the scroll glue
+## 2026-10-07 — The waiting image was sliding in the frame
 
-**Noticed:** Outpost under the play button still **slid** in the frame—it lived on the fixed portal. First load at rest also missed the new still.
+**What we saw:** Even the calm still under the play button drifted against the frosted panel’s border while scrolling, because it was drawn on the floating live-video layer. First load didn’t always show the intended still.
 
-**Fixed:** Idle / inline-paused paint outpost in the **measure box**; hide the portal. Glue stays for live inline video only.
+**What we did:** Put the waiting/paused still **in the panel’s normal page layout**. Hide the floating layer until live video needs it.
 
 ## 2026-10-07 — Captions on desktop fullscreen
 
-**Noticed:** Suppress was mobile-only; desktop FS trusted \`cc_load_policy\`.
+**What we saw:** We only fought captions hard on phones; desktop fullscreen let them come back.
 
-**Fixed:** Suppress + retry on every viewport.
+**What we did:** Force captions off on every screen size.
 
-## 2026-10-07 — Scroll lag vs correctness
+## 2026-10-07 — Smooth scroll vs perfect edges
 
-**Noticed:** Transform glue helped jank but left a couple pixels of drift (worse with square tops).
+**What we saw:** Lining up the floating player while scrolling looked smoother, but could sit a pixel or two high/low—more obvious with square corners.
 
-**Decision:** Keep sync for **live** video; never put a placard on that layer. Lag while playing inline is cheaper than resizing the iframe every frame.
+**What we decided:** Keep that lining-up for **live** watching. Never put the waiting still on that floating layer. A little scroll lag while playing beats fighting the iframe every frame.
 
-## 2026-10 — Mobile play, go-back, fullscreen survival
+## 2026-10 — Phones, fullscreen, and “go back”
 
-**Noticed:** Stuck loading, expand killed audio, portrait needed an exit besides X.
+**What we saw:** Play could stick on loading; going big could kill audio; upright phones needed a clearer way out than only the X.
 
-**Fixed:** Force fullscreen on mobile play; stable stage root; unmute restore; Go back; landscape/portrait cue layouts.
+**What we did:** Fullscreen on mobile play; keep one continuous player session; restore sound after layout jumps; add **“Go back”**; different layouts for sideways vs upright.
 
-## 2026-10 — Captions on iPhone / WebKit
+## 2026-10 — Captions on iPhone
 
-**Noticed:** Policy ignored; CC returned after PLAYING / leaving FS.
+**What we saw:** YouTube ignored “no captions” and brought them back after play or leaving fullscreen.
 
-**Fixed:** Unload + clear track + retries (later extended to desktop).
+**What we did:** Clear captions and retry (later on desktop too).
 
 ## Earlier foundation
 
-- Dual variants + prewarm for gesture-safe start.
-- Cue table with modal / timeline / showcase routing.
-- Intro gate + loading fade.
-- Theme play / glass / ribbon as contract surfaces.
-- Expand scroll lock without clearing theme music preference.
+- Two trailer versions, with a warm-up so phones can start on the same tap.
+- Chapter schedule that opens the right part of the portfolio.
+- A short “foyer” at the start of the video before the full chapter UI takes over.
+- Shared theme look for the play button and glass.
+- Fullscreen that freezes page scroll without wiping your music preference for the rest of the site.
 `;
 
 export const howThisSiteWorksCards = [
+  {
+    id: "hero-video-unit",
+    title: "Hero unit video",
+    date: "Architecture",
+    excerpt:
+      "The frosted trailer panel at the top of the portfolio: why a simple placeholder-and-play embed wasn’t enough, and how the watching experience actually works.",
+    modal: {
+      title: "Hero Unit Video — the details matter",
+      date: "Architecture",
+      contextLabel: "Hero video engineering",
+      intro:
+        "A plain-language tour of the trailer panel in the hero—what that frosted box on the page is, what you see before play, how the two trailer versions work, why the text and the button labeled “Learn more” change as you watch, and why the wiring got complicated on purpose.",
+      markdown: heroVideoUnitMarkdown,
+    },
+  },
   {
     id: "how-this-site-works",
     title: "Porting the old site",
@@ -2270,21 +2406,6 @@ export const howThisSiteWorksCards = [
     },
   },
   {
-    id: "hero-video-unit",
-    title: "Hero unit video",
-    date: "Architecture",
-    excerpt:
-      "Normally I wouldn’t build a trailer this way—but to get every detail right, every detail matters. Why the portal, cues, prewarm, and placard exist.",
-    modal: {
-      title: "Hero Unit Video — the details matter",
-      date: "Architecture",
-      contextLabel: "Hero video engineering",
-      intro:
-        "Normally a poster and a fullscreen embed would be enough. Here’s why this hero unit isn’t built that way—and what each odd piece is paying for.",
-      markdown: heroVideoUnitMarkdown,
-    },
-  },
-  {
     id: "generalized-changes",
     title: "Generalized changes",
     date: "Architecture",
@@ -2297,6 +2418,21 @@ export const howThisSiteWorksCards = [
       intro:
         "Key architectural decisions going forward (structural, device, performance, feature). This section began after most of the original work shipped—newest entries first.",
       markdown: generalizedChangesMarkdown,
+    },
+  },
+  {
+    id: "how-this-site-works-writing",
+    title: "Writing these explanations",
+    date: "Architecture",
+    excerpt:
+      "How we write How this site works cards: show the UI first, quote button labels, and never assume nicknames like “glass card” or “poster.”",
+    modal: {
+      title: "Writing these explanations",
+      date: "Architecture",
+      contextLabel: "Plain-language standard",
+      intro:
+        "Standards for architecture cards under How this site works—written so a first-time visitor can follow along. Agents use the same rules in the project’s Cursor rule.",
+      markdown: howThisSiteWorksWritingMarkdown,
     },
   },
   {
@@ -2321,7 +2457,7 @@ export const howThisSiteWorksSection = {
   eyebrow: "Building this thing",
   title: "How this site works",
   description:
-    "Architecture notes for the hero trailer, themes, and the classic archive port; a forward decision log for generalized changes; plus a living ADA Guy revision log.",
+    "Architecture notes for the hero trailer, themes, and the classic archive port; decision and writing standards for these cards; plus a living ADA Guy revision log.",
   cards: howThisSiteWorksCards,
 } as const;
 
@@ -2579,6 +2715,13 @@ const photographyFiles = [
 ] as const;
 
 const cookingFiles = [
+  "Aaron_DuChateau_three_salad_jars.jpg",
+  "Aaron_DuChateau_carrot_slaw_jar.jpg",
+  "Aaron_DuChateau_corn_olive_salad_jar.jpg",
+  "Aaron_DuChateau_cucumber_tomato_jar.jpg",
+  "Aaron_DuChateau_corn_olive_salad_close.jpg",
+  "Aaron_DuChateau_potato_salad_bowl.jpg",
+  "Aaron_DuChateau_potato_salad_close.jpg",
   "Aaron_DuChateau_101463414_10105137725952916_3626768786738118656_n.jpg",
   "Aaron_DuChateau_189916554_10105725990116816_3495702414781420756_n.jpg",
   "Aaron_DuChateau_503853998_10108066848103646_4696969961294788449_n.jpg",

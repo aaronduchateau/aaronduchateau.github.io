@@ -1,0 +1,50 @@
+---
+description: Plain-language rules for How this site works cards (show before naming, quote UI labels)
+alwaysApply: true
+---
+
+# How this site works — writing principles
+
+When creating or editing cards under **How this site works** (`howThisSiteWorksCards` / markdown in [`src/data/content.ts`](src/data/content.ts)), write for a **curious first-time visitor**, not for someone who already memorized the UI or the codebase.
+
+Also keep the public card **Writing these explanations** (`howThisSiteWorksWritingMarkdown`) aligned if you change these principles.
+
+## Core rule: show, then name
+
+1. **Describe what someone can see or do on the page** (where it sits, what it looks like, what label is on the control).
+2. **Then** introduce a short nickname if you need one (“trailer panel,” “frosted box”).
+3. Never open with an unexplained nickname, file metaphor, or button text as if it were English vocabulary.
+
+### Bad (assumes the reader shares your slang)
+
+- “Imagine the glass card has a picture-frame opening…”
+- “Learn more that lands in the right place…”
+- “Normally a poster and a fullscreen embed would be enough…”
+
+### Good (grounds first)
+
+- “On the right side of the hero is a frosted, see-through panel with a still photo and a play button. That’s the trailer panel this article is about.”
+- “Under that text is a button labeled **“Learn more.”** That label is just the current wording—the button is a call to action that opens different parts of the site depending on the moment in the video.”
+- “Most sites show a still placeholder image, then play one video fullscreen. This panel does more than that.”
+
+## UI labels are quotes, not jargon
+
+- Button, menu, and prompt text (**“Learn more”**, **“Please choose a viewing mode”**, **“Go back”**, **Interactive**) must be **quoted** and identified as on-screen labels.
+- Explain the **job** of the control (call to action, mode choice, exit) in plain words. Do not weave the bare label into a run-on sentence as if it were a technical term.
+
+## Industry slang is optional, never required
+
+- Words like “poster,” “chrome,” “portal,” “cue rail,” “glass card” are **not** assumed knowledge.
+- Prefer everyday language (placeholder image, browser clutter, floating layer, chapter text under the video).
+- If you mention slang, define it in one clause, then prefer the plain term afterward.
+
+## Audience and tone
+
+- Assume the reader is **new to this site** and **not an engineer**.
+- Slow down. Prefer short paragraphs and concrete metaphors (picture frame, door into the rest of the site, DVD chapters) over compressed systems-speak.
+- File paths and API names belong in a short “for people who want the file names” section—not in the opening pitch.
+- Modal **title / intro / excerpt** must follow the same rules as the markdown body.
+
+## Scope
+
+Applies to new How-this-site-works articles and substantial rewrites of existing ones. Older port/theme logs may keep historical voice; when you touch them heavily, raise clarity toward these principles.
