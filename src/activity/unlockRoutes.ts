@@ -67,6 +67,7 @@ export function applyFeatureGates(
     if (item.type === "collection") {
       return { ...item, locked, items: applyFeatureGates(item.items, featureIds) };
     }
+    // Recipes are leaves (photos live on the item, not as nested MediaModalItems).
     return { ...item, locked };
   });
 }

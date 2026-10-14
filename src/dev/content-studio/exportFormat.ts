@@ -38,6 +38,15 @@ function stubItem(item: MediaModalItem) {
         itemCount: item.items.length,
         ...locked,
       };
+    case "recipe":
+      return {
+        type: "recipe" as const,
+        id: item.id,
+        title: item.title,
+        cover: item.cover.src,
+        photoCount: item.photos.length,
+        ...locked,
+      };
     case "video":
       return {
         type: "video" as const,

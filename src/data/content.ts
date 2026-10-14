@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-10-13 — MediaModal \`recipe\` item type (cover CTA → recipe layout)
+
+### Category
+Structural · Feature
+
+### Decision
+**Shipped:** \`MediaModalItem\` gains \`type: "recipe"\` (\`src/types/media-modal.ts\`) alongside collection/photo/video. Cover strip behavior mirrors collections (select focuses cover; **View recipe** drills in via the same path stack). Entered recipe mode uses **only** the media column — no left context column, no bottom thumbnail strip. Nested photos live on the item (\`photos[]\`) with thumbs overlaid on the hero; ingredients/steps are string arrays. First consumer: potato salad under **Recipes & Garden**. Reusable in any \`MediaModalConfig.media\` tree (root or inside a collection).
+
+### Reason
+Food entries need a reading layout (ingredients + steps + multi-photo) without overloading the ceiling-fan collection pattern (nested strip of every photo). A first-class item type keeps drill-in/back/route path consistent with collections while locking a distinct chrome contract.
+
 ## 2026-10-07 — Writing standard for How this site works cards
 
 ### Category
@@ -2720,8 +2731,7 @@ const cookingFiles = [
   "Aaron_DuChateau_corn_olive_salad_jar.jpg",
   "Aaron_DuChateau_cucumber_tomato_jar.jpg",
   "Aaron_DuChateau_corn_olive_salad_close.jpg",
-  "Aaron_DuChateau_potato_salad_bowl.jpg",
-  "Aaron_DuChateau_potato_salad_close.jpg",
+  // Potato salad photos live on the recipe item (bowl = cover; close is nested only).
   "Aaron_DuChateau_101463414_10105137725952916_3626768786738118656_n.jpg",
   "Aaron_DuChateau_189916554_10105725990116816_3495702414781420756_n.jpg",
   "Aaron_DuChateau_503853998_10108066848103646_4696969961294788449_n.jpg",
@@ -2749,10 +2759,71 @@ const cookingFromPhotography = [
   "Aaron_DuChateau_503854601_10108071122747226_4177639038338647699_n.jpg",
 ] as const;
 
+const potatoSaladRecipe = {
+  type: "recipe" as const,
+  id: "cooking-potato-salad",
+  title: "Potato salad",
+  openLabel: "recipe",
+  cover: {
+    src: "/cooking/Aaron_DuChateau_potato_salad_bowl.jpg",
+    alt: "Creamy potato salad in a white bowl",
+  },
+  contextLabel: "Recipes & Garden",
+  intro:
+    "A cold-plate potato salad with dill, a creamy dressing, and a paprika finish—cover shot is the bowl; open the recipe for the close-up and the method.",
+  detail:
+    "This is a recipe entry: the strip shows the bowl cover with a View recipe control. Inside, photos switch from thumbs on the hero—there is no second row of nested gallery tiles like a repair album.",
+  subtitle: "Creamy dill potato salad with a paprika dusting—made to sit cold on the table.",
+  description:
+    "A home-kitchen potato salad: tender potatoes, a mayo-forward dressing with mustard and dill, and enough paprika on top to look finished in a photo. Scale the batch up for a potluck; it holds overnight in the fridge.",
+  ingredients: [
+    "2 lbs Yukon Gold or red potatoes, cut into bite-size chunks",
+    "1/2 cup mayonnaise",
+    "2 tbsp Dijon or yellow mustard",
+    "2 tbsp dill pickle relish or finely chopped dill pickle",
+    "2 tbsp fresh dill, chopped (or 2 tsp dried)",
+    "2 celery stalks, finely diced",
+    "1/4 cup red onion, finely diced",
+    "2 hard-boiled eggs, chopped (optional)",
+    "1 tsp apple cider vinegar or pickle brine",
+    "Kosher salt and black pepper",
+    "Paprika, for finishing",
+  ],
+  steps: [
+    "Cover the potatoes with cold salted water, bring to a boil, and simmer until just tender (about 10–12 minutes). Drain and steam-dry a few minutes.",
+    "While still warm, toss the potatoes with the vinegar or brine and a pinch of salt so they season through.",
+    "Whisk mayonnaise, mustard, relish, dill, salt, and pepper. Fold in celery, onion, and eggs if using.",
+    "Gently fold the dressing into the potatoes. Taste and adjust salt, pepper, and dill.",
+    "Chill at least 1 hour. Just before serving, dust the top with paprika and add a little more fresh dill if you have it.",
+  ],
+  photos: [
+    {
+      src: "/cooking/Aaron_DuChateau_potato_salad_bowl.jpg",
+      alt: "Creamy potato salad in a white bowl",
+    },
+    {
+      src: "/cooking/Aaron_DuChateau_potato_salad_close.jpg",
+      alt: "Close-up of potato salad texture",
+    },
+  ],
+};
+
 const cookingKeicheIndex = cookingFiles.indexOf("Aaron_DuChateau_keiche.jpg");
+const cookingRecipeInsertAfter = "Aaron_DuChateau_corn_olive_salad_close.jpg";
+const cookingRecipeInsertIndex = cookingFiles.indexOf(cookingRecipeInsertAfter);
 
 const cookingMedia = [
-  ...funThingPhotosPreferPng("cooking", cookingFiles.slice(0, cookingKeicheIndex + 1), "cooking"),
+  ...funThingPhotosPreferPng(
+    "cooking",
+    cookingFiles.slice(0, cookingRecipeInsertIndex + 1),
+    "cooking",
+  ),
+  potatoSaladRecipe,
+  ...funThingPhotosPreferPng(
+    "cooking",
+    cookingFiles.slice(cookingRecipeInsertIndex + 1, cookingKeicheIndex + 1),
+    "cooking",
+  ),
   ...funThingPhotos("photography", cookingFromPhotography, "cooking"),
   ...funThingPhotosPreferPng("cooking", cookingFiles.slice(cookingKeicheIndex + 1), "cooking"),
 ];
@@ -3330,15 +3401,15 @@ export const funThingsSection = {
     },
     {
       id: "cooking",
-      title: "Cooking & Garden",
+      title: "Recipes & Garden",
       imageSrc: "/cooking/Aaron_DuChateau_patrick_yard.jpg",
       modal: {
-        title: "Cooking & Garden",
+        title: "Recipes & Garden",
         date: "Archive",
         intro:
-          "Food I've cooked, plated, and shared—home-kitchen experiments and spreads worth photographing before anyone grabbed a fork.",
+          "Food I've cooked, plated, and shared—home-kitchen experiments, a few full recipes, and garden harvests worth photographing before anyone grabbed a fork.",
         detail:
-          "Cooking is another creative outlet when I am not behind a keyboard. Lasagna layers, fish dishes, basil from the garden, yard harvests, and feasts spread across the whole table.\n\nIf it looked good enough to snap before eating, it probably landed in this folder. Swipe through for the edible archive.",
+          "Cooking is another creative outlet when I am not behind a keyboard. Lasagna layers, fish dishes, basil from the garden, yard harvests, and feasts spread across the whole table.\n\nSome entries are full recipes (look for View recipe on the cover). Everything else is the edible archive—swipe through.",
         contextLabel: "Human things",
         media: cookingMedia,
       },

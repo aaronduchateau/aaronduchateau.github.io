@@ -80,12 +80,48 @@ export type MediaModalCollectionItem = MediaModalItemFlags & {
   externalLink?: ExternalLink;
 };
 
+/**
+ * A recipe is a cover in the normal strip (like a collection) with a
+ * “View recipe” CTA. Entering it replaces the media column with a dedicated
+ * recipe layout — no bottom thumbnail strip; extra photos live in thumbs on
+ * the hero photo. Usable at the root of any MediaModal or nested in a collection.
+ */
+export type MediaModalRecipePhoto = {
+  src: string;
+  alt?: string;
+};
+
+export type MediaModalRecipeItem = MediaModalItemFlags & {
+  type: "recipe";
+  id: string;
+  title: string;
+  /**
+   * Label after “View …” on the cover CTA.
+   * Defaults to `"recipe"` → “View recipe”.
+   */
+  openLabel?: string;
+  cover: { src: string; alt?: string };
+  /** One sentence under the title in recipe mode. */
+  subtitle: string;
+  /** Longer copy beside the photo in recipe mode. */
+  description: string;
+  ingredients: string[];
+  steps: string[];
+  /** Gallery inside recipe mode (first photo is the default hero). */
+  photos: MediaModalRecipePhoto[];
+  contextLabel?: string;
+  intro?: string;
+  detail?: string;
+  externalLink?: ExternalLink;
+};
+
 export type MediaModalItem =
   | MediaModalVideoItem
   | MediaModalPhotoItem
   | MediaModalSlideRevealItem
   | MediaModalTestimonialItem
-  | MediaModalCollectionItem;
+  | MediaModalCollectionItem
+  | MediaModalRecipeItem;
 
 export type MediaModalEnterSplash = {
   message: string;

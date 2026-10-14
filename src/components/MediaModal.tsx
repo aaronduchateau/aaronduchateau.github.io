@@ -39,11 +39,13 @@ import {
   MODAL_TOPBAR_PAD_X,
   MODAL_VIEWPORT_INNER,
 } from "@/lib/modalLayout";
+import { RecipeModePane } from "@/components/media-modal/RecipeModePane";
 import { playBoundNavClick } from "@/theme/sounds";
 import type {
   MediaModalCollectionItem,
   MediaModalConfig,
   MediaModalItem,
+  MediaModalRecipeItem,
   MediaModalSlideRevealItem,
 } from "@/types/media-modal";
 
@@ -62,24 +64,44 @@ function isCollection(item: MediaModalItem): item is MediaModalCollectionItem {
   return item.type === "collection";
 }
 
-/** Walk a drill-down path of collection ids, returning the resolved view. */
+function isRecipe(item: MediaModalItem): item is MediaModalRecipeItem {
+  return item.type === "recipe";
+}
+
+/** Walk a drill-down path of collection / recipe ids, returning the resolved view. */
 function resolveView(
   media: MediaModalItem[],
   path: string[],
-): { items: MediaModalItem[]; collection: MediaModalCollectionItem | null; resolvedPath: string[] } {
+): {
+  items: MediaModalItem[];
+  collection: MediaModalCollectionItem | null;
+  recipe: MediaModalRecipeItem | null;
+  resolvedPath: string[];
+} {
   let items = media;
   let collection: MediaModalCollectionItem | null = null;
+  let recipe: MediaModalRecipeItem | null = null;
   const resolvedPath: string[] = [];
   for (const id of path) {
-    const next = items.find((it) => it.id === id && isCollection(it)) as
-      | MediaModalCollectionItem
-      | undefined;
+    const next = items.find((it) => it.id === id);
     if (!next) break;
-    collection = next;
-    items = next.items;
-    resolvedPath.push(id);
+    if (isCollection(next)) {
+      collection = next;
+      recipe = null;
+      items = next.items;
+      resolvedPath.push(id);
+      continue;
+    }
+    if (isRecipe(next)) {
+      // Recipes are leaves: enter recipe mode with the recipe as the sole item.
+      recipe = next;
+      items = [next];
+      resolvedPath.push(id);
+      break;
+    }
+    break;
   }
-  return { items, collection, resolvedPath };
+  return { items, collection, recipe, resolvedPath };
 }
 
 /** First strip item, including nested albums (e.g. Ceiling fan in Repairs). */
@@ -196,6 +218,10 @@ function isMediaTreeUnlocked(items: MediaModalItem[]): boolean {
   });
 }
 
+function recipeCover(item: MediaModalRecipeItem): { src: string; alt?: string } {
+  return item.cover;
+}
+
 function LockGlyph({ className = "h-8 w-8" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -242,6 +268,7 @@ function thumbnailSrc(item: MediaModalItem, policy: ModalStructurePolicy) {
   if (item.type === "photo") return item.src;
   if (item.type === "slideReveal") return item.before.src;
   if (item.type === "collection") return resolveCollectionCover(item, policy).src;
+  if (item.type === "recipe") return recipeCover(item).src;
   return item.photoSrc ?? "/photos/testimonials/Aaron_DuChateau_placeholder-avatar.svg";
 }
 
@@ -522,6 +549,41 @@ function MediaPane({
     );
   }
 
+  if (item.type === "recipe") {
+    const cover = recipeCover(item);
+    const viewLabel = item.openLabel ?? "recipe";
+    return (
+      <button
+        type="button"
+        onClick={locked ? undefined : onEnter}
+        disabled={locked}
+        className={`group relative min-h-0 w-full flex-1 overflow-hidden bg-black ${bw} ${
+          locked ? "cursor-not-allowed" : ""
+        }`}
+        aria-label={locked ? `View ${viewLabel} (locked)` : `View ${viewLabel}`}
+        data-track-id={item.id}
+      >
+        <Image
+          src={cover.src}
+          alt={cover.alt ?? item.title}
+          fill
+          className={lockedMediaImageClass(locked, "object-contain")}
+          sizes="100vw"
+        />
+        {locked ? (
+          <LockOverlay />
+        ) : (
+          <span className="absolute inset-x-0 bottom-0 flex items-center justify-center bg-gradient-to-t from-black/80 to-transparent p-6">
+            <span className="inline-flex items-center gap-2 rounded-full bg-accent-500/90 px-5 py-2.5 text-sm font-semibold text-surface-950 transition group-hover:bg-accent-400">
+              View {viewLabel}
+              <span aria-hidden>→</span>
+            </span>
+          </span>
+        )}
+      </button>
+    );
+  }
+
   if (item.type === "video") {
     if (locked) {
       return (
@@ -709,7 +771,8 @@ function thumbStridePx(strip: HTMLElement): number {
 }
 
 function thumbImageClass(item: MediaModalItem) {
-  const fit = item.type === "photo" ? "object-contain bg-black" : "object-cover";
+  const fit =
+    item.type === "photo" || item.type === "recipe" ? "object-contain bg-black" : "object-cover";
   return lockedMediaImageClass(isItemLocked(item), fit);
 }
 
@@ -923,6 +986,39 @@ function ThumbnailStrip({
             );
           }
 
+          if (isRecipe(item)) {
+            const photoCount = Math.max(item.photos.length, 1);
+            return (
+              <div key={item.id} className="relative mr-1 shrink-0 p-1">
+                <button
+                  ref={(el) => setThumbRef(item.id, el)}
+                  type="button"
+                  data-thumb
+                  onClick={handleClick}
+                  {...dragProps}
+                  className={`relative block h-14 w-20 overflow-hidden rounded-md ring-2 transition ${
+                    isActive ? "ring-accent-400" : "ring-white/25 hover:ring-accent-400"
+                  } ${rearranging ? "cursor-grab active:cursor-grabbing" : ""}`}
+                  aria-label={`View ${item.openLabel ?? "recipe"}: ${item.title}`}
+                  aria-current={isActive ? "true" : undefined}
+                >
+                  <Image
+                    src={thumbnailSrc(item, structurePolicy)}
+                    alt=""
+                    fill
+                    className={thumbImageClass(item)}
+                    sizes="80px"
+                    draggable={false}
+                  />
+                  {isItemLocked(item) ? <LockOverlay compact /> : null}
+                  <span className="absolute bottom-0 right-0 rounded-tl-md bg-surface-950/80 px-1.5 py-0.5 text-[10px] font-semibold text-accent-200">
+                    {photoCount}
+                  </span>
+                </button>
+              </div>
+            );
+          }
+
           return (
             <div key={item.id} className="shrink-0 p-1">
               <button
@@ -985,6 +1081,8 @@ function ModalHeader({
     infoMode: boolean;
     onToggleInfo: () => void;
     collectionBack?: { label: string; onClick: () => void };
+    /** Recipe mode (and similar): back only — no left-context info toggle. */
+    hideInfo?: boolean;
   };
 }) {
   return (
@@ -1002,7 +1100,7 @@ function ModalHeader({
           </span>
         ) : null}
         {tools}
-        {compactNav ? (
+        {compactNav && !compactNav.hideInfo ? (
           <span className="lg:hidden">
             <ModalChromeIconButton
               icon={compactNav.infoMode ? "back" : "info"}
@@ -1045,7 +1143,11 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   );
   const pathKey = path.join("~");
 
-  const { items: resolvedItems, collection } = useMemo(() => resolveView(media, path), [media, path]);
+  const { items: resolvedItems, collection, recipe: activeRecipe } = useMemo(
+    () => resolveView(media, path),
+    [media, path],
+  );
+  const inRecipeMode = activeRecipe !== null;
   const currentItems = sorting && draftItems ? draftItems : resolvedItems;
 
   useEffect(() => {
@@ -1082,12 +1184,18 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
     const labels: string[] = [];
     let cursor = media;
     for (const id of path) {
-      const next = cursor.find((it) => it.id === id && isCollection(it)) as
-        | MediaModalCollectionItem
-        | undefined;
+      const next = cursor.find((it) => it.id === id);
       if (!next) break;
-      labels.push(next.title);
-      cursor = next.items;
+      if (isCollection(next)) {
+        labels.push(next.title);
+        cursor = next.items;
+        continue;
+      }
+      if (isRecipe(next)) {
+        labels.push(next.title);
+        break;
+      }
+      break;
     }
     return labels;
   }, [media, path]);
@@ -1175,7 +1283,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
 
   const handleStripSelect = useCallback(
     (item: MediaModalItem, index: number) => {
-      // Paddles / thumbs only select at the current level — never drill into collections.
+      // Paddles / thumbs only select at the current level — never drill into collections/recipes.
       if (index < 0 || index >= currentItems.length || currentItems[index]?.id !== item.id) return;
       navigate(path, index);
     },
@@ -1194,8 +1302,24 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
     [navigate, path, structurePolicy],
   );
 
+  const enterRecipe = useCallback(
+    (item: MediaModalItem) => {
+      if (!isRecipe(item)) return;
+      navigate([...path, item.id], 0);
+    },
+    [navigate, path],
+  );
+
+  const enterActiveDrillIn = useCallback(
+    (item: MediaModalItem) => {
+      if (isCollection(item)) enterCollection(item);
+      else if (isRecipe(item)) enterRecipe(item);
+    },
+    [enterCollection, enterRecipe],
+  );
+
   const mainPaneSwipe = usePhoneHorizontalSwipe({
-    enabled: currentItems.length > 1 && !sorting && !leaveConfirm,
+    enabled: !inRecipeMode && currentItems.length > 1 && !sorting && !leaveConfirm,
     onSwipeLeft: () => {
       if (activeIndex < currentItems.length - 1) navigate(path, activeIndex + 1);
     },
@@ -1225,14 +1349,23 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
   const showEnterSplash = Boolean(config.enterSplash) && !splashDismissed;
   const padX = MODAL_TOPBAR_PAD_X;
 
-  const contextLabel = collection?.contextLabel ?? config.contextLabel;
-  const heading = collection?.title ?? config.title;
+  const contextLabel =
+    (activeItem.type === "recipe" ? activeItem.contextLabel : undefined) ??
+    collection?.contextLabel ??
+    config.contextLabel;
+  const heading =
+    (activeItem.type === "recipe" ? activeItem.title : undefined) ??
+    collection?.title ??
+    config.title;
   const intro = activeItem.intro ?? collection?.intro ?? config.intro;
   const detailLead = config.detailLead;
   const detail = activeItem.detail ?? collection?.detail ?? config.detail;
   const backLabel = `Back to ${parentCollection?.title ?? config.title}`;
-  const finalPhotoId = finalResultPhotoIdForView(collection, currentItems, structurePolicy);
-  const showWatchCta = Boolean(activeLink) && allContentUnlocked && !leaveConfirm;
+  const finalPhotoId = inRecipeMode
+    ? null
+    : finalResultPhotoIdForView(collection, currentItems, structurePolicy);
+  const showWatchCta =
+    !inRecipeMode && Boolean(activeLink) && allContentUnlocked && !leaveConfirm;
 
   const openLeaveConfirm = () => {
     setLeaveConfirm(true);
@@ -1282,7 +1415,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
     ) : null;
 
   const strip =
-    currentItems.length > 1 ? (
+    !inRecipeMode && currentItems.length > 1 ? (
       <ThumbnailStrip
         items={currentItems}
         activeItemId={activeItemId}
@@ -1344,15 +1477,24 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
           date={config.date}
           onClose={onClose}
           padX={padX}
-          tools={tools}
-          compactNav={{
-            infoMode: showMobileContext,
-            onToggleInfo: () => setShowMobileContext((open) => !open),
-            collectionBack:
-              path.length > 0
-                ? { label: backLabel, onClick: exitCollection }
-                : undefined,
-          }}
+          tools={inRecipeMode ? undefined : tools}
+          compactNav={
+            inRecipeMode
+              ? {
+                  infoMode: false,
+                  onToggleInfo: () => undefined,
+                  collectionBack: { label: backLabel, onClick: exitCollection },
+                  hideInfo: true,
+                }
+              : {
+                  infoMode: showMobileContext,
+                  onToggleInfo: () => setShowMobileContext((open) => !open),
+                  collectionBack:
+                    path.length > 0
+                      ? { label: backLabel, onClick: exitCollection }
+                      : undefined,
+                }
+          }
         />
 
         {showEnterSplash && config.enterSplash ? (
@@ -1360,6 +1502,14 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
             splash={config.enterSplash}
             onContinue={() => setSplashDismissed(true)}
           />
+        ) : inRecipeMode && activeRecipe ? (
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden border-t border-white/10 bg-surface-950">
+            <div className={`mb-0 hidden shrink-0 items-center justify-between gap-2 border-b border-white/10 py-2 lg:flex ${MODAL_CHROME_PAD_X}`}>
+              <p className="min-w-0 truncate text-xs text-surface-500">{backLabel}</p>
+              <ModalCloseButton size="sm" onClick={exitCollection} ariaLabel={backLabel} />
+            </div>
+            <RecipeModePane recipe={activeRecipe} forceBw={forceBw} />
+          </div>
         ) : (
           <div className={MODAL_SPLIT_GRID_CLASS}>
             <div
@@ -1396,7 +1546,7 @@ export function MediaModal({ config, onClose, initialPath, initialItemId, onNavi
                 >
                   <MediaPane
                     item={activeItem}
-                    onEnter={() => enterCollection(activeItem)}
+                    onEnter={() => enterActiveDrillIn(activeItem)}
                     forceBw={forceBw}
                     showFinalResult={finalPhotoId !== null && activeItem.id === finalPhotoId}
                     onFinalResultGoBack={
