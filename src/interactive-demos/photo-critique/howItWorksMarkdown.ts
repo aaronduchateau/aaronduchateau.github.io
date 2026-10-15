@@ -1,5 +1,5 @@
 /** Static markdown shown in the “How it Works” tab. */
-export const howItWorksMarkdown = `# How Photo critique v1 works
+export const howItWorksMarkdown = `# How AI photo improvement works
 
 This demo critiques photos using **only pixels and math** — no AI models, no face detection, no server upload. Everything runs in your browser.
 

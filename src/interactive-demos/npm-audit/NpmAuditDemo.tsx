@@ -1,26 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { EnterSplash } from "@/components/EnterSplash";
 import { AuditInput } from "./components/AuditInput";
 import { AuditResults } from "./components/AuditResults";
 import { useAuditDemo } from "./useAuditDemo";
-
-function AuditSplash({ onContinue }: { onContinue: () => void }) {
-  return (
-    <div className="flex h-full min-h-0 flex-col items-center justify-center gap-8 px-6 text-center">
-      <p className="max-w-md text-lg font-semibold leading-snug tracking-tight text-surface-100 sm:text-xl">
-        Turn raw npm audit JSON into an actionable security dashboard — an experiment
-      </p>
-      <button
-        type="button"
-        onClick={onContinue}
-        className="rounded-full bg-accent-500/90 px-8 py-2.5 text-sm font-semibold text-surface-950 hover:bg-accent-400"
-      >
-        Continue
-      </button>
-    </div>
-  );
-}
 
 export function NpmAuditDemo() {
   const demo = useAuditDemo();
@@ -34,7 +18,10 @@ export function NpmAuditDemo() {
   if (showSplash) {
     return (
       <div className="flex h-full min-h-0 flex-col">
-        <AuditSplash onContinue={() => setShowSplash(false)} />
+        <EnterSplash
+          message="Turn raw npm audit JSON into an actionable security dashboard — an experiment"
+          onContinue={() => setShowSplash(false)}
+        />
       </div>
     );
   }

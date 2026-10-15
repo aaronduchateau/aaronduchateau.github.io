@@ -2034,6 +2034,116 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-10-14 — Shared enter splash with optional YouTube
+
+### Category
+Structural | Feature
+
+### Decision
+**Shipped:** Demo pre-continue gates use one \`EnterSplash\` (\`src/components/EnterSplash.tsx\`): statement + Continue. An optional \`youtubeId\` mounts \`ChromelessYouTubePlayer\` above the copy. On \`onEnded\`, the player fades out and the gate returns to copy + Continue only. Coordinate prompt v1 is the first video demo (placeholder clip). Photo Critique and NPM Audit use the same component without video. MediaModal archive splash is still its local gate.
+
+### Reason
+The same enter pattern was copied in three demos. One component keeps the look identical and lets a splash video be a config flag instead of a one-off overlay.
+
+## 2026-10-14 — Coordinate prompt tabs: story first, Try it last
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Coordinate prompt v1 tabs are now **The original problem** (default, first), **The success**, **How it Works**, **Try it** (last). The separate **The failure** tab is gone; that case lives on **The original problem**.
+
+### Reason
+The demo is a before/after story first. Visitors should see why drawing exists, then the mask success, then the walkthrough, then the working screen.
+
+## 2026-10-14 — Coordinate prompt tabs: Try it first; Failures / Successes
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Coordinate prompt v1 tabs are now **Try it** (default, first), **Failures**, **Successes**, **How it Works**. The old Demo sample grid and V1 QA threads are gone from this shell. Failures and Successes are empty stubs for upcoming examples. How it Works is a first-time walkthrough: add a photo, draw the boundary, copy the masked photo and the Mask markdown, paste into an editor such as ChatGPT.
+
+### Reason
+The live mechanic is upload-and-draw, not canned samples. Visitors need the working screen first, then a place to collect failed vs successful model returns.
+
+## 2026-10-14 — Coordinate prompt: mask-default copy + see-through overlay
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Results default to a **Mask** prompt (no vertex list): attach the overlay photo; the subject must expand to the mask; do not invent borders; a mask that clearly crosses a frame line is intentional unless it is only a small-margin nick. **Coordinates** remains as a second toggle (the previous pixel-list prompt). Copy/download of “photo with mask” is now a **semi-transparent overlay** on the original (content still visible), not a punched hole. Black/white mask download is unchanged.
+
+### Reason
+Caption models ignored coordinates. A visible see-through mask plus “fill to this overlay, including across a painted frame” is the handoff those models can actually see. A hole hid the pixels they need to continue the painting.
+
+## 2026-10-14 — Coordinate prompt: download full-res photo+mask
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Coordinate prompt results can copy or download the drawn region at photo 1’s absolute pixel size: (1) PNG of photo 1 with the polygon punched out (alpha 0 inside the shape; copy goes to the clipboard), (2) a same-size black/white mask (white = edit). Built in-browser from the vertex list — not a screenshot of the preview.
+
+### Reason
+Caption models ignore vertex lists. Inpainting models (FLUX Fill, SD inpaint, API mask upload) need a real mask at the photo’s dimensions. The demo already has the polygon; exporting it is the handoff those models require.
+
+## 2026-10-13 — Coordinate prompt: fill-first, then subject (one photo)
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Region-edit markdown is a **two-step** procedure on photo 1 only. Step 1 must overwrite every inside pixel (required vertices / midpoints / centroid must already differ from photo 1). Step 2 then adds or removes the subject on that fill. Starting with the person is called invalid. No second mask image.
+
+### Reason
+What-vs-Where plus a required-pixel list still let the model skip geometry and paint “Franklin in the window.” Forcing a fill pass first is the remaining language-only lever: the figure cannot be the first stroke.
+
+## 2026-10-13 — Coordinate prompt: What vs Where + required-change pixels
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Region-edit markdown now splits **What** (instruction: identity/pose only) from **Where** (vertex list). An existing figure in photo 1 is not the finished job. The prompt lists **required-change pixels** (each vertex, each edge midpoint, the centroid) and a reject test: if any still matches photo 1, redo. No second mask image. Subject need not be a flood-fill of flesh; new paint belonging to the edit must reach those pixels.
+
+### Reason
+“Add Franklin” plus “fill the mask” let the model place a person in a painted window and ignore the vertices. A checkable pixel list is a language-only override that does not require the visitor to download or attach a mask PNG.
+
+## 2026-10-13 — Coordinate prompt: polygon is a pixel mask, not a scene hint
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Coordinate prompt markdown now defines the drawn polygon as a **binary pixel mask** (even-odd fill). Painted frames, trompe-l'oeil windows, sashes, mats, and inner “picture” rectangles are declared **not** the region — they are RGB to overwrite if they sit inside the mask. The ask forbids relocating the edit to a “better” place in the scene. Fill-to-edge and photo-1 identity remain.
+
+### Reason
+Image models still confined injections to a painted window/frame even when the vertex list covered more of the canvas. Extra “fill to the polygon” language was not enough; the prompt has to forbid using vision of borders as the mask.
+
+## 2026-10-13 — Coordinate prompt: fill-to-edge + photo-1 identity
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Coordinate prompt markdown no longer includes a filename. The attached image is **photo 1**, addressed by absolute width × height and vertex pixels. The prompt now treats **fill to every polygon edge** as imperative (no inset, no “detected object” shrink). If a corner of photo 1 is inside the polygon or a vertex is extremely close to a corner (max(8 px, 1.5% of the shorter edge)), the prompt records a **failure** and tells the model not to edit.
+
+### Reason
+Language-plus-coordinates still failed when the model stopped at an inner subject (a painting without its painted frame) or treated the photo rectangle as the region. Filename is irrelevant to placement; the pixel grid and the drawn polygon are the contract.
+
+## 2026-10-13 — Coordinate prompt v1 (language + drawn region → markdown)
+
+### Category
+Feature · Structural
+
+### Decision
+**Shipped:** New Interactive things card **Coordinate prompt v1** immediately to the right of Photo critique v1. Same modal chrome, splash → Demo / V1 QA / How it Works / Try it tabs, result header, and footer actions. Different product: assemble a copyable region-edit prompt from (1) the photo’s pixel constraints, (2) a visitor-drawn polygon plus its max bounding box, and (3) an add-or-remove instruction. Result-area toggles compare **Original / Isolated region / Applied change** — not eye flow, thirds, or heat map. Interactive path is upload → canvas vertices (add / delete last / complete) → markdown. No image-model call in v1; Applied is a local stub.
+
+### Reason
+Local photo edits fail when the prompt is language-only. A sibling demo can reuse the critique shell so the experiment is findable, while the comparison tools stay honest to this intent (where the region is, not where the eye goes).
+
 ## 2026-10-13 — MediaModal \`recipe\` item type (cover CTA → recipe layout)
 
 ### Category
@@ -2498,13 +2608,38 @@ export const gallery = [
 
 export const interactiveDemoCards = [
   {
+    id: "photo-region-prompt",
+    title: "AI photo substitution",
+    date: "2026",
+    excerpt:
+      "Build a precise AI edit prompt by drawing a region on a photo—language plus coordinates, not language alone.",
+    modal: {
+      title: "AI photo substitution",
+      date: "2026",
+      contextLabel: "Interactive experiment",
+      intro:
+        "Concept: language alone cannot tell an image model exactly where to add or remove something. This experiment builds the markdown prompt in the browser by combining the uploaded photo’s real pixel grid, a polygon the visitor draws, and a short add-or-remove instruction.",
+      detail:
+        "A sentence like “put Benjamin Franklin on the hillside” still leaves a model guessing which hillside, how large, and how far from the edge. Global edits can live in words. Local edits need a place.\n\nThis demo treats the first attached image as **photo 1** — a numbered rectangle (width × height, origin top-left). No filename is sent. After you pick a bundled sample or upload your own JPEG, PNG, or WebP, you mark a closed shape (add points, delete the last point, complete the polygon). The markdown lists those vertices in absolute pixels on photo 1. The bounding box is only the max envelope of the vertices, not the edit shape.\n\nHard rules in the prompt: the polygon is a **pixel mask**, not a scene hint. Painted frames, trompe-l'oeil windows, and inner picture fields do not count as the border — if they sit inside the drawing they must be overwritten, flush to every polygon edge. If a corner of photo 1 is inside the polygon, or a vertex is extremely close to a corner, the drawing is a failure and the model must not apply the edit.\n\nThe product of this version is not a finished AI image. It is a copyable prompt you paste with photo 1 attached. Results also let you copy or download the photo with a see-through mask on the drawn region, or a matching black-and-white mask for inpainting models. The default prompt tells the model to fill to that overlay — including across a painted frame the mask clearly covers.\n\nDemo runs show three comparison frames: the original, the isolated region, and a local stub of the applied change. Those toggles sit in the same chrome slot Photo critique v1 uses for eye flow / thirds / heat map; they compare frames instead of overlaying pixel analysis.\n\nNothing is uploaded. Polygon math, markdown, and mask PNGs stay on the device.",
+      contextAction: {
+        label: "Try your own photo",
+        event: "photo-region-prompt:try-yourself",
+      },
+      interactive: {
+        type: "component",
+        id: "interactive-photo-region-prompt-panel",
+        componentId: "photoRegionPrompt",
+      },
+    },
+  },
+  {
     id: "photo-critique",
-    title: "Photo critique v1",
+    title: "AI photo improvement",
     date: "2026",
     excerpt:
       "Client-side pixel analysis to cut AI token waste—run the low-level pass in the browser before an image model ever sees the photo.",
     modal: {
-      title: "Photo critique v1",
+      title: "AI photo improvement",
       date: "2026",
       contextLabel: "Interactive experiment",
       intro:
@@ -2613,7 +2748,7 @@ export const interactiveDemosSection = {
   eyebrow: "Interactive tools",
   title: "Interactive things",
   description:
-    "Client-side demos you can run in the browser—audit JSON, critique a photo, try themes, inspect the component library, or check your activity score.",
+    "Client-side demos you can run in the browser—substitute a region in a photo, improve a photo, audit JSON, try themes, inspect the component library, or check your activity score.",
   cards: interactiveDemoCards,
 } as const;
 

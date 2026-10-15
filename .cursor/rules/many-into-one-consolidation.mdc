@@ -1,0 +1,32 @@
+---
+description: Look for chances to consolidate duplicate components or complexity; grow a many-into-one rule-of-thumb list when we do
+alwaysApply: true
+---
+
+# Many-into-one consolidation
+
+## Top rule
+
+**Look for opportunities to consolidate components or complexity whenever the opportunity arises.** Before adding a new local splash, gate, chrome row, or one-off helper, scan for an existing copy of the same pattern. Prefer one shared component (or one shared contract) over a third parallel implementation.
+
+Do this on ordinary feature work, not only when the user says “consolidate.” If you notice two or more copies of the same UI or behavior, name it and fold them — or queue it in the list below if it is out of scope for the current change.
+
+## When you consolidate
+
+In the **same change set**, append a **Rule of thumb** at the **top** of the list (newest first). The entry is the reusable lesson, not a changelog of files.
+
+```markdown
+### YYYY-MM-DD — <short pattern name>
+
+**Many:** what was duplicated (count + where, in one line).
+**One:** the shared component or contract that replaced it.
+**Thumb:** what a future agent should look for next time.
+```
+
+## Rule of thumb list
+
+### 2026-10-14 — Enter splash (copy + Continue)
+
+**Many:** Local `*Splash` functions in Coordinate prompt, Photo Critique, and NPM Audit — same centered sentence and Continue.
+**One:** [`src/components/EnterSplash.tsx`](src/components/EnterSplash.tsx) (`EnterSplashConfig`). Optional `youtubeId`, optional `date`. Fields live in JSON next to the demo (e.g. `enterSplash.json`), not hardcoded in the component. MediaModal archive splash is still a local gate — candidate to join later.
+**Thumb:** A modal or demo that opens with a sentence and **Continue** should use `EnterSplash`, not a new local splash. Video and date are config fields, not one-off overlays.

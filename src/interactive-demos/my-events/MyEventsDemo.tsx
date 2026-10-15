@@ -37,6 +37,7 @@ const TYPE_FILTERS: Array<{ id: "all" | ActivityEventType; label: string }> = [
   { id: "video.complete", label: "Videos" },
   { id: "sound.zeepEnable", label: "Zeep" },
   { id: "demo.photoCritique", label: "Critique" },
+  { id: "demo.photoRegionPrompt", label: "Coordinates" },
   { id: "quiz.complete", label: "Quiz" },
 ];
 

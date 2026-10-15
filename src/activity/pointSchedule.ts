@@ -79,7 +79,13 @@ export const POINT_SCHEDULE: readonly PointScheduleEntry[] = [
     type: "demo.photoCritique",
     points: 15,
     label: "Run photo critique",
-    description: "Complete a Photo critique analysis.",
+    description: "Complete an AI photo improvement analysis.",
+  },
+  {
+    type: "demo.photoRegionPrompt",
+    points: 15,
+    label: "Build a coordinate prompt",
+    description: "Complete an AI photo substitution region markdown build.",
   },
   {
     type: "quiz.complete",

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { EnterSplash } from "@/components/EnterSplash";
 import { CritiqueResults } from "./components/CritiqueResults";
 import { ImplementationThreadView } from "./components/ImplementationChat";
 import { PhotoInput } from "./components/PhotoInput";
@@ -35,23 +36,6 @@ function AnalyzingPreview({
   );
 }
 
-function CritiqueSplash({ onContinue }: { onContinue: () => void }) {
-  return (
-    <div className="flex h-full min-h-0 flex-col items-center justify-center gap-8 px-6 text-center">
-      <p className="max-w-md text-lg font-semibold leading-snug tracking-tight text-surface-100 sm:text-xl">
-        Static analysis for photo improvement before AI consumption — an experiment
-      </p>
-      <button
-        type="button"
-        onClick={onContinue}
-        className="rounded-full bg-accent-500/90 px-8 py-2.5 text-sm font-semibold text-surface-950 hover:bg-accent-400"
-      >
-        Continue
-      </button>
-    </div>
-  );
-}
-
 export function PhotoCritiqueDemo() {
   const demo = usePhotoCritique();
   const { returnToUpload } = demo;
@@ -68,7 +52,10 @@ export function PhotoCritiqueDemo() {
   if (showSplash) {
     return (
       <div className="flex h-full min-h-0 flex-col">
-        <CritiqueSplash onContinue={() => setShowSplash(false)} />
+        <EnterSplash
+          message="Static analysis for photo improvement before AI consumption — an experiment"
+          onContinue={() => setShowSplash(false)}
+        />
       </div>
     );
   }

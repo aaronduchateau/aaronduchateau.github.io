@@ -13,6 +13,7 @@ export type ActivityEventType =
   | "project.visitSite"
   | "sound.zeepEnable"
   | "demo.photoCritique"
+  | "demo.photoRegionPrompt"
   | "quiz.complete"
   | "milestone.unlock"
   | "cheat.unlock-all";
