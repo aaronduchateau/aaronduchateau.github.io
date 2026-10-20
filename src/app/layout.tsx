@@ -26,12 +26,25 @@ import { ActivityProvider } from "@/activity/ActivityProvider";
 import { AdaGuyExplainerHost } from "@/components/AdaGuyExplainerHost";
 import { ThemeProvider } from "@/theme/ThemeProvider";
 
+const defaultShareImage = "/photos/Aaron_DuChateau_hero-video-poster.png";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aaronduchateau.github.io"),
   title: `${person.name} · Full Stack Developer`,
   description: person.tagline,
   openGraph: {
     title: `${person.name} — Portfolio`,
     description: person.tagline,
+    siteName: person.name,
+    type: "website",
+    locale: "en_US",
+    images: [{ url: defaultShareImage, alt: `${person.name} portfolio` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${person.name} — Portfolio`,
+    description: person.tagline,
+    images: [defaultShareImage],
   },
 };
 

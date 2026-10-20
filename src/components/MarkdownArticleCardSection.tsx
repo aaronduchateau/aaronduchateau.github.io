@@ -4,6 +4,7 @@ import { MarkdownArticleModal } from "@/components/MarkdownArticleModal";
 import { Card, CardGrid, PageSection, SectionHeading } from "@/components/ui";
 import { MobileContentList } from "@/components/MobileContentList";
 import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
+import { markdownSectionNamespace } from "@/lib/modalSharePath";
 import { useRouteModal } from "@/lib/useRouteModal";
 import { useTheme } from "@/theme/ThemeProvider";
 import type { MarkdownArticleSectionConfig } from "@/types/markdown-article";
@@ -20,7 +21,7 @@ export function MarkdownArticleCardSection({
   const isMobile = useMobileOnlyViewport();
   const useAdaList = isMobile && !showDecorativeMedia;
   const { active, activeKey, open, close } = useRouteModal(
-    id ? `md-${id}` : "md-article",
+    markdownSectionNamespace({ id }),
     (key) => cards.find((c) => c.id === key)?.modal ?? null,
   );
 

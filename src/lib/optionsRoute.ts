@@ -66,9 +66,11 @@ export function navigateToOptions(
   if (typeof window === "undefined") return;
   const url = new URL(window.location.href);
   if (opts?.clearModal) {
+    url.pathname = PORTFOLIO_PATH;
     url.searchParams.delete("modal");
     url.searchParams.delete("path");
     url.searchParams.delete("item");
+    url.searchParams.delete("play");
   }
   writeOptionsSearch(url, state);
   const method = opts?.replace ? "replaceState" : "pushState";

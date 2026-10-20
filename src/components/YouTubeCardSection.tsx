@@ -4,7 +4,8 @@ import { Card, CardGrid, PageSection, SectionHeading } from "@/components/ui";
 import { MediaModal } from "@/components/MediaModal";
 import { MobileContentList } from "@/components/MobileContentList";
 import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
-import { slugify, useRouteModal } from "@/lib/useRouteModal";
+import { youtubeSectionNamespace } from "@/lib/modalSharePath";
+import { useRouteModal } from "@/lib/useRouteModal";
 import { useTheme } from "@/theme/ThemeProvider";
 import type { MediaModalConfig } from "@/types/media-modal";
 
@@ -69,7 +70,7 @@ function cardThumbnailSrc(card: YouTubeWorkCard) {
 }
 
 export function YouTubeCardSection({ id, eyebrow, title, description, cards }: YouTubeSectionConfig) {
-  const namespace = `yt-${id ?? slugify(title)}`;
+  const namespace = youtubeSectionNamespace({ id, title });
   const { visibility } = useTheme();
   const showDecorativeMedia = visibility.decorativeCardMedia;
   const isMobile = useMobileOnlyViewport();

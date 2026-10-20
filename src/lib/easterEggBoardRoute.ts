@@ -1,4 +1,4 @@
-/** URL-driven easter-egg / portfolio-game board (`?modal=easter-eggs:board`). */
+/** URL-driven easter-egg / portfolio-game board (`/portfolio-launched/open/easter-eggs/board/`). */
 export const EASTER_EGG_BOARD_NAMESPACE = "easter-eggs";
 export const EASTER_EGG_BOARD_KEY = "board";
 

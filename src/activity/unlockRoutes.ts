@@ -1,4 +1,5 @@
-import { PORTFOLIO_PATH, isIntroPath } from "@/lib/routes";
+import { modalSharePath } from "@/lib/modalSharePath";
+import { isIntroPath } from "@/lib/routes";
 import {
   navigateToOptions,
   optionsHref,
@@ -13,14 +14,12 @@ function onIntroRoute(): boolean {
 }
 
 function modalHref(target: Extract<UnlockedContentTarget, { kind: "modal" }>): string {
-  const url = new URL("https://example.invalid");
-  url.pathname = PORTFOLIO_PATH;
-  url.searchParams.set("modal", `${target.namespace}:${target.key}`);
-  if (target.path && target.path.length > 0) {
-    url.searchParams.set("path", target.path.join("~"));
-  }
-  if (target.item) url.searchParams.set("item", target.item);
-  return `${url.pathname}${url.search}`;
+  return modalSharePath({
+    namespace: target.namespace,
+    key: target.key,
+    path: target.path ?? [],
+    item: target.item ?? null,
+  });
 }
 
 function goToMainSite(href: string) {

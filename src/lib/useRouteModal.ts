@@ -2,37 +2,33 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { recordActivity } from "@/activity/tracker";
+import {
+  modalSharePath,
+  parseModalLocation,
+  portfolioHomePath,
+  slugify,
+  type ModalLocation,
+} from "@/lib/modalSharePath";
+import { normalizePathname } from "@/lib/routes";
 import { primeTestimonialPlaybackGesture } from "@/lib/testimonialPlaybackPreload";
 
-const PARAM = "modal";
-const PATH_PARAM = "path";
-const ITEM_PARAM = "item";
+export { slugify };
+
 /** When `1`, testimonials (and similar) auto-enter play once assets are ready. */
 export const PLAY_PARAM = "play";
-const PATH_SEP = "~";
 
 /** Fired after an external push so the owning `useRouteModal` treats Close as history.back(). */
 export const ROUTE_MODAL_PUSHED_EVENT = "portfolio:route-modal-pushed";
 
-export function slugify(value: string): string {
-  return value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function parsePath(value: string | null): string[] {
-  if (!value) return [];
-  return value.split(PATH_SEP).filter(Boolean);
-}
-
-function parsePlay(value: string | null): boolean {
-  return value === "1" || value === "true";
-}
-
 function writePlay(url: URL, play: boolean) {
   if (play) url.searchParams.set(PLAY_PARAM, "1");
   else url.searchParams.delete(PLAY_PARAM);
+}
+
+function locationToUrl(loc: ModalLocation, play: boolean): URL {
+  const url = new URL(modalSharePath(loc), window.location.origin);
+  writePlay(url, play);
+  return url;
 }
 
 /** Drop `play` from the URL without closing the modal. */
@@ -69,16 +65,15 @@ function trackModalClose(namespace: string, key: string) {
 }
 
 /**
- * Syncs an open-modal to the URL so the modal is route-driven: refreshing the
- * page reopens (and remounts) it. Params owned here:
- *  - `modal=<namespace>:<key>` — which modal is open
- *  - `path=<colId>~<colId>...` — drill-down stack of collection ids inside it
- *  - `item=<id>`               — selected item id within the current view
- *  - `play=1`                  — optional auto-play request (e.g. testimonials)
+ * Syncs an open modal to the URL so refresh reopens it.
  *
- * Works with static export since it only uses the History API on the client.
- * `namespace` must be unique per section instance so only the matching section
- * restores its modal from the shared URL params.
+ * Canonical form is a real path (`/portfolio-launched/open/<namespace>/<key>/`,
+ * plus `view/` and `item/` when a strip selection is in the address bar) so
+ * each view is its own static HTML file with Open Graph tags. Older
+ * `?modal=<namespace>:<key>` links still open, then the address bar is
+ * replaced with that path. `play=1` stays a query flag.
+ *
+ * `namespace` must be unique per section so only the matching section restores.
  */
 export function useRouteModal<T>(
   namespace: string,
@@ -132,18 +127,21 @@ export function useRouteModal<T>(
 
   const syncFromUrl = useCallback(() => {
     if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const value = params.get(PARAM);
-    if (value && value.startsWith(prefix)) {
-      const key = value.slice(prefix.length);
-      const config = resolveRef.current(key);
+    const loc = parseModalLocation(window.location.href);
+    if (loc && loc.namespace === namespace) {
+      const config = resolveRef.current(loc.key);
       if (config) {
-        activeKeyRef.current = key;
+        activeKeyRef.current = loc.key;
         setActive(config);
-        setActiveKey(key);
-        setPath(parsePath(params.get(PATH_PARAM)));
-        setSelectionState(params.get(ITEM_PARAM));
-        setPlay(parsePlay(params.get(PLAY_PARAM)));
+        setActiveKey(loc.key);
+        setPath(loc.path);
+        setSelectionState(loc.item);
+        setPlay(loc.play);
+        const canonical = modalSharePath(loc);
+        if (normalizePathname(window.location.pathname) !== normalizePathname(canonical)) {
+          const url = locationToUrl(loc, loc.play);
+          window.history.replaceState({ modal: `${namespace}:${loc.key}` }, "", url);
+        }
         return;
       }
     }
@@ -152,7 +150,7 @@ export function useRouteModal<T>(
       trackModalClose(namespace, closingKey);
     }
     clearModalState();
-  }, [prefix, namespace, clearModalState]);
+  }, [namespace, clearModalState]);
 
   useEffect(() => {
     syncFromUrl();
@@ -169,22 +167,6 @@ export function useRouteModal<T>(
       window.removeEventListener(ROUTE_MODAL_PUSHED_EVENT, onPushed);
     };
   }, [syncFromUrl, prefix]);
-
-  const writeView = useCallback(
-    (url: URL, nextPath: string[], sel: string | null) => {
-      if (nextPath.length > 0) {
-        url.searchParams.set(PATH_PARAM, nextPath.join(PATH_SEP));
-      } else {
-        url.searchParams.delete(PATH_PARAM);
-      }
-      if (sel) {
-        url.searchParams.set(ITEM_PARAM, sel);
-      } else {
-        url.searchParams.delete(ITEM_PARAM);
-      }
-    },
-    [],
-  );
 
   const clearPlay = useCallback(() => {
     setPlay(false);
@@ -215,11 +197,11 @@ export function useRouteModal<T>(
       setSelectionState(sel);
       setPlay(nextPlay);
       if (typeof window === "undefined") return;
-      const url = new URL(window.location.href);
-      url.searchParams.set(PARAM, `${namespace}:${key}`);
-      writeView(url, nextPath, sel);
-      writePlay(url, nextPlay);
-      const state = { [PARAM]: `${namespace}:${key}` };
+      const url = locationToUrl(
+        { namespace, key, path: nextPath, item: sel },
+        nextPlay,
+      );
+      const state = { modal: `${namespace}:${key}` };
       if (opts?.replace) {
         window.history.replaceState(state, "", url);
       } else {
@@ -228,7 +210,7 @@ export function useRouteModal<T>(
       }
       trackModalOpen(namespace, key);
     },
-    [namespace, writeView],
+    [namespace],
   );
 
   const setView = useCallback(
@@ -236,13 +218,16 @@ export function useRouteModal<T>(
       setPath(nextPath);
       setSelectionState(sel);
       if (typeof window === "undefined") return;
-      const value = new URLSearchParams(window.location.search).get(PARAM);
-      if (!value || !value.startsWith(prefix)) return;
-      const url = new URL(window.location.href);
-      writeView(url, nextPath, sel);
+      const key = activeKeyRef.current;
+      const current = parseModalLocation(window.location.href);
+      if (!key || !current || current.namespace !== namespace) return;
+      const url = locationToUrl(
+        { namespace, key, path: nextPath, item: sel },
+        current.play,
+      );
       window.history.replaceState(window.history.state, "", url);
     },
-    [prefix, writeView],
+    [namespace],
   );
 
   const close = useCallback(() => {
@@ -251,8 +236,8 @@ export function useRouteModal<T>(
       clearModalState();
       return;
     }
-    const value = new URLSearchParams(window.location.search).get(PARAM);
-    if (!value || !value.startsWith(prefix)) {
+    const current = parseModalLocation(window.location.href);
+    if (!current || current.namespace !== namespace) {
       clearModalState();
       return;
     }
@@ -268,14 +253,9 @@ export function useRouteModal<T>(
       didPushRef.current = false;
       window.history.back();
     } else {
-      const url = new URL(window.location.href);
-      url.searchParams.delete(PARAM);
-      url.searchParams.delete(PATH_PARAM);
-      url.searchParams.delete(ITEM_PARAM);
-      url.searchParams.delete(PLAY_PARAM);
-      window.history.replaceState({}, "", url);
+      window.history.replaceState({}, "", portfolioHomePath());
     }
-  }, [prefix, namespace, clearModalState]);
+  }, [namespace, clearModalState]);
 
   return { active, activeKey, path, selection, play, open, setView, clearPlay, close };
 }
@@ -301,23 +281,17 @@ export function navigateToRouteModal(
     primeTestimonialPlaybackGesture();
   }
   trackModalOpen(namespace, key);
-  const url = new URL(window.location.href);
-  url.searchParams.set(PARAM, `${namespace}:${key}`);
   const nextPath = opts?.path ?? [];
-  if (nextPath.length > 0) {
-    url.searchParams.set(PATH_PARAM, nextPath.join(PATH_SEP));
-  } else {
-    url.searchParams.delete(PATH_PARAM);
-  }
-  if (opts?.selection) {
-    url.searchParams.set(ITEM_PARAM, opts.selection);
-  } else {
-    url.searchParams.delete(ITEM_PARAM);
-  }
-  writePlay(url, Boolean(opts?.play));
-  url.searchParams.delete("options");
-  url.searchParams.delete("optionsSound");
-  const state = { [PARAM]: `${namespace}:${key}` };
+  const url = locationToUrl(
+    {
+      namespace,
+      key,
+      path: nextPath,
+      item: opts?.selection ?? null,
+    },
+    Boolean(opts?.play),
+  );
+  const state = { modal: `${namespace}:${key}` };
   if (opts?.replace) {
     window.history.replaceState(state, "", url);
   } else {

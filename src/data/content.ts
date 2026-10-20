@@ -194,7 +194,7 @@ export const heroLearnPlaceholderModal: MediaModalConfig = {
   ],
 };
 
-/** Route namespace for `?modal=testimonials:<id>` (see useRouteModal). */
+/** Route namespace for testimonial modals (`/portfolio-launched/open/testimonials/<id>/`). */
 export const TESTIMONIALS_MODAL_NAMESPACE = "testimonials";
 
 /** `voice.gender` selects on-device TTS. Women share the best female voice; men spread across the remaining natural male voices. */
@@ -2033,6 +2033,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 ---
 
 # Decision log
+
+## 2026-10-19 — Modal URLs are real pages with their own preview
+
+### Category
+Structural | Feature
+
+### Decision
+**Shipped:** Opening a route modal writes \`/portfolio-launched/open/<namespace>/<key>/\` (plus \`view/\` and \`item/\` when a strip or album is selected). Each of those paths is a static page. Its title, description, Open Graph, and Twitter card use that modal’s summary and thumbnail. Older \`?modal=\` links still open the same dialog, then the address bar is replaced with the path.
+
+### Reason
+This site is a static export. The host returns one HTML file for every query string, so \`?modal=\` cannot change the image or summary a link unfurl reads. Facebook does not run the page script. A path per modal is a file the crawler can fetch.
 
 ## 2026-10-14 — Shared enter splash with optional YouTube
 

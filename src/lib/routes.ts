@@ -4,6 +4,7 @@
  * - `/` → reconciles to splash
  * - `/intro/`, `/intro/splash/` — entry / loadout (outside the launched site)
  * - `/portfolio-launched/` — main portfolio
+ * - `/portfolio-launched/open/…/` — one static page per modal view (Open Graph)
  * - `/component-preview/` — isolated Storybook iframe (no signature boot plate)
  */
 

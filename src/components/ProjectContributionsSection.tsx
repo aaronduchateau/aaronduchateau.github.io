@@ -9,7 +9,8 @@ import { trackAttrs } from "@/activity/trackAttrs";
 import { recordActivity } from "@/activity/tracker";
 import type { ContributionProject, ContributionsSectionConfig } from "@/data/content";
 import { useMobileOnlyViewport } from "@/hooks/useMediaQuery";
-import { slugify, useRouteModal } from "@/lib/useRouteModal";
+import { projectSectionNamespace } from "@/lib/modalSharePath";
+import { useRouteModal } from "@/lib/useRouteModal";
 import { useTheme } from "@/theme/ThemeProvider";
 import type { MediaModalConfig } from "@/types/media-modal";
 
@@ -271,7 +272,7 @@ export function ProjectContributionsSection({
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const { active: activeModal, activeKey, path, selection, open, setView, close } =
     useRouteModal<MediaModalConfig>(
-      `proj-${id ?? slugify(title)}`,
+      projectSectionNamespace({ id, title }),
       (key) => projects.find((p) => p.modal && p.id === key)?.modal ?? null,
     );
 
