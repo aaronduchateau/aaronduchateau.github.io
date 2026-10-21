@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-10-20 — Video player corners stay fixed
+
+### Category
+Structural
+
+### Decision
+**Shipped:** The chromeless intro player (\`.theme-video-player\`) uses a fixed 0.75rem frame. Its play mark stays a circle and the seek control stays a small rounded square. Those shapes do not follow \`--radius-control\`, \`--radius-play\`, or \`--radius-pill\`.
+
+### Reason
+\`rounded-xl\` is \`--radius-control\`. Several themes set that token to 0, a pill, or an organic melt, so the same player changed shape with the theme.
+
 ## 2026-10-19 — Modal URLs are real pages with their own preview
 
 ### Category

@@ -76,7 +76,7 @@ export function EnterSplash({
               }`}
               style={{ transitionDuration: `${VIDEO_SETTLE_MS}ms` }}
             >
-              <div className="flex h-[min(40vh,20rem)] w-full flex-col overflow-hidden rounded-xl border border-white/10 bg-black">
+              <div className="theme-video-player flex h-[min(40vh,20rem)] w-full flex-col border border-white/10 bg-black">
                 <ChromelessYouTubePlayer
                   youtubeId={youtubeId}
                   startSeconds={startSeconds}

@@ -1068,6 +1068,34 @@ html[data-theme] .intro-game-modal h2.intro-section-label {
   cursor: not-allowed;
 }
 
+/*
+  Chromeless player plate — fixed 0.75rem corners on every theme.
+  `rounded-xl` is `--radius-control`, which some themes set to 0, a pill, or an organic melt.
+  The play mark stays a circle; the seek control stays a small rounded square.
+*/
+.theme-video-player {
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.theme-video-player .theme-play-btn,
+.theme-video-player .theme-play-btn:hover,
+.theme-video-player .theme-play-btn:focus-visible,
+[data-theme] .theme-video-player .theme-play-btn,
+[data-theme] .theme-video-player .theme-play-btn:hover,
+[data-theme] .theme-video-player .theme-play-btn:focus-visible {
+  border-radius: 9999px;
+}
+
+.theme-video-player .theme-btn-shape,
+.theme-video-player .theme-btn-shape:hover,
+.theme-video-player .theme-btn-shape:focus-visible,
+[data-theme] .theme-video-player .theme-btn-shape,
+[data-theme] .theme-video-player .theme-btn-shape:hover,
+[data-theme] .theme-video-player .theme-btn-shape:focus-visible {
+  border-radius: 0.375rem;
+}
+
 /* Video card play control — circle by default; themes set --radius-play */
 .theme-play-btn {
   display: grid;
