@@ -10,11 +10,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
 import { MODAL_CLOSED_EVENT, MODAL_OPENED_EVENT } from "@/hooks/useBodyScrollLock";
 import { SignatureBootSplash } from "@/components/SignatureBootSplash";
 import { recordActivity } from "@/activity/tracker";
 import { isComponentPreviewPath } from "@/lib/componentPreview";
-import { isIntroPath } from "@/lib/routes";
+import { isBlogPath, isIntroPath } from "@/lib/routes";
 import { ensureTestimonialPlaybackPreload } from "@/lib/testimonialPlaybackPreload";
 import { readSoftwarePortfolioOnly } from "@/lib/softwarePortfolioPref";
 import { applyThemeTokens } from "./applyTheme";
@@ -226,7 +227,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   themeMusicSrcRef.current = themeMusicSrc;
   const readyRef = useRef(ready);
   readyRef.current = ready;
-  /** Named holds (modal stack, hero video) — do not clear `themeMusicEnabled` preference. */
+  /** Named holds (modal stack, hero video, blog route) — do not clear `themeMusicEnabled`. */
   const themeMusicHoldsRef = useRef(new Set<string>());
   const lastBaseClickIdRef = useRef<BaseClickPreference>(DEFAULT_BASE_CLICK_ID);
   const lastContentWindowSoundIdRef = useRef<ContentWindowPreference>(
@@ -576,6 +577,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setContentWindowSoundId(DEFAULT_CONTENT_WINDOW_SOUND_ID);
   }, [setBaseClickId, setContentWindowSoundId]);
 
+  const pathname = usePathname();
+
   // Content modals temporarily hold the bed; preference stays so close can resume.
   // Intro / Theme Locked pass `pauseThemeMusic: false` and do not take this hold.
   useEffect(() => {
@@ -594,6 +597,25 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       window.removeEventListener(MODAL_CLOSED_EVENT, onModalClosed);
     };
   }, [syncThemeMusicPlayback]);
+
+  // Blog routes use the same hold as a modal. Leaving the blog calls the shared
+  // sync, which resumes only when the saved preference is still on.
+  useEffect(() => {
+    const holdId = "blog";
+    const holds = themeMusicHoldsRef.current;
+    if (isBlogPath(pathname ?? "")) {
+      holds.add(holdId);
+      pauseThemeMusicLoop();
+      return () => {
+        holds.delete(holdId);
+      };
+    }
+    holds.delete(holdId);
+    syncThemeMusicPlayback();
+    return () => {
+      holds.delete(holdId);
+    };
+  }, [pathname, syncThemeMusicPlayback]);
 
   const playNavClick = useCallback(() => {
     if (!soundEnabledRef.current) return;

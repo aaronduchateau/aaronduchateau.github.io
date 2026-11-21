@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-11-20 — Blog routes hold theme music
+
+### Category
+Feature
+
+### Decision
+**Shipped:** Opening \`/blog/\` adds a \`blog\` hold on the same set content modals use. The bed pauses. Leaving the blog releases that hold and runs the shared playback sync. A preference that was already off stays off.
+
+### Reason
+The blog is a reading surface, and one post embeds a video. The modal hold already pauses without writing a new sound preference, so the route uses that contract instead of a second mute switch.
+
 ## 2026-11-20 — Previous and next stay inside the category
 
 ### Category
