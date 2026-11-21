@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-11-20 — Blog URLs include a category
+
+### Category
+Structural | Feature
+
+### Decision
+**Shipped:** A post URL is \`/blog/<category>/YYYY/MM/DD/<slug>/\`. The two research pieces live under \`investing\`. Charts, callouts, tables, and the human disclaimer are shared components. A thesis ends with the note that Aaron is human, makes mistakes, learns by sharing ideas, and that the piece is for entertainment and abstract enrichment only.
+
+### Reason
+This site is a static export, so a category has to be a path segment if a link preview is going to know which piece it is. A shared chart and callout set keeps a long thesis on the same theme tokens as the rest of the site.
+
 ## 2026-11-20 — A blog post can embed one YouTube video
 
 ### Category

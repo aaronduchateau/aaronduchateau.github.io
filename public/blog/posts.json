@@ -10,6 +10,7 @@
     {
       "title": "We just bet the world's economy on datacenters, but what if most AI processing ends up in our pockets?",
       "slug": "we-just-bet-the-worlds-economy-on-datacenters-but-what-if-most-ai-processing-ends-up-in-our-pockets",
+      "category": "technology",
       "date": "2026-11-20",
       "description": "There are plenty of reasons to dislike datacenters. The bigger question is whether we just built them for a kind of AI that will mostly run somewhere else.",
       "titleImage": "/blog/images/2026-11-20-title-placeholder.png",
@@ -32,10 +33,65 @@
     {
       "title": "For those involved in Tech, the public narrative about societal anomalies isn't adding up",
       "slug": "for-those-involved-in-tech-the-public-narrative-about-societal-anomalies-isnt-adding-up",
+      "category": "technology",
       "date": "2026-11-13",
       "description": "The public narrative is that isolated incidents are fueling the latest stream of infrastructure issues in the United States. While this is possible, it does not really make sense.",
       "body": "The public narrative is that isolated incidents are fueling the latest stream of infrastructure issues in the United States. While this is possible, it does not really make sense.",
       "youtubeId": "lXMIW7e--Wc"
+    },
+    {
+      "title": "The great AI infrastructure misallocation",
+      "slug": "the-great-ai-infrastructure-misallocation",
+      "category": "investing",
+      "date": "2026-11-20",
+      "description": "The AI revolution can be real, and the market can still be building the wrong delivery system for it.",
+      "document": "ai-infrastructure-misallocation",
+      "thesis": true,
+      "references": [
+        {
+          "label": "TheStreet — Michael Burry sees a serious problem Wall Street may be overlooking",
+          "href": "https://www.thestreet.com/investing/stocks/michael-burry-sees-a-serious-problem-wall-street-may-be-overlooking"
+        },
+        {
+          "label": "J.P. Morgan — AI capital expenditure research",
+          "href": "https://www.jpmorgan.com/insights/global-research/artificial-intelligence/ai-capex"
+        },
+        {
+          "label": "BCG — AI data center supply-demand outlook",
+          "href": "https://www.bcg.com/publications/2026/ai-data-center-supply-demand-outlook"
+        }
+      ]
+    },
+    {
+      "title": "Could emerging markets benefit from a developed-market collapse?",
+      "slug": "could-emerging-markets-benefit-from-a-developed-market-collapse",
+      "category": "investing",
+      "date": "2026-11-20",
+      "description": "If the shock starts in developed-market tech, some economies outside that story might not follow the old crisis playbook.",
+      "document": "emerging-markets-rotation",
+      "thesis": true,
+      "references": [
+        {
+          "label": "Janus Henderson — starting point for the October country comparison",
+          "href": "https://www.janushenderson.com/"
+        },
+        {
+          "label": "Reuters — starting point for the November selloff reporting",
+          "href": "https://www.reuters.com/"
+        },
+        {
+          "label": "iShares — EWZ fund page",
+          "href": "https://www.ishares.com/us/products/239612/ishares-msci-brazil-capped-etf"
+        },
+        {
+          "label": "MercadoLibre investor relations",
+          "href": "https://investor.mercadolibre.com/"
+        },
+        {
+          "label": "SEC EDGAR — check reported holdings against the filing",
+          "href": "https://www.sec.gov/edgar/search/"
+        }
+      ]
     }
   ]
 }

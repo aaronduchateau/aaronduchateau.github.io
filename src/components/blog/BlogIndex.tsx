@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlogByline } from "@/components/blog/BlogByline";
 import { BlogChrome } from "@/components/blog/BlogChrome";
-import { blogPostPath, blogPosts, youtubeThumbnail } from "@/data/blog";
+import { blogPostPath, blogPosts, formatBlogCategory, youtubeThumbnail } from "@/data/blog";
 
 export function BlogIndex() {
   return (
@@ -40,6 +40,9 @@ export function BlogIndex() {
                     />
                   ) : null}
                   <div className="space-y-4 p-5 sm:p-6">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-accent-400">
+                      {formatBlogCategory(post.category)}
+                    </p>
                     <h2 className="font-display text-2xl text-white group-hover:text-accent-400">
                       {post.title}
                     </h2>

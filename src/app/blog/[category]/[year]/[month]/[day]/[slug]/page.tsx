@@ -5,6 +5,7 @@ import { blogAuthor, blogPostPath, blogPosts, blogShareImage, findBlogPost } fro
 import { person } from "@/data/content";
 
 type PostParams = {
+  category: string;
   year: string;
   month: string;
   day: string;
@@ -16,7 +17,7 @@ export const dynamicParams = false;
 export function generateStaticParams(): PostParams[] {
   return blogPosts.map((post) => {
     const [year, month, day] = post.date.split("-");
-    return { year, month, day, slug: post.slug };
+    return { category: post.category, year, month, day, slug: post.slug };
   });
 }
 

@@ -1,0 +1,225 @@
+{
+  "blocks": [
+    {
+      "type": "p",
+      "text": "Crises usually send money out of emerging markets and into dollars, Treasuries, and cash. This question is different. What if the shock starts in developed-market technology, because that is where the AI spending story got ahead of itself? Some economies and some businesses outside that story might hold up better than the old playbook says."
+    },
+    {
+      "type": "columns",
+      "items": [
+        {
+          "title": "Contagion",
+          "text": "Everyone deleverages at once. Emerging markets get pulled down with the rest."
+        },
+        {
+          "title": "Selective decoupling",
+          "text": "Some markets fall less, and some of them find their feet sooner."
+        },
+        {
+          "title": "A real rotation",
+          "text": "Capital actually moves toward cheaper economies and businesses that were never an AI capex story."
+        }
+      ]
+    },
+    {
+      "type": "callout",
+      "title": "Working hypothesis",
+      "text": "A long correction in AI-heavy developed-market stocks could push investors toward cheaper companies whose earnings come from domestic consumption, financial services, logistics that already work, and productive infrastructure. That rotation, if it happens, probably comes **after** the first global risk-off wave. Money does not have to go to emerging markets. It can sit in cash. The idea needs evidence of flows, not just a smaller decline."
+    },
+    {
+      "type": "h2",
+      "text": "The damage is not even"
+    },
+    {
+      "type": "p",
+      "text": "The selling has been concentrated in AI-linked technology, and emerging markets have not been spared. A broad emerging-markets benchmark can be a bad instrument here, because a lot of it is Asian technology. The useful cut is the country, and then the company. Not \"emerging markets\" as one blob."
+    },
+    {
+      "type": "chart",
+      "kind": "bars",
+      "title": "Selected country returns, October 2026",
+      "note": "MSCI country indexes, USD terms, from the October comparison cited in the working notes. A historical snapshot, not a live feed. Bar length is the size of the move.",
+      "max": 16,
+      "items": [
+        { "label": "Mexico", "value": 4.6, "display": "+4.6%" },
+        { "label": "India", "value": 1.4, "display": "+1.4%" },
+        { "label": "Colombia", "value": 0.3, "display": "+0.3%" },
+        { "label": "Czech Republic", "value": -0.3, "display": "-0.3%" },
+        { "label": "Hungary", "value": -2.3, "display": "-2.3%" },
+        { "label": "Poland", "value": -2.7, "display": "-2.7%" },
+        { "label": "South Africa", "value": -3.7, "display": "-3.7%" },
+        { "label": "Argentina", "value": -6.2, "display": "-6.2%" },
+        { "label": "Taiwan", "value": -8.3, "display": "-8.3%" },
+        { "label": "Chile", "value": -9.8, "display": "-9.8%" },
+        { "label": "Turkey", "value": -9.8, "display": "-9.8%" },
+        { "label": "Peru", "value": -10.6, "display": "-10.6%" },
+        { "label": "Brazil", "value": -12, "display": "-12.0%" },
+        { "label": "Indonesia", "value": -13.8, "display": "-13.8%" },
+        { "label": "South Korea", "value": -15.4, "display": "-15.4%" }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Mexico and India looked relatively resilient in that October cut. Brazil's roughly 12% decline does **not** make it a safe haven. It is a contrarian valuation candidate. It is not a market that already proved it can decouple."
+    },
+    {
+      "type": "chart",
+      "kind": "bars",
+      "title": "One day, November 20, 2026",
+      "note": "Local equity-index moves on the November 20 selloff. These are one-day snapshots in local currency. Do not line them up against the USD monthly chart above and pretend they are the same measurement.",
+      "max": 7,
+      "items": [
+        { "label": "Taiwan", "value": -6.2, "display": "-6.2%" },
+        { "label": "South Korea", "value": -5.2, "display": "-5.2%" },
+        { "label": "Japan", "value": -5.1, "display": "-5.1%" },
+        { "label": "Brazil", "value": -0.69, "display": "-0.69%" },
+        { "label": "Mexico", "value": -0.11, "display": "-0.11%" },
+        { "label": "Colombia", "value": 0.05, "display": "+0.05%" },
+        { "label": "Chile", "value": 0.16, "display": "+0.16%" }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Latin America's smaller one-day declines, next to several Asian markets, suggest the vulnerability is not uniform. They are not evidence that capital is arriving and staying. A weaker currency can erase a good day in local prices."
+    },
+    {
+      "type": "h2",
+      "text": "Brazil is a candidate, not a refuge"
+    },
+    {
+      "type": "p",
+      "text": "Brazil gives you financials, energy, utilities, materials, agriculture, and domestic demand. That is less direct exposure to the semiconductor and data-center cycle. It is also fiscal risk, interest rates, the currency, and commodities. Those are not footnotes."
+    },
+    {
+      "type": "chart",
+      "kind": "stack",
+      "title": "A sketch of Brazil equity sectors",
+      "note": "Illustrative EWZ weights reported around October 23, 2026, rounded. Fund holdings move. Recheck them before treating this as current.",
+      "items": [
+        { "label": "Financials", "value": 37.98, "display": "38.0%" },
+        { "label": "Energy", "value": 18.03, "display": "18.0%" },
+        { "label": "Utilities", "value": 13.15, "display": "13.2%" },
+        { "label": "Materials", "value": 10.57, "display": "10.6%" },
+        { "label": "Other", "value": 20.27, "display": "20.3%" }
+      ]
+    },
+    {
+      "type": "columns",
+      "items": [
+        {
+          "title": "If it works",
+          "text": "AI spending cools without a severe global recession. Domestic consumption and commodity demand hold. Cheaper prices attract people who can wait."
+        },
+        {
+          "title": "If it doesn't",
+          "text": "A worldwide downturn hits commodities. The dollar strengthens. Local borrowing stays expensive. Brazil's own fiscal story gets louder."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The research job is to separate the discount that is just global fear from the discount that Brazilian fiscal and political reality actually deserves."
+    },
+    {
+      "type": "h2",
+      "text": "Burry, and MercadoLibre"
+    },
+    {
+      "type": "p",
+      "text": "Michael Burry's reported increase in **MercadoLibre (MELI)** makes the company a useful test, not a mascot. The interesting line may not be \"the United States versus Brazil.\" It may be speculative capital spending versus capital spending that already supports a business."
+    },
+    {
+      "type": "columns",
+      "items": [
+        {
+          "title": "AI infrastructure",
+          "text": "Huge up-front data-center spend, leaning on future monetization, utilization, and the bet that today's compute architecture is the one that lasts."
+        },
+        {
+          "title": "MercadoLibre's build",
+          "text": "Warehouses, fulfillment, payments, and credit, under a commerce business that already exists. That can deepen an advantage. It can also blow up on execution or on credit."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "MercadoLibre is not a pure Brazil investment. It is a Latin American footprint, which is a different risk than a Brazil-only ETF. A reported holding is evidence that someone liked a business and a price. It is **not proof** of a broad emerging-market rotation trade. Holdings claims should be checked against dated disclosures. 13Fs are late, and they do not show every kind of position."
+    },
+    {
+      "type": "callout",
+      "title": "The question I actually care about",
+      "text": "Are MercadoLibre's logistics and payments investments building cash-generating advantages at a price that pays you for currency, competition, credit, and country risk?"
+    },
+    {
+      "type": "h2",
+      "text": "A short list of countries"
+    },
+    {
+      "type": "table",
+      "headers": ["Economy", "How I'd label it for now", "The question"],
+      "rows": [
+        ["Mexico", "Relative strength", "Can nearshoring and domestic demand survive a weaker United States?"],
+        ["India", "Domestic growth", "Does local growth offset foreign outflows and a full valuation?"],
+        ["Brazil", "Contrarian value", "Are the fiscal and political risks already in the price?"],
+        ["Colombia", "Secondary resilience", "Does the equity resilience survive the currency and the fiscal picture?"],
+        ["Poland", "A different map", "Can domestic growth resist a weak European industrial cycle?"],
+        ["South Africa", "Commodity-sensitive", "Is the cheapness enough for the commodity and structural risks?"]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What would confirm it, and what would kill it"
+    },
+    {
+      "type": "columns",
+      "items": [
+        {
+          "title": "Confirmation",
+          "text": "USD-adjusted outperformance that lasts 30 and 90 days against U.S. and Asian technology. Real fund inflows, with currencies and sovereign spreads that stop getting worse. Earnings revisions, credit, consumption, and fiscal numbers that do not roll over."
+        },
+        {
+          "title": "Invalidation",
+          "text": "The correction becomes a global recession that crushes commodities and consumer credit. A stronger dollar and higher financing costs force a broad emerging-market liquidation. The valuation discount disappears once you adjust for worse earnings, currency, and sovereign risk."
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "caption": "Instruments to watch. Not a trade list.",
+      "headers": ["Ticker", "Why it's on the page"],
+      "rows": [
+        ["MELI", "Latin American commerce and fintech"],
+        ["EWZ", "Brazil equities"],
+        ["EWW", "Mexico equities"],
+        ["INDA", "India equities"],
+        ["ILF", "Latin American large caps"],
+        ["EEM", "The broad emerging-markets benchmark, including the Asian tech problem"],
+        ["QQQ", "A U.S. growth and technology comparison"],
+        ["UUP", "A rough proxy for the dollar"]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Look at one week, one month, three months, and year to date in USD total return. Then look at flows, the currency, the multiple, and the forward earnings revisions. The ticker is a research instrument."
+    },
+    {
+      "type": "h2",
+      "text": "Where I land, for now"
+    },
+    {
+      "type": "table",
+      "headers": ["Claim", "Where it stands"],
+      "rows": [
+        ["AI concentration is a plausible source of market damage", "Worth taking seriously as a premise"],
+        ["Countries are not experiencing the same selloff", "The snapshots support that"],
+        ["Emerging markets are receiving a sustained redirect of capital", "Not established"],
+        ["Brazil is a demonstrated safe haven", "Not established"],
+        ["MercadoLibre deserves its own valuation work", "Yes. That is the strong candidate."]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The version of this I trust most is narrower than the headline. The opportunity, if there is one, is not \"buy emerging markets.\" It is finding cash-generative businesses with a real advantage, in markets that are being sold for reasons that are not their own."
+    }
+  ]
+}

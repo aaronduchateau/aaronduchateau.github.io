@@ -1,0 +1,234 @@
+{
+  "blocks": [
+    {
+      "type": "p",
+      "text": "**The bet.** The AI revolution can be completely real, and the infrastructure story wrapped around it can still be the wrong story. I am not arguing against intelligence getting more valuable. I am asking whether the giant buildings we are financing are where that value actually lands."
+    },
+    {
+      "type": "quote",
+      "text": "What if we are building the infrastructure for how AI works today, rather than how AI will work when that infrastructure is finally finished?"
+    },
+    {
+      "type": "p",
+      "text": "People keep gluing three different claims together. Adoption will grow. Total computation will grow. And the owners of massive centralized facilities will earn attractive returns on all that capital. The first two can be true while the third disappoints."
+    },
+    {
+      "type": "h2",
+      "text": "The misunderstanding"
+    },
+    {
+      "type": "p",
+      "text": "Training a frontier model, and some of the hardest inference, still loves a big centralized cluster. That does not mean every useful task stays there forever. Compression, quantization, distillation, better chips, and narrower systems can push a growing share of real work onto machines people already own."
+    },
+    {
+      "type": "p",
+      "text": "The law-firm example Michael Burry has been circling is the clean version of this. A firm may need to read years of confidential filings. It does not obviously need the world's largest model, running in someone else's building, to do that job well."
+    },
+    {
+      "type": "columns",
+      "items": [
+        {
+          "title": "Centralized",
+          "text": "You ship the data out, and you keep paying for access. You get shared scale and the frontier model. You also get the network, the recurring bill, and a messier argument about who controls the records."
+        },
+        {
+          "title": "Local",
+          "text": "You run a model that is good enough on a machine you own, next to the files that matter. Marginal cost can fall. Privacy and offline use get easier. You still own the hardware, the upkeep, and the ceiling on model quality."
+        }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "**The distinction that matters:** a business needs the job done reliably. It does not need the highest benchmark score on earth. Intelligence can get more valuable while the price of a useful unit of it falls."
+    },
+    {
+      "type": "h2",
+      "text": "The money problem"
+    },
+    {
+      "type": "figure",
+      "value": "$5.5 trillion",
+      "label": "A forecast, not a receipt",
+      "note": "Cumulative global AI capital spending through 2030, from the J.P. Morgan projection cited in the working notes. That is a forecast. It is not money that has already been spent."
+    },
+    {
+      "type": "chart",
+      "kind": "bars",
+      "title": "Two different measures, drawn only to show scale",
+      "note": "The short bar is a 2026 annual projection. The long bar is a cumulative total through 2030. They are not a time series, and they should not be read as one.",
+      "max": 5.5,
+      "items": [
+        { "label": "2026 annual", "value": 0.9, "display": "$0.9T" },
+        { "label": "Through 2030", "value": 5.5, "display": "$5.5T" }
+      ]
+    },
+    {
+      "type": "p",
+      "text": "The risk is not that the buildings become useless. The risk is that cash flow, utilization, and pricing power come in under the story already baked into equity prices, debt, and long contracts."
+    },
+    {
+      "type": "steps",
+      "items": [
+        "Companies commit enormous sums to centralized capacity: capital spending, leases, debt, private financing.",
+        "AI-assisted research makes models, inference, compilers, and chips more efficient.",
+        "Phones, laptops, workstations, and factory gear get meaningfully more local compute.",
+        "Routine and sensitive work shifts onto local systems wherever the economics and the governance are better.",
+        "Centralized infrastructure is still essential. Utilization, pricing, or growth still miss what investors underwrote.",
+        "Markets reprice the operators, the suppliers, the lenders, and the businesses tied to that miss."
+      ]
+    },
+    {
+      "type": "callout",
+      "title": "The counterweight",
+      "text": "Cheaper inference can create a lot more use. A smaller share of work in the cloud can still mean more absolute cloud demand. Power and capacity are tight enough that an imminent collapse of this buildout is not the base case."
+    },
+    {
+      "type": "h2",
+      "text": "Who might benefit if intelligence spreads out"
+    },
+    {
+      "type": "table",
+      "caption": "Thematic candidates. Not a statement that today's price is a good one.",
+      "headers": ["Company", "Why it fits the idea", "The obvious risk"],
+      "rows": [
+        ["**QCOM** · Qualcomm", "Efficient on-device acceleration across phones, PCs, and embedded gear.", "Customer concentration, phone cycles, and other people's silicon."],
+        ["**AMD** · Advanced Micro Devices", "AI PCs, workstations, CPUs, GPUs, and local inference.", "It is also tied to centralized data-center spending."],
+        ["**AAPL** · Apple", "Devices, silicon, software, memory, and a privacy story people already understand.", "The AI features may not make anyone pay more."],
+        ["**ARM** · Arm Holdings", "Efficient designs already sitting in billions of low-power devices.", "The valuation, the royalty math, and alternatives."],
+        ["**MU** · Micron", "Local models want more memory and more bandwidth on the device.", "Memory is cyclical, and Micron also sells into data centers."]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Infrastructure names worth interrogating"
+    },
+    {
+      "type": "table",
+      "caption": "Rank these by expectations, leverage, financing room, customer concentration, and what happens if utilization disappoints. Not by how often the letters AI appear next to the logo.",
+      "headers": ["Company", "Where it could hurt", "How tightly it fits"],
+      "rows": [
+        ["**CRWV** · CoreWeave", "GPU economics, financing commitments, capital intensity, customer concentration.", "High"],
+        ["**ORCL** · Oracle", "The AI cloud buildout, and whether the assets earn their cost of capital.", "High"],
+        ["**NVDA** · NVIDIA", "Hyperscaler accelerator orders and long-run hardware pricing.", "Medium to high. It also benefits if AI goes local."],
+        ["**VRT** · Vertiv", "Power and cooling if the buildout keeps compounding.", "Medium"],
+        ["**EQIX** · Equinix", "Long-run colocation economics.", "Lower. Demand is more mixed."]
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "Three futures for where the work runs"
+    },
+    {
+      "type": "p",
+      "text": "These are sketches, not measurements. The percentages are a hypothetical mix of **inference** workloads around 2035. They are not training compute, not revenue, and not total AI spending."
+    },
+    {
+      "type": "chart",
+      "kind": "split",
+      "title": "Where inference might sit",
+      "note": "The weights are subjective. Cloud share times price per workload is the actual revenue question. A flood of new tasks can offset a smaller cloud share or a lower price.",
+      "items": [
+        {
+          "label": "Centralized dominance",
+          "display": "30% weight",
+          "text": "Frontier reasoning and agent-style work keep the cloud in the driver's seat.",
+          "parts": [
+            { "label": "Cloud", "value": 85 },
+            { "label": "Local", "value": 15 }
+          ]
+        },
+        {
+          "label": "Hybrid",
+          "display": "45% weight",
+          "text": "Everyday work moves onto devices. Hard inference and training stay centralized.",
+          "parts": [
+            { "label": "Cloud", "value": 55 },
+            { "label": "Local", "value": 45 }
+          ]
+        },
+        {
+          "label": "Distributed",
+          "display": "25% weight",
+          "text": "Local models get good enough for most ordinary business and consumer jobs.",
+          "parts": [
+            { "label": "Cloud", "value": 30 },
+            { "label": "Local", "value": 70 }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "A sketch, not a portfolio"
+    },
+    {
+      "type": "chart",
+      "kind": "donut",
+      "title": "One way to hold the argument",
+      "note": "This is a hypothetical sleeve for thinking, not a recommended allocation for anyone's actual money.",
+      "items": [
+        { "label": "Distributed AI", "value": 60, "display": "60%" },
+        { "label": "Skeptical sleeve", "value": 20, "display": "20%" },
+        { "label": "Cash and dry powder", "value": 20, "display": "20%" }
+      ]
+    },
+    {
+      "type": "columns",
+      "items": [
+        {
+          "title": "60% distributed",
+          "text": "Exposure to the hardware and designs that make local inference more capable."
+        },
+        {
+          "title": "20% skeptical",
+          "text": "A defined-risk way to question the most extended infrastructure stories. A short-dated put still needs a nearer catalyst. You can be right on the decade and lose the premium anyway."
+        },
+        {
+          "title": "20% liquidity",
+          "text": "Cash or short Treasuries, so the idea does not spend the option to wait."
+        }
+      ]
+    },
+    {
+      "type": "h2",
+      "text": "What would prove this wrong"
+    },
+    {
+      "type": "table",
+      "headers": ["Watch", "Supports the idea", "Cuts against it"],
+      "rows": [
+        ["Small models", "They close the gap on useful business tasks.", "Frontier models keep an advantage people will pay for."],
+        ["Cost per task", "Local gets sharply cheaper than cloud.", "Cloud still wins on total cost."],
+        ["Where companies deploy", "On-prem and on-device adoption speeds up.", "The API stays the default."],
+        ["Hyperscaler returns", "Spending outruns cash returns and utilization.", "The capex earns its keep."],
+        ["Accelerator pricing", "Rents, utilization, or margins soften.", "The chips stay scarce and profitable."],
+        ["Device upgrades", "People buy memory and accelerators for local AI.", "Nobody pays up for the on-device feature."]
+      ]
+    },
+    {
+      "type": "p",
+      "text": "Power, permits, and financing can change a project's math. A nationwide ban on data centers is a separate claim, and it should not be assumed without pointing at a law that actually passed."
+    },
+    {
+      "type": "h2",
+      "text": "If the model becomes cheap"
+    },
+    {
+      "type": "p",
+      "text": "Once a capable model is closer to a commodity, the value can move toward the data a business already has, the workflow people trust, the device in their hand, and the industry-specific application. That is a different set of winners than the companies pouring concrete for the current architecture."
+    },
+    {
+      "type": "callout",
+      "title": "The decentralization of intelligence",
+      "text": "The market may be right that artificial intelligence changes the economy, and wrong about the long-term infrastructure required to deliver it. Centralized computing does not disappear. What can disappear is the pricing power and the utilization story holding up an enormous investment cycle. The interesting position is not a bet against AI. It is a bet that we confused the future value of intelligence with the future value of the buildings currently used to produce it."
+    },
+    {
+      "type": "h2",
+      "text": "Where I would start looking"
+    },
+    {
+      "type": "p",
+      "text": "On the distributed side, **QCOM** and **ARM**. On the infrastructure-risk side, **CRWV** and **ORCL**. Before any of that becomes a position, the work is ordinary and unglamorous: valuation versus history, debt maturities, capital commitments, cash conversion, customer concentration, and, if options are involved, the actual strike and expiration. There may be a repricing of expectations over the next 6 to 24 months, and a longer shift toward local intelligence after that. Neither date is promised, and the long shift does not guarantee the short one."
+    }
+  ]
+}

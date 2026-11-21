@@ -5,14 +5,14 @@
  * - `/intro/`, `/intro/splash/` — entry / loadout (outside the launched site)
  * - `/portfolio-launched/` — main portfolio
  * - `/portfolio-launched/open/…/` — one static page per modal view (Open Graph)
- * - `/blog/` — post index; `/blog/YYYY/MM/DD/<slug>/` — one static page per post
+ * - `/blog/` — post index; `/blog/<category>/YYYY/MM/DD/<slug>/` — one static page per post
  * - `/component-preview/` — isolated Storybook iframe (no signature boot plate)
  */
 
 export const INTRO_PATH = "/intro/";
 export const INTRO_SPLASH_PATH = "/intro/splash/";
 export const PORTFOLIO_PATH = "/portfolio-launched/";
-/** Blog index. Posts append `YYYY/MM/DD/<slug>/`. */
+/** Blog index. Posts append `<category>/YYYY/MM/DD/<slug>/`. */
 export const BLOG_PATH = "/blog/";
 /** Isolated catalog iframe — must never run the signature boot splash. */
 export const COMPONENT_PREVIEW_PATH = "/component-preview/";

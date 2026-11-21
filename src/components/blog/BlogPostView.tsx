@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { BlogBlocks } from "@/components/blog/BlogBlocks";
 import { BlogBody } from "@/components/blog/BlogBody";
 import { BlogByline } from "@/components/blog/BlogByline";
 import { BlogChrome } from "@/components/blog/BlogChrome";
-import type { BlogPost } from "@/data/blog";
+import { BlogThesisNote } from "@/components/blog/BlogThesisNote";
+import { formatBlogCategory, type BlogPost } from "@/data/blog";
 import { BLOG_PATH } from "@/lib/routes";
 
 export function BlogPostView({ post }: { post: BlogPost }) {
@@ -11,10 +13,12 @@ export function BlogPostView({ post }: { post: BlogPost }) {
     <BlogChrome>
       <article className="theme-page-section__inner py-12 sm:py-16">
         <div className="max-w-3xl">
-          <p className="text-sm">
+          <p className="text-sm text-surface-400">
             <Link href={BLOG_PATH} className="text-accent-400 hover:text-white">
               Blog
             </Link>
+            <span aria-hidden="true"> / </span>
+            <span>{formatBlogCategory(post.category)}</span>
           </p>
 
           {post.titleImage ? (
@@ -47,7 +51,7 @@ export function BlogPostView({ post }: { post: BlogPost }) {
             </div>
           ) : null}
           <div className="mt-8">
-            <BlogBody source={post.body} />
+            {post.blocks.length > 0 ? <BlogBlocks blocks={post.blocks} /> : <BlogBody source={post.body} />}
           </div>
           {post.references.length > 0 ? (
             <section className="mt-10 text-left">
@@ -68,6 +72,7 @@ export function BlogPostView({ post }: { post: BlogPost }) {
               </ul>
             </section>
           ) : null}
+          {post.thesis ? <BlogThesisNote /> : null}
         </div>
       </article>
     </BlogChrome>

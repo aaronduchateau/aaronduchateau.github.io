@@ -36,6 +36,10 @@ function parseBlogBody(source: string): Block[] {
   return blocks;
 }
 
+export function BlogInline({ text }: { text: string }) {
+  return <>{inline(text)}</>;
+}
+
 function inline(text: string): ReactNode[] {
   const parts: ReactNode[] = [];
   const re = /(\*\*[^*]+\*\*|\[[^\]]+\]\([^)\s]+\))/g;
@@ -89,10 +93,12 @@ export function BlogBody({ source }: { source: string }) {
             key={index}
             className="border-l-2 border-accent-400/70 pl-4 text-surface-100"
           >
-            {inline(block.text)}
+            <BlogInline text={block.text} />
           </blockquote>
         ) : (
-          <p key={index}>{inline(block.text)}</p>
+          <p key={index}>
+            <BlogInline text={block.text} />
+          </p>
         ),
       )}
     </div>
