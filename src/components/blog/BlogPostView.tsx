@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { BlogBlocks } from "@/components/blog/BlogBlocks";
+import { BlogCategoryNav } from "@/components/blog/BlogCategoryNav";
 import { BlogBody } from "@/components/blog/BlogBody";
 import { BlogByline } from "@/components/blog/BlogByline";
 import { BlogChrome } from "@/components/blog/BlogChrome";
@@ -73,6 +74,7 @@ export function BlogPostView({ post }: { post: BlogPost }) {
             </section>
           ) : null}
           {post.thesis ? <BlogThesisNote /> : null}
+          <BlogCategoryNav post={post} />
         </div>
       </article>
     </BlogChrome>

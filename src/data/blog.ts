@@ -297,6 +297,23 @@ export function blogPostPath(post: Pick<BlogPost, "category" | "date" | "slug">)
   return `${BLOG_PATH}${post.category}/${year}/${month}/${day}/${post.slug}/`;
 }
 
+/**
+ * Neighbors inside one category, in the same order as the index (newest first).
+ * Previous is the article above this one. Next is the article below it.
+ */
+export function blogCategoryNeighbors(post: Pick<BlogPost, "category" | "date" | "slug">): {
+  previous: BlogPost | null;
+  next: BlogPost | null;
+} {
+  const siblings = blogPosts.filter((item) => item.category === post.category);
+  const index = siblings.findIndex((item) => item.date === post.date && item.slug === post.slug);
+  if (index < 0) return { previous: null, next: null };
+  return {
+    previous: siblings[index - 1] ?? null,
+    next: siblings[index + 1] ?? null,
+  };
+}
+
 export function findBlogPost(parts: {
   category: string;
   year: string;

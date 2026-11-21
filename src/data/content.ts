@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-11-20 — Previous and next stay inside the category
+
+### Category
+Feature
+
+### Decision
+**Shipped:** The bottom of a post offers Previous and Next only among posts in the same category. The order matches the index, newest first. Previous is the article above this one. Next is the article below it. A category with a single post shows neither link.
+
+### Reason
+A category is a reading path. Crossing into another category from those links would make Next mean something different from the list the reader just came from.
+
 ## 2026-11-20 — Blog URLs include a category
 
 ### Category
