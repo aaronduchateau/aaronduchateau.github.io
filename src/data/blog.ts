@@ -7,6 +7,8 @@ import { BLOG_PATH } from "@/lib/routes";
  *
  * A post URL is `/blog/YYYY/MM/DD/<slug>/`.
  * `titleImage` is optional. Omit it, or set it to null, when a post has no title photo.
+ * `youtubeId` is optional. When set, the post embeds that video. With no title photo, the
+ * index card and the share image use the video thumbnail.
  * Author name, date, and author portrait render on every post.
  */
 
@@ -43,6 +45,8 @@ export type BlogPost = {
   body: string;
   /** Optional links shown under a small "References and Resources" label. */
   references: BlogReference[];
+  /** YouTube video id, when the post’s main media is a video. */
+  youtubeId: string | null;
 };
 
 type RawFile = {
@@ -58,8 +62,11 @@ type RawFile = {
     titleImageHeight?: number;
     body: string;
     references?: Array<{ label?: string; href?: string }> | null;
+    youtubeId?: string | null;
   }>;
 };
+
+const YOUTUBE_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -97,6 +104,11 @@ function loadBlog(file: RawFile): { author: BlogAuthor; posts: BlogPost[] } {
       );
     }
 
+    const youtubeId = post.youtubeId?.trim() ? post.youtubeId.trim() : null;
+    if (youtubeId) {
+      assert(YOUTUBE_ID_RE.test(youtubeId), `${where} youtubeId must be an 11-character YouTube id`);
+    }
+
     const references = (post.references ?? []).map((item, refIndex) => {
       const label = item.label?.trim() ?? "";
       const href = item.href?.trim() ?? "";
@@ -120,6 +132,7 @@ function loadBlog(file: RawFile): { author: BlogAuthor; posts: BlogPost[] } {
       titleImageHeight: titleImage ? post.titleImageHeight! : 0,
       body: post.body.trim(),
       references,
+      youtubeId,
     } satisfies BlogPost;
   });
 
@@ -158,7 +171,17 @@ export function findBlogPost(parts: {
   return blogPosts.find((post) => post.date === date && post.slug === parts.slug) ?? null;
 }
 
-/** Title photo when the post has one. Otherwise the author portrait, so a share card still has a picture. */
+/** Public thumbnail for a YouTube id. `hqdefault` exists even when a max-res still does not. */
+export function youtubeThumbnail(videoId: string, alt: string): BlogShareImage {
+  return {
+    url: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+    alt,
+    width: 480,
+    height: 360,
+  };
+}
+
+/** Title photo when the post has one. A video post without one uses the thumbnail. Otherwise the author portrait. */
 export function blogShareImage(post: BlogPost): BlogShareImage {
   if (post.titleImage) {
     return {
@@ -168,6 +191,7 @@ export function blogShareImage(post: BlogPost): BlogShareImage {
       height: post.titleImageHeight,
     };
   }
+  if (post.youtubeId) return youtubeThumbnail(post.youtubeId, post.title);
   return {
     url: blogAuthor.image,
     alt: blogAuthor.imageAlt,

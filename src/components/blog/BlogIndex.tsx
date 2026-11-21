@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { BlogByline } from "@/components/blog/BlogByline";
 import { BlogChrome } from "@/components/blog/BlogChrome";
-import { blogPostPath, blogPosts } from "@/data/blog";
+import { blogPostPath, blogPosts, youtubeThumbnail } from "@/data/blog";
 
 export function BlogIndex() {
   return (
@@ -28,6 +28,14 @@ export function BlogIndex() {
                       alt=""
                       width={post.titleImageWidth}
                       height={post.titleImageHeight}
+                      className="theme-radius-media h-auto w-full"
+                    />
+                  ) : post.youtubeId ? (
+                    <Image
+                      src={youtubeThumbnail(post.youtubeId, "").url}
+                      alt=""
+                      width={480}
+                      height={360}
                       className="theme-radius-media h-auto w-full"
                     />
                   ) : null}

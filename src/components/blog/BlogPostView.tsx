@@ -34,6 +34,18 @@ export function BlogPostView({ post }: { post: BlogPost }) {
           <div className="mt-5">
             <BlogByline date={post.date} />
           </div>
+          {post.youtubeId ? (
+            <div className="theme-radius-media mt-8 overflow-hidden bg-black">
+              <iframe
+                className="aspect-video w-full"
+                src={`https://www.youtube-nocookie.com/embed/${post.youtubeId}?rel=0`}
+                title={post.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+              />
+            </div>
+          ) : null}
           <div className="mt-8">
             <BlogBody source={post.body} />
           </div>

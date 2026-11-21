@@ -17,6 +17,7 @@
       "titleImageWidth": 1200,
       "titleImageHeight": 630,
       "body": "There are a lot of reasons to dislike datacenters. They poison local environments. They are loud. And outside of construction, they produce almost no jobs compared with the size of the buildout.\n\nBut what if there is an even bigger oversight wrapped around all of that controversy? What if we are misunderstanding how this technology is going to be used in the first place?\n\nThe idea is not that the AI revolution is wrong, or that the demand around it is inconsequential. As of this writing, on the eve of November 20th, AI has just solved the Riemann hypothesis, and that ties directly into the point I am trying to make.\n\nHow are we supposed to design decade-long infrastructure that makes sense when we do not yet understand how AI itself will change the way these models are served and supported?\n\nThis is the part I think a lot of people are not considering with these datacenter buildouts. The revolution can be real, and the bulk of the processing can still end up happening in our offices, or in our pockets.\n\nWe may have just bet our entire economy (now, at least in theory, blocked by a new round of legislatures) on an infrastructure play that misunderstands how most AI processing will be taking place a decade from now.\n\n> \"The sharpest part of Burry’s latest reader Q&A came from someone who runs a law firm. Burry agreed that AI tools capable of reviewing years of filings are on the way, but he argued that businesses could run smaller models on their own machines using their own records, and that compression could fit those models onto smaller devices.\"\n\nIf this is true, the investment decision that may affect our entire economy may be... what does that look like?",
+      "youtubeId": null,
       "references": [
         {
           "label": "Michael Burry sees a serious problem Wall Street may be overlooking",
@@ -27,6 +28,14 @@
           "href": "https://www.reddit.com/r/singularity/comments/1y1ibpk/anthropics_claude_solves_the_riemann_hypothesis/?rdt=48037"
         }
       ]
+    },
+    {
+      "title": "For those involved in Tech, the public narrative about societal anomalies isn't adding up",
+      "slug": "for-those-involved-in-tech-the-public-narrative-about-societal-anomalies-isnt-adding-up",
+      "date": "2026-11-13",
+      "description": "The public narrative is that isolated incidents are fueling the latest stream of infrastructure issues in the United States. While this is possible, it does not really make sense.",
+      "body": "The public narrative is that isolated incidents are fueling the latest stream of infrastructure issues in the United States. While this is possible, it does not really make sense.",
+      "youtubeId": "lXMIW7e--Wc"
     }
   ]
 }

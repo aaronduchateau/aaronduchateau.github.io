@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-11-20 — A blog post can embed one YouTube video
+
+### Category
+Feature
+
+### Decision
+**Shipped:** A post in \`public/blog/posts.json\` may set an optional \`youtubeId\`. The post page embeds it from \`youtube-nocookie.com\` with the normal player controls. If that post has no title photo, the index card and the share image use the video thumbnail. The author portrait still shows in the byline.
+
+### Reason
+The blog is a JSON file. A video id is enough to render the same embed everywhere, and the thumbnail gives a link preview an image when there is no title photo. The chromeless splash player hides controls, so a post someone is meant to watch uses the standard embed instead.
+
 ## 2026-11-20 — Blog posts are static pages with their own URLs
 
 ### Category
