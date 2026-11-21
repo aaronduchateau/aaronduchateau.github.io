@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Unused project-highlight cards. Not the public Blog.
+ * Posts live in `public/blog/posts.json` and render at `/blog/`.
+ */
+
 import { Card, CardGrid, PageSection, SectionHeading } from "@/components/ui";
 import { blogPosts } from "@/data/content";
 import { useTheme } from "@/theme/ThemeProvider";

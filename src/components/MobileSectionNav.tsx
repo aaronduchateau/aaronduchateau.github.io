@@ -7,23 +7,13 @@ import { requestOptionsMenu } from "@/components/OptionsMenu";
 import { MinusIcon, PlusIcon } from "@/components/ui/simple/icons";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { navigateToRouteModal } from "@/lib/useRouteModal";
+import {
+  primarySectionLinks,
+  SectionNavLink,
+  useSectionPathname,
+  workSectionLinks,
+} from "@/components/siteSectionLinks";
 import { useTheme } from "@/theme/ThemeProvider";
-
-/** Primary section links — order matches homepage scroll. */
-const primaryLinks = [
-  { href: "#testimonials", label: "Testimonials" },
-  { href: "#education", label: "Education" },
-  { href: "#human-things", label: "Human things", requiresFunThings: true },
-] as const;
-
-const workLinks = [
-  { href: "#interactive-things", label: "Interactive things" },
-  { href: "#new-software-demos", label: "A few software demos" },
-  { href: "#work", label: "Career timeline" },
-  { href: "#projects", label: "Major projects" },
-  { href: "#hackathons", label: "Hackathon Contributions" },
-  { href: "#older-videos", label: "Archives" },
-];
 
 type Props = {
   open: boolean;
@@ -94,8 +84,9 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
   const [workOpen, setWorkOpen] = useState(true);
   const [mounted, setMounted] = useState(false);
   const { playNavClick, visibility } = useTheme();
-  const sectionLinks = primaryLinks.filter(
-    (l) => !("requiresFunThings" in l && l.requiresFunThings) || visibility.funThings,
+  const pathname = useSectionPathname();
+  const sectionLinks = primarySectionLinks.filter(
+    (l) => !l.requiresFunThings || visibility.funThings,
   );
 
   useEffect(() => {
@@ -215,26 +206,28 @@ export function MobileSectionNav({ open, onOpenChange }: Props) {
                     </span>
                   </button>
                   {workOpen
-                    ? workLinks.map((link) => (
-                        <a
+                    ? workSectionLinks.map((link) => (
+                        <SectionNavLink
                           key={link.href}
                           href={link.href}
+                          pathname={pathname}
                           className="theme-nav-flyout__item theme-nav-flyout__item--child"
                           onClick={closeAfterJump}
                         >
                           {link.label}
-                        </a>
+                        </SectionNavLink>
                       ))
                     : null}
                   {sectionLinks.map((link) => (
-                    <a
+                    <SectionNavLink
                       key={link.href}
                       href={link.href}
+                      pathname={pathname}
                       className="theme-nav-flyout__item"
                       onClick={closeAfterJump}
                     >
                       {link.label}
-                    </a>
+                    </SectionNavLink>
                   ))}
                   <div className="theme-nav-flyout__rule" role="separator" />
                   <p className="theme-nav-flyout__title">Site</p>

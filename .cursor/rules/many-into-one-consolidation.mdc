@@ -25,6 +25,12 @@ In the **same change set**, append a **Rule of thumb** at the **top** of the lis
 
 ## Rule of thumb list
 
+### 2026-11-20 — Site section links
+
+**Many:** The same Work menu and primary section lists lived in `SiteNav` and `MobileSectionNav`.
+**One:** [`src/components/siteSectionLinks.tsx`](src/components/siteSectionLinks.tsx) (`primarySectionLinks`, `workSectionLinks`, `SectionNavLink`).
+**Thumb:** A new top-level destination is one entry in that list. Hash links resolve to `/portfolio-launched/#…` when the current page is not the portfolio.
+
 ### 2026-10-14 — Enter splash (copy + Continue)
 
 **Many:** Local `*Splash` functions in Coordinate prompt, Photo Critique, and NPM Audit — same centered sentence and Continue.

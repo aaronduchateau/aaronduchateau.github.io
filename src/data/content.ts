@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-11-20 — Blog posts are static pages with their own URLs
+
+### Category
+Structural | Feature
+
+### Decision
+**Shipped:** A top-level Blog tab. Posts live in \`public/blog/posts.json\` and images live in \`public/blog/images/\`. Each post is a static page at \`/blog/YYYY/MM/DD/<slug>/\`. The index is \`/blog/\`. Title, description, Open Graph, and Twitter cards are generated per post. A title photo is optional. The author name, date, and author portrait always render. Section links in the nav point at \`/portfolio-launched/#…\` when the current page is not the portfolio.
+
+### Reason
+There is no database, and this site is a static export. A path per post is a file a link unfurl can fetch, so the preview can show that post’s title and image without running the page script. JSON plus an images folder is enough to add a post without a backend.
+
 ## 2026-10-20 — Video player corners stay fixed
 
 ### Category

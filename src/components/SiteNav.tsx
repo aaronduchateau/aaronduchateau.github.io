@@ -8,25 +8,16 @@ import { MobileSectionNav } from "@/components/MobileSectionNav";
 import { OptionsMenu } from "@/components/OptionsMenu";
 import { ScoreChestButton } from "@/components/ScoreChestButton";
 import { SoundMenu } from "@/components/SoundMenu";
+import {
+  isSectionLinkCurrent,
+  primarySectionLinks,
+  SectionNavLink,
+  useSectionPathname,
+  workSectionLinks,
+} from "@/components/siteSectionLinks";
 import { MinusIcon, PlusIcon } from "@/components/ui/simple/icons";
 import { useTheme } from "@/theme/ThemeProvider";
 import { PORTFOLIO_PATH } from "@/lib/routes";
-
-/** Primary section links — order matches homepage scroll. */
-const primaryLinks = [
-  { href: "#testimonials", label: "Testimonials" },
-  { href: "#education", label: "Education" },
-  { href: "#human-things", label: "Human things", requiresFunThings: true },
-] as const;
-
-const workLinks = [
-  { href: "#interactive-things", label: "Interactive things" },
-  { href: "#new-software-demos", label: "A few software demos" },
-  { href: "#work", label: "Career timeline" },
-  { href: "#projects", label: "Major projects" },
-  { href: "#hackathons", label: "Hackathon Contributions" },
-  { href: "#older-videos", label: "Archives" },
-];
 
 /** Shared with Education / Testimonials anchors — theme roles only, same box. */
 const navItemClass =
@@ -35,6 +26,7 @@ const navItemClass =
 function WorkMenu({ onNavigate }: { onNavigate: () => void }) {
   const menuId = useId();
   const rootRef = useRef<HTMLLIElement>(null);
+  const pathname = useSectionPathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -85,10 +77,11 @@ function WorkMenu({ onNavigate }: { onNavigate: () => void }) {
           aria-label="Work"
           className="options-menu-panel absolute left-0 top-[calc(100%+0.4rem)] z-[60] min-w-[14rem] border border-white/10 bg-surface-950/95 p-2 shadow-xl shadow-black/40"
         >
-          {workLinks.map((link) => (
-            <a
+          {workSectionLinks.map((link) => (
+            <SectionNavLink
               key={link.href}
               href={link.href}
+              pathname={pathname}
               role="menuitem"
               onClick={() => {
                 onNavigate();
@@ -97,7 +90,7 @@ function WorkMenu({ onNavigate }: { onNavigate: () => void }) {
               className="flex w-full items-center rounded-lg px-2.5 py-2 text-left text-xs font-medium text-surface-200 transition hover:bg-white/5 hover:text-white"
             >
               {link.label}
-            </a>
+            </SectionNavLink>
           ))}
         </div>
       ) : null}
@@ -111,8 +104,9 @@ export function SiteNav() {
   const [titleReplay, setTitleReplay] = useState(0);
   const [sectionMenuOpen, setSectionMenuOpen] = useState(false);
   const { playNavClick, visibility } = useTheme();
-  const sectionLinks = primaryLinks.filter(
-    (l) => !("requiresFunThings" in l && l.requiresFunThings) || visibility.funThings,
+  const pathname = useSectionPathname();
+  const sectionLinks = primarySectionLinks.filter(
+    (l) => !l.requiresFunThings || visibility.funThings,
   );
 
   useEffect(() => {
@@ -157,9 +151,14 @@ export function SiteNav() {
           <WorkMenu onNavigate={playNavClick} />
           {sectionLinks.map((l) => (
             <li key={l.href}>
-              <a href={l.href} onClick={playNavClick} className={navItemClass}>
+              <SectionNavLink
+                href={l.href}
+                pathname={pathname}
+                onClick={playNavClick}
+                className={`${navItemClass}${isSectionLinkCurrent(l.href, pathname) ? " text-white" : ""}`}
+              >
                 {l.label}
-              </a>
+              </SectionNavLink>
             </li>
           ))}
         </ul>

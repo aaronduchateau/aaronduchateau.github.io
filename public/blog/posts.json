@@ -1,0 +1,22 @@
+{
+  "author": {
+    "name": "Aaron DuChateau",
+    "image": "/blog/images/aaron-duchateau.jpg",
+    "imageAlt": "Aaron DuChateau",
+    "imageWidth": 640,
+    "imageHeight": 887
+  },
+  "posts": [
+    {
+      "title": "What if most AI processing ends up in our pockets?",
+      "slug": "what-if-most-ai-processing-ends-up-in-our-pockets",
+      "date": "2026-11-20",
+      "description": "The AI revolution is not incorrect, but the bulk of processing may end up in our offices, or in our pockets.",
+      "titleImage": "/blog/images/2026-11-20-title-placeholder.png",
+      "titleImageAlt": "Title photo placeholder",
+      "titleImageWidth": 1200,
+      "titleImageHeight": 630,
+      "body": "This is a really interesting thing that I think many people are not considering with these datacenter buildouts. The idea is that the AI revolution is not incorrect, but that as technology progression itself accelerates (through AI based innovation) the bulk of processing may end up happening in our offices, or in our pockets.\n\nWe may as a nation have just bet our entire economy (now theoretically blocked by a new round of legislatures) on an infrastructure play that misunderstands how most AI processing will be taking place a decade from now.\n\n> \"The sharpest part of Burry’s latest reader Q&A came from someone who runs a law firm. Burry agreed that AI tools capable of reviewing years of filings are on the way, but he argued that businesses could run smaller models on their own machines using their own records, and that compression could fit those models onto smaller devices.\"\n\nIf this is true the investment decision that may affect our entire economy may be...what does that look like?\n\n[Michael Burry sees a serious problem Wall Street may be overlooking](https://www.thestreet.com/investing/stocks/michael-burry-sees-a-serious-problem-wall-street-may-be-overlooking?link_source=ta_first_comment&taid=6b00c2f6a1fed50001c28de7&utm_campaign=trueanthem&utm_medium=social&utm_source=facebook&fbclid=IwY2xjawVt2vxleHRuA2FlbQIxMABwZG9mBWJyaWQRMUwxd0Y1T21BdUtsazA1MkpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEfwYOM7DQiii-mQ94xxdV8e38AHhBHc0FB095METiCR8wrjb2Vi7G8a4AGabs_aem_vu8vFtCHPJCBpme37xfmsg)"
+    }
+  ]
+}
