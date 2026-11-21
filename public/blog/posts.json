@@ -13,10 +13,6 @@
       "category": "technology",
       "date": "2026-11-20",
       "description": "There are plenty of reasons to dislike datacenters. The bigger question is whether we just built them for a kind of AI that will mostly run somewhere else.",
-      "titleImage": "/blog/images/2026-11-20-title-placeholder.png",
-      "titleImageAlt": "Title photo placeholder",
-      "titleImageWidth": 1200,
-      "titleImageHeight": 630,
       "body": "There are a lot of reasons to dislike datacenters. They poison local environments. They are loud. Outside of construction, they produce almost no jobs for a buildout this size.\n\nWhat if there is an even bigger oversight underneath all of that controversy? What if we are misunderstanding how this technology is going to be used in the first place?\n\nThe idea is not that the AI revolution is wrong, or that the demand around it is inconsequential. As of this writing, on the eve of November 20th, AI has just solved the Riemann hypothesis, and that is exactly the point.\n\nHow are we supposed to design decade-long infrastructure that makes sense when we do not yet understand how AI itself will change the way these models are served and supported?\n\nThis is the part I think a lot of people are missing in these datacenter buildouts. The revolution can be real, and the bulk of the processing can still end up in our offices, or in our pockets.\n\nWe may have just bet our entire economy on an infrastructure play (now, at least in theory, blocked by a new round of legislatures) that misunderstands where most AI processing will happen a decade from now.\n\n> \"The sharpest part of Burry’s latest reader Q&A came from someone who runs a law firm. Burry agreed that AI tools capable of reviewing years of filings are on the way, but he argued that businesses could run smaller models on their own machines using their own records, and that compression could fit those models onto smaller devices.\"\n\nIf this is true, the investment decision that could shape our entire economy comes down to a simpler question. What does that look like?",
       "youtubeId": null,
       "references": [
