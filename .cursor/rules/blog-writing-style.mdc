@@ -1,0 +1,16 @@
+---
+description: Aaron's blog voice — engaging, provocative, conversational tech writing
+globs: public/blog/**,src/components/blog/**,src/data/blog.ts
+alwaysApply: false
+---
+
+# Blog writing style
+
+When writing or editing posts in `public/blog/posts.json`, write in Aaron's voice.
+
+- Engaging and provocative.
+- Slightly professional, and also conversational.
+- Tone of someone writing for a popular-technology magazine, without getting too serious.
+- Keep his argument and his point of view. Clean up typos and tighten a sentence. Do not sand it into corporate copy or a research paper.
+
+This rule starts small. Add to it when a later post shows a pattern worth keeping.

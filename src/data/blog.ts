@@ -25,6 +25,11 @@ export type BlogShareImage = {
   height: number;
 };
 
+export type BlogReference = {
+  label: string;
+  href: string;
+};
+
 export type BlogPost = {
   title: string;
   slug: string;
@@ -36,6 +41,8 @@ export type BlogPost = {
   titleImageWidth: number;
   titleImageHeight: number;
   body: string;
+  /** Optional links shown under a small "References and Resources" label. */
+  references: BlogReference[];
 };
 
 type RawFile = {
@@ -50,6 +57,7 @@ type RawFile = {
     titleImageWidth?: number;
     titleImageHeight?: number;
     body: string;
+    references?: Array<{ label?: string; href?: string }> | null;
   }>;
 };
 
@@ -89,6 +97,14 @@ function loadBlog(file: RawFile): { author: BlogAuthor; posts: BlogPost[] } {
       );
     }
 
+    const references = (post.references ?? []).map((item, refIndex) => {
+      const label = item.label?.trim() ?? "";
+      const href = item.href?.trim() ?? "";
+      assert(label, `${where} references[${refIndex}] label is required`);
+      assert(/^https?:\/\//.test(href), `${where} references[${refIndex}] href must be an http(s) URL`);
+      return { label, href };
+    });
+
     const path = `${post.date}/${post.slug}`;
     assert(!seen.has(path), `${where} repeats ${path}`);
     seen.add(path);
@@ -103,6 +119,7 @@ function loadBlog(file: RawFile): { author: BlogAuthor; posts: BlogPost[] } {
       titleImageWidth: titleImage ? post.titleImageWidth! : 0,
       titleImageHeight: titleImage ? post.titleImageHeight! : 0,
       body: post.body.trim(),
+      references,
     } satisfies BlogPost;
   });
 

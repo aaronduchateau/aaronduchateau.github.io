@@ -37,6 +37,25 @@ export function BlogPostView({ post }: { post: BlogPost }) {
           <div className="mt-8">
             <BlogBody source={post.body} />
           </div>
+          {post.references.length > 0 ? (
+            <section className="mt-10 text-left">
+              <h2 className="text-xs font-medium text-surface-400">References and Resources</h2>
+              <ul className="mt-3 space-y-2 text-sm">
+                {post.references.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="break-words text-accent-400 underline decoration-accent-400/40 underline-offset-2 hover:text-white"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </div>
       </article>
     </BlogChrome>

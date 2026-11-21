@@ -8,15 +8,25 @@
   },
   "posts": [
     {
-      "title": "What if most AI processing ends up in our pockets?",
-      "slug": "what-if-most-ai-processing-ends-up-in-our-pockets",
+      "title": "We just bet the world's economy on datacenters, but what if most AI processing ends up in our pockets?",
+      "slug": "we-just-bet-the-worlds-economy-on-datacenters-but-what-if-most-ai-processing-ends-up-in-our-pockets",
       "date": "2026-11-20",
-      "description": "The AI revolution is not incorrect, but the bulk of processing may end up in our offices, or in our pockets.",
+      "description": "There are plenty of reasons to dislike datacenters. The bigger question is whether we just built them for a kind of AI that will mostly run somewhere else.",
       "titleImage": "/blog/images/2026-11-20-title-placeholder.png",
       "titleImageAlt": "Title photo placeholder",
       "titleImageWidth": 1200,
       "titleImageHeight": 630,
-      "body": "This is a really interesting thing that I think many people are not considering with these datacenter buildouts. The idea is that the AI revolution is not incorrect, but that as technology progression itself accelerates (through AI based innovation) the bulk of processing may end up happening in our offices, or in our pockets.\n\nWe may as a nation have just bet our entire economy (now theoretically blocked by a new round of legislatures) on an infrastructure play that misunderstands how most AI processing will be taking place a decade from now.\n\n> \"The sharpest part of Burry’s latest reader Q&A came from someone who runs a law firm. Burry agreed that AI tools capable of reviewing years of filings are on the way, but he argued that businesses could run smaller models on their own machines using their own records, and that compression could fit those models onto smaller devices.\"\n\nIf this is true the investment decision that may affect our entire economy may be...what does that look like?\n\n[Michael Burry sees a serious problem Wall Street may be overlooking](https://www.thestreet.com/investing/stocks/michael-burry-sees-a-serious-problem-wall-street-may-be-overlooking?link_source=ta_first_comment&taid=6b00c2f6a1fed50001c28de7&utm_campaign=trueanthem&utm_medium=social&utm_source=facebook&fbclid=IwY2xjawVt2vxleHRuA2FlbQIxMABwZG9mBWJyaWQRMUwxd0Y1T21BdUtsazA1MkpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEfwYOM7DQiii-mQ94xxdV8e38AHhBHc0FB095METiCR8wrjb2Vi7G8a4AGabs_aem_vu8vFtCHPJCBpme37xfmsg)"
+      "body": "There are a lot of reasons to dislike datacenters. They poison local environments. They are loud. And outside of construction, they produce almost no jobs compared with the size of the buildout.\n\nBut what if there is an even bigger oversight wrapped around all of that controversy? What if we are misunderstanding how this technology is going to be used in the first place?\n\nThe idea is not that the AI revolution is wrong, or that the demand around it is inconsequential. As of this writing, on the eve of November 20th, AI has just solved the Riemann hypothesis, and that ties directly into the point I am trying to make.\n\nHow are we supposed to design decade-long infrastructure that makes sense when we do not yet understand how AI itself will change the way these models are served and supported?\n\nThis is the part I think a lot of people are not considering with these datacenter buildouts. The revolution can be real, and the bulk of the processing can still end up happening in our offices, or in our pockets.\n\nWe may have just bet our entire economy (now, at least in theory, blocked by a new round of legislatures) on an infrastructure play that misunderstands how most AI processing will be taking place a decade from now.\n\n> \"The sharpest part of Burry’s latest reader Q&A came from someone who runs a law firm. Burry agreed that AI tools capable of reviewing years of filings are on the way, but he argued that businesses could run smaller models on their own machines using their own records, and that compression could fit those models onto smaller devices.\"\n\nIf this is true, the investment decision that may affect our entire economy may be... what does that look like?",
+      "references": [
+        {
+          "label": "Michael Burry sees a serious problem Wall Street may be overlooking",
+          "href": "https://www.thestreet.com/investing/stocks/michael-burry-sees-a-serious-problem-wall-street-may-be-overlooking?link_source=ta_first_comment&taid=6b00c2f6a1fed50001c28de7&utm_campaign=trueanthem&utm_medium=social&utm_source=facebook&fbclid=IwY2xjawVt2vxleHRuA2FlbQIxMABwZG9mBWJyaWQRMUwxd0Y1T21BdUtsazA1MkpzcnRjBmFwcF9pZBAyMjIwMzkxNzg4MjAwODkyAAEfwYOM7DQiii-mQ94xxdV8e38AHhBHc0FB095METiCR8wrjb2Vi7G8a4AGabs_aem_vu8vFtCHPJCBpme37xfmsg"
+        },
+        {
+          "label": "Anthropic's Claude solves the Riemann hypothesis",
+          "href": "https://www.reddit.com/r/singularity/comments/1y1ibpk/anthropics_claude_solves_the_riemann_hypothesis/?rdt=48037"
+        }
+      ]
     }
   ]
 }
