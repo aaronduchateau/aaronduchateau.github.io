@@ -207,6 +207,7 @@ export function QuestBoardCard({
   unlockItems = [],
   card,
   onOpen,
+  attention = false,
 }: {
   title: string;
   bounty: string;
@@ -215,6 +216,8 @@ export function QuestBoardCard({
   unlockItems?: readonly string[];
   card: MilestoneCardPrize | null;
   onOpen: () => void;
+  /** Short outline pulse when the list first loads. */
+  attention?: boolean;
 }) {
   const status: IntroSideQuest["status"] = complete
     ? "complete"
@@ -230,7 +233,9 @@ export function QuestBoardCard({
         onOpen();
       }}
       data-status={status}
-      className="theme-quest-row relative w-full border border-white/10 bg-surface-950/45 text-left hover:border-accent-500/35 hover:bg-surface-950/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-300"
+      className={`theme-quest-row relative w-full border border-white/10 bg-surface-950/45 text-left hover:border-accent-500/35 hover:bg-surface-950/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-300${
+        attention ? " theme-quest-row--attention" : ""
+      }`}
       style={{ borderRadius: "var(--radius-media)" }}
     >
       <span className="theme-quest-row__glow-clip" aria-hidden>
@@ -285,6 +290,7 @@ export function QuestRoundList({
         <li key={quest.id}>
           <QuestBoardCard
             {...questBoardCardPropsFromQuest(quest)}
+            attention={quest.id === "quiz-caveman" && quest.status !== "complete"}
             onOpen={() => onOpenQuest(quest.id)}
           />
         </li>

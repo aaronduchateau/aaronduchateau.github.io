@@ -1104,6 +1104,14 @@ Agents follow the same shape via \`.cursor/rules/ada-perfection-log.mdc\`.
 
 # Revision steps
 
+## 2026-11-22 — Portfolio Power attention pulse must stay paper and ink
+
+### ADA refinement issue
+The game list pulses Portfolio Power when that quest is unfinished, so people notice it. A theme-colored glow on ADA Guy would compete with the black border, and an endless pulse would ignore reduced motion.
+
+### ADA refinement action
+The pulse is a named \`.theme-quest-row--attention\` ring drawn on the row: accent on other themes, black on ADA Guy. It runs three times and stops (under three seconds). \`prefers-reduced-motion: reduce\` removes it. The row’s title and status stay the information.
+
 ## 2026-11-22 — Your Experience Escape no longer forces ADA Guy
 
 ### ADA refinement issue

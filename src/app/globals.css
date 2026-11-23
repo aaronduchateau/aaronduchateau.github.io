@@ -532,21 +532,22 @@ html.signature-booting:not(.theme-boot-ready) .theme-boot-shell {
 
 /*
   Intro modal header: fixed height so theme display fonts don’t nudge the
-  divider / template when cycling characters. Scoped to .intro-game-modal only.
-  Use overflow-x only — overflow-y:hidden was clipping script ascenders/descenders.
+  divider when cycling characters. Scoped to .intro-game-modal only.
+  Height includes the eyebrow, title line, two-line blurb, and padding, plus
+  slack for Windows font rounding. overflow: clip (not hidden) so one axis
+  cannot turn the other into auto — that painted a classic y-scrollbar on Windows.
 */
 .intro-game-modal .intro-game-header {
-  height: 118px;
-  max-height: 118px;
+  height: 136px;
+  max-height: 136px;
   box-sizing: border-box;
-  overflow-x: hidden;
-  overflow-y: visible;
+  overflow: clip;
 }
 
 @media (min-width: 640px) {
   .intro-game-modal .intro-game-header {
-    height: 130px;
-    max-height: 130px;
+    height: 148px;
+    max-height: 148px;
   }
 }
 
@@ -1881,6 +1882,55 @@ html.component-preview-embed body {
 .theme-quest-row:focus-visible,
 .theme-quest-row:focus-within {
   z-index: 2;
+}
+
+/* Three beats, under three seconds, when Portfolio Power is still open.
+   Drawn on top of the row so the board's overflow does not clip it. */
+@keyframes theme-quest-row-attention {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  45% {
+    opacity: 1;
+  }
+}
+
+.theme-quest-row--attention {
+  position: relative;
+}
+
+/* Let the peek card leave the body stacking context and cover the ring. */
+.theme-quest-row--attention .theme-quest-row__body {
+  z-index: auto;
+  isolation: auto;
+}
+
+.theme-quest-row--attention .theme-quest-row__body > div:first-child {
+  position: relative;
+  z-index: 1;
+}
+
+.theme-quest-row--attention .theme-quest-card--peek {
+  z-index: 5;
+}
+
+.theme-quest-row--attention::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  border: 3px solid rgb(var(--accent-400));
+  pointer-events: none;
+  animation: theme-quest-row-attention 0.85s ease-in-out 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-quest-row--attention::after {
+    animation: none;
+    opacity: 0;
+  }
 }
 
 .theme-quest-row__status {
@@ -5056,6 +5106,10 @@ button.theme-quest-view-unlock {
 [data-theme="ada-first"] .theme-quest-row:focus-visible {
   background: #fff !important;
   border-color: #000 !important;
+}
+
+[data-theme="ada-first"] .theme-quest-row--attention::after {
+  border-color: #000;
 }
 
 [data-theme="ada-first"] .theme-quest-row h3,
