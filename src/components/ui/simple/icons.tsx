@@ -293,6 +293,15 @@ export function TreasureChestIcon({ className }: AppIconProps) {
   );
 }
 
+export function PaletteIcon({ className }: AppIconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" {...stroke} aria-hidden>
+      <path d="M12 3a9 9 0 100 18h1.2a2.3 2.3 0 000-4.6h-.7a1.6 1.6 0 01-1.6-1.6c0-2.2 2.2-3.4 4.1-3.4H16A4 4 0 0012 3z" />
+      <path d="M7.5 10.5h.01M9.5 7.5h.01M14.2 7.2h.01" />
+    </svg>
+  );
+}
+
 export function SettingsGearIcon({ className }: AppIconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -335,6 +344,7 @@ export const APP_ICON_CATALOG: readonly AppIconEntry[] = [
   { id: "restore", label: "Restore", Icon: RestoreIcon },
   { id: "chest", label: "Treasure chest", Icon: TreasureChestIcon },
   { id: "settings", label: "Settings", Icon: SettingsGearIcon },
+  { id: "palette", label: "Palette", Icon: PaletteIcon },
   { id: "compare", label: "Compare", Icon: CompareIcon },
   { id: "reply", label: "Reply", Icon: ReplyIcon },
 ];

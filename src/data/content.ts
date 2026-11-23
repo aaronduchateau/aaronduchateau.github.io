@@ -2034,6 +2034,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 
 # Decision log
 
+## 2026-11-22 — Site options reopen loadout, theme, and the game
+
+### Category
+Feature
+
+### Decision
+**Shipped:** A Site options strip under the hero opens three existing surfaces. Pick your loadout goes to \`/intro/\`. Pick your Theme opens the theme playground. Play the game opens the easter egg board. Loadout and the theme playground do not take the modal music hold. A preference that was already off stays off. The game still pauses the bed the way other content modals do.
+
+### Reason
+Those screens already exist. The strip is a way back to them from the portfolio. Loadout and theme picking are not competing with the bed, so opening them must not write a new sound preference.
+
 ## 2026-11-20 — Blog routes hold theme music
 
 ### Category
@@ -2769,6 +2780,7 @@ export const interactiveDemoCards = [
         "This portfolio’s look is maintained by a client-side json-rules-engine: each theme is a token pack (colors, radii, hero glass, type, and hero art) applied like a Material theme, with the rules engine as the arbiter.",
       detail:
         "Open a card to apply that theme across the whole site—including the hero unit photo for every theme except ADA First (which stays deliberately photo-free for max contrast).\n\nYou can also reach the same themes from Options → Themes in the nav. This playground is the visual, card-based way to try them.",
+      pauseThemeMusic: false,
       interactive: {
         type: "component",
         id: "interactive-theme-picker-panel",

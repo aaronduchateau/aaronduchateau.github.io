@@ -27,4 +27,9 @@ export type InteractiveModalConfig = {
     event: string;
   };
   interactive: InteractiveModalExperience;
+  /**
+   * When false, opening this demo does not hold theme music.
+   * Omitted means the usual modal pause. A saved off preference is never turned on.
+   */
+  pauseThemeMusic?: boolean;
 };

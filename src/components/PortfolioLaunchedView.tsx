@@ -4,6 +4,7 @@ import { HackathonContributions } from "@/components/HackathonContributions";
 import { Hero } from "@/components/Hero";
 import { HeroLearnMoreModalHost } from "@/components/HeroLearnMoreModalHost";
 import { InteractiveDemoCardSection } from "@/components/InteractiveDemoCardSection";
+import { SiteOptionsSection } from "@/components/SiteOptionsSection";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav } from "@/components/SiteNav";
 import { Testimonials } from "@/components/Testimonials";
@@ -22,6 +23,7 @@ export function PortfolioLaunchedView() {
       <main id="main-content">
         <Hero />
         <HeroLearnMoreModalHost />
+        <SiteOptionsSection />
         <InteractiveDemoCardSection {...interactiveDemosSection} />
         <YouTubeCardSection {...videoShowcaseSection} />
         <Testimonials />

@@ -13,6 +13,7 @@ export type SectionLink = {
 
 /** Homepage sections under the Work menu. Hash links, in scroll order. */
 export const workSectionLinks: readonly SectionLink[] = [
+  { href: "#site-options", label: "Site options" },
   { href: "#interactive-things", label: "Interactive things" },
   { href: "#new-software-demos", label: "A few software demos" },
   { href: "#work", label: "Career timeline" },

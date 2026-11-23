@@ -89,7 +89,9 @@ export function InteractiveModal({ config, onClose }: Props) {
   const { className: launchClass, onAnimationEnd } = useModalLaunchClass({
     openKey: config ? "open" : null,
   });
-  useModalAccessibility(Boolean(config) && mounted, dialogRef, onClose);
+  useModalAccessibility(Boolean(config) && mounted, dialogRef, onClose, {
+    pauseThemeMusic: config?.pauseThemeMusic !== false,
+  });
 
   useEffect(() => {
     setMounted(true);
