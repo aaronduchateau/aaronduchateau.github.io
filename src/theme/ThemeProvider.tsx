@@ -62,6 +62,8 @@ import {
 
 /** Theme music preference — default on for intro and main site. */
 export const THEME_MUSIC_ENABLED_STORAGE_KEY = "portfolio-theme-music-enabled";
+/** Set when the visitor chooses music on or off. Absent false values were the old welcome mute. */
+const THEME_MUSIC_USER_SET_KEY = "portfolio-theme-music-user-set";
 export const DEFAULT_THEME_MUSIC_ENABLED = true;
 
 export type SetThemeIdOptions = {
@@ -184,7 +186,11 @@ function readStoredThemeMusicEnabled(): boolean | null {
   try {
     const raw = window.localStorage.getItem(THEME_MUSIC_ENABLED_STORAGE_KEY);
     if (raw === "true") return true;
-    if (raw === "false") return false;
+    if (raw === "false") {
+      // The welcome screen used to save “off” while it was open. That is not a choice.
+      if (window.localStorage.getItem(THEME_MUSIC_USER_SET_KEY) !== "1") return null;
+      return false;
+    }
   } catch {
     /* private mode / blocked storage */
   }
@@ -257,6 +263,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const persistThemeMusicEnabled = useCallback((enabled: boolean) => {
     try {
       window.localStorage.setItem(THEME_MUSIC_ENABLED_STORAGE_KEY, enabled ? "true" : "false");
+      window.localStorage.setItem(THEME_MUSIC_USER_SET_KEY, "1");
     } catch {
       /* ignore */
     }
@@ -636,6 +643,19 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     };
   }, [ready, themeMusicEnabled, themeMusicSrc, syncThemeMusicPlayback]);
 
+  // Browsers block audio that starts before a tap. A saved “on” still retries
+  // on the first pointer or key so the homepage can play. A saved “off” stays off.
+  useEffect(() => {
+    if (!ready) return;
+    const resume = () => syncThemeMusicPlayback();
+    window.addEventListener("pointerdown", resume, true);
+    window.addEventListener("keydown", resume, true);
+    return () => {
+      window.removeEventListener("pointerdown", resume, true);
+      window.removeEventListener("keydown", resume, true);
+    };
+  }, [ready, syncThemeMusicPlayback]);
+
   useEffect(() => bindNavClickPlayer(playNavClick), [playNavClick]);
   useEffect(() => bindModalOpenPlayer(playModalOpen), [playModalOpen]);
 
@@ -700,7 +720,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={value}>
-      <SignatureBootSplash themeReady={ready} />
+      <SignatureBootSplash themeReady={ready} onDismissed={syncThemeMusicPlayback} />
       {/*
         Veiled by `html.signature-booting:not(.theme-boot-ready)` on full reload.
         Unrelated to SPA theme switches — those never set the boot classes.

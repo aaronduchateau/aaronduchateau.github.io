@@ -1110,7 +1110,7 @@ Agents follow the same shape via \`.cursor/rules/ada-perfection-log.mdc\`.
 Your Experience is only the screen after Start over. Escape used to apply \`ada-first\` and leave toward \`/\`, which was the old entrance. Forcing a high-contrast theme on Escape would surprise someone who only wanted to dismiss the dialog. The old \`Step N of M\` live region also described a wizard that no longer exists.
 
 ### ADA refinement action
-Escape on Your Experience still leaves the dialog. It now routes to \`/portfolio-launched/\` and does not switch the theme to \`ada-first\`. The step counter is gone because the screen is a single choice. Config → About Site is a separate dialog: Escape closes it and does not change theme or the saved music preference.
+Escape on Your Experience still leaves the dialog. It now routes to \`/\` and does not switch the theme to \`ada-first\`. The step counter is gone because the screen is a single choice. Config → About Site is a separate dialog: Escape closes it and does not change theme or the saved music preference.
 
 ## 2026-09-29 — Phone section menu used a filled plate that stole space from the glyph
 
@@ -2041,6 +2041,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 ---
 
 # Decision log
+
+## 2026-11-22 — \`/\` renders the portfolio
+
+### Category
+Structural
+
+### Decision
+**Shipped:** \`/\` renders the portfolio homepage. It does not redirect to \`/portfolio-launched/\`. Nav, loadout Back, and off-page section links use \`/\`. Modal share URLs stay under \`/portfolio-launched/open/…/\`. About Site is portaled out of the nav. The versions note is a callout under the Welcome title. Site options stays on the page and is not a Work menu item. Your Experience pauses the bed with a hold and does not save music as off.
+
+### Reason
+A client redirect left the address bar on a second URL. The About dialog was mounted in the nav, and that bar’s blur makes \`position: fixed\` relative to the bar, so the panel sat above the visible page. The welcome screen’s temporary mute was being saved, so the homepage then loaded with music off.
 
 ## 2026-11-22 — Portfolio is home; Your Experience is start-over only
 

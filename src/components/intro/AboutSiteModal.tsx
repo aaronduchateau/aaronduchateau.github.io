@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { ABOUT_SITE_NOTE, ABOUT_SITE_VERSIONS_BLURB } from "@/data/aboutSite";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
@@ -41,15 +42,15 @@ export function AboutSiteModal({ open, onClose }: AboutSiteModalProps) {
 
   const art = THEME_PALETTES[themeId].heroImage;
 
-  return (
-    <div className="fixed inset-0 z-[80] flex items-stretch justify-center bg-surface-950/70 p-0 sm:items-center sm:p-4 md:p-6">
+  return createPortal(
+    <div className="fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto bg-surface-950/70 p-3 sm:p-6">
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
         tabIndex={-1}
-        className={`theme-glass ${launchClass} relative flex h-dvh w-full max-w-none flex-col overflow-hidden border-0 border-white/10 shadow-2xl shadow-black/60 outline-none sm:h-[min(88dvh,720px)] sm:max-h-[min(88dvh,720px)] sm:max-w-4xl sm:border sm:border-white/10 md:max-w-5xl`}
+        className={`theme-glass ${launchClass} relative my-auto flex h-[min(88dvh,720px)] max-h-[min(88dvh,720px)] w-full max-w-4xl flex-col overflow-hidden border border-white/10 shadow-2xl shadow-black/60 outline-none md:max-w-5xl`}
         onAnimationEnd={onAnimationEnd}
       >
         <div
@@ -88,6 +89,12 @@ export function AboutSiteModal({ open, onClose }: AboutSiteModalProps) {
                 >
                   Welcome
                 </h2>
+                <aside className="theme-card mt-4 px-3.5 py-3">
+                  <p className="theme-card-meta font-mono text-[10px] uppercase tracking-[0.22em]">
+                    Site versions
+                  </p>
+                  <p className="theme-muted mt-1.5 text-sm leading-relaxed">{ABOUT_SITE_VERSIONS_BLURB}</p>
+                </aside>
               </div>
               <ModalCloseButton onClick={onClose} />
             </div>
@@ -96,12 +103,12 @@ export function AboutSiteModal({ open, onClose }: AboutSiteModalProps) {
                 {ABOUT_SITE_NOTE.split("\n\n").map((paragraph) => (
                   <p key={paragraph.slice(0, 24)}>{paragraph}</p>
                 ))}
-                <p className="border-t border-white/10 pt-4 text-surface-300">{ABOUT_SITE_VERSIONS_BLURB}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

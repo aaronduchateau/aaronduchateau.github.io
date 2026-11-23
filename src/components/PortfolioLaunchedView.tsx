@@ -15,7 +15,7 @@ import { FrescoQuoteSection } from "@/components/FrescoQuoteSection";
 import { interactiveDemosSection, videoShowcaseSection } from "@/data/content";
 import { APP_CONTENT_ID } from "@/hooks/useModalAccessibility";
 
-/** Main portfolio surface — also the destination of `/`. */
+/** Portfolio homepage, rendered at `/` and at `/portfolio-launched/`. */
 export function PortfolioLaunchedView() {
   return (
     <div id={APP_CONTENT_ID} className="min-h-screen bg-surface-950 text-surface-200">

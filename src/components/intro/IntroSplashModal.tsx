@@ -88,8 +88,9 @@ export function IntroSplashModal({ imageSrc }: Props) {
     themeId,
     setThemeId,
     playNavClick,
-    themeMusicEnabled,
     setThemeMusicEnabled,
+    holdThemeMusic,
+    releaseThemeMusicHold,
     baseClickId,
     contentWindowSoundId,
     setClickInteractionsEnabled,
@@ -145,20 +146,22 @@ export function IntroSplashModal({ imageSrc }: Props) {
   });
 
   /**
-   * Fresh start — cyberpunk under the plate, bed silent until Continue.
-   * Wait for ThemeProvider hydrate so a leftover preference cannot win.
+   * Fresh start — cyberpunk under the plate. The bed pauses for this screen
+   * without saving “music off”, so leaving does not stick a mute on the homepage.
    */
   useEffect(() => {
     if (!mounted || !themeReady || leavingSplashRef.current) return;
     void setThemeId(DEFAULT_THEME_ID);
     setSoundEnabled(true);
-    setThemeMusicEnabled(false);
-  }, [mounted, themeReady, setThemeId, setSoundEnabled, setThemeMusicEnabled]);
+  }, [mounted, themeReady, setThemeId, setSoundEnabled]);
 
   useEffect(() => {
-    if (!mounted || !themeReady || leavingSplashRef.current || !themeMusicEnabled) return;
-    setThemeMusicEnabled(false);
-  }, [mounted, themeReady, themeMusicEnabled, setThemeMusicEnabled]);
+    if (!mounted) return;
+    holdThemeMusic("intro-splash");
+    return () => {
+      releaseThemeMusicHold("intro-splash");
+    };
+  }, [mounted, holdThemeMusic, releaseThemeMusicHold]);
 
   useEffect(() => {
     applyExperienceConfigDefaults(experience);
@@ -167,10 +170,11 @@ export function IntroSplashModal({ imageSrc }: Props) {
   /** Leave without picking. Does not force a theme. Music follows the current choice. */
   const leaveToPortfolio = useCallback(() => {
     leavingSplashRef.current = true;
+    releaseThemeMusicHold("intro-splash");
     setThemeMusicEnabled(musicPref);
     markIntroCompleted();
     router.push(PORTFOLIO_PATH);
-  }, [musicPref, router, setThemeMusicEnabled]);
+  }, [musicPref, releaseThemeMusicHold, router, setThemeMusicEnabled]);
 
   useModalAccessibility(mounted, dialogRef, leaveToPortfolio, {
     pauseThemeMusic: false,
@@ -190,6 +194,7 @@ export function IntroSplashModal({ imageSrc }: Props) {
   const finishSplash = async () => {
     leavingSplashRef.current = true;
     persistPrizeAnimationsEnabled(prizeAnimations);
+    releaseThemeMusicHold("intro-splash");
     setThemeMusicEnabled(musicPref);
 
     const softwareOnly = experience === "software-only";

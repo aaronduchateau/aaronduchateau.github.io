@@ -1,10 +1,10 @@
 /**
  * App route tree (static export, trailing slashes).
  *
- * - `/` → alias of the portfolio (`/portfolio-launched/`)
- * - `/intro/` — loadout. Back returns to the portfolio.
+ * - `/` — homepage (the portfolio)
+ * - `/intro/` — loadout. Back returns to `/`.
  * - `/intro/splash/` — Your Experience, reached from Start over
- * - `/portfolio-launched/` — main portfolio
+ * - `/portfolio-launched/` — same homepage, kept so older links still open
  * - `/portfolio-launched/open/…/` — one static page per modal view (Open Graph)
  * - `/blog/` — post index; `/blog/<category>/YYYY/MM/DD/<slug>/` — one static page per post
  * - `/component-preview/` — isolated Storybook iframe (no signature boot plate)
@@ -12,7 +12,8 @@
 
 export const INTRO_PATH = "/intro/";
 export const INTRO_SPLASH_PATH = "/intro/splash/";
-export const PORTFOLIO_PATH = "/portfolio-launched/";
+/** Homepage. Modal share URLs keep the `/portfolio-launched/open/` prefix. */
+export const PORTFOLIO_PATH = "/";
 /** Blog index. Posts append `<category>/YYYY/MM/DD/<slug>/`. */
 export const BLOG_PATH = "/blog/";
 /** Isolated catalog iframe — must never run the signature boot splash. */
@@ -32,7 +33,7 @@ export function isIntroPath(pathname: string): boolean {
 
 export function isPortfolioPath(pathname: string): boolean {
   const path = normalizePathname(pathname);
-  return path === PORTFOLIO_PATH || path.startsWith("/portfolio-launched/");
+  return path === "/" || path.startsWith("/portfolio-launched/");
 }
 
 export function isBlogPath(pathname: string): boolean {
