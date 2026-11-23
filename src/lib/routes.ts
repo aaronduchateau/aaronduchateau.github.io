@@ -1,8 +1,9 @@
 /**
  * App route tree (static export, trailing slashes).
  *
- * - `/` → reconciles to splash
- * - `/intro/`, `/intro/splash/` — entry / loadout (outside the launched site)
+ * - `/` → alias of the portfolio (`/portfolio-launched/`)
+ * - `/intro/` — loadout. Back returns to the portfolio.
+ * - `/intro/splash/` — Your Experience, reached from Start over
  * - `/portfolio-launched/` — main portfolio
  * - `/portfolio-launched/open/…/` — one static page per modal view (Open Graph)
  * - `/blog/` — post index; `/blog/<category>/YYYY/MM/DD/<slug>/` — one static page per post

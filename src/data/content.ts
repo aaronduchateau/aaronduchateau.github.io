@@ -1104,6 +1104,14 @@ Agents follow the same shape via \`.cursor/rules/ada-perfection-log.mdc\`.
 
 # Revision steps
 
+## 2026-11-22 — Your Experience Escape no longer forces ADA Guy
+
+### ADA refinement issue
+Your Experience is only the screen after Start over. Escape used to apply \`ada-first\` and leave toward \`/\`, which was the old entrance. Forcing a high-contrast theme on Escape would surprise someone who only wanted to dismiss the dialog. The old \`Step N of M\` live region also described a wizard that no longer exists.
+
+### ADA refinement action
+Escape on Your Experience still leaves the dialog. It now routes to \`/portfolio-launched/\` and does not switch the theme to \`ada-first\`. The step counter is gone because the screen is a single choice. Config → About Site is a separate dialog: Escape closes it and does not change theme or the saved music preference.
+
 ## 2026-09-29 — Phone section menu used a filled plate that stole space from the glyph
 
 ### ADA refinement issue
@@ -2033,6 +2041,17 @@ Why—in product/engineering terms (constraints, consistency, platform limits). 
 ---
 
 # Decision log
+
+## 2026-11-22 — Portfolio is home; Your Experience is start-over only
+
+### Category
+Structural | Feature
+
+### Decision
+**Shipped:** \`/\` replaces to \`/portfolio-launched/\`, which stays the canonical portfolio. Config → About Site opens the welcome note plus a short V1/V2 blurb and does not write theme or music. Start over still wipes this browser, then opens Your Experience only (\`/intro/splash/\`). Continue on that screen applies the choice: full goes to loadout, software-only and skip-the-fun go to the portfolio. Loadout’s Back returns to the portfolio. Step counters are gone from that flow. Site versions still switches between the classic archive and this site.
+
+### Reason
+Welcome was a note, not a gate, so it belongs in Config. The experience choice only matters when progress is wiped. Sending Start over to the site root would loop back into the portfolio once \`/\` is home, so the wipe assigns the experience path directly.
 
 ## 2026-11-22 — Site options reopen loadout, theme, and the game
 

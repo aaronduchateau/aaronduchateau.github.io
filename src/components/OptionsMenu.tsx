@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { AboutSiteModal } from "@/components/intro/AboutSiteModal";
 import { LegacyPortfolioModal } from "@/components/LegacyPortfolioModal";
 import { ModalCloseButton } from "@/components/ModalCloseButton";
 import { Button, ModalFrame, SettingsGearIcon } from "@/components/ui";
@@ -56,6 +57,7 @@ export function OptionsMenu() {
   const [soundCategory, setSoundCategory] = useState<SoundCategory>(null);
   const [siteVersion, setSiteVersion] = useState<SiteVersion>("v2");
   const [legacyOpen, setLegacyOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [zeepConfirmOpen, setZeepConfirmOpen] = useState(false);
   const [restoreDefaultsConfirmOpen, setRestoreDefaultsConfirmOpen] = useState(false);
   const [resetPointsConfirmOpen, setResetPointsConfirmOpen] = useState(false);
@@ -290,6 +292,19 @@ export function OptionsMenu() {
           aria-label="Config"
           className="options-menu-panel absolute right-0 top-[calc(100%+0.4rem)] z-[60] max-h-[min(70dvh,28rem)] min-w-[14rem] overflow-y-auto overscroll-contain border border-white/10 bg-surface-950/95 p-2 shadow-xl shadow-black/40"
         >
+          <button
+            type="button"
+            role="menuitem"
+            onClick={() => {
+              playNavClick();
+              closeMenu();
+              setAboutOpen(true);
+            }}
+            className="flex w-full items-center rounded-lg px-2.5 py-2 text-left text-xs font-medium text-surface-200 transition hover:bg-white/5 hover:text-white"
+          >
+            About Site
+          </button>
+
           <MenuRow
             label="Themes"
             expanded={submenu === "themes"}
@@ -491,9 +506,11 @@ export function OptionsMenu() {
         }}
         eyebrow="Start over"
         title="Leave and wipe this browser’s progress?"
-        description="This clears your points, event log, theme choice, and all sound/settings stored for this site, then sends you to the classic portfolio at aaronduchateau.github.io. Coming back later will feel brand new. This cannot be undone."
+        description="This clears your points, event log, theme choice, and the sound settings stored in this browser, then asks which experience you want. This cannot be undone."
         confirmLabel="Start over"
       />
+
+      <AboutSiteModal open={aboutOpen} onClose={() => setAboutOpen(false)} />
 
       <LegacyPortfolioModal
         open={legacyOpen}

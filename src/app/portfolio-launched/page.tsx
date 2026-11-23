@@ -1,6 +1,6 @@
 import { PortfolioLaunchedView } from "@/components/PortfolioLaunchedView";
 
-/** Main portfolio surface — entered after intro/splash (or by direct URL). */
+/** Canonical portfolio. `/` replaces to this path. */
 export default function PortfolioLaunchedPage() {
   return <PortfolioLaunchedView />;
 }

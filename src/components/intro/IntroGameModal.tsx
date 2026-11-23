@@ -22,7 +22,7 @@ import { ThemeMusicToggle, SpeakerMutedIcon, SpeakerOnIcon } from "@/components/
 import { ThemeMusicDividerWave } from "@/components/intro/ThemeMusicDividerWave";
 import { useModalAccessibility } from "@/hooks/useModalAccessibility";
 import { useModalLaunchClass } from "@/hooks/useModalLaunchClass";
-import { INTRO_SPLASH_PATH, PORTFOLIO_PATH } from "@/lib/routes";
+import { PORTFOLIO_PATH } from "@/lib/routes";
 import { markIntroCompleted, shouldSkipIntroShellLaunch } from "@/lib/introGate";
 import { readSoftwarePortfolioOnly } from "@/lib/softwarePortfolioPref";
 import {
@@ -374,8 +374,11 @@ export function IntroGameModal({ backgroundOnly = false }: IntroGameModalProps) 
                     role="outline"
                     size="lg"
                     className="flex-1"
-                    href={INTRO_SPLASH_PATH}
-                    onClick={() => playNavClick()}
+                    href={PORTFOLIO_PATH}
+                    onClick={() => {
+                      playNavClick();
+                      markIntroCompleted();
+                    }}
                   >
                     Back
                   </Button>

@@ -4,13 +4,12 @@ import { IntroSplashModal } from "@/components/intro/IntroSplashModal";
 import { person } from "@/data/content";
 
 export const metadata: Metadata = {
-  title: `Welcome · ${person.name}`,
-  description: "Quick start choice before portfolio loadout.",
+  title: `Your Experience · ${person.name}`,
+  description: "Choose an experience after starting over.",
 };
 
 /**
- * Splash layered on the intro game shell — `/intro` remains underneath;
- * Continue navigates to `/intro/` or `/portfolio-launched/` by experience.
+ * Your Experience, reached from Start over. Continue goes to loadout or the portfolio.
  */
 export default function IntroSplashPage() {
   return (

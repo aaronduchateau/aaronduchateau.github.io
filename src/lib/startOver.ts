@@ -1,5 +1,4 @@
-/** Classic V1 portfolio — Start over lands here after wiping browser state. */
-export const CLASSIC_SITE_URL = "https://aaronduchateau.github.io/";
+import { INTRO_SPLASH_PATH } from "@/lib/routes";
 
 /**
  * Clear local + session storage so the next visit to this origin is brand-new
@@ -18,8 +17,8 @@ export function wipePortfolioBrowserState(): void {
   }
 }
 
-/** Wipe storage, then navigate to the classic site. */
+/** Wipe storage, then open Your Experience. A full load so wiped prefs cannot linger. */
 export function startOverAndLeave(): void {
   wipePortfolioBrowserState();
-  window.location.assign(CLASSIC_SITE_URL);
+  window.location.assign(INTRO_SPLASH_PATH);
 }
